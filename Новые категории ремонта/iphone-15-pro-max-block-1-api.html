@@ -925,6 +925,8 @@
     var s = svc();
 
     document.getElementById('mmb1-price').textContent        = s.priceNum;
+    var currency = document.querySelector('.mmb1-price-currency');
+    if (currency) currency.style.display = s.askPrice ? 'none' : '';
     document.getElementById('mmb1-promo-time').textContent    = s.time;
     document.getElementById('mmb1-promo-warranty').textContent = s.warranty;
   }
@@ -1094,6 +1096,7 @@
 
   function mmb1ApplyPriceMap(priceMap) {
     SERVICES.forEach(function (s, idx) {
+      if (s.askPrice) return;
       var slug  = mmb1SlugFromUrl(s.url);
       var entry = priceMap[slug];
       if (!entry) return;

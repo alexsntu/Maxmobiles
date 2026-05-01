@@ -814,6 +814,7 @@ a.mmb2-svc-name:hover { color: #0071e3; }
     var a    = tr.querySelector('a.mmb2-svc-name');
     var span = tr.querySelector('.mmb2-price');
     if (!a || !span) return;
+    if (span.classList.contains('mmb2-price-ask')) return;
 
     var name    = a.textContent.trim().toLowerCase();
     var slug    = slugFromHref(a.getAttribute('href'));

@@ -38,10 +38,11 @@
 ## Пример заполнения массива SERVICES
 
 ```javascript
-// Пользователь дал: 
+// Пользователь дал:
 // - "Замена аккумулятора" / /batareja-zamena-iphone-14/ / 20 мин / 180 дней / (опция пустая)
 // - "Замена дисплея (копия)" / /displey-zamena-iphone-14/ / 30 мин / 180 дней / Копия
 // - "Замена дисплея (оригинал)" / /displey-zamena-iphone-14/ / 30 мин / 360 дней / Оригинал
+// - "Замена слухового динамика" / /dinamik-vyzova-iphone-14/ / 30 мин / 360 дней / (опция пустая) / Цена: уточняйте
 
 var SERVICES = [
   {
@@ -70,8 +71,34 @@ var SERVICES = [
     warranty: 'Гарантия 360 дней',
     url:      '/displey-zamena-iphone-14/',
     option:   'Оригинал'
+  },
+  {
+    name:     'Замена слухового динамика',
+    price:    'Уточняйте',
+    priceNum: 'Уточняйте',
+    time:     '30 мин',
+    warranty: 'Гарантия 360 дней',
+    url:      '/dinamik-vyzova-iphone-14/',
+    option:   '',
+    askPrice: true
   }
 ];
 ```
 
-`price` и `priceNum` при старте ставь `'— ₽'` / `'—'` — JS перезапишет их при загрузке страницы.
+Правила:
+
+- Обычные услуги — `price: '— ₽'`, `priceNum: '—'`. JS перезапишет их при загрузке страницы.
+- Услуги с пометкой пользователя «Цена: уточняйте» — `price: 'Уточняйте'`, `priceNum: 'Уточняйте'`, добавляется `askPrice: true`. JS-гидратация их **пропускает**.
+- HTML-спан стартовой цены: для обычных — `<span id="ПРЕФИКС-price">—</span>`. Если первая услуга в SERVICES имеет `askPrice: true`, то в HTML сразу `<span id="ПРЕФИКС-price">Уточняйте</span>` и для рядом стоящего `<span class="ПРЕФИКС-price-currency">₽</span>` добавь `style="display: none;"`.
+
+## Поведение `askPrice: true`
+
+- В `mmb1ApplyPriceMap` первое правило: `if (s.askPrice) return;` — услуга не получает цену из API.
+- В `updateUI` после `document.getElementById('ПРЕФИКС-price').textContent = s.priceNum;` добавлено переключение значка `₽`:
+
+```javascript
+var currency = document.querySelector('.mmb1-price-currency');
+if (currency) currency.style.display = s.askPrice ? 'none' : '';
+```
+
+- В модалке `s.price` (= `'Уточняйте'`) уходит в скрытое поле формы — менеджер видит, что нужно согласовать цену по запросу клиента.
