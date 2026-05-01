@@ -1,0 +1,1244 @@
+<style>
+/* ============================================================
+   BIRTHDAY PAGE v3 — НАМ 15 ЛЕТ — Maxmobiles
+   Liquid Glass · iOS 26 Style · Maxmobiles Brand
+   ============================================================ */
+
+.bday-wrap, .bday-wrap * { box-sizing: border-box; margin: 0; padding: 0; }
+.bday-wrap {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale;
+  color: #1d1d1f;
+  overflow: hidden;
+}
+
+/* ================================================================
+   HERO
+================================================================ */
+/* Base hero — shared by both screens; JS sets height on screen 1 */
+.bday-hero {
+  position: relative;
+  min-height: 0;   /* JS controls screen-1 height; screen-2 is content-sized */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(-45deg, #020b1e, #04163d, #001f7c, #0054b4, #0071e3);
+  background-size: 400% 400%;
+  animation: bday-bg-shift 20s ease infinite;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Screen 2 — glass panel only, auto height */
+.bday-hero--panel {
+  padding: 64px 24px;
+}
+@keyframes bday-bg-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* Spark canvas "15" */
+#bdaySparkCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* CSS bokeh fallback */
+.bday-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 5px at  8% 20%, rgba(245,200,66,.65) 100%, transparent),
+    radial-gradient(circle 3px at 90% 14%, rgba(245,200,66,.42) 100%, transparent),
+    radial-gradient(circle 5px at 24% 78%, rgba(255,255,255,.12) 100%, transparent),
+    radial-gradient(circle 4px at 77% 64%, rgba(245,200,66,.48) 100%, transparent),
+    radial-gradient(circle 3px at 95% 44%, rgba(255,255,255,.18) 100%, transparent),
+    radial-gradient(circle 5px at  5% 55%, rgba(245,200,66,.38) 100%, transparent),
+    radial-gradient(circle 6px at 50%  8%, rgba(255,255,255,.09) 100%, transparent),
+    radial-gradient(circle 4px at 65% 87%, rgba(245,200,66,.30) 100%, transparent),
+    radial-gradient(circle 3px at 33% 93%, rgba(255,255,255,.11) 100%, transparent),
+    radial-gradient(circle 4px at 83% 30%, rgba(245,200,66,.25) 100%, transparent),
+    radial-gradient(circle 3px at 18% 42%, rgba(255,255,255,.14) 100%, transparent),
+    radial-gradient(circle 3px at 57% 17%, rgba(245,200,66,.32) 100%, transparent),
+    radial-gradient(circle 4px at 42% 60%, rgba(255,255,255,.08) 100%, transparent),
+    radial-gradient(circle 3px at 72% 22%, rgba(245,200,66,.20) 100%, transparent);
+  pointer-events: none;
+}
+
+/* Particles (filled by JS) */
+.bday-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── LOGO AREA — JS sets exact top/left/width to align with "15" ── */
+.bday-hero-logo-area {
+  position: absolute; /* JS positions this precisely above the "15" */
+  z-index: 5;
+  text-align: center;
+  animation: bday-fade-up .5s .15s ease both;
+}
+.bday-logo-img {
+  width: 100%;     /* fills the JS-set container width = "15" text width */
+  height: auto;    /* no max-height — logo scales to full "15" width */
+  display: block;
+  margin: 0 auto;
+  filter: brightness(0) invert(1);
+}
+
+/* ── HERO GLASS PANEL at bottom — no logo inside ── */
+.bday-hero-inner {
+  position: relative;
+  z-index: 5;           /* above canvas z-index:1 */
+  width: 100%;
+  max-width: 660px;
+  padding: 32px 40px 36px;
+  background: rgba(255,255,255,.09);
+  backdrop-filter: blur(24px) saturate(160%) brightness(1.04);
+  -webkit-backdrop-filter: blur(24px) saturate(160%) brightness(1.04);
+  border: 1px solid rgba(255,255,255,.15);
+  border-top: 1px solid rgba(255,255,255,.30);
+  border-radius: 32px;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(0,0,0,.08),
+    0 24px 64px rgba(0,0,0,.36),
+    0 0 0 1px rgba(255,255,255,.06);
+  animation: bday-fade-up .85s .2s ease both;
+}
+@keyframes bday-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Small date badge */
+.bday-date-badge {
+  display: inline-block;
+  background: rgba(245,200,66,.12);
+  border: 1px solid rgba(245,200,66,.40);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #F5C842;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 20px;
+  border-radius: 100px;
+  margin-bottom: 22px;
+  animation: bday-badge-glow 3.5s ease-in-out infinite;
+}
+@keyframes bday-badge-glow {
+  0%, 100% { box-shadow: 0 0  0  0 rgba(245,200,66, 0);   }
+  50%       { box-shadow: 0 0 24px 0 rgba(245,200,66,.30); }
+}
+
+/* Main H1 */
+.bday-hero h1 {
+  font-size: clamp(38px, 8.5vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.bday-gold-text {
+  background: linear-gradient(90deg, #FFE066 0%, #F5C842 25%, #F0A500 55%, #F5C842 78%, #FFE066 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: bday-text-shine 4s linear infinite;
+}
+@keyframes bday-text-shine {
+  from { background-position:   0% center; }
+  to   { background-position: 200% center; }
+}
+
+.bday-hero-sub {
+  font-size: clamp(14px, 2.2vw, 18px);
+  color: rgba(255,255,255,.65);
+  line-height: 1.55;
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+
+/* ── BIG DATE BAR — Liquid Glass Gold (iOS 26) ── */
+.bday-datebar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245,200,66,.11);
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.06);
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.06);
+  border: 1px solid rgba(245,200,66,.28);
+  border-top: 1px solid rgba(245,200,66,.48);
+  border-radius: 22px;
+  padding: 16px 32px;
+  box-shadow:
+    inset 0 1.5px 0 rgba(245,200,66,.22),
+    inset 0 -1px 0 rgba(0,0,0,.10),
+    0 14px 44px rgba(0,0,0,.22),
+    0 0 0 1px rgba(245,200,66,.08);
+}
+.bday-datebar-num {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 800;
+  color: #FFE066;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.bday-datebar-sep {
+  font-size: 24px;
+  color: rgba(245,200,66,.45);
+  font-weight: 700;
+  padding: 0 2px;
+}
+.bday-datebar-month {
+  font-size: clamp(22px, 3.5vw, 36px);
+  font-weight: 700;
+  color: rgba(245,200,66,.82);
+  letter-spacing: -0.02em;
+  margin-left: 8px;
+}
+
+/* Scroll hint */
+.bday-scroll-hint {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  opacity: .4;
+  animation: bday-scroll-bounce 2.4s ease-in-out infinite;
+}
+.bday-scroll-arrow {
+  width: 22px; height: 22px;
+  border-right: 2px solid rgba(255,255,255,.75);
+  border-bottom: 2px solid rgba(255,255,255,.75);
+  transform: rotate(45deg);
+  margin: 0 auto;
+}
+@keyframes bday-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);  }
+  50%       { transform: translateX(-50%) translateY(7px); }
+}
+
+/* ================================================================
+   TICKER
+================================================================ */
+.bday-ticker-wrap {
+  background: linear-gradient(90deg, #F5C842, #FFE066 40%, #F5C842 75%, #F0A500);
+  background-size: 300% auto;
+  animation: bday-ticker-shine 7s linear infinite;
+  overflow: hidden;
+  padding: 14px 0;
+}
+@keyframes bday-ticker-shine {
+  from { background-position: 0%   center; }
+  to   { background-position: 300% center; }
+}
+.bday-ticker { display: flex; white-space: nowrap; animation: bday-scroll 7s linear infinite; }
+.bday-ticker-inner { display: flex; flex-shrink: 0; min-width: 100%; }
+.bday-ticker span {
+  font-size: 13px; font-weight: 700; color: #0a1628;
+  letter-spacing: 0.7px; text-transform: uppercase; padding: 0 20px;
+}
+.bday-ticker span.sep { opacity: 0.3; }
+@keyframes bday-scroll {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-50%); }
+}
+
+/* ================================================================
+   DISCOUNTS — DARK SECTION WITH LIQUID GLASS CARDS
+================================================================ */
+.bday-section-dark {
+  position: relative;
+  background: linear-gradient(-45deg, #020b1e, #04163d, #001f7c, #0054b4);
+  background-size: 400% 400%;
+  animation: bday-bg-shift 20s ease infinite;
+  padding: 88px 24px 72px;
+  overflow: hidden;
+}
+/* subtle texture dots on dark section */
+.bday-section-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,.18) 100%, transparent),
+    radial-gradient(1px 1px at 35% 65%, rgba(255,255,255,.12) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 60% 30%, rgba(245,200,66,.22) 100%, transparent),
+    radial-gradient(1px 1px at 80% 75%, rgba(255,255,255,.14) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 92% 10%, rgba(245,200,66,.18) 100%, transparent),
+    radial-gradient(1px 1px at  5% 80%, rgba(255,255,255,.10) 100%, transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,.08) 100%, transparent);
+  pointer-events: none;
+}
+.bday-discounts-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+
+.bday-section-eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; text-align: center; margin-bottom: 12px;
+}
+.bday-section-dark .bday-section-eyebrow { color: #63aeff; }
+.bday-section-light .bday-section-eyebrow { color: #0071e3; }
+
+.bday-section-title {
+  font-size: clamp(26px, 4.5vw, 40px);
+  font-weight: 700; letter-spacing: -0.5px; text-align: center;
+  margin-bottom: 10px; line-height: 1.1;
+}
+.bday-section-dark .bday-section-title { color: #ffffff; }
+.bday-section-light .bday-section-title { color: #1d1d1f; }
+
+.bday-section-sub {
+  font-size: 17px; text-align: center; line-height: 1.6;
+  margin-bottom: 44px; max-width: 560px;
+  margin-left: auto; margin-right: auto;
+}
+.bday-section-dark .bday-section-sub { color: rgba(255,255,255,.52); }
+.bday-section-light .bday-section-sub { color: #6e6e73; }
+
+/* ── LIQUID GLASS CARDS (iOS 26) ── */
+.bday-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+.bday-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 40px 32px 36px;
+  /* Liquid Glass base */
+  background: rgba(255,255,255,.08);
+  backdrop-filter: blur(28px) saturate(160%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(160%) brightness(1.05);
+  border: 1px solid rgba(255,255,255,.13);
+  border-top: 1px solid rgba(255,255,255,.28);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.20),
+    inset 0 -1px 0 rgba(0,0,0,.10),
+    0 20px 56px rgba(0,0,0,.26);
+  transition: border-color .32s ease, box-shadow .32s ease, background .32s ease;
+}
+
+/* Top specular accent line */
+.bday-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  border-radius: 28px 28px 0 0;
+  opacity: .7;
+}
+
+/* Bottom glow orb */
+.bday-card-glow {
+  position: absolute;
+  bottom: -110px; left: 50%;
+  transform: translateX(-50%);
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+.bday-card:hover .bday-card-glow { opacity: .55; }
+
+/* Hover — deepen glass */
+.bday-card:hover {
+  background: rgba(255,255,255,.13);
+  border-top-color: rgba(255,255,255,.42);
+}
+
+/* Card color variants */
+.bday-card--blue::after   { background: linear-gradient(90deg, transparent, #5daaff, transparent); }
+.bday-card--blue:hover    { border-color: rgba(93,170,255,.28);  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.22), 0 28px 64px rgba(0,113,227,.25); }
+.bday-card--blue   .bday-card-glow { background: #0071e3; }
+
+.bday-card--gold::after   { background: linear-gradient(90deg, transparent, #F5C842, transparent); }
+.bday-card--gold:hover    { border-color: rgba(245,200,66,.28);  box-shadow: inset 0 1.5px 0 rgba(255,255,255,.22), 0 28px 64px rgba(245,200,66,.20); }
+.bday-card--gold   .bday-card-glow { background: #F5C842; }
+
+.bday-card--green::after  { background: linear-gradient(90deg, transparent, #30d158, transparent); }
+.bday-card--green:hover   { border-color: rgba(48,209,88,.28);   box-shadow: inset 0 1.5px 0 rgba(255,255,255,.22), 0 28px 64px rgba(48,209,88,.20); }
+.bday-card--green  .bday-card-glow { background: #30d158; }
+
+.bday-card--red::after    { background: linear-gradient(90deg, transparent, #FF3B30, transparent); }
+.bday-card--red:hover     { border-color: rgba(255,59,48,.28);   box-shadow: inset 0 1.5px 0 rgba(255,255,255,.22), 0 28px 64px rgba(255,59,48,.20); }
+.bday-card--red    .bday-card-glow { background: #FF3B30; }
+
+/* Card SVG icons */
+.bday-card-svg-icon {
+  width: 46px; height: 46px;
+  margin-bottom: 22px;
+  display: block;
+  color: rgba(255,255,255,.75);
+}
+.bday-card-pct {
+  font-size: clamp(52px, 8.5vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  margin-bottom: 14px;
+  transition: filter .3s ease;
+}
+.bday-card--blue  .bday-card-pct { color: #5daaff; }
+.bday-card--blue:hover  .bday-card-pct { filter: drop-shadow(0 0 22px rgba(93,170,255,.70)); }
+.bday-card--gold  .bday-card-pct {
+  background: linear-gradient(135deg, #FFE066, #F5C842 40%, #F0A500);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.bday-card--gold:hover  .bday-card-pct { filter: drop-shadow(0 0 20px rgba(245,200,66,.65)); }
+.bday-card--green .bday-card-pct { color: #3ddd66; }
+.bday-card--green:hover .bday-card-pct { filter: drop-shadow(0 0 22px rgba(61,221,102,.65)); }
+.bday-card--red   .bday-card-pct { color: #ff6e65; }
+.bday-card--red:hover   .bday-card-pct { filter: drop-shadow(0 0 22px rgba(255,110,101,.65)); }
+
+.bday-card-title {
+  font-size: 20px; font-weight: 600;
+  color: rgba(255,255,255,.88);
+  margin-bottom: 10px; letter-spacing: -0.2px;
+}
+.bday-card p {
+  font-size: 14px;
+  color: rgba(255,255,255,.42);
+  line-height: 1.65;
+}
+
+/* ================================================================
+   HOW IT WORKS — iOS TILES
+================================================================ */
+.bday-section-light {
+  padding: 28px 24px 36px;
+}
+.bday-how { background: #f5f5f7; }
+.bday-how-inner { max-width: 880px; margin: 0 auto; }
+
+/* Compact header: override all global margins and sizes */
+.bday-how .bday-section-eyebrow {
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+.bday-how .bday-section-title {
+  font-size: clamp(20px, 2.8vw, 28px);
+  margin-bottom: 4px;
+}
+.bday-how .bday-section-sub {
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+/* ── iOS Widget Tiles ── */
+.bday-ios-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.bday-ios-tile {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow:
+    0 2px 10px rgba(0,0,0,.07),
+    0 0 0 0.5px rgba(0,0,0,.04);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.bday-ios-tile:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.11),
+    0 0 0 0.5px rgba(0,0,0,.04);
+}
+
+/* App icon chip */
+.bday-ios-tile-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.bday-ios-tile-icon svg { width: 26px; height: 26px; }
+.bday-ios-tile-icon--blue   { background: linear-gradient(150deg, #3da5ff, #0071e3); box-shadow: 0 6px 18px rgba(0,113,227,.30); }
+.bday-ios-tile-icon--purple { background: linear-gradient(150deg, #a084ff, #5856D6); box-shadow: 0 6px 18px rgba(88,86,214,.30); }
+.bday-ios-tile-icon--green  { background: linear-gradient(150deg, #4cd96a, #34C759); box-shadow: 0 6px 18px rgba(52,199,89,.30); }
+
+/* Step badge */
+.bday-ios-tile-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #aeaeb2;
+  margin-bottom: 6px;
+}
+
+/* Title */
+.bday-ios-tile strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+  margin-bottom: 7px;
+}
+
+/* Body text */
+.bday-ios-tile p {
+  font-size: 13px;
+  color: #6e6e73;
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ================================================================
+   TRUST STRIP — GLASS ITEMS WITH SVG ICONS
+================================================================ */
+.bday-trust { padding: 56px 24px; background: #fff; }
+.bday-trust-inner { max-width: 1000px; margin: 0 auto; }
+.bday-trust-grid {
+  display: flex; flex-wrap: wrap; gap: 0; row-gap: 20px;
+  border-top: 1px solid #e8e8ed; border-bottom: 1px solid #e8e8ed;
+  padding: 36px 0;
+}
+.bday-trust-item {
+  display: flex; align-items: center; gap: 14px;
+  flex: 1 1 200px; padding: 0 24px 0 0;
+}
+.bday-trust-item:not(:last-child) { border-right: 1px solid #e8e8ed; margin-right: 24px; }
+
+.bday-trust-icon {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: #f0f7ff;
+  display: flex; align-items: center; justify-content: center;
+}
+.bday-trust-icon svg { width: 24px; height: 24px; }
+
+.bday-trust-label strong {
+  display: block; font-size: 14px; font-weight: 600;
+  color: #1d1d1f; margin-bottom: 3px; letter-spacing: -0.1px;
+}
+.bday-trust-label span { font-size: 13px; color: #6e6e73; line-height: 1.45; }
+
+/* ================================================================
+   CTA
+================================================================ */
+.bday-cta {
+  position: relative;
+  background: linear-gradient(-45deg, #020812, #09183a, #001e6e, #004fc8);
+  background-size: 400% 400%;
+  animation: bday-bg-shift 20s ease infinite;
+  padding: 88px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+/* Starfield */
+.bday-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at  9% 16%, rgba(255,255,255,.55) 100%, transparent),
+    radial-gradient(1px   1px   at 26% 52%, rgba(255,255,255,.30) 100%, transparent),
+    radial-gradient(2px   2px   at 41% 24%, rgba(245,200,66,.65)  100%, transparent),
+    radial-gradient(1px   1px   at 58% 73%, rgba(255,255,255,.38) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 76% 38%, rgba(255,255,255,.28) 100%, transparent),
+    radial-gradient(2px   2px   at 89% 63%, rgba(245,200,66,.52)  100%, transparent),
+    radial-gradient(1px   1px   at 14% 82%, rgba(255,255,255,.28) 100%, transparent),
+    radial-gradient(1px   1px   at 54% 47%, rgba(255,255,255,.20) 100%, transparent),
+    radial-gradient(2px   2px   at 71% 88%, rgba(245,200,66,.42)  100%, transparent),
+    radial-gradient(1px   1px   at 93% 21%, rgba(255,255,255,.40) 100%, transparent),
+    radial-gradient(2px   2px   at 36% 90%, rgba(245,200,66,.35)  100%, transparent),
+    radial-gradient(1px   1px   at 81%  8%, rgba(255,255,255,.32) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 47% 62%, rgba(245,200,66,.28) 100%, transparent),
+    radial-gradient(1px   1px   at 19% 31%, rgba(255,255,255,.18) 100%, transparent),
+    radial-gradient(2px   2px   at 64% 14%, rgba(245,200,66,.30)  100%, transparent);
+  pointer-events: none;
+}
+/* Gold glow */
+.bday-cta::after {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(245,200,66,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* "15" as ghost bg element */
+.bday-cta-15 {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(200px, 35vw, 360px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(245,200,66,.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.bday-cta-inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+.bday-cta h2 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 700; color: #fff;
+  letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.1;
+}
+.bday-cta p {
+  font-size: 17px; color: rgba(255,255,255,.56);
+  line-height: 1.65; margin-bottom: 40px;
+}
+.bday-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ── Liquid Glass Buttons (iOS 26) ── */
+.bday-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 16px; font-weight: 600;
+  text-decoration: none; letter-spacing: -0.1px;
+  white-space: nowrap;
+  transition: box-shadow .22s ease, background .22s ease, border-color .22s ease;
+}
+.bday-btn-gold {
+  background: linear-gradient(135deg, #FFE066 0%, #F5C842 40%, #F0A500 100%);
+  color: #0a1628;
+  box-shadow: 0 6px 24px rgba(245,200,66,.32), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.bday-btn-gold:hover {
+  box-shadow: 0 12px 44px rgba(245,200,66,.56), inset 0 1px 0 rgba(255,255,255,.4);
+  color: #0a1628;
+}
+/* Glass outline button */
+.bday-btn-outline {
+  background: rgba(255,255,255,.09);
+  color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.22);
+  border-top: 1px solid rgba(255,255,255,.36);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 4px 16px rgba(0,0,0,.18);
+}
+.bday-btn-outline:hover {
+  background: rgba(255,255,255,.16);
+  border-color: rgba(255,255,255,.45);
+  border-top-color: rgba(255,255,255,.60);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 8px 28px rgba(255,255,255,.12);
+  color: #fff;
+}
+
+/* Particle animation (added by JS) */
+@keyframes bday-particle-rise {
+  0%   { transform: translateY(0)      rotate(0deg);   opacity: 0;   }
+  8%   { opacity: 1; }
+  88%  { opacity: 0.65; }
+  100% { transform: translateY(-110vh) rotate(540deg); opacity: 0;   }
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 640px) {
+  .bday-hero--visual { min-height: 0; }
+  .bday-hero--panel  { min-height: 0; justify-content: flex-start; padding: 20px 16px 32px; }
+  .bday-hero-inner { padding: 28px 20px 26px; border-radius: 24px; }
+  .bday-datebar { padding: 12px 20px; flex-wrap: wrap; justify-content: center; }
+  .bday-cards-grid { grid-template-columns: 1fr; }
+  .bday-card { padding: 32px 24px 28px; }
+  .bday-section-dark { padding: 64px 20px 52px; }
+  .bday-section-light { padding: 24px 16px 28px; }
+  .bday-how .bday-section-sub { margin-bottom: 14px; }
+  .bday-ios-tiles { grid-template-columns: 1fr; gap: 10px; }
+  .bday-ios-tile { border-radius: 18px; padding: 18px 18px 18px; }
+  .bday-ios-tile-icon { width: 46px; height: 46px; border-radius: 12px; margin-bottom: 12px; }
+  .bday-trust { padding: 44px 20px; }
+  .bday-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
+  .bday-cta { padding: 64px 20px; }
+  .bday-how .bday-section-sub { margin-bottom: 20px; }
+  /* scroll hint stays visible — needed on screen 1 */
+}
+</style>
+
+<!-- ============================================================
+     BIRTHDAY PAGE v3 — НАМ 15 ЛЕТ — Maxmobiles
+     Акция: 1, 2 и 3 апреля 2026 · Liquid Glass · iOS 26
+     ============================================================ -->
+<div class="bday-wrap">
+
+  <!-- ═══ ЭКРАН 1: Логотип + мерцающая «15» ═══ -->
+  <section class="bday-hero bday-hero--visual">
+    <canvas id="bdaySparkCanvas" aria-hidden="true"></canvas>
+    <div class="bday-particles" id="bdayParticles" aria-hidden="true"></div>
+
+    <!-- Логотип — JS выравнивает по ширине цифры «15» -->
+    <div class="bday-hero-logo-area">
+      <img src="https://maxmobiles.ru/images/logos/73/logo__.svg"
+           alt="Maxmobiles — Apple-эксперт в Севастополе"
+           class="bday-logo-img"
+           width="240" height="68"
+           loading="eager"
+           fetchpriority="high">
+    </div>
+
+    <!-- Стрелка «скролл вниз» -->
+    <div class="bday-scroll-hint" aria-hidden="true">
+      <div class="bday-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══ ЭКРАН 2: Плитка с текстом акции ═══ -->
+  <section class="bday-hero bday-hero--panel">
+
+    <div class="bday-hero-inner">
+
+      <div class="bday-date-badge">День рождения &middot; 1, 2 и 3 апреля</div>
+
+      <h1>
+        <span class="bday-gold-text">Нам 15 лет!</span><br>
+        Спасибо, что вы с нами
+      </h1>
+
+      <p class="bday-hero-sub">
+        С 2011 года — старейший Apple-эксперт Крыма.<br>
+        В честь юбилея дарим скидки всем покупателям.
+      </p>
+
+      <!-- Крупная дата — Liquid Glass Gold -->
+      <div class="bday-datebar">
+        <span class="bday-datebar-num">1</span>
+        <span class="bday-datebar-sep">&#183;</span>
+        <span class="bday-datebar-num">2</span>
+        <span class="bday-datebar-sep">&#183;</span>
+        <span class="bday-datebar-num">3</span>
+        <span class="bday-datebar-month">апреля</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- БЕГУЩАЯ СТРОКА -->
+  <div class="bday-ticker-wrap" aria-hidden="true">
+    <div class="bday-ticker">
+      <div class="bday-ticker-inner">
+        <span>День рождения Maxmobiles</span>
+        <span class="sep">*</span>
+        <span>15 лет с вами</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;5% на технику</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;10% на Б/У</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;30% на аксессуары</span>
+        <span class="sep">&#183;</span>
+        <span>&minus;50% на сервис</span>
+        <span class="sep">*</span>
+        <span>1, 2 и 3 апреля</span>
+        <span class="sep">&#183;</span>
+        <span>Maxmobiles с 2011 года</span>
+        <span class="sep">*</span>
+      </div>
+      <div class="bday-ticker-inner" aria-hidden="true">
+        <span>День рождения Maxmobiles</span>
+        <span class="sep">*</span>
+        <span>15 лет с вами</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;5% на технику</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;10% на Б/У</span>
+        <span class="sep">&#183;</span>
+        <span>До &minus;30% на аксессуары</span>
+        <span class="sep">&#183;</span>
+        <span>&minus;50% на сервис</span>
+        <span class="sep">*</span>
+        <span>1, 2 и 3 апреля</span>
+        <span class="sep">&#183;</span>
+        <span>Maxmobiles с 2011 года</span>
+        <span class="sep">*</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- СКИДКИ — тёмная секция, Liquid Glass карточки -->
+  <section class="bday-section-dark">
+    <div class="bday-discounts-inner">
+
+      <p class="bday-section-eyebrow">Юбилейные скидки</p>
+      <h2 class="bday-section-title">Три дня праздничных цен</h2>
+      <p class="bday-section-sub">1, 2 и 3 апреля &#8212; скидки на всё, для каждого покупателя</p>
+
+      <div class="bday-cards-grid">
+
+        <!-- Новая техника -->
+        <div class="bday-card bday-card--blue">
+          <div class="bday-card-glow"></div>
+          <svg class="bday-card-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="18.5" r="1" fill="currentColor"/>
+            <line x1="9" y1="5.5" x2="15" y2="5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <div class="bday-card-pct">до &minus;5%</div>
+          <div class="bday-card-title">Новая техника</div>
+          <p>iPhone, MacBook, iPad, Apple Watch, AirPods, Samsung, Dyson &#8212; с официальной гарантией 1 год.</p>
+        </div>
+
+        <!-- Идеальное Б/У -->
+        <div class="bday-card bday-card--gold">
+          <div class="bday-card-glow"></div>
+          <svg class="bday-card-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2L14.9 8.6L22 9.3L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9.3L9.1 8.6L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <div class="bday-card-pct">до &minus;10%</div>
+          <div class="bday-card-title">Идеальное Б/У</div>
+          <p>Проверенная техника, прошедшая полную диагностику в сервисном центре Maxmobiles. С гарантией.</p>
+        </div>
+
+        <!-- Аксессуары -->
+        <div class="bday-card bday-card--green">
+          <div class="bday-card-glow"></div>
+          <svg class="bday-card-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="9" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3 13h18" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 9V22" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 9c0-2-2-4-2-4s-2 1-2 3 2 1 2 1h2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 9c0-2 2-4 2-4s2 1 2 3-2 1-2 1h-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <div class="bday-card-pct">до &minus;30%</div>
+          <div class="bday-card-title">Аксессуары</div>
+          <p>Чехлы, защитные стёкла, зарядные устройства, ремешки, кабели и всё для ваших гаджетов.</p>
+        </div>
+
+        <!-- Сервис -->
+        <div class="bday-card bday-card--red">
+          <div class="bday-card-glow"></div>
+          <svg class="bday-card-svg-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="bday-card-pct">&minus;50%</div>
+          <div class="bday-card-title">Сервис и ремонт</div>
+          <p>Половина стоимости любой работы &#8212; ремонт iPhone, MacBook, iPad, Apple Watch и iMac.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- КАК ПОЛУЧИТЬ СКИДКУ -->
+  <section class="bday-how bday-section-light">
+    <div class="bday-how-inner">
+      <p class="bday-section-eyebrow bday-section-light">Как это работает</p>
+      <h2 class="bday-section-title bday-section-light" style="color:#1d1d1f;">Как получить скидку</h2>
+      <p class="bday-section-sub bday-section-light" style="color:#6e6e73;">Никаких промокодов и паролей &#8212; всё просто</p>
+
+      <div class="bday-ios-tiles">
+
+        <!-- Tile 1 — Browse -->
+        <div class="bday-ios-tile">
+          <div class="bday-ios-tile-icon bday-ios-tile-icon--blue">
+            <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <path d="M4 8h20M4 14h16M4 20h11" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="bday-ios-tile-num">Шаг 01</span>
+          <strong>Выбирайте товар или услугу</strong>
+          <p>Смотрите каталог и добавляйте понравившееся в корзину &#8212; или приходите к нам в Севастополе, пр-т Нахимова 19.</p>
+        </div>
+
+        <!-- Tile 2 — Order -->
+        <div class="bday-ios-tile">
+          <div class="bday-ios-tile-icon bday-ios-tile-icon--purple">
+            <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <path d="M6 26h16c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2z" stroke="#fff" stroke-width="1.9" fill="none"/>
+              <path d="M10 10V8a4 4 0 0 1 8 0v2" stroke="#fff" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <span class="bday-ios-tile-num">Шаг 02</span>
+          <strong>Оформляйте заказ</strong>
+          <p>Оформите заказ онлайн или напишите нам в чат &#8212; уточним все детали. Работаем ежедневно с 10:00 до 20:00.</p>
+        </div>
+
+        <!-- Tile 3 — Get Discount -->
+        <div class="bday-ios-tile">
+          <div class="bday-ios-tile-icon bday-ios-tile-icon--green">
+            <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="2.8" stroke="#fff" stroke-width="1.9"/>
+              <circle cx="18" cy="18" r="2.8" stroke="#fff" stroke-width="1.9"/>
+              <line x1="6.5" y1="21.5" x2="21.5" y2="6.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="bday-ios-tile-num">Шаг 03</span>
+          <strong>Получайте персональную скидку</strong>
+          <p>После оформления мы свяжемся с вами и назовём именно вашу скидку &#8212; в зависимости от категории товара или услуги.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="bday-trust">
+    <div class="bday-trust-inner">
+      <div class="bday-trust-grid">
+
+        <div class="bday-trust-item">
+          <div class="bday-trust-icon">
+            <!-- Cake / 15 years -->
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="10" rx="2" stroke="#0071e3" stroke-width="1.5" fill="rgba(0,113,227,0.08)"/>
+              <path d="M3 16 Q6 13.5 9 16 Q12 18.5 15 16 Q18 13.5 21 16" stroke="#0071e3" stroke-width="1.4" fill="none"/>
+              <line x1="8"  y1="11" x2="8"  y2="8"  stroke="#0071e3" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="12" y1="11" x2="12" y2="7"  stroke="#0071e3" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="16" y1="11" x2="16" y2="8"  stroke="#0071e3" stroke-width="1.5" stroke-linecap="round"/>
+              <ellipse cx="8"  cy="7.5" rx="1.2" ry="1.5" fill="#F5C842"/>
+              <ellipse cx="12" cy="6.5" rx="1.2" ry="1.5" fill="#F5C842"/>
+              <ellipse cx="16" cy="7.5" rx="1.2" ry="1.5" fill="#F5C842"/>
+            </svg>
+          </div>
+          <div class="bday-trust-label">
+            <strong>15 лет на рынке</strong>
+            <span>Работаем с 2011 года &#8212; старейший Apple-эксперт Крыма</span>
+          </div>
+        </div>
+
+        <div class="bday-trust-item">
+          <div class="bday-trust-icon">
+            <!-- Shield / Guarantee -->
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3L5 6.5v5.5c0 5 3.2 9.5 7 11 3.8-1.5 7-6 7-11V6.5L12 3z" stroke="#0071e3" stroke-width="1.5" fill="rgba(0,113,227,0.08)"/>
+              <path d="M9 12l2.5 2.5L15 10" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="bday-trust-label">
+            <strong>Гарантия 1 год</strong>
+            <span>На всю новую технику; Идеальное Б/У &#8212; с гарантией сервиса</span>
+          </div>
+        </div>
+
+        <div class="bday-trust-item">
+          <div class="bday-trust-icon">
+            <!-- Arrows / Trade-In -->
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 7H9a4 4 0 0 0-4 4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M17 3l4 4-4 4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 17h12a4 4 0 0 0 4-4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 21l-4-4 4-4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="bday-trust-label">
+            <strong>Trade-In</strong>
+            <span>Сдайте старое устройство и сэкономьте ещё больше</span>
+          </div>
+        </div>
+
+        <div class="bday-trust-item">
+          <div class="bday-trust-icon">
+            <!-- Truck / Delivery -->
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="1" y="8" width="15" height="11" rx="1.5" stroke="#0071e3" stroke-width="1.5" fill="rgba(0,113,227,0.08)"/>
+              <path d="M16 12h4l2 3.5V19h-6v-7z" stroke="#0071e3" stroke-width="1.5" stroke-linejoin="round" fill="rgba(0,113,227,0.08)"/>
+              <circle cx="6.5" cy="20" r="2" stroke="#0071e3" stroke-width="1.5" fill="white"/>
+              <circle cx="19" cy="20" r="2" stroke="#0071e3" stroke-width="1.5" fill="white"/>
+            </svg>
+          </div>
+          <div class="bday-trust-label">
+            <strong>Доставка по России</strong>
+            <span>Отправляем по Крыму и по всей стране через СДЭК</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="bday-cta">
+    <div class="bday-cta-15" aria-hidden="true">15</div>
+    <div class="bday-cta-inner">
+      <h2>Три дня праздника &#8212;<br>1, 2 и 3 апреля</h2>
+      <p>
+        Выбирайте товары, оформляйте заказ &#8212; и мы сообщим вашу персональную скидку.<br>
+        Спасибо, что 15 лет выбираете Maxmobiles.
+      </p>
+      <div class="bday-cta-btns">
+        <a href="https://maxmobiles.ru/categories-catalog" class="bday-btn bday-btn-gold">Перейти в каталог</a>
+        <a href="https://maxmobiles.ru/servis-apple/" class="bday-btn bday-btn-outline">Записаться в сервис</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ── SPARK "15" CANVAS ── */
+(function () {
+  var canvas = document.getElementById('bdaySparkCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var hero = canvas.parentElement;
+  var sparks = [];
+  var raf;
+  /* Shared layout state set by positionLogo(), consumed by sampleTextPoints() */
+  var bdayDrawY = null;  /* canvas Y for center of "15" */
+  var bdayFs    = null;  /* font-size used for "15" */
+
+  function resize() {
+    /* canvas.height is always set by positionLogo() — only update width here */
+    canvas.width = hero.offsetWidth;
+  }
+
+  /* Sample pixel positions of the "15" text */
+  function sampleTextPoints() {
+    var W = canvas.width, H = canvas.height;
+    var off = document.createElement('canvas');
+    off.width = W; off.height = H;
+    var oc = off.getContext('2d');
+
+    /* Use coordinated values from positionLogo(); fall back to defaults */
+    var fs    = bdayFs    || Math.min(W * 0.62, H * 0.55);
+    var drawY = bdayDrawY || H * 0.45;
+    oc.font = '900 ' + Math.round(fs) + 'px -apple-system, "SF Pro Display", Arial, sans-serif';
+    oc.textAlign    = 'center';
+    oc.textBaseline = 'middle';
+    oc.fillStyle    = '#fff';
+    oc.fillText('15', W * 0.5, drawY);
+
+    var data = oc.getImageData(0, 0, W, H).data;
+    var pts  = [];
+    /* adaptive step: denser on small screens */
+    var step = Math.max(3, Math.round(fs / 65));
+    for (var y = 0; y < H; y += step) {
+      for (var x = 0; x < W; x += step) {
+        if (data[(y * W + x) * 4 + 3] > 100) pts.push({ x: x, y: y });
+      }
+    }
+    return pts;
+  }
+
+  function buildSparks() {
+    sparks = [];
+    var pts = sampleTextPoints();
+    /* cap to 900 sparks for perf */
+    var stride = Math.max(1, Math.floor(pts.length / 900));
+    for (var i = 0; i < pts.length; i += stride) {
+      var p = pts[i];
+      var gold = Math.random() > 0.30; /* 70 % gold, 30 % ice-blue */
+      sparks.push({
+        bx: p.x, by: p.y,
+        dx: 0,   dy: 0,
+        vx: (Math.random() - 0.5) * 0.05,
+        vy: (Math.random() - 0.5) * 0.05,
+        maxD: Math.random() * 4 + 1.5,
+        r:  Math.random() * 3 + 1.2,      /* bigger sparks: 1.2–4.2 */
+        op: Math.random() * 0.5 + 0.4,    /* min 0.4 — always visible */
+        os: (Math.random() * 0.018 + 0.008) * (Math.random() > 0.5 ? 1 : -1),
+        opMin: 0.25,                       /* never go fully dark */
+        gold: gold,
+        shootTimer: Math.floor(Math.random() * 120),
+        shootInterval: Math.floor(Math.random() * 90 + 60),
+      });
+    }
+  }
+
+  function drawSpark(s) {
+    var x = s.bx + s.dx, y = s.by + s.dy;
+
+    /* core dot */
+    var baseColor = s.gold
+      ? 'rgba(245,200,66,'
+      : 'rgba(160,210,255,';
+
+    ctx.beginPath();
+    ctx.arc(x, y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = baseColor + s.op + ')';
+    ctx.fill();
+
+    /* inner bright centre */
+    if (s.r > 1.6) {
+      ctx.beginPath();
+      ctx.arc(x, y, s.r * 0.42, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + (s.op * 0.92) + ')';
+      ctx.fill();
+    }
+
+    /* soft glow halo — bigger radius for more visibility */
+    var haloR = s.r * 6.5;
+    var g = ctx.createRadialGradient(x, y, 0, x, y, haloR);
+    g.addColorStop(0, baseColor + (s.op * 0.30) + ')');
+    g.addColorStop(1, baseColor + '0)');
+    ctx.beginPath();
+    ctx.arc(x, y, haloR, 0, Math.PI * 2);
+    ctx.fillStyle = g;
+    ctx.fill();
+
+    /* ray burst — more frequent and longer */
+    s.shootTimer--;
+    if (s.shootTimer <= 0 && s.op > 0.55) {
+      var rays = Math.floor(Math.random() * 5) + 4;
+      for (var k = 0; k < rays; k++) {
+        var angle = (Math.PI * 2 / rays) * k + Math.random() * 0.6;
+        var len   = s.r * (Math.random() * 14 + 10);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + Math.cos(angle) * len, y + Math.sin(angle) * len);
+        ctx.strokeStyle = baseColor + (s.op * 0.65) + ')';
+        ctx.lineWidth   = Math.random() * 1.0 + 0.4;
+        ctx.stroke();
+      }
+      s.shootTimer = s.shootInterval;
+    }
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = 0; i < sparks.length; i++) {
+      var s = sparks[i];
+
+      /* opacity oscillation with minimum floor */
+      s.op += s.os;
+      if (s.op >= 1)       { s.op = 1;       s.os = -Math.abs(s.os); }
+      if (s.op <= s.opMin) { s.op = s.opMin; s.os =  Math.abs(s.os); }
+
+      /* subtle drift */
+      s.dx += s.vx;
+      s.dy += s.vy;
+      if (Math.abs(s.dx) > s.maxD) s.vx = -s.vx;
+      if (Math.abs(s.dy) > s.maxD) s.vy = -s.vy;
+
+      drawSpark(s);
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  /* ── Position logo aligned with "15", set layout for mobile ── */
+  function positionLogo() {
+    var W        = canvas.width;
+    var isMobile = W < 641;
+
+    /* Font size: viewport-height cap, but read from window (not hero) to stay
+       independent of the hero's own inline height → no circular dependency */
+    var fs = Math.min(W * 0.62, Math.round(window.innerHeight * 0.54));
+    bdayFs = fs;
+
+    /* Measure "15" text width */
+    var offM = document.createElement('canvas');
+    offM.width = Math.ceil(W); offM.height = 2;
+    var mCtx  = offM.getContext('2d');
+    mCtx.font = '900 ' + Math.round(fs) + 'px -apple-system, "SF Pro Display", Arial, sans-serif';
+    var textW = mCtx.measureText('15').width;
+    var textX = Math.max(8, (W - textW) / 2);
+
+    /* Logo natural height: SVG viewBox 240×68 → aspect 3.53 : 1 */
+    var logoH = Math.round(textW / 3.53);
+
+    var logoEl = document.querySelector('.bday-hero-logo-area');
+    if (!logoEl) return;
+
+    /* Shared layout formula — same for mobile and desktop:
+       topPad → logo → gapPx → "15" → bottomGap
+       Only topPad and bottomGap differ by breakpoint. */
+    var topPad    = isMobile ? 25 : 48;
+    var gapPx     = 2;                /* logo bottom sits 2 px above "15" top */
+    var bottomGap = isMobile ? 60 : 72; /* 72 = room for scroll-arrow on desktop */
+
+    /* "15" center Y = logo_bottom + gap + half rendered digit height */
+    bdayDrawY = topPad + logoH + gapPx + fs * 0.44;
+
+    /* Total section height — content-sized on BOTH mobile and desktop */
+    var sectionH = Math.round(topPad + logoH + gapPx + fs * 0.88 + bottomGap);
+    hero.style.height = sectionH + 'px';
+    canvas.height     = sectionH;
+
+    logoEl.style.top   = topPad + 'px';
+    logoEl.style.left  = textX + 'px';
+    logoEl.style.width = textW + 'px';
+  }
+
+  /* init — positionLogo MUST run before buildSparks so bdayDrawY is set */
+  resize();
+  positionLogo();
+  buildSparks();
+  tick();
+
+  /* rebuild on resize */
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      cancelAnimationFrame(raf);
+      resize();        /* updates canvas.width */
+      positionLogo();  /* recalculates everything, sets hero height + canvas.height */
+      buildSparks();
+      tick();
+    }, 200);
+  });
+})();
+
+/* ── FLOATING PARTICLES ── */
+(function () {
+  var container = document.getElementById('bdayParticles');
+  if (!container) return;
+  var colors = [
+    'rgba(245,200,66,0.75)', 'rgba(255,255,255,0.50)',
+    'rgba(99,174,255,0.60)', 'rgba(245,200,66,0.48)',
+    'rgba(255,220,100,0.55)', 'rgba(255,255,255,0.35)',
+    'rgba(180,220,255,0.45)',
+  ];
+  var symbols = ['*', '+', 'o', '.'];
+
+  // Dot particles
+  for (var i = 0; i < 28; i++) {
+    var p = document.createElement('div');
+    var size  = (Math.random() * 5 + 2).toFixed(1);
+    var delay = (Math.random() * 16).toFixed(2);
+    var dur   = (Math.random() * 9 + 7).toFixed(1);
+    var x     = (Math.random() * 96 + 2).toFixed(1);
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText =
+      'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
+      'border-radius:50%;background:' + color + ';' +
+      'left:' + x + '%;bottom:-30px;' +
+      'animation:bday-particle-rise ' + dur + 's ' + delay + 's linear infinite;';
+    container.appendChild(p);
+  }
+  // Text symbol floaters (safe, no emoji)
+  var safeLabels = ['15', '+', '*', '&#9733;'];
+  for (var j = 0; j < 8; j++) {
+    var e = document.createElement('span');
+    var edelay = (Math.random() * 20).toFixed(2);
+    var edur   = (Math.random() * 13 + 13).toFixed(1);
+    var ex     = (Math.random() * 94 + 3).toFixed(1);
+    var esize  = (Math.random() * 10 + 12).toFixed(0);
+    var col    = colors[Math.floor(Math.random() * colors.length)];
+    e.innerHTML = j % 4 === 0 ? '15' : j % 4 === 1 ? '&#9733;' : j % 4 === 2 ? '+' : '&times;';
+    e.style.cssText =
+      'position:absolute;font-size:' + esize + 'px;font-weight:700;' +
+      'color:' + col + ';left:' + ex + '%;bottom:-50px;opacity:0;' +
+      'animation:bday-particle-rise ' + edur + 's ' + edelay + 's linear infinite;';
+    container.appendChild(e);
+  }
+})();
+</script>

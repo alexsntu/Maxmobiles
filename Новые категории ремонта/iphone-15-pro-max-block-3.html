@@ -1,0 +1,564 @@
+<!-- ============================================================
+     Maxmobiles — iPhone 15 Pro Max | Блок 3: Этапы, гарантия,
+     запчасти, стоимость
+     Страница: /servis-apple/remont-iphone/remont-iphone-15-pro-max/
+     Стили изолированы в .mmb3
+============================================================ -->
+
+<style>{literal}
+.mmb3 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #1d1d1f;
+  margin-top: 48px;
+  margin-bottom: 40px;
+}
+.mmb3 *, .mmb3 *::before, .mmb3 *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Общие ── */
+.mmb3-section { margin-bottom: 48px; }
+
+.mmb3-h2 {
+  font-size: clamp(20px, 2.6vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  color: #1d1d1f;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════
+   СЕКЦИЯ 1 — ЭТАПЫ
+════════════════════════════════════════════ */
+.mmb3-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.mmb3-step {
+  background: #f5f5f7;
+  border-radius: 20px;
+  padding: 28px 24px 26px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mmb3-step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.09);
+}
+
+.mmb3-step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0055b3, #0071e3);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+
+.mmb3-step-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #3a3a3c;
+  flex: 1;
+}
+
+/* Соединительная стрелка между шагами */
+.mmb3-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50px;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 9px solid #d1d1d6;
+  z-index: 1;
+}
+
+/* ════════════════════════════════════════════
+   СЕКЦИЯ 2 — ПЛИТКИ (гарантия, запчасти, цена)
+════════════════════════════════════════════ */
+.mmb3-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+.mmb3-tile {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 30px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03),
+              0 6px 24px rgba(0,0,0,0.07),
+              0 0 0 1px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mmb3-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03),
+              0 12px 36px rgba(0,0,0,0.1),
+              0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* Последняя плитка — на всю ширину */
+.mmb3-tile--full {
+  grid-column: 1 / -1;
+}
+
+/* Иконка плитки */
+.mmb3-tile-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mmb3-tile-icon--blue   { background: rgba(0,113,227,0.10); color: #0071e3; }
+.mmb3-tile-icon--green  { background: rgba(52,199,89,0.12);  color: #1a7f3c; }
+.mmb3-tile-icon--orange { background: rgba(255,149,0,0.12);  color: #c85000; }
+
+.mmb3-tile-h2 {
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #1d1d1f;
+  line-height: 1.2;
+}
+
+.mmb3-tile-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3a3a3c;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mmb3-tile-body p { }
+
+/* Список внутри плитки */
+.mmb3-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-left: 4px;
+}
+.mmb3-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 14px;
+  color: #3a3a3c;
+  line-height: 1.55;
+}
+.mmb3-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0071e3;
+  margin-top: 8px;
+}
+
+/* Акцентный бейдж внутри плитки */
+.mmb3-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(52,199,89,0.1);
+  border: 1px solid rgba(52,199,89,0.25);
+  color: #1a7f3c;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+/* Для плитки цены — двухколоночный контент */
+.mmb3-tile--full .mmb3-tile-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 32px;
+  align-items: start;
+}
+.mmb3-tile--full .mmb3-tile-body > .mmb3-list {
+  grid-column: 1 / -1;
+}
+
+/* ════════════════════════════════════════════
+   СЕКЦИЯ 3 — ОТЗЫВЫ
+════════════════════════════════════════════ */
+.mmb3-reviews-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.mmb3-reviews-head .mmb3-h2 {
+  margin-bottom: 0;
+  text-align: left;
+}
+.mmb3-reviews-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0071e3;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.18s;
+}
+.mmb3-reviews-all:hover { opacity: 0.75; }
+
+.mmb3-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.mmb3-review-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03),
+              0 6px 24px rgba(0,0,0,0.07),
+              0 0 0 1px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mmb3-review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.03),
+              0 14px 36px rgba(0,0,0,0.1),
+              0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* Шапка карточки: аватар + имя + рейтинг */
+.mmb3-review-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mmb3-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.mmb3-avatar--blue   { background: linear-gradient(135deg,#0055b3,#0071e3); }
+.mmb3-avatar--teal   { background: linear-gradient(135deg,#0f766e,#14b8a6); }
+.mmb3-avatar--indigo { background: linear-gradient(135deg,#3730a3,#6366f1); }
+.mmb3-avatar--rose   { background: linear-gradient(135deg,#9f1239,#f43f5e); }
+
+.mmb3-review-meta { display: flex; flex-direction: column; gap: 3px; }
+.mmb3-review-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+  line-height: 1.2;
+}
+.mmb3-stars {
+  display: flex;
+  gap: 2px;
+}
+.mmb3-stars svg { color: #ff9500; }
+
+/* Текст отзыва */
+.mmb3-review-text {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #3a3a3c;
+  flex: 1;
+}
+
+/* Источник */
+.mmb3-review-source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #aeaeb2;
+  font-weight: 500;
+  border-top: 1px solid #f2f2f7;
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+/* ── Адаптив ── */
+@media (max-width: 860px) {
+  .mmb3-reviews-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 540px) {
+  .mmb3-reviews-grid { grid-template-columns: 1fr; }
+  .mmb3-reviews-head { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Адаптив (общий) ── */
+@media (max-width: 860px) {
+  .mmb3-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+  .mmb3-step:nth-child(2)::after { display: none; }
+  .mmb3-step:nth-child(4)::after { display: none; }
+}
+@media (max-width: 640px) {
+  .mmb3-steps         { grid-template-columns: 1fr; }
+  .mmb3-step::after   { display: none; }
+  .mmb3-tiles         { grid-template-columns: 1fr; }
+  .mmb3-tile--full .mmb3-tile-body { grid-template-columns: 1fr; }
+  .mmb3-tile          { padding: 24px 20px; }
+}
+@media (max-width: 480px) {
+  .mmb3-h2      { font-size: 19px; }
+  .mmb3-tile-h2 { font-size: 17px; }
+  .mmb3-section { margin-bottom: 32px; }
+}
+{/literal}</style>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     БЛОК 3
+═══════════════════════════════════════════════════════ -->
+<div class="mmb3">
+
+  <!-- ── СЕКЦИЯ: ЭТАПЫ ── -->
+  <section class="mmb3-section">
+    <h2 class="mmb3-h2">Как быстро починить iPhone&nbsp;15&nbsp;Pro&nbsp;Max в&nbsp;4&nbsp;этапа?</h2>
+
+    <div class="mmb3-steps">
+
+      <div class="mmb3-step">
+        <div class="mmb3-step-num">1</div>
+        <p class="mmb3-step-text">Напишите в чат, позвоните или оставьте заявку и расскажите о проблеме, подробно описав её симптомы.</p>
+      </div>
+
+      <div class="mmb3-step">
+        <div class="mmb3-step-num">2</div>
+        <p class="mmb3-step-text">Доставьте аппарат в сервис для проведения бесплатной диагностики при вас.</p>
+      </div>
+
+      <div class="mmb3-step">
+        <div class="mmb3-step-num">3</div>
+        <p class="mmb3-step-text">Инженеры выполнят ремонт iPhone&nbsp;15&nbsp;Pro&nbsp;Max, заменят вышедшие из строя детали и восстановят ПО.</p>
+      </div>
+
+      <div class="mmb3-step">
+        <div class="mmb3-step-num">4</div>
+        <p class="mmb3-step-text">После тщательного тестирования техника выдаётся владельцу с гарантийным талоном и клубной картой.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── ПЛИТКИ ── -->
+  <div class="mmb3-tiles">
+
+    <!-- Гарантия -->
+    <div class="mmb3-tile">
+      <div class="mmb3-tile-icon mmb3-tile-icon--green">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="mmb3-tile-h2">Что по поводу гарантии?</h2>
+      <div class="mmb3-tile-body">
+        <div class="mmb3-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          До 12 месяцев на работы и запчасти
+        </div>
+        <p>Мы уверены в качестве выполняемых работ, поэтому предоставляем гарантию на услуги до года, включая замену вышедших из строя элементов и сложный ремонт.</p>
+        <p>Гарантийные обязательства распространяются как на выполненные работы, так и на установленные запасные части. Если в течение гарантийного периода проблема проявится снова — устраним поломку бесплатно.</p>
+        <p>Если сервис оказывался на дому, мастер самостоятельно выписывает гарантийные документы — вам не придётся посещать сервисный центр.</p>
+      </div>
+    </div>
+
+    <!-- Запчасти -->
+    <div class="mmb3-tile">
+      <div class="mmb3-tile-icon mmb3-tile-icon--blue">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="mmb3-tile-h2">Какие запчасти вы используете?</h2>
+      <div class="mmb3-tile-body">
+        <div class="mmb3-badge" style="background:rgba(0,113,227,0.08);border-color:rgba(0,113,227,0.2);color:#0055b3;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Все запчасти всегда в наличии
+        </div>
+        <p>Для ремонта iPhone применяются подлинные компоненты, закупаемые непосредственно у сертифицированных китайских фабрик-изготовителей. Наше сотрудничество с партнёрами длится свыше трёх лет.</p>
+        <p>Оптовые закупки позволяют оптимизировать цену — стоимость деталей уже учтена в итоговой сумме. В отдельных ситуациях допустима установка высококачественных аналогов: это делает ремонт доступнее, а стоимость согласуется заранее.</p>
+      </div>
+    </div>
+
+    <!-- Стоимость — полная ширина -->
+    <div class="mmb3-tile mmb3-tile--full">
+      <div class="mmb3-tile-icon mmb3-tile-icon--orange">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M9 9h6M9 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="mmb3-tile-h2">Сколько стоит ремонт iPhone&nbsp;15&nbsp;Pro&nbsp;Max?</h2>
+      <div class="mmb3-tile-body">
+        <p>Расценка на наиболее популярные услуги фиксированная и указана в прайсе. В неё уже входит всё: труд мастера, запчасти и гарантийный талон до одного года. Никаких скрытых комиссий — исключительно прозрачные условия.</p>
+        <p>Цены выгодно отличаются от конкурентов: мы не тратим ваши деньги на дорогую аренду или масштабную рекламу — вместо этого вкладываем ресурсы в обучение мастеров и качество сервиса. При ограниченном бюджете доступен ремонт в кредит.</p>
+        <ul class="mmb3-list">
+          <li>Нужной услуги нет в прайс-листе — цена обсуждается индивидуально</li>
+          <li>Необходима доставка устройства из другого города или региона</li>
+          <li>Выбираете аналоговые детали — обойдётся дешевле, стоимость согласуем заранее</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /.mmb3-tiles -->
+
+
+  <!-- ── СЕКЦИЯ: ОТЗЫВЫ ── -->
+  <section class="mmb3-section" style="margin-bottom:0">
+
+    <div class="mmb3-reviews-head">
+      <h2 class="mmb3-h2">Что говорят клиенты</h2>
+      <a class="mmb3-reviews-all" href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" target="_blank" rel="noopener">
+        Читать все отзывы
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="mmb3-reviews-grid">
+
+      <!-- 1. Bogdan Tsvetkov -->
+      <div class="mmb3-review-card">
+        <div class="mmb3-review-top">
+          <div class="mmb3-avatar mmb3-avatar--blue">BT</div>
+          <div class="mmb3-review-meta">
+            <span class="mmb3-review-name">Bogdan Tsvetkov</span>
+            <div class="mmb3-stars">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="mmb3-review-text">Я очень доволен, что обратился в этот сервисный центр с заменой батареи на iPhone 13. Всё кристально прозрачно, сотрудник объясняет абсолютно всё и даёт рекомендации по эксплуатации. Спустя месяц телефон работает как новый, держит заряд очень долго. На ремонт дали гарантию на полгода!</p>
+        <div class="mmb3-review-source">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FC3F1D" stroke-width="2"/><path d="M13.5 8H11l-3 8h2l.75-2h3.5l.75 2H17L13.5 8zm-2.1 4.5L12.5 10l1.1 2.5h-2.2z" fill="#FC3F1D"/></svg>
+          Яндекс Карты
+        </div>
+      </div>
+
+      <!-- 2. Дмитрий -->
+      <div class="mmb3-review-card">
+        <div class="mmb3-review-top">
+          <div class="mmb3-avatar mmb3-avatar--teal">Д</div>
+          <div class="mmb3-review-meta">
+            <span class="mmb3-review-name">Дмитрий</span>
+            <div class="mmb3-stars">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="mmb3-review-text">Обращались в ремонт со стареньким монитором. Он оказался рабочим — дело было в разъёме компьютера. Максим, несмотря на то что монитор включился, дополнительно потестировал его, оставил работать на ночь, а утром отдал и денег за работу не взял. Удивительно и редко. Благодарность сердечная!</p>
+        <div class="mmb3-review-source">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FC3F1D" stroke-width="2"/><path d="M13.5 8H11l-3 8h2l.75-2h3.5l.75 2H17L13.5 8zm-2.1 4.5L12.5 10l1.1 2.5h-2.2z" fill="#FC3F1D"/></svg>
+          Яндекс Карты
+        </div>
+      </div>
+
+      <!-- 3. Александр С. -->
+      <div class="mmb3-review-card">
+        <div class="mmb3-review-top">
+          <div class="mmb3-avatar mmb3-avatar--indigo">АС</div>
+          <div class="mmb3-review-meta">
+            <span class="mmb3-review-name">Александр С.</span>
+            <div class="mmb3-stars">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="mmb3-review-text">Зашёл за консультацией по замене экрана — всё очень подробно и приятно объяснили, посоветовали как лучше поступить. Отличные ребята, приятная атмосфера. Буду обращаться ещё.</p>
+        <div class="mmb3-review-source">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FC3F1D" stroke-width="2"/><path d="M13.5 8H11l-3 8h2l.75-2h3.5l.75 2H17L13.5 8zm-2.1 4.5L12.5 10l1.1 2.5h-2.2z" fill="#FC3F1D"/></svg>
+          Яндекс Карты
+        </div>
+      </div>
+
+      <!-- 4. Марина Боярская -->
+      <div class="mmb3-review-card">
+        <div class="mmb3-review-top">
+          <div class="mmb3-avatar mmb3-avatar--rose">МБ</div>
+          <div class="mmb3-review-meta">
+            <span class="mmb3-review-name">Марина Боярская</span>
+            <div class="mmb3-stars">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="mmb3-review-text">Благодарю Максима и парней на сервисе за подход к делу. Быстро почистили Мак, помогли удалённо установить драйвера на принтер. Не предлагают лишнего, сделали приятную скидку. Доверяю только им, рекомендую!</p>
+        <div class="mmb3-review-source">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FC3F1D" stroke-width="2"/><path d="M13.5 8H11l-3 8h2l.75-2h3.5l.75 2H17L13.5 8zm-2.1 4.5L12.5 10l1.1 2.5h-2.2z" fill="#FC3F1D"/></svg>
+          Яндекс Карты
+        </div>
+      </div>
+
+    </div><!-- /.mmb3-reviews-grid -->
+
+  </section>
+
+</div><!-- /.mmb3 -->

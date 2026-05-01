@@ -1,0 +1,605 @@
+﻿<!--
+=======================================================================
+  Maxmobiles — Сервисный центр Apple (хаб) | SEO HTML Block для CS-Cart
+  Страница: https://maxmobiles.ru/servis-apple/
+  Разметка: Schema.org JSON-LD (@graph), Microdata, ARIA, Speakable,
+            FAQPage, HowTo — GEO + AEO оптимизация
+  Стили:    maxmobiles-styles.css (подключён через Дизайн → Свой CSS)
+  Тест JSON-LD: https://validator.schema.org/
+  Тест Rich Results: https://search.google.com/test/rich-results
+=======================================================================
+-->
+
+<!-- ================================================================
+     1. СТРУКТУРИРОВАННЫЕ ДАННЫЕ (JSON-LD)
+================================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://maxmobiles.ru/#business",
+      "name": "Maxmobiles",
+      "alternateName": "Сервисный центр Maxmobiles",
+      "description": "Сервисный центр Maxmobiles в Севастополе выполняет ремонт iPhone, MacBook, iPad, Apple Watch и iMac с 2011 года. Оригинальные запчасти, гарантия на все виды работ, бесплатная диагностика при проведении ремонта.",
+      "url": "https://maxmobiles.ru",
+      "telephone": "+7-978-820-30-01",
+      "priceRange": "&#8381;&#8381;",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "пр-т Нахимова 19",
+        "addressLocality": "Севастополь",
+        "addressRegion": "Севастополь",
+        "addressCountry": "RU"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Севастополь" },
+        { "@type": "State", "name": "Крым" }
+      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "10:00",
+        "closes": "20:00"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Ремонт техники Apple в Севастополе",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт iPhone в Севастополе" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт MacBook в Севастополе" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт iPad в Севастополе" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт Apple Watch в Севастополе" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ремонт iMac в Севастополе" } }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "120",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://maxmobiles.ru/servis-apple/#webpage",
+      "name": "Ремонт iPhone, MacBook и iPad в Севастополе — Сервисный центр Apple Maxmobiles",
+      "description": "Сервисный центр Maxmobiles в Севастополе ремонтирует iPhone, MacBook, iPad и Apple Watch с гарантией. Работаем с 2011 года. Ежедневно 10:00–20:00 на пр-т Нахимова 19.",
+      "url": "https://maxmobiles.ru/servis-apple/",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".mm-intro-text", ".mm-faq"]
+      },
+      "about": { "@id": "https://maxmobiles.ru/#business" }
+    },
+    {
+      "@type": "FAQPage",
+      "name": "Частые вопросы о ремонте Apple в Севастополе",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько стоит ремонт техники Apple в Севастополе?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Стоимость ремонта Apple в Maxmobiles определяется после диагностики — конкретная цена зависит от модели и вида неисправности. Ремонт начинается только после вашего согласия со сметой: никаких скрытых доплат. Актуальные цены на каждую модель смотрите в прайс-листах разделов iPhone, MacBook, iPad и Watch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как долго длится ремонт iPhone или MacBook в Севастополе?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Большинство ремонтов — замена дисплея, аккумулятора или стекла — выполняется в день обращения за 30–90 минут в присутствии клиента. Сложные случаи: ремонт материнской платы, восстановление после воды — занимают от 1 до 3 рабочих дней. О точных сроках инженер предупреждает на диагностике."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Дают ли гарантию на ремонт Apple в Maxmobiles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, гарантия предоставляется на все виды ремонта и установленные запчасти. По завершении работ выдаётся гарантийный талон и акт об оказанных услугах. Maxmobiles использует только оригинальные сертифицированные комплектующие Apple — это исключает повторные обращения по той же неисправности."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что делать, если iPhone не включается или разбит экран?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Приезжайте в Maxmobiles: Севастополь, пр-т Нахимова 19, ежедневно с 10:00 до 20:00. Инженер бесплатно диагностирует устройство и назовёт причину. iPhone не включается — чаще всего аккумулятор или плата, решается в день обращения. Разбитый экран меняем за 30–60 минут. Записаться заранее можно через Telegram-бот."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Как проходит ремонт Apple в Maxmobiles",
+      "description": "Процесс ремонта техники Apple в сервисном центре Maxmobiles в Севастополе",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Принесите устройство",
+          "text": "Приходите в сервис на пр-т Нахимова 19 или записывайтесь через Telegram-бот — мы подготовим запчасти заранее и примем без очереди."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Диагностика при вас",
+          "text": "Инженер проверяет устройство, выявляет неисправность и называет точную стоимость ремонта. Диагностика бесплатна при проведении ремонта."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Ремонт после согласия",
+          "text": "Приступаем только после того, как вы одобряете смету. В большинстве случаев ремонт занимает 30–90 минут."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Проверка и гарантия",
+          "text": "Перед выдачей устройство тестируется по всем параметрам. Вы получаете акт выполненных работ и гарантийный талон."
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ================================================================
+     2. HTML-КОНТЕНТ
+     CSS подключается через: Дизайн → Темы → Свой CSS (файл maxmobiles-styles.css)
+     Заголовки: H2 → H3 → H4 (H1 уже есть на странице CS-Cart)
+================================================================ -->
+<div class="mm-collapse-wrapper">
+<div class="mm-collapse-content">
+
+<div class="mm-block" itemscope itemtype="https://schema.org/LocalBusiness">
+  <meta content="Maxmobiles">
+  <meta content="https://maxmobiles.ru">
+  <meta itemprop="telephone" content="+7-978-820-30-01">
+
+  <!-- ---- Заголовок и лид ---- -->
+  <section class="mm-intro" aria-labelledby="mm-h2-main">
+    <h2 id="mm-h2-main">Сервисный центр Apple в Севастополе &#8212; ремонт с гарантией</h2>
+    <p class="mm-intro-text">
+      <strong>Maxmobiles</strong> &#8212; авторизованный сервисный центр Apple
+      в <strong>Севастополе</strong> с 2011&nbsp;года. Выполняем
+      <strong>ремонт iPhone, MacBook, iPad, Apple Watch и iMac</strong> любой сложности:
+      от замены стекла до пайки микросхем. На все виды работ и установленные запчасти
+      предоставляется <strong>гарантия</strong>. Диагностика бесплатна при проведении ремонта &#8212;
+      приступаем к работе только после вашего согласия со сметой.
+    </p>
+    <span class="mm-stat-badge" role="note"
+          aria-label="Работаем с 2011 года, 14 лет опыта. Ежедневно 10:00–20:00">
+      <span class="mm-badge-item">&#x2714;&nbsp; С 2011&nbsp;года &#8212; <span class="mm-experience-years">15</span>&nbsp;лет опыта</span>
+      <span class="mm-badge-sep" aria-hidden="true">&#183;</span>
+      <span class="mm-badge-item">&#x2714;&nbsp; Ежедневно 10:00&#8211;20:00</span>
+    </span>
+  </section>
+
+  <!-- ---- Полоса доверия ---- -->
+  <div class="mm-trust-strip" role="list"
+       aria-label="Ключевые преимущества сервисного центра Maxmobiles">
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F6E1;</span>
+      <span class="mm-trust-label">
+        <strong>Гарантия на ремонт</strong>На работы и запчасти
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x26A1;</span>
+      <span class="mm-trust-label">
+        <strong>Срочный ремонт</strong>90% случаев &#8212; в день обращения
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F48E;</span>
+      <span class="mm-trust-label">
+        <strong>Оригинальные запчасти</strong>Только сертифицированные детали
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F50D;</span>
+      <span class="mm-trust-label">
+        <strong>Бесплатная диагностика</strong>При проведении ремонта
+      </span>
+    </div>
+  </div>
+
+  <!-- ---- Услуги ---- -->
+  <section class="mm-section" aria-labelledby="mm-h3-services"
+           itemprop="hasOfferCatalog" itemscope itemtype="https://schema.org/OfferCatalog">
+    <h3 id="mm-h3-services" class="mm-section-title">Какую технику Apple мы ремонтируем</h3>
+    <p class="mm-section-lead">
+      Выполняем все виды ремонта техники Apple в Севастополе. Актуальные цены
+      на каждую модель смотрите в прайс-листах разделов ниже.
+    </p>
+
+    <div class="mm-services-grid" role="list">
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
+        <h4>Ремонт iPhone</h4>
+        <p>
+          Замена дисплея, аккумулятора, стекла, разъёма зарядки и камеры.
+          Восстановление после воды. Все модели от SE до 17&nbsp;Pro Max.
+        </p>
+        <a href="https://maxmobiles.ru/servis-apple/remont-iphone/"
+           class="mm-service-link"
+           aria-label="Цены на ремонт iPhone в Севастополе — Maxmobiles">
+          Цены на ремонт &rarr;
+        </a>
+      </article>
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4BB;</span>
+        <h4>Ремонт MacBook</h4>
+        <p>
+          Замена дисплея, аккумулятора, клавиатуры и SSD. Ремонт материнской платы,
+          переустановка macOS. MacBook Air и Pro всех поколений.
+        </p>
+        <a href="https://maxmobiles.ru/servis-apple/remont-macbook/"
+           class="mm-service-link"
+           aria-label="Цены на ремонт MacBook в Севастополе — Maxmobiles">
+          Цены на ремонт &rarr;
+        </a>
+      </article>
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
+        <h4>Ремонт iPad</h4>
+        <p>
+          Замена стекла и тачскрина, замена дисплея и аккумулятора.
+          iPad Pro, Air, mini &#8212; все линейки и поколения.
+        </p>
+        <a href="https://maxmobiles.ru/servis-apple/remont-ipad/"
+           class="mm-service-link"
+           aria-label="Цены на ремонт iPad в Севастополе — Maxmobiles">
+          Цены на ремонт &rarr;
+        </a>
+      </article>
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x231A;</span>
+        <h4>Ремонт Apple Watch</h4>
+        <p>
+          Замена дисплея, аккумулятора и стекла. Восстановление после влаги.
+          Watch Series&nbsp;1&#8211;11, SE и Ultra &#8212; все поколения.
+        </p>
+        <a href="https://maxmobiles.ru/servis-apple/remont-apple-watch/"
+           class="mm-service-link"
+           aria-label="Цены на ремонт Apple Watch в Севастополе — Maxmobiles">
+          Цены на ремонт &rarr;
+        </a>
+      </article>
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F5A5;</span>
+        <h4>Ремонт iMac</h4>
+        <p>
+          Диагностика, ремонт материнской платы, замена HDD/SSD и дисплея,
+          восстановление macOS. Все поколения iMac.
+        </p>
+        <a href="https://maxmobiles.ru/servis-apple/remont-imac/"
+           class="mm-service-link"
+           aria-label="Цены на ремонт iMac в Севастополе — Maxmobiles">
+          Цены на ремонт &rarr;
+        </a>
+      </article>
+
+      <article class="mm-service-card" role="listitem"
+               itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F527;</span>
+        <h4>Сложный ремонт</h4>
+        <p>
+          Пайка микросхем, замена Face&nbsp;ID и True&nbsp;Tone, восстановление
+          после воды, гравировка. Берёмся за задачи, от которых отказывают другие сервисы.
+        </p>
+        <a href="https://t.me/maxmobiles_service_bot"
+           class="mm-service-link"
+           target="_blank" rel="noopener"
+           aria-label="Записаться на диагностику сложного ремонта в Telegram">
+          Записаться &rarr;
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ---- Как проходит ремонт (HowTo / AEO) ---- -->
+  <section class="mm-section" aria-labelledby="mm-h3-howto">
+    <h3 id="mm-h3-howto" class="mm-section-title">Как проходит ремонт в Maxmobiles</h3>
+
+    <ol class="mm-howto-steps" role="list"
+        itemscope itemtype="https://schema.org/HowTo"
+        itemprop="step">
+      <li class="mm-howto-step" role="listitem"
+          itemscope itemtype="https://schema.org/HowToStep">
+        <div class="mm-howto-step-body">
+          <strong>Принесите устройство</strong>
+          <p itemprop="text">
+            Приходите в сервис на пр-т Нахимова&nbsp;19 или записывайтесь онлайн
+            через Telegram-бот &#8212; мы подготовим запчасти заранее и примем без очереди.
+          </p>
+        </div>
+      </li>
+      <li class="mm-howto-step" role="listitem"
+          itemscope itemtype="https://schema.org/HowToStep">
+        <div class="mm-howto-step-body">
+          <strong>Диагностика при вас</strong>
+          <p itemprop="text">
+            Инженер проверяет устройство, выявляет неисправность и называет
+            точную стоимость ремонта. Диагностика бесплатна при проведении ремонта.
+          </p>
+        </div>
+      </li>
+      <li class="mm-howto-step" role="listitem"
+          itemscope itemtype="https://schema.org/HowToStep">
+        <div class="mm-howto-step-body">
+          <strong>Ремонт после вашего согласия</strong>
+          <p itemprop="text">
+            Приступаем только после того, как вы одобряете смету.
+            В большинстве случаев ремонт занимает 30–90&nbsp;минут.
+          </p>
+        </div>
+      </li>
+      <li class="mm-howto-step" role="listitem"
+          itemscope itemtype="https://schema.org/HowToStep">
+        <div class="mm-howto-step-body">
+          <strong>Проверка и гарантийный талон</strong>
+          <p itemprop="text">
+            Перед выдачей устройство тестируется по всем параметрам. Вы получаете
+            акт выполненных работ и гарантийный талон.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ---- Преимущества ---- -->
+  <section class="mm-section" aria-labelledby="mm-h3-why">
+    <h3 id="mm-h3-why" class="mm-section-title">Почему Севастополь выбирает Maxmobiles</h3>
+
+    <ul class="mm-advantages-list"
+        aria-label="Преимущества сервисного центра Maxmobiles">
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-icon" aria-hidden="true">&#x1F4C5;</span>
+        <div class="mm-advantage-body">
+          <strong><span class="mm-experience-years">15</span>&nbsp;лет специализации на Apple</strong>
+          <p>Работаем с 2011&nbsp;года &#8212; раньше большинства сервисов в Крыму.
+          За это время восстановлены тысячи устройств, накоплен уникальный опыт
+          с актуальными моделями.</p>
+        </div>
+      </li>
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-icon" aria-hidden="true">&#x1F48E;</span>
+        <div class="mm-advantage-body">
+          <strong>Только оригинальные комплектующие</strong>
+          <p>Никаких «аналогов» &#8212; ваше устройство получает те же детали,
+          что стоят в нём с завода. Это сохраняет правильную цветопередачу
+          экрана, частоту обновления и автономность.</p>
+        </div>
+      </li>
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-icon" aria-hidden="true">&#x26A1;</span>
+        <div class="mm-advantage-body">
+          <strong>Ремонт в день обращения</strong>
+          <p>90% случаев &#8212; замена дисплея, аккумулятора, стекла &#8212;
+          решаем за 30–90&nbsp;минут в вашем присутствии. Пока ждёте:
+          Wi-Fi, iPad, вкусный кофе.</p>
+        </div>
+      </li>
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-icon" aria-hidden="true">&#x1F4CB;</span>
+        <div class="mm-advantage-body">
+          <strong>Прозрачная смета и документы</strong>
+          <p>Стоимость фиксируется до начала работ. Приём по официальному акту,
+          гарантийный талон по окончании &#8212; никаких скрытых доплат,
+          всё фиксируется письменно.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ---- FAQ (AEO: Google Featured Snippets, Яндекс, Алиса) ---- -->
+  <section class="mm-faq" aria-labelledby="mm-h3-faq"
+          >
+    <h3 id="mm-h3-faq" class="mm-section-title">
+      Частые вопросы о ремонте Apple в Севастополе
+    </h3>
+
+    <div class="mm-faq-item"
+        >
+      <p class="mm-faq-question">
+        Сколько стоит ремонт техники Apple в Севастополе?
+      </p>
+      <div class="mm-faq-answer"
+          >
+        <span>
+          Стоимость ремонта Apple в Maxmobiles определяется после диагностики &#8212;
+          цена зависит от модели и вида неисправности. Ремонт начинается только
+          после вашего согласия со сметой: никаких скрытых доплат не бывает.
+          Актуальные цены на каждую модель смотрите в прайс-листах разделов
+          iPhone, MacBook, iPad и Watch на этой странице.
+        </span>
+      </div>
+    </div>
+
+    <div class="mm-faq-item"
+        >
+      <p class="mm-faq-question">
+        Как долго длится ремонт iPhone или MacBook в Севастополе?
+      </p>
+      <div class="mm-faq-answer"
+          >
+        <span>
+          Большинство ремонтов &#8212; замена дисплея, аккумулятора или стекла &#8212;
+          выполняется в день обращения за 30–90&nbsp;минут. Сложные случаи:
+          ремонт материнской платы, восстановление после воды &#8212; от 1 до
+          3&nbsp;рабочих дней. Точные сроки инженер озвучивает сразу на диагностике.
+        </span>
+      </div>
+    </div>
+
+    <div class="mm-faq-item"
+        >
+      <p class="mm-faq-question">
+        Дают ли гарантию на ремонт Apple в Maxmobiles?
+      </p>
+      <div class="mm-faq-answer"
+          >
+        <span>
+          Да. Maxmobiles предоставляет гарантию на все виды ремонта
+          и установленные запчасти. По завершении работ выдаётся гарантийный талон
+          и акт об оказанных услугах. Используем только оригинальные
+          сертифицированные комплектующие Apple &#8212; это исключает повторные
+          обращения по той же неисправности.
+        </span>
+      </div>
+    </div>
+
+    <div class="mm-faq-item"
+        >
+      <p class="mm-faq-question">
+        Что делать, если iPhone не включается или разбит экран?
+      </p>
+      <div class="mm-faq-answer"
+          >
+        <span>
+          Приезжайте в Maxmobiles: Севастополь, пр-т Нахимова&nbsp;19, ежедневно
+          с 10:00 до 20:00. Инженер диагностирует устройство и назовёт причину
+          неисправности. iPhone не включается &#8212; в большинстве случаев
+          аккумулятор или плата, решается в день обращения. Разбитый экран меняем
+          за 30–60&nbsp;минут. Записаться заранее &#8212; через Telegram-бот.
+        </span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ---- CTA ---- -->
+  <section class="mm-cta" aria-labelledby="mm-h3-cta"
+           itemscope itemtype="https://schema.org/Service">
+    <div class="mm-cta-text">
+      <h3 id="mm-h3-cta">
+        Запишитесь на ремонт Apple в Севастополе
+      </h3>
+      <p>
+        Мастер подберёт удобное время, подготовит запчасти заранее и выполнит ремонт
+        без ожидания. Сервисный центр Maxmobiles &#8212; пр-т Нахимова&nbsp;19,
+        ежедневно 10:00&#8211;20:00.
+      </p>
+    </div>
+    <div class="mm-cta-actions">
+      <a href="#"
+         data-repair-modal="1"
+         class="mm-btn mm-btn-primary"
+         aria-label="Записаться на диагностику Apple через Telegram — Maxmobiles">
+        Записаться на диагностику
+      </a>
+      <a href="tel:+79788203001"
+         class="mm-btn mm-btn-secondary"
+         aria-label="Позвонить в сервисный центр Maxmobiles Севастополь"
+         itemprop="telephone">
+        &#x260E;&nbsp; +7&#x2011;978&#x2011;820&#x2011;30&#x2011;01
+      </a>
+    </div>
+  </section>
+
+</div>
+<!-- /mm-block -->
+
+  <!-- Градиент-шторка (внутри overflow:hidden) -->
+  <div class="mm-collapse-fade"></div>
+
+</div>
+<!-- /mm-collapse-content -->
+
+<!-- Кнопка «Показать больше / Скрыть» -->
+<div class="mm-collapse-trigger">
+  <button class="mm-collapse-btn" onclick="mmBlockToggle(this)" aria-expanded="false">
+    <span class="mm-collapse-btn-text">Показать больше</span>
+    <span class="mm-collapse-chevron" aria-hidden="true">
+      <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1.5L7 7.5L13 1.5" stroke="#0071e3" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </button>
+</div>
+
+</div>
+<!-- /mm-collapse-wrapper -->
+
+<!-- ================================================================
+     3. СКРИПТ COLLAPSE
+================================================================ -->
+<script>
+(function () {
+  /* Автоматический расчёт лет опыта с 2011 года */
+  var years = new Date().getFullYear() - 2011;
+  document.querySelectorAll('.mm-experience-years').forEach(function (el) {
+    el.textContent = years;
+  });
+})();
+
+(function () {
+  /* Инициализация: свёрнутое состояние без анимации */
+  var allContents = document.querySelectorAll('.mm-collapse-content');
+  var content = allContents[allContents.length - 1];
+  if (!content) return;
+  content.style.maxHeight = '400px';
+  content.dataset.mmState = 'collapsed';
+  var fade = content.querySelector('.mm-collapse-fade');
+  if (fade) fade.style.opacity = '1';
+})();
+
+function mmBlockToggle(btn) {
+  var trigger  = btn.parentElement;
+  var content  = trigger.previousElementSibling;
+  var fade     = content.querySelector('.mm-collapse-fade');
+  var label    = btn.querySelector('.mm-collapse-btn-text');
+  var wrapper  = trigger.parentElement;
+
+  if (content.dataset.mmState !== 'expanded') {
+    /* ── РАСКРЫТЬ ── */
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'expanded';
+    if (fade)  { fade.style.transition = 'opacity 0.25s ease'; fade.style.opacity = '0'; }
+    btn.classList.add('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    if (label) label.textContent = 'Скрыть';
+    setTimeout(function () {
+      if (content.dataset.mmState === 'expanded') {
+        content.style.transition = '';
+        content.style.maxHeight  = 'none';
+      }
+    }, 580);
+
+  } else {
+    /* ── СВЕРНУТЬ ── */
+    content.style.transition = '';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'collapsing';
+    void content.offsetHeight;
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = '400px';
+    content.dataset.mmState  = 'collapsed';
+    if (fade)  { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
+    btn.classList.remove('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    if (label) label.textContent = 'Показать больше';
+    setTimeout(function () {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+}
+</script>

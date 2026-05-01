@@ -1,0 +1,85 @@
+---
+description: Стандарты для баннер-блоков страниц ремонта Maxmobiles (Block 1). Применяется при редактировании HTML-блоков категорий ремонта.
+globs: Новые категории ремонта/*-block-1.html
+alwaysApply: false
+---
+
+# Стандарты баннер-блока (Block 1)
+
+## CSS-изоляция
+
+Каждый блок имеет уникальный префикс (напр. `mmb1-`). Все классы и ID должны начинаться с этого префикса. Никаких глобальных имён без префикса.
+
+## CS-Cart форма — обязательные атрибуты
+
+```html
+<form action="{""|fn_url}" method="post" enctype="multipart/form-data" novalidate>
+  <input type="hidden" name="fake" value="">          <!-- пустой honeypot -->
+  <input type="hidden" name="page_id" value="XXXX">
+  <input type="hidden" name="dispatch[pages.send_form]" value="">
+</form>
+```
+
+`fake` **всегда пустой** — иначе CS-Cart блокирует отправку как спам.
+
+## Отправка формы через fetch
+
+```javascript
+fetch(form.action, { method: 'POST', body: new FormData(form) }).catch(function () {});
+```
+
+Всегда `form.action`, не `'/'` и не `window.location.href`.
+
+## Модальная форма
+
+Каждый блок-1 содержит собственную модальную форму с:
+- Капчей (3 случайных числа, выбрать правильное)
+- Чекбоксом согласия с политикой конфиденциальности (`/politika-konfidencialnosti/`)
+- Экраном успеха после отправки
+
+## JS — структура
+
+- Весь код внутри IIFE `(function(){ 'use strict'; ... })()`
+- Обёрнут в `{literal}...{/literal}` для CS-Cart Smarty
+- Динамические цены загружаются через **CS-Cart REST API** (один fetch-запрос на категорию)
+
+## Комментарии в коде
+
+Комментарии в CSS, JS и HTML **запрещены**. Код пишется без комментариев сразу.
+
+## Динамические цены — API-подход
+
+Цены в массиве SERVICES **не хранят конкретные значения** — только заглушку `'—'`.
+Актуальная цена подгружается через один API-запрос при загрузке страницы.
+
+```javascript
+var API_URL   = 'https://maxmobiles.ru/api/products/';
+var API_AUTH  = 'Basic ' + btoa('servis-api@maxmobiles.ru:k57Z8R11085Y98m5l7s5JDJlaqsS37P3');
+var CAT_ID    = XXXX;  // ← ID категории CS-Cart для данного устройства
+var CACHE_KEY = 'mmb1_api_' + window.location.pathname;
+var CACHE_TTL = 1800000; /* 30 минут */
+```
+
+**Правила:**
+- `price` и `priceNum` в каждом объекте SERVICES всегда `'— ₽'` и `'—'` — никаких хардкодных чисел
+- HTML-спан `<span id="ПРЕФИКС-price">` в разметке баннера тоже содержит `—` — браузер рендерит его до JS, это второй источник flash
+- Сопоставление: `slug` из поля `url` → `seo_name` в API; `option` → `variant_name` в API
+- Кэш: SessionStorage, 30 минут. При повторном открытии страницы API-запрос не делается
+- Таймаут: AbortController, 8 секунд
+
+**Почему не хардкодим цены:**
+- Цены в block-1 не попадают в featured snippet и не влияют на SEO
+- Хардкодные значения создают мигание (flash) при несовпадении со значением из API
+- Единственный источник истины — CS-Cart; дублировать цены в HTML не нужно
+
+**CAT_ID** — уточняй у пользователя или смотри в CS-Cart: категория устройства → ID в URL админки.
+Эталон соответствия: `iphone-15-pro-max-block-1-api.html` → `CAT_ID = 2260`.
+
+## Шапка модалки
+
+```css
+user-select: none;
+-webkit-user-select: none;
+```
+
+Запрет выделения текста в шапке модального окна.

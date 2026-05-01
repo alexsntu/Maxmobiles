@@ -1,0 +1,739 @@
+<!-- ═══════════════════════════════════════════
+     REPAIR MODAL
+     Триггер: кнопки с текстом "Записаться на ремонт",
+     "Записаться на диагностику", а также data-repair-modal,
+     класс open-repair-modal, href/hash open-repair-modal.
+═══════════════════════════════════════════ -->
+
+<div id="rm-overlay" role="dialog" aria-modal="true" aria-labelledby="rm-title" style="display:none;position:fixed;inset:0;z-index:999999;align-items:center;justify-content:center;padding:16px">
+
+  <div id="rm-box">
+
+    <!-- Шапка с градиентом -->
+    <div id="rm-hero">
+      <button id="rm-close" type="button" aria-label="Закрыть">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div id="rm-hero-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 id="rm-title">Оставить заявку на&nbsp;ремонт</h2>
+      <p id="rm-sub">Перезвоним в течение <strong>30 минут</strong> и уточним детали</p>
+
+      <div id="rm-trust">
+        <div class="rm-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Гарантия на работы
+        </div>
+        <div class="rm-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Опыт с 2011 года
+        </div>
+      </div>
+    </div>
+
+    <!-- Тело формы -->
+    <div id="rm-body">
+      <div id="rm-form-wrap">
+
+        <form
+          id="rm-form"
+          action="{""|fn_url}"
+          method="post"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          <input type="hidden" name="fake" value="">
+          <input type="hidden" name="page_id" value="1078">
+          <input type="hidden" name="dispatch[pages.send_form]" value="">
+          <input type="hidden" name="form_values[734]" id="rm-category">
+
+          <!-- Категория ремонта (видимая, только для чтения) -->
+          <div id="rm-service-tag-wrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="rm-service-tag"></span>
+          </div>
+
+          <div class="rm-field">
+            <label for="rm-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+              Ваше имя
+            </label>
+            <input type="text" id="rm-name" name="form_values[735]" placeholder="Как вас зовут?" autocomplete="given-name" required>
+            <span class="rm-error">Пожалуйста, введите имя</span>
+          </div>
+
+          <div class="rm-field">
+            <label for="rm-phone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.47 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Номер телефона
+            </label>
+            <input type="tel" id="rm-phone" name="form_values[736]" placeholder="+7 (978) 000-00-00" autocomplete="tel" required>
+            <span class="rm-error">Пожалуйста, введите номер телефона</span>
+          </div>
+
+          <div class="rm-field">
+            <label for="rm-comment">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Что случилось с устройством?
+              <em>необязательно</em>
+            </label>
+            <textarea id="rm-comment" name="form_values[741]" rows="3" placeholder="Разбит экран, не заряжается, упал в воду…"></textarea>
+          </div>
+
+          <!-- Капча -->
+          <div class="rm-field" id="rm-captcha-field">
+            <label>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Защита от роботов
+            </label>
+            <div id="rm-captcha-wrap">
+              <p id="rm-captcha-q"></p>
+              <div id="rm-captcha-btns">
+                <button type="button" class="rm-cap-btn" data-idx="0"></button>
+                <button type="button" class="rm-cap-btn" data-idx="1"></button>
+                <button type="button" class="rm-cap-btn" data-idx="2"></button>
+              </div>
+            </div>
+            <span class="rm-error" id="rm-captcha-err">Выберите правильное число</span>
+          </div>
+
+          <!-- Чекбокс согласия -->
+          <div id="rm-agree-wrap">
+            <label id="rm-agree-label" for="rm-agree">
+              <input type="checkbox" id="rm-agree" name="personal_data" value="Y">
+              <span id="rm-agree-box">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span id="rm-agree-text">Я согласен с <a href="/politika-konfidencialnosti/" target="_blank" rel="noopener" onclick="event.stopPropagation()">политикой конфиденциальности</a> и даю согласие на обработку персональных данных</span>
+            </label>
+            <span class="rm-error" id="rm-agree-err">Необходимо принять условия</span>
+          </div>
+
+          <button type="submit" id="rm-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Отправить заявку
+          </button>
+        </form>
+
+      </div>
+
+      <!-- Экран успеха -->
+      <div id="rm-success" style="display:none">
+        <div id="rm-success-anim">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="32" fill="#34C759" fill-opacity="0.1"/>
+            <circle cx="32" cy="32" r="24" fill="#34C759" fill-opacity="0.15"/>
+            <path d="M20 32L28 40L44 24" stroke="#34C759" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Заявка отправлена!</h3>
+        <p>Мы перезвоним вам в течение <strong>30 минут</strong> и уточним детали ремонта.</p>
+        <div id="rm-success-contacts">
+          <a href="tel:+78002508158">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.47 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            8 (800) 250-81-58
+          </a>
+          <a href="https://t.me/maxmobiles_service_bot" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.685a2.25 2.25 0 0 0 .126 4.238l3.871 1.204 1.868 5.608a.75.75 0 0 0 1.27.255l2.565-2.935 4.233 3.098a2.25 2.25 0 0 0 3.518-1.528l2.333-16.5a2.25 2.25 0 0 0-2.262-2.34z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Написать в Telegram
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{literal}
+<style>
+/* ─── Overlay ─── */
+#rm-overlay {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Box ─── */
+#rm-box {
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+  animation: rm-pop .3s cubic-bezier(0.34,1.56,0.64,1) both;
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+}
+@keyframes rm-pop {
+  from { opacity:0; transform: scale(0.92) translateY(16px); }
+  to   { opacity:1; transform: scale(1)    translateY(0); }
+}
+
+/* ─── Hero (градиентная шапка) ─── */
+#rm-hero {
+  background: linear-gradient(135deg, #0055b3 0%, #0071e3 50%, #2196f3 100%);
+  padding: 18px 24px 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Декоративные круги в фоне шапки */
+#rm-hero::before,
+#rm-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+#rm-hero::before { width: 180px; height: 180px; right: -40px; top: -60px; }
+#rm-hero::after  { width: 120px; height: 120px; right: 60px;  bottom: -40px; }
+
+/* Кнопка закрытия */
+#rm-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 30px; height: 30px;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s;
+  z-index: 2;
+  flex-shrink: 0;
+}
+#rm-close:hover { background: rgba(255,255,255,0.3); }
+
+/* Иконка инструмента */
+#rm-hero-icon {
+  display: none;
+}
+
+/* Заголовок */
+#rm-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0 0 5px;
+  position: relative; z-index: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+/* Подзаголовок */
+#rm-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  margin: 0 0 13px;
+  line-height: 1.4;
+  position: relative; z-index: 1;
+}
+#rm-sub strong { color: #fff; }
+
+/* Трастовые метки */
+#rm-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  position: relative; z-index: 1;
+}
+.rm-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 4px 9px;
+}
+
+/* ─── Body (белая часть) ─── */
+#rm-body {
+  background: #ffffff;
+  padding: 20px 24px 18px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ─── Поля ─── */
+.rm-field {
+  margin-bottom: 12px;
+}
+.rm-field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 7px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.rm-field label svg { color: #0071e3; flex-shrink: 0; }
+.rm-field label em {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 400;
+  color: #aeaeb2;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: auto;
+}
+.rm-field input,
+.rm-field textarea {
+  display: block;
+  width: 100%;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 13px 15px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1c1c1e;
+  outline: none;
+  background: #f9f9fb;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+.rm-field input:focus,
+.rm-field textarea:focus {
+  border-color: #0071e3;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.rm-field input.rm-invalid,
+.rm-field textarea.rm-invalid {
+  border-color: #ff3b30;
+  background: #fff9f9;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.rm-field textarea {
+  resize: vertical;
+  min-height: 68px;
+  line-height: 1.5;
+}
+.rm-error {
+  display: none;
+  font-size: 12px;
+  color: #ff3b30;
+  margin-top: 5px;
+  padding-left: 2px;
+}
+.rm-field input.rm-invalid ~ .rm-error { display: block; }
+
+/* ─── Кнопка отправки ─── */
+#rm-submit {
+  width: 100%;
+  background: linear-gradient(135deg, #0055b3 0%, #0071e3 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 4px 16px rgba(0,113,227,0.35);
+}
+#rm-submit:hover  { opacity: 0.92; box-shadow: 0 6px 20px rgba(0,113,227,0.45); }
+#rm-submit:active { transform: scale(0.98); }
+#rm-submit:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+
+/* ─── Политика ─── */
+#rm-privacy {
+  font-size: 11px;
+  color: #aeaeb2;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+#rm-privacy a { color: #0071e3; text-decoration: none; }
+#rm-privacy a:hover { text-decoration: underline; }
+
+/* ─── Экран успеха ─── */
+#rm-success {
+  text-align: center;
+  padding: 8px 0 4px;
+}
+#rm-success-anim {
+  margin-bottom: 20px;
+}
+#rm-success h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1c1c1e;
+  margin: 0 0 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+#rm-success p {
+  font-size: 15px;
+  color: #6e6e73;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+#rm-success p strong { color: #1c1c1e; }
+
+#rm-success-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#rm-success-contacts a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+#rm-success-contacts a:first-child {
+  background: #f2f2f7;
+  color: #1c1c1e;
+}
+#rm-success-contacts a:first-child:hover { background: #e5e5ea; }
+#rm-success-contacts a:last-child {
+  background: #0071e3;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,113,227,0.3);
+}
+#rm-success-contacts a:last-child:hover { background: #0066cc; }
+
+/* ─── Тег категории ремонта ─── */
+#rm-service-tag-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(0,113,227,0.07);
+  border: 1.5px solid rgba(0,113,227,0.2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  margin-bottom: 12px;
+  color: #0055b3;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+#rm-service-tag-wrap svg { flex-shrink: 0; color: #0071e3; }
+
+/* ─── Капча ─── */
+#rm-captcha-wrap {
+  background: #f9f9fb;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+#rm-captcha-q {
+  font-size: 13px;
+  color: #3a3a3c;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+#rm-captcha-btns {
+  display: flex;
+  gap: 10px;
+}
+.rm-cap-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border: 2px solid #e5e5ea;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1c1e;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.rm-cap-btn:hover { border-color: #0071e3; color: #0071e3; background: rgba(0,113,227,0.04); }
+.rm-cap-btn.rm-cap-selected { border-color: #0071e3; background: rgba(0,113,227,0.08); color: #0071e3; }
+.rm-cap-btn.rm-cap-correct  { border-color: #34c759; background: rgba(52,199,89,0.1);  color: #34c759; }
+.rm-cap-btn.rm-cap-wrong    { border-color: #ff3b30; background: rgba(255,59,48,0.08); color: #ff3b30; animation: rm-shake .3s ease; }
+@keyframes rm-shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-4px); }
+  75%     { transform: translateX(4px); }
+}
+#rm-captcha-field.rm-cap-invalid #rm-captcha-wrap {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+#rm-captcha-field.rm-cap-invalid #rm-captcha-err { display: block; }
+
+/* ─── Чекбокс согласия ─── */
+#rm-agree-wrap {
+  margin-bottom: 16px;
+}
+#rm-agree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+#rm-agree { display: none; }
+#rm-agree-box {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border: 2px solid #d1d1d6;
+  border-radius: 6px;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  margin-top: 1px;
+}
+#rm-agree-box svg { opacity: 0; transition: opacity 0.15s; }
+#rm-agree:checked + #rm-agree-box {
+  background: #0071e3;
+  border-color: #0071e3;
+}
+#rm-agree:checked + #rm-agree-box svg { opacity: 1; }
+#rm-agree-wrap.rm-agree-invalid #rm-agree-box {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+#rm-agree-wrap.rm-agree-invalid #rm-agree-err { display: block; }
+#rm-agree-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; padding-left: 30px; }
+#rm-agree-text {
+  font-size: 12.5px;
+  color: #6e6e73;
+  line-height: 1.45;
+}
+#rm-agree-text a { color: #0071e3; text-decoration: none; }
+#rm-agree-text a:hover { text-decoration: underline; }
+
+/* ─── Mobile ─── */
+@media (max-width: 480px) {
+  #rm-hero  { padding: 12px 16px 12px; }
+  #rm-title { font-size: 16px; }
+  #rm-body  { padding: 16px 16px 14px; }
+  #rm-box   { border-radius: 18px; }
+  #rm-hero::before,
+  #rm-hero::after { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var overlay   = document.getElementById('rm-overlay');
+  var btnClose  = document.getElementById('rm-close');
+  var form      = document.getElementById('rm-form');
+  var formWrap  = document.getElementById('rm-form-wrap');
+  var success   = document.getElementById('rm-success');
+  var catField  = document.getElementById('rm-category');
+  var submitBtn = document.getElementById('rm-submit');
+
+  function getPageH1() {
+    var h1 = document.querySelector('h1');
+    return h1 ? h1.textContent.trim() : '';
+  }
+
+  /* ── Капча ── */
+  var captchaCorrect = null;
+  var captchaSelected = null;
+  var captchaSolved = false;
+
+  function generateCaptcha() {
+    var nums = [];
+    while (nums.length < 3) {
+      var n = Math.floor(Math.random() * 89) + 10;
+      if (nums.indexOf(n) === -1) nums.push(n);
+    }
+    /* Перемешиваем */
+    nums.sort(function() { return Math.random() - 0.5; });
+    /* Выбираем случайный индекс как правильный ответ */
+    var correctIdx = Math.floor(Math.random() * 3);
+    captchaCorrect = nums[correctIdx];
+    captchaSelected = null;
+    captchaSolved = false;
+
+    var qEl = document.getElementById('rm-captcha-q');
+    qEl.innerHTML = 'Нажмите на число <strong>' + captchaCorrect + '</strong>:';
+
+    var btns = document.querySelectorAll('.rm-cap-btn');
+    btns.forEach(function(btn, i) {
+      btn.textContent = nums[i];
+      btn.dataset.num = nums[i];
+      btn.className = 'rm-cap-btn';
+    });
+
+    var field = document.getElementById('rm-captcha-field');
+    field.classList.remove('rm-cap-invalid');
+  }
+
+  document.getElementById('rm-captcha-btns').addEventListener('click', function(e) {
+    var btn = e.target.closest('.rm-cap-btn');
+    if (!btn) return;
+    var val = parseInt(btn.dataset.num, 10);
+    captchaSelected = val;
+
+    document.querySelectorAll('.rm-cap-btn').forEach(function(b) {
+      b.className = 'rm-cap-btn';
+    });
+    document.getElementById('rm-captcha-field').classList.remove('rm-cap-invalid');
+
+    if (val === captchaCorrect) {
+      btn.classList.add('rm-cap-correct');
+      captchaSolved = true;
+    } else {
+      btn.classList.add('rm-cap-wrong');
+      captchaSolved = false;
+      /* Через 800ms перегенерируем */
+      setTimeout(generateCaptcha, 900);
+    }
+  });
+
+  function openModal() {
+    formWrap.style.display = 'block';
+    success.style.display  = 'none';
+    form.reset();
+    var h1text = getPageH1();
+    catField.value = h1text;
+    /* Показываем H1 пользователю */
+    var tagEl = document.getElementById('rm-service-tag');
+    if (tagEl) tagEl.textContent = h1text || 'Ремонт устройства';
+    submitBtn.disabled = false;
+    /* Сбрасываем чекбокс и капчу */
+    document.getElementById('rm-agree-wrap').classList.remove('rm-agree-invalid');
+    generateCaptcha();
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      var first = form.querySelector('input:not([type=hidden])');
+      if (first) first.focus();
+    }, 60);
+  }
+
+  function closeModal() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function validateField(input) {
+    var empty = !input.value.trim();
+    input.classList.toggle('rm-invalid', empty);
+    return !empty;
+  }
+
+  var TRIGGER_TEXTS = ['записаться на ремонт', 'записаться на диагностику'];
+
+  function isModalTrigger(el) {
+    var link = el.closest('a, button');
+    if (!link || link.id === 'rm-close' || link.id === 'rm-submit') return false;
+    if (link.hasAttribute('data-repair-modal') || link.classList.contains('open-repair-modal')) return true;
+    var href = link.getAttribute('href') || '';
+    if (href.indexOf('open-repair-modal') !== -1) return true;
+    var text = (link.textContent || '').toLowerCase().trim();
+    for (var i = 0; i < TRIGGER_TEXTS.length; i++) {
+      if (text.indexOf(TRIGGER_TEXTS[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  document.addEventListener('click', function (e) {
+    if (isModalTrigger(e.target)) { e.preventDefault(); openModal(); }
+  });
+
+  if (window.location.hash.indexOf('open-repair-modal') !== -1) {
+    setTimeout(openModal, 300);
+  }
+
+  window.openRepairModal = openModal;
+
+  btnClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.style.display !== 'none') closeModal();
+  });
+
+  /* ── Маска телефона ── */
+  (function () {
+    var phone = document.getElementById('rm-phone');
+    function applyMask(raw) {
+      var d = raw.replace(/\D/g, '');
+      if (d.length > 0 && (d[0] === '7' || d[0] === '8')) d = d.slice(1);
+      d = d.slice(0, 10);
+      var r = '+7';
+      if (d.length > 0) r += ' (' + d.slice(0, 3);
+      if (d.length >= 3) r += ') ' + d.slice(3, 6);
+      if (d.length >= 6) r += '-' + d.slice(6, 8);
+      if (d.length >= 8) r += '-' + d.slice(8, 10);
+      return r;
+    }
+    phone.addEventListener('focus', function () { if (!phone.value) phone.value = '+7 ('; });
+    phone.addEventListener('input', function () {
+      var pos = phone.selectionStart, before = phone.value.length;
+      phone.value = applyMask(phone.value);
+      var diff = phone.value.length - before;
+      phone.setSelectionRange(Math.max(0, pos + diff), Math.max(0, pos + diff));
+    });
+    phone.addEventListener('blur', function () { if (/^\+7[\s(]*$/.test(phone.value)) phone.value = ''; });
+    phone.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && phone.selectionStart === phone.selectionEnd) {
+        var pos = phone.selectionStart, ch = phone.value[pos - 1];
+        if (ch && !/\d/.test(ch)) {
+          e.preventDefault();
+          phone.value = applyMask(phone.value.slice(0, pos - 1) + phone.value.slice(pos));
+          phone.setSelectionRange(Math.max(0, pos - 1), Math.max(0, pos - 1));
+        }
+      }
+    });
+  })();
+
+  /* ── Отправка ── */
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nameOk  = validateField(document.getElementById('rm-name'));
+    var phoneOk = validateField(document.getElementById('rm-phone'));
+
+    /* Проверяем чекбокс */
+    var agreeEl   = document.getElementById('rm-agree');
+    var agreeWrap = document.getElementById('rm-agree-wrap');
+    var agreeOk   = agreeEl.checked;
+    agreeWrap.classList.toggle('rm-agree-invalid', !agreeOk);
+
+    /* Проверяем капчу */
+    var capField = document.getElementById('rm-captcha-field');
+    var capOk    = captchaSolved;
+    capField.classList.toggle('rm-cap-invalid', !capOk);
+
+    if (!nameOk || !phoneOk || !agreeOk || !capOk) return;
+
+    submitBtn.disabled = true;
+    fetch(form.action, { method: 'POST', body: new FormData(form) }).catch(function () {});
+    formWrap.style.display = 'none';
+    success.style.display  = 'block';
+    setTimeout(closeModal, 6000);
+  });
+
+  ['rm-name', 'rm-phone'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () { el.classList.remove('rm-invalid'); });
+  });
+
+})();
+</script>
+{/literal}

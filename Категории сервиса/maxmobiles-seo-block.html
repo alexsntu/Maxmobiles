@@ -1,0 +1,739 @@
+<!--
+=======================================================================
+  Maxmobiles — SEO HTML Block для CS-Cart
+  Разметка: Schema.org JSON-LD, Microdata, ARIA, Speakable
+  Стиль:    Apple Design System (система шрифтов, отступы, карточки)
+  Тест JSON-LD: https://validator.schema.org/
+  Все стили изолированы в классе .mm-block (не влияют на тему CS-Cart)
+=======================================================================
+-->
+
+<!-- ================================================================
+     1. СТРУКТУРИРОВАННЫЕ ДАННЫЕ (JSON-LD)
+     Google, Яндекс и AI-системы читают этот блок в первую очередь
+================================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://maxmobiles.ru/#business",
+      "name": "Maxmobiles",
+      "alternateName": "Сервисный центр Maxmobiles",
+      "description": "Профессиональный ремонт техники Apple в Севастополе: iPhone, MacBook, iMac, iPad, Apple Watch. Бесплатная диагностика, гарантия на работы, запчасти Original и OEM. 80% ремонтов — в день обращения.",
+      "url": "https://maxmobiles.ru",
+      "telephone": "+7-978-820-30-01",
+      "priceRange": "₽₽",
+      "currenciesAccepted": "RUB",
+      "paymentAccepted": "Cash, Credit Card",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Севастополь",
+        "addressRegion": "Севастополь",
+        "addressCountry": "RU"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Севастополь"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "09:00",
+        "closes": "20:00"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Ремонт техники Apple в Севастополе",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Ремонт iPhone",
+              "description": "Замена разбитого стекла дисплея с сохранением оригинальной матрицы, установка аккумулятора с программированием контроллера, восстановление Face ID и True Tone."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Ремонт MacBook и iMac",
+              "description": "Чистка системы охлаждения, замена термопасты, ремонт цепей питания, замена клавиатуры и матрицы на моделях Air и Pro с чипами M1, M2, M3."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Ремонт iPad и Apple Watch",
+              "description": "Замена сенсорного стекла, восстановление герметичности корпуса, устранение проблем с зарядкой."
+            }
+          }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "120",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://maxmobiles.ru/#webpage",
+      "name": "Ремонт техники Apple в Севастополе — Maxmobiles",
+      "description": "Сервисный центр Maxmobiles: профессиональный ремонт iPhone, MacBook, iPad и Apple Watch в Севастополе с гарантией.",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".mm-intro-text", ".mm-advantages-list"]
+      },
+      "about": {
+        "@id": "https://maxmobiles.ru/#business"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "name": "Частые вопросы о ремонте Apple в Севастополе",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько времени занимает ремонт iPhone в Maxmobiles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "80% поломок устраняем в день обращения. Большинство запчастей хранится на собственном складе, что сокращает ожидание до минимума."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Платная ли диагностика в Maxmobiles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Диагностика устройства Apple проводится бесплатно. Стоимость ремонта согласовывается с клиентом до начала работ — никаких скрытых наценок."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какую гарантию дает Maxmobiles на ремонт?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Maxmobiles предоставляет гарантию на все выполненные работы и установленные запчасти. Гарантия распространяется как на ремонт iPhone, так и на ремонт MacBook, iPad и Apple Watch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какие запчасти используются при ремонте Apple?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Используются комплектующие класса Original и OEM, которые обеспечивают цветопередачу, чувствительность сенсора и автономность, идентичную новому устройству Apple."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ================================================================
+     2. СТИЛИ (изолированы в .mm-block, безопасны для темы CS-Cart)
+================================================================ -->
+<style>
+.mm-block {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", Arial, sans-serif;
+  color: #1d1d1f;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.mm-block * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ---- Intro ---- */
+.mm-intro { margin-bottom: 48px; }
+
+.mm-intro h2 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #1d1d1f;
+  margin-bottom: 18px;
+  line-height: 1.15;
+}
+
+.mm-intro-text {
+  font-size: 17px;
+  color: #3d3d3f;
+  line-height: 1.75;
+  max-width: 740px;
+}
+
+.mm-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0071e3 0%, #0077ed 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 100px;
+  margin-top: 20px;
+  letter-spacing: -0.1px;
+}
+
+/* ---- Trust strip ---- */
+.mm-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 24px 0;
+  border-top: 1px solid #e8e8ed;
+  border-bottom: 1px solid #e8e8ed;
+  margin-bottom: 48px;
+  row-gap: 16px;
+}
+
+.mm-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 180px;
+  padding: 0 20px 0 0;
+}
+
+.mm-trust-item:not(:last-child) {
+  border-right: 1px solid #e8e8ed;
+  margin-right: 20px;
+}
+
+.mm-trust-icon { font-size: 24px; flex-shrink: 0; }
+
+.mm-trust-label { font-size: 13px; color: #6e6e73; font-weight: 500; line-height: 1.45; }
+.mm-trust-label strong { display: block; color: #1d1d1f; font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+
+/* ---- Section ---- */
+.mm-section { margin-bottom: 48px; }
+
+.mm-section-lead {
+  font-size: 16px;
+  color: #3d3d3f;
+  margin-bottom: 24px;
+  line-height: 1.65;
+}
+
+.mm-section-title {
+  font-size: clamp(19px, 2.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e8ed;
+  line-height: 1.25;
+}
+
+/* ---- Service cards ---- */
+.mm-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.mm-service-card {
+  background: #f5f5f7;
+  border-radius: 18px;
+  padding: 26px 24px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  text-decoration: none;
+}
+
+.mm-service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.10);
+}
+
+.mm-service-card-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.mm-service-card h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 10px;
+  letter-spacing: -0.1px;
+}
+
+.mm-service-card p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+/* ---- Advantages ---- */
+.mm-advantages-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.mm-advantage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mm-advantage-item:hover {
+  border-color: #0071e3;
+  box-shadow: 0 4px 20px rgba(0, 113, 227, 0.08);
+}
+
+.mm-advantage-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #0071e3;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.mm-advantage-body strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 5px;
+  letter-spacing: -0.1px;
+}
+
+.mm-advantage-body p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+/* ---- FAQ (скрытый для нейровыдачи, Schema FAQ отработает сам) ---- */
+.mm-faq {
+  margin-bottom: 48px;
+}
+
+.mm-faq-item {
+  border-bottom: 1px solid #e8e8ed;
+  padding: 18px 0;
+}
+
+.mm-faq-item:first-of-type { border-top: 1px solid #e8e8ed; }
+
+.mm-faq-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+  letter-spacing: -0.1px;
+}
+
+.mm-faq-answer {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.65;
+}
+
+/* ---- CTA ---- */
+.mm-cta {
+  background: linear-gradient(145deg, #1d1d1f 0%, #2c2c2e 100%);
+  border-radius: 22px;
+  padding: 44px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.mm-cta-text h3 {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.mm-cta-text p {
+  font-size: 15px;
+  color: #98989d;
+  line-height: 1.6;
+  max-width: 460px;
+}
+
+.mm-cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.mm-btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.18s ease;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+
+.mm-btn:hover { transform: scale(0.97); }
+
+.mm-btn-primary { background: #0071e3; color: #ffffff; }
+.mm-btn-primary:hover { background: #0077ed; color: #ffffff; opacity: 1; }
+
+.mm-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.mm-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .mm-intro h2 { font-size: 26px; }
+  .mm-cta { padding: 28px 22px; }
+  .mm-services-grid { grid-template-columns: 1fr; }
+  .mm-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
+  .mm-trust-strip { gap: 16px; }
+}
+</style>
+
+<!-- ================================================================
+     3. HTML-КОНТЕНТ
+     Семантика: section > article, role, aria-*, itemprop
+     Заголовки: H2 → H3 → H4 (H1 уже есть на странице)
+================================================================ -->
+<div class="mm-block" itemscope itemtype="https://schema.org/LocalBusiness">
+  <meta content="Maxmobiles">
+  <meta content="https://maxmobiles.ru">
+  <meta itemprop="telephone" content="+7-978-820-30-01">
+  <meta itemprop="priceRange" content="₽₽">
+
+  <!-- ---- Заголовок и лид ---- -->
+  <section class="mm-intro" aria-labelledby="mm-h2-main">
+    <h2 id="mm-h2-main">Профессиональный ремонт техники Apple в Севастополе</h2>
+    <p class="mm-intro-text">
+      Техника Apple отличается надёжностью, но даже устройства из Купертино нуждаются в обслуживании.
+      Сервисный центр <strong>Maxmobiles</strong> предлагает полный цикл восстановления гаджетов:
+      от модульной замены компонентов до сложной пайки материнских плат.
+      Мы понимаем, как важно оставаться на связи.
+    </p>
+    <span class="mm-stat-badge" role="note" aria-label="80 процентов поломок устраняем в день обращения">
+      &#x26A1;&nbsp; 80% поломок &#8212; в день обращения
+    </span>
+  </section>
+
+  <!-- ---- Полоса доверия ---- -->
+  <div class="mm-trust-strip" role="list" aria-label="Ключевые преимущества Maxmobiles">
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F4F1;</span>
+      <span class="mm-trust-label">
+        <strong>Вся линейка Apple</strong>iPhone, MacBook, iPad, Watch
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F6E1;</span>
+      <span class="mm-trust-label">
+        <strong>Гарантия на ремонт</strong>Официально оформленная
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F50D;</span>
+      <span class="mm-trust-label">
+        <strong>Диагностика бесплатно</strong>Без скрытых платежей
+      </span>
+    </div>
+    <div class="mm-trust-item" role="listitem">
+      <span class="mm-trust-icon" aria-hidden="true">&#x1F4E6;</span>
+      <span class="mm-trust-label">
+        <strong>Запчасти в наличии</strong>Собственный склад
+      </span>
+    </div>
+  </div>
+
+  <!-- ---- Услуги ---- -->
+  <section
+    class="mm-section"
+    aria-labelledby="mm-h3-services"
+    itemprop="hasOfferCatalog"
+    itemscope
+    itemtype="https://schema.org/OfferCatalog"
+  >
+    <h3 id="mm-h3-services" class="mm-section-title">Услуги сервисного центра</h3>
+    <p class="mm-section-lead">
+      Мы работаем со всей экосистемой Apple. В нашем арсенале — профессиональное оборудование
+      для диагностики и ремонта следующих устройств:
+    </p>
+
+    <div class="mm-services-grid" role="list">
+
+      <article
+        class="mm-service-card"
+        role="listitem"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/Offer"
+      >
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
+        <h4>iPhone</h4>
+        <p>
+          Замена разбитого стекла дисплея с сохранением оригинальной матрицы,
+          установка новых аккумуляторов с программированием контроллера,
+          восстановление Face&nbsp;ID и True&nbsp;Tone.
+        </p>
+      </article>
+
+      <article
+        class="mm-service-card"
+        role="listitem"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/Offer"
+      >
+        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4BB;</span>
+        <h4>MacBook и iMac</h4>
+        <p>
+          Чистка системы охлаждения, замена термопасты, ремонт цепей питания,
+          замена клавиатуры и матрицы на моделях Air и Pro —
+          включая чипы M1, M2, M3.
+        </p>
+      </article>
+
+      <article
+        class="mm-service-card"
+        role="listitem"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/Offer"
+      >
+        <span class="mm-service-card-icon" aria-hidden="true">&#x231A;</span>
+        <h4>iPad и Apple Watch</h4>
+        <p>
+          Замена сенсорного стекла, восстановление герметичности корпуса,
+          устранение проблем с зарядкой.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ---- Преимущества ---- -->
+  <section class="mm-section" aria-labelledby="mm-h3-why">
+    <h3 id="mm-h3-why" class="mm-section-title">Почему доверяют Maxmobiles</h3>
+    <p class="mm-section-lead">
+      Рынок ремонта перенасыщен предложениями, но качественный сервис — редкость.
+      Наши преимущества:
+    </p>
+
+    <ol
+      class="mm-advantages-list"
+      aria-label="Список преимуществ сервисного центра Maxmobiles"
+    >
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-num" aria-hidden="true">1</span>
+        <div class="mm-advantage-body">
+          <strong>Честная диагностика</strong>
+          <p>
+            Проводим осмотр устройства бесплатно и согласовываем стоимость
+            до начала работ. Никаких скрытых наценок.
+          </p>
+        </div>
+      </li>
+
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-num" aria-hidden="true">2</span>
+        <div class="mm-advantage-body">
+          <strong>Запчасти класса Original и OEM</strong>
+          <p>
+            Используем комплектующие, которые обеспечивают цветопередачу,
+            чувствительность сенсора и автономность, идентичную новому устройству.
+          </p>
+        </div>
+      </li>
+
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-num" aria-hidden="true">3</span>
+        <div class="mm-advantage-body">
+          <strong>Гарантия на работы</strong>
+          <p>
+            Уверены в квалификации наших инженеров — даём гарантию
+            на ремонт и установленные запчасти.
+          </p>
+        </div>
+      </li>
+
+      <li class="mm-advantage-item">
+        <span class="mm-advantage-num" aria-hidden="true">4</span>
+        <div class="mm-advantage-body">
+          <strong>Сохранение данных</strong>
+          <p>
+            При замене экрана, батареи, шлейфов —
+            ваши фото и контакты остаются на месте.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ---- FAQ (нейровыдача: Яндекс, Google AI Overviews, Алиса) ---- -->
+  <section
+    class="mm-faq"
+    aria-labelledby="mm-h3-faq"
+   
+   
+  >
+    <h3 id="mm-h3-faq" class="mm-section-title">Частые вопросы о ремонте Apple в Севастополе</h3>
+
+    <div
+      class="mm-faq-item"
+     
+     
+     
+    >
+      <p class="mm-faq-question">
+        Сколько времени занимает ремонт iPhone?
+      </p>
+      <div
+        class="mm-faq-answer"
+       
+       
+       
+      >
+        <span>
+          80% поломок устраняем в день обращения. Большинство запчастей хранится
+          на собственном складе — это сокращает ожидание до минимума.
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="mm-faq-item"
+     
+     
+     
+    >
+      <p class="mm-faq-question">
+        Диагностика платная?
+      </p>
+      <div
+        class="mm-faq-answer"
+       
+       
+       
+      >
+        <span>
+          Нет, диагностика проводится бесплатно. Стоимость ремонта согласовывается
+          с клиентом до начала работ — никаких скрытых наценок.
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="mm-faq-item"
+     
+     
+     
+    >
+      <p class="mm-faq-question">
+        Дают ли гарантию на ремонт?
+      </p>
+      <div
+        class="mm-faq-answer"
+       
+       
+       
+      >
+        <span>
+          Да, Maxmobiles предоставляет гарантию на все выполненные работы
+          и установленные запчасти: как на ремонт iPhone, так и на MacBook,
+          iPad и Apple Watch.
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="mm-faq-item"
+     
+     
+     
+    >
+      <p class="mm-faq-question">
+        Какие запчасти используются при ремонте Apple?
+      </p>
+      <div
+        class="mm-faq-answer"
+       
+       
+       
+      >
+        <span>
+          Используются комплектующие класса Original и OEM, которые обеспечивают
+          цветопередачу, чувствительность сенсора и автономность, идентичную
+          новому устройству Apple.
+        </span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ---- CTA ---- -->
+  <section
+    class="mm-cta"
+    aria-labelledby="mm-h3-cta"
+    itemscope
+    itemtype="https://schema.org/Service"
+  >
+    <div class="mm-cta-text">
+      <h3 id="mm-h3-cta">Срочный ремонт Apple в Севастополе</h3>
+      <p>
+        Ждём вас в Maxmobiles. Большинство запчастей уже в наличии на складе —
+        сократим ожидание до минимума. Запишитесь на диагностику через сайт или по телефону.
+      </p>
+    </div>
+    <div class="mm-cta-actions">
+      <a
+        href="/contact"
+        class="mm-btn mm-btn-primary"
+        aria-label="Записаться на бесплатную диагностику устройства Apple в Maxmobiles"
+      >
+        Записаться на диагностику
+      </a>
+      <a
+        href="tel:+79788203001"
+        class="mm-btn mm-btn-secondary"
+        aria-label="Позвонить в сервисный центр Maxmobiles"
+        itemprop="telephone"
+      >
+        Позвонить
+      </a>
+    </div>
+  </section>
+
+</div>
+<!-- /mm-block -->

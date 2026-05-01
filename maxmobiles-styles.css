@@ -1,0 +1,951 @@
+/*
+=======================================================================
+  Maxmobiles — Стили SEO HTML-блоков
+  Подключение: Дизайн → Темы → Редактировать → Свой CSS
+  Все стили изолированы в .mm-block и не влияют на тему CS-Cart
+  Версия: актуальная
+=======================================================================
+
+  Содержание:
+  1. Основа
+  2. Intro (H2, лид, бейдж)
+  3. Trust strip
+  4. Section
+  5. Service cards
+  6. Advantages
+  7. Highlight box
+  8. FAQ
+  9. CTA + кнопки
+  10. Responsive (≤640px)
+  11. Collapse / Expand механизм
+=======================================================================
+*/
+
+
+/* ================================================================
+   1. Основа
+================================================================ */
+.mm-block {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", Arial, sans-serif;
+  color: #1d1d1f;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mm-block * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ================================================================
+   2. Intro
+================================================================ */
+.mm-intro {
+  margin-bottom: 48px;
+}
+
+.mm-intro h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #1d1d1f;
+  margin-bottom: 18px;
+  line-height: 1.15;
+}
+
+.mm-intro-text {
+  font-size: 17px;
+  color: #3d3d3f;
+  line-height: 1.75;
+  max-width: 740px;
+}
+
+/* Бейдж-таблетка под лид-абзацем */
+.mm-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  background: linear-gradient(135deg, #0071e3 0%, #0077ed 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 100px;
+  margin-top: 20px;
+  letter-spacing: -0.1px;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.mm-badge-item {
+  color: #ffffff;
+}
+
+.mm-badge-sep {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+
+/* ================================================================
+   3. Trust strip
+================================================================ */
+.mm-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid #e8e8ed;
+  border-bottom: 1px solid #e8e8ed;
+  margin-bottom: 48px;
+}
+
+.mm-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 180px;
+  padding: 0 20px 0 0;
+}
+
+.mm-trust-item:not(:last-child) {
+  border-right: 1px solid #e8e8ed;
+  margin-right: 20px;
+}
+
+.mm-trust-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.mm-trust-label {
+  font-size: 13px;
+  color: #6e6e73;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.mm-trust-label strong {
+  display: block;
+  color: #1d1d1f;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+
+/* ================================================================
+   4. Section
+================================================================ */
+.mm-section {
+  margin-bottom: 48px;
+}
+
+.mm-section-title {
+  font-size: clamp(19px, 2.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e8ed;
+  line-height: 1.25;
+}
+
+.mm-section-lead {
+  font-size: 16px;
+  color: #3d3d3f;
+  margin-bottom: 24px;
+  line-height: 1.65;
+}
+
+
+/* ================================================================
+   5. Service cards
+================================================================ */
+.mm-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Одиночная карточка в последней строке (например, 4 карточки → 3+1):
+   центрируем её во второй колонке, чтобы не болталась у края */
+.mm-services-grid > article:last-child:nth-child(3n + 1) {
+  grid-column: 2;
+}
+
+.mm-service-card {
+  background: #f5f5f7;
+  border-radius: 18px;
+  padding: 26px 24px;
+  transition: box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+.mm-service-card:hover {
+  background: #ebebed;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+}
+
+.mm-service-card-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.mm-service-card h3,
+.mm-service-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 10px;
+  letter-spacing: -0.1px;
+  line-height: 1.3;
+}
+
+.mm-service-card p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+
+/* ================================================================
+   6. Advantages
+================================================================ */
+.mm-advantages-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.mm-advantage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mm-advantage-item:hover {
+  border-color: #0071e3;
+  box-shadow: 0 4px 20px rgba(0, 113, 227, 0.08);
+}
+
+.mm-advantage-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #0071e3;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.mm-advantage-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: #f5f5f7;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-top: 1px;
+}
+
+.mm-advantage-body strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 5px;
+  letter-spacing: -0.1px;
+}
+
+.mm-advantage-body p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+
+/* ================================================================
+   7. Highlight box
+================================================================ */
+.mm-highlight {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f3ff 100%);
+  border: 1px solid #c6dcf7;
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-bottom: 48px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.mm-highlight-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.mm-highlight-body p {
+  font-size: 15px;
+  color: #1d1d1f;
+  line-height: 1.7;
+}
+
+.mm-highlight-body p + p {
+  margin-top: 10px;
+}
+
+
+/* ================================================================
+   8. FAQ
+================================================================ */
+.mm-faq {
+  margin-bottom: 48px;
+}
+
+.mm-faq-item {
+  border-bottom: 1px solid #e8e8ed;
+  padding: 18px 0;
+}
+
+.mm-faq-item:first-of-type {
+  border-top: 1px solid #e8e8ed;
+}
+
+.mm-faq-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+  letter-spacing: -0.1px;
+  line-height: 1.4;
+}
+
+.mm-faq-answer {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.65;
+}
+
+
+/* ================================================================
+   9. CTA + кнопки
+================================================================ */
+.mm-cta {
+  background: linear-gradient(145deg, #1d1d1f 0%, #2c2c2e 100%);
+  border-radius: 22px;
+  padding: 44px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.mm-cta-text h3 {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.mm-cta-text p {
+  font-size: 15px;
+  color: #98989d;
+  line-height: 1.6;
+  max-width: 460px;
+}
+
+.mm-cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mm-btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  /* transform на hover ЗАПРЕЩЁН — вызывает баг Chrome с overflow:hidden */
+  transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mm-btn-primary {
+  background: #0071e3;
+  color: #ffffff;
+}
+
+.mm-btn-primary:hover {
+  background: #0077ed;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 113, 227, 0.35);
+}
+
+.mm-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.mm-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+
+/* ================================================================
+   10. Responsive
+================================================================ */
+
+/* Планшет: 641px–900px → 2 колонки карточек */
+@media (max-width: 900px) and (min-width: 641px) {
+  .mm-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Сброс центрирования-сиротки — при 2 колонках не нужно */
+  .mm-services-grid > article:last-child:nth-child(3n + 1) {
+    grid-column: auto;
+  }
+}
+
+/* Мобильный: ≤640px → 1 колонка */
+@media (max-width: 640px) {
+  .mm-intro h2 { font-size: 24px; }
+
+  .mm-cta { padding: 28px 22px; }
+
+  .mm-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Сброс центрирования-сиротки на мобильном */
+  .mm-services-grid > article:last-child:nth-child(3n + 1) {
+    grid-column: auto;
+  }
+
+  .mm-trust-strip { gap: 16px; }
+  .mm-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
+
+  .mm-highlight { flex-direction: column; gap: 12px; padding: 22px 20px; }
+
+  /* Бейдж: компактнее на мобильном */
+  .mm-stat-badge {
+    font-size: 13px;
+    padding: 8px 15px;
+    gap: 6px;
+  }
+
+  /* Многострочный бейдж (с .mm-badge-sep): вертикальная укладка */
+  .mm-stat-badge:has(.mm-badge-sep) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    border-radius: 14px;
+  }
+
+  .mm-badge-sep { display: none; }
+
+  /* Фото в ремонтных страницах — на мобильном вдвое шире и выше */
+  .mm-repair-photo img {
+    max-width: 100% !important;
+    max-height: 800px !important;
+  }
+}
+
+
+/* ================================================================
+   10b. Ссылка внутри карточки услуги
+================================================================ */
+.mm-service-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0071e3;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: -0.1px;
+  transition: color 0.18s ease;
+}
+
+.mm-service-link:hover {
+  color: #0077ed;
+  text-decoration: underline;
+}
+
+
+/* ================================================================
+   10c. HowTo-шаги (нумерованный список процесса)
+================================================================ */
+.mm-howto-steps {
+  list-style: none;
+  counter-reset: mm-step;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mm-howto-step {
+  counter-increment: mm-step;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 16px;
+  padding: 18px 22px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mm-howto-step:hover {
+  border-color: #0071e3;
+  box-shadow: 0 4px 20px rgba(0, 113, 227, 0.08);
+}
+
+.mm-howto-step::before {
+  content: counter(mm-step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #0071e3;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 50%;
+  margin-top: 1px;
+}
+
+.mm-howto-step-body strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+  letter-spacing: -0.1px;
+}
+
+.mm-howto-step-body p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+
+/* ================================================================
+   12. Quick Links — быстрые ссылки / фасетная навигация
+================================================================ */
+.mm-quick-links {
+  margin-bottom: 48px;
+}
+
+.mm-quick-links-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mm-quick-link {
+  display: inline-block;
+  padding: 6px 14px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 100px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.mm-quick-link:hover {
+  background: #e8f3ff;
+  border-color: #0071e3;
+  color: #0071e3;
+}
+
+
+/* ================================================================
+   11. Collapse / Expand — собственный механизм (взамен CS-Cart toggle)
+================================================================ */
+.mm-collapse-wrapper {
+  position: relative;
+}
+
+/* overflow:hidden + position:relative нужны для fade-шторки */
+.mm-collapse-content {
+  overflow: hidden;
+  position: relative;
+}
+
+/* Градиент-шторка — абсолютно позиционирована внутри .mm-collapse-content */
+.mm-collapse-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Кнопка «Показать больше / Скрыть» */
+.mm-collapse-trigger {
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.mm-collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #d2d2d7;
+  color: #0071e3;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  letter-spacing: -0.1px;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.mm-collapse-btn:hover {
+  background: #f0f7ff;
+  border-color: #0071e3;
+}
+
+/* Шеврон: вращается на 180° при раскрытии */
+.mm-collapse-chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mm-collapse-btn.mm-is-expanded .mm-collapse-chevron {
+  transform: rotate(180deg);
+}
+
+/* ================================================================
+   13. Blog article blocks (mm-article-*)
+================================================================ */
+.mm-article {
+  max-width: 1000px;
+}
+
+.mm-article-header {
+  margin-bottom: 24px;
+}
+
+.mm-article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mm-article-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 100px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  letter-spacing: -0.1px;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.mm-article-tag:hover {
+  background: #e8f3ff;
+  border-color: #0071e3;
+  color: #0071e3;
+}
+
+.mm-article-key-facts {
+  background: #f5f5f7;
+  border: 1px solid #e8e8ed;
+  border-radius: 18px;
+  padding: 20px 24px;
+  margin: 0 0 32px 0;
+}
+
+.mm-article-key-facts-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 12px;
+}
+
+.mm-article-key-facts-list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.mm-article-key-facts-list li {
+  font-size: 15px;
+  color: #3d3d3f;
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+  list-style: none !important;
+}
+
+.mm-article-key-facts-list li::marker {
+  content: "" !important;
+}
+
+.mm-article-key-facts-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #0071e3;
+}
+
+.mm-article-toc {
+  margin: 0 0 32px 0;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 14px;
+}
+
+.mm-article-toc-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 10px;
+}
+
+.mm-article-toc-list {
+  margin-left: 20px;
+  color: #3d3d3f;
+}
+
+.mm-article-toc-link {
+  color: #0071e3;
+  text-decoration: none;
+}
+
+.mm-article-toc-link:hover {
+  text-decoration: underline;
+}
+
+.mm-article-body {
+  margin-bottom: 40px;
+}
+
+.mm-article-body figure {
+  margin: 0 0 32px 0;
+}
+
+.mm-article-body h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #1d1d1f;
+  line-height: 1.2;
+  margin: 0 0 14px 0;
+}
+
+.mm-article-body p {
+  font-size: 16px;
+  color: #3d3d3f;
+  line-height: 1.75;
+}
+
+.mm-article-body section {
+  margin-bottom: 34px;
+}
+
+.mm-article-pullquote {
+  margin: 24px 0 28px 0;
+  padding: 18px 22px;
+  border-left: 3px solid #0071e3;
+  background: #f5f5f7;
+  border-radius: 0 12px 12px 0;
+}
+
+.mm-article-author {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.mm-article-author-icon {
+  font-size: 18px;
+  color: #6e6e73;
+  line-height: 1.2;
+}
+
+.mm-article-author-body strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.mm-article-author-body p {
+  font-size: 16px;
+  color: #3d3d3f;
+  line-height: 1.7;
+}
+
+/* Required visual separation between CTA and author */
+.mm-article .mm-cta {
+  margin-bottom: 48px;
+  opacity: 1;
+}
+
+/* Harden CTA contrast inside article context */
+.mm-article .mm-cta,
+.mm-article .mm-cta * {
+  opacity: 1;
+  filter: none;
+}
+
+.mm-article .mm-cta-text h3 {
+  color: #ffffff !important;
+}
+
+.mm-article .mm-cta-text p {
+  color: #c7c7cc !important;
+}
+
+.mm-article .mm-btn-primary {
+  background: #0071e3 !important;
+  color: #ffffff !important;
+}
+
+.mm-article .mm-btn-secondary {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Better space usage for blog article CTA */
+.mm-article .mm-cta {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) auto;
+  align-items: center;
+  column-gap: 28px;
+}
+
+.mm-article .mm-cta-text p {
+  max-width: 620px;
+}
+
+.mm-article .mm-cta-actions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .mm-article .mm-cta {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+
+  .mm-article .mm-cta-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Styled catalog links block inside blog article */
+.mm-catalog-links {
+  background: #f5f5f7;
+  border: 1px solid #e8e8ed;
+  border-radius: 18px;
+  padding: 22px 24px;
+}
+
+.mm-catalog-links h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #1d1d1f;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.mm-catalog-links ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.mm-catalog-links li {
+  margin: 0;
+  padding: 0;
+}
+
+.mm-catalog-links a {
+  display: inline-block;
+  padding: 7px 14px;
+  background: #ffffff;
+  border: 1px solid #dfe3ea;
+  border-radius: 999px;
+  color: #0071e3;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.mm-catalog-links a:hover {
+  background: #e8f3ff;
+  border-color: #0071e3;
+  color: #0071e3;
+}
