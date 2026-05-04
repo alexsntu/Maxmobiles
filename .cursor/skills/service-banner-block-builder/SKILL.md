@@ -28,6 +28,7 @@ URL: /displey-zamena-razbitogo-stekla-iphone-15-pro-max/
 Гарантия: 360 дней
 Опция: (пусто — если на странице одна цена)
 Цена: (пусто — берётся из API; «уточняйте» — если цена не показывается)
+От: (пусто — фиксированная цена; «да» — если цена «от N ₽»)
 ```
 
 ```
@@ -36,6 +37,15 @@ URL: /displey-original-zamena-iphone-15-pro-max/
 Время: 40 мин
 Гарантия: 360 дней
 Опция: Оригинал   ← должна точно совпадать с variant_name в CS-Cart API
+```
+
+```
+Название: Чистка после попадания воды
+URL: /profilaktika-posle-vody-cena-ot-iphone-15-pro-max/
+Время: 60 мин
+Гарантия: 30 дней
+Опция: (пусто)
+От: да   ← перед ценой в баннере и в модалке отображается оранжевый «от»
 ```
 
 ```
@@ -88,6 +98,16 @@ var SERVICES = [
     option:   'ОПЦИЯ'
   },
   {
+    name:      'УСЛУГА_С_ЦЕНОЙ_ОТ',
+    price:     '— ₽',
+    priceNum:  '—',
+    fromPrice: true,
+    time:      'ВРЕМЯ',
+    warranty:  'Гарантия N дней',
+    url:       '/URL-СТРАНИЦЫ-ТОВАРА/',
+    option:    ''
+  },
+  {
     name:     'УСЛУГА_БЕЗ_ФИКСИРОВАННОЙ_ЦЕНЫ',
     price:    'Уточняйте',
     priceNum: 'Уточняйте',
@@ -107,11 +127,19 @@ var SERVICES = [
 > **Критично:** HTML-спан `<span id="ПРЕФИКС-price">` в разметке баннера тоже должен содержать `—`, а не число.
 > Это второй источник мигания — браузер рендерит его ещё до выполнения любого JS.
 >
+> **Спецрежим `fromPrice: true`** (когда пользователь указал «От: да»):
+> - `price` и `priceNum` — по-прежнему `'— ₽'` и `'—'` в SERVICES (до гидратации)
+> - После гидратации: `s.price = 'от\u00a0' + число + '\u00a0₽'` — с префиксом «от» в строке цены для модалки
+> - В HTML перед `<span id="ПРЕФИКС-price">` стоит `<span class="ПРЕФИКС-price-from" id="ПРЕФИКС-price-from">от&nbsp;</span>` со стилем `display:none` по умолчанию
+> - В `updateUI` элемент `#ПРЕФИКС-price-from` показывается (`display: 'inline'`) если `s.fromPrice === true`, иначе скрывается (`display: 'none'`). Важно: `''` не работает — CSS-класс оставит элемент скрытым
+> - CSS: `.ПРЕФИКС-price-from { font-size: 18px; font-weight: 500; color: #ff9500; display: none; }`
+> - JS-гидратация обрабатывает услуги с `fromPrice` в обычном режиме (API-цена парсится), только форматирует `s.price` с префиксом «от»
+>
 > **Спецрежим `askPrice: true`** (когда пользователь указал «Цена: уточняйте»):
 > - `price: 'Уточняйте'`, `priceNum: 'Уточняйте'` — без числа и без знака «₽»
 > - `option: ''` — игнорируется, всё равно ничего не парсим
 > - JS-гидратация (`mmb1ApplyPriceMap`) **пропускает** услуги с `askPrice: true`
-> - В `updateUI` дополнительно скрывается элемент `.mmb1-price-currency` (значок ₽), если `s.askPrice === true`, и показывается обратно для обычных услуг
+> - В `updateUI` дополнительно скрывается элемент `.ПРЕФИКС-price-currency` (значок ₽), если `s.askPrice === true`, и показывается обратно для обычных услуг; элемент `#ПРЕФИКС-price-from` тоже скрывается
 > - Если такая услуга выбрана при загрузке (`_idx === idx`) — в `<span id="ПРЕФИКС-price">` сразу пишем `Уточняйте` в HTML
 
 4. **Пропиши CAT_ID** — ID категории CS-Cart данного устройства:
@@ -149,7 +177,8 @@ var CAT_ID = XXXX; // ← спросить у пользователя или н
 - JS логика капчи (`generateCaptcha`, обработчик клика)
 - JS маска телефона
 - JS динамической загрузки цен через API (`mmb1SlugFromUrl`, `mmb1ApplyPriceMap`, `mmb1ReadCache`, `mmb1WriteCache`, `mmb1LoadPrices`) — менять только `CAT_ID`
-- Skip-логика для `askPrice: true` (`if (s.askPrice) return;` в `mmb1ApplyPriceMap`) и переключение `.mmb1-price-currency` в `updateUI` — копировать **дословно**
+- Skip-логика для `askPrice: true` (`if (s.askPrice) return;` в `mmb1ApplyPriceMap`) и переключение `.ПРЕФИКС-price-currency` + `.ПРЕФИКС-price-from` в `updateUI` — копировать **дословно**
+- Логика `fromPrice: true`: показ `#ПРЕФИКС-price-from`, форматирование `s.price` с «от» — копировать **дословно**
 - CS-Cart атрибуты формы: `action="{""|fn_url}"`, `method="post"`, `enctype="multipart/form-data"`, `name="fake" value=""`
 
 ---

@@ -1,0 +1,1217 @@
+<!-- ============================================================
+     Maxmobiles — iPhone 15 Pro Max | Блок 1: Баннер
+     Страница: /servis-apple/remont-iphone/remont-iphone-15-pro-max/
+     Стили изолированы в .mmb1 (не влияют на тему CS-Cart)
+============================================================ -->
+
+<style>{literal}
+.mmb1 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1d1d1f;
+}
+.mmb1 *, .mmb1 *::before, .mmb1 *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Баннер ───────────────────────────────────────────── */
+.mmb1-banner {
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 20px;
+  padding: 48px 40px;
+}
+
+/* ── 3-колонная сетка ─────────────────────────────────── */
+.mmb1-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr 340px;
+  gap: 40px;
+  align-items: center;
+}
+
+/* ── Левая колонка ────────────────────────────────────── */
+.mmb1-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0071e3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.mmb1-eyebrow svg { flex-shrink: 0; }
+
+.mmb1-h1 {
+  font-size: clamp(24px, 3.2vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  color: #1d1d1f;
+  margin-bottom: 16px;
+}
+
+.mmb1-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #6e6e73;
+  margin-bottom: 28px;
+}
+
+.mmb1-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mmb1-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #3d3d3f;
+  font-weight: 500;
+}
+.mmb1-trust-item svg {
+  color: #0071e3;
+  flex-shrink: 0;
+}
+
+/* ── Центральная колонка — фото ───────────────────────── */
+.mmb1-img-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+.mmb1-img-col img {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0,0,0,0.12));
+}
+
+/* ── Правая колонка — карточка ────────────────────────── */
+.mmb1-card {
+  background: #f5f5f7;
+  border-radius: 18px;
+  padding: 28px 24px;
+}
+
+/* Большая цена */
+.mmb1-price-block {
+  margin-bottom: 20px;
+}
+.mmb1-price-main {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #1d1d1f;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.mmb1-price-currency {
+  font-size: 24px;
+  font-weight: 600;
+}
+.mmb1-price-label {
+  font-size: 12px;
+  color: #86868b;
+  margin-top: 4px;
+}
+
+/* Промо-список */
+.mmb1-promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+.mmb1-promo-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: #3d3d3f;
+  font-weight: 500;
+}
+.mmb1-promo-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mmb1-promo-icon--green  { background: #d1f0dc; color: #1a7f3c; }
+.mmb1-promo-icon--blue   { background: #d6e9ff; color: #0056b3; }
+.mmb1-promo-icon--orange { background: #fff0d6; color: #a05c00; }
+
+/* Разделитель */
+.mmb1-divider {
+  height: 1px;
+  background: #e2e2e7;
+  margin-bottom: 16px;
+}
+
+/* Dropdown */
+.mmb1-select-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.mmb1-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #86868b;
+  pointer-events: none;
+}
+.mmb1-select {
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.mmb1-select:focus { border-color: #0071e3; }
+
+/* CTA кнопка */
+.mmb1-cta {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  background: #0071e3;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  transition: background 0.2s, transform 0.15s;
+}
+.mmb1-cta:hover  { background: #0077ed; transform: translateY(-1px); }
+.mmb1-cta:active { transform: translateY(0); }
+
+/* ── Модальное окно ───────────────────────────────────── */
+.mmb1-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0,0,0,0.45);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.mmb1-overlay.open { display: flex; }
+
+.mmb1-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.22);
+  animation: mmb1In 0.22s ease;
+}
+@keyframes mmb1In {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.mmb1-modal-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #0071e3 100%);
+  padding: 28px 28px 22px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mmb1-modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.mmb1-modal-close:hover { background: rgba(255,255,255,0.3); }
+
+.mmb1-modal-hero h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+.mmb1-modal-hero p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+}
+.mmb1-modal-service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 100px;
+  margin-top: 12px;
+}
+
+.mmb1-modal-body {
+  padding: 22px 28px 28px;
+}
+.mmb1-form-field {
+  margin-bottom: 14px;
+}
+.mmb1-form-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #86868b;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.mmb1-form-field input {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e8e8ed;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #1d1d1f;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.18s;
+}
+.mmb1-form-field input:focus { border-color: #0071e3; background: #fff; }
+.mmb1-form-field input::placeholder { color: #aeaeb2; }
+
+.mmb1-modal-submit {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #0071e3;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 18px;
+  transition: background 0.2s;
+}
+.mmb1-modal-submit:hover { background: #0077ed; }
+.mmb1-modal-note {
+  font-size: 11px;
+  color: #aeaeb2;
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ── Капча ── */
+.mmb1-cap-wrap {
+  background: #f9f9fb;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.mmb1-cap-q {
+  font-size: 13px;
+  color: #3a3a3c;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.mmb1-cap-btns {
+  display: flex;
+  gap: 10px;
+}
+.mmb1-cap-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border: 2px solid #e5e5ea;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1c1e;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.mmb1-cap-btn:hover  { border-color: #0071e3; color: #0071e3; background: rgba(0,113,227,0.04); }
+.mmb1-cap-btn.mmb1-cap-correct { border-color: #34c759; background: rgba(52,199,89,0.1);  color: #34c759; }
+.mmb1-cap-btn.mmb1-cap-wrong   { border-color: #ff3b30; background: rgba(255,59,48,0.08); color: #ff3b30; animation: mmb1-shake .3s ease; }
+@keyframes mmb1-shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-4px); }
+  75%     { transform: translateX(4px); }
+}
+.mmb1-cap-field { margin-bottom: 14px; }
+.mmb1-cap-field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #86868b;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.mmb1-cap-field.mmb1-cap-invalid .mmb1-cap-wrap {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.mmb1-cap-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; }
+.mmb1-cap-field.mmb1-cap-invalid .mmb1-cap-err { display: block; }
+
+/* ── Чекбокс согласия ── */
+.mmb1-agree-wrap { margin-bottom: 16px; }
+.mmb1-agree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.mmb1-agree-input { display: none; }
+.mmb1-agree-box {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border: 2px solid #d1d1d6;
+  border-radius: 6px;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  margin-top: 1px;
+}
+.mmb1-agree-box svg { opacity: 0; transition: opacity 0.15s; }
+.mmb1-agree-input:checked + .mmb1-agree-box { background: #0071e3; border-color: #0071e3; }
+.mmb1-agree-input:checked + .mmb1-agree-box svg { opacity: 1; }
+.mmb1-agree-wrap.mmb1-agree-invalid .mmb1-agree-box {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.mmb1-agree-wrap.mmb1-agree-invalid .mmb1-agree-err { display: block; }
+.mmb1-agree-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; padding-left: 30px; }
+.mmb1-agree-text {
+  font-size: 12.5px;
+  color: #6e6e73;
+  line-height: 1.45;
+}
+.mmb1-agree-text a { color: #0071e3; text-decoration: none; }
+.mmb1-agree-text a:hover { text-decoration: underline; }
+
+/* Success */
+.mmb1-success {
+  display: none;
+  text-align: center;
+  padding: 44px 28px;
+}
+.mmb1-success-icon {
+  width: 60px; height: 60px;
+  background: #e8f8ef;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+.mmb1-success h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.mmb1-success p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto 22px;
+}
+.mmb1-success-close {
+  padding: 11px 26px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+/* ── Адаптив ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .mmb1-banner { padding: 32px 24px; }
+  .mmb1-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 24px;
+  }
+  .mmb1-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .mmb1-card {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .mmb1-img-col {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: stretch;
+    justify-content: center;
+  }
+  .mmb1-img-col img {
+    width: 100%;
+    height: 100%;
+    max-height: 460px;
+    object-fit: contain;
+  }
+}
+@media (max-width: 680px) {
+  .mmb1-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: unset;
+  }
+  .mmb1-img-col { grid-column: 1; grid-row: unset; justify-content: center; }
+  .mmb1-left    { grid-column: 1; grid-row: unset; }
+  .mmb1-card    { grid-column: 1; grid-row: unset; }
+  .mmb1-price-main { font-size: 34px; }
+}
+{/literal}</style>
+
+<!-- ═══════════════════════════════════════════════════════
+     БЛОК 1: БАННЕР
+═══════════════════════════════════════════════════════ -->
+<div class="mmb1">
+
+  <div class="mmb1-banner">
+    <div class="mmb1-grid">
+
+      <!-- ── Левая колонка: текст ── -->
+      <div class="mmb1-left">
+
+        <div class="mmb1-eyebrow">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Сервисный центр Maxmobiles
+        </div>
+
+        <h1 class="mmb1-h1">Ремонт iPhone&nbsp;15&nbsp;Pro&nbsp;Max</h1>
+
+        <p class="mmb1-text">
+          Любая поломка телефона — крайне неприятная ситуация, с которой могут справиться наши профессионалы из Maxmobiles. Исправляем неисправности любой сложности. Проведем при вас бесплатную диагностику смартфона, а дождаться окончания работ можно в уютном клиентском зале с Wi-Fi, угостившись кофе или чаем.
+        </p>
+
+        <div class="mmb1-trust">
+          <div class="mmb1-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Бесплатная диагностика при вас
+          </div>
+          <div class="mmb1-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Гарантия на все виды работ
+          </div>
+          <div class="mmb1-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Ежедневно с 10:00 до 20:00
+          </div>
+          <div class="mmb1-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Опыт с 2011 года
+          </div>
+        </div>
+
+      </div><!-- /.mmb1-left -->
+
+      <!-- ── Центральная колонка: фото ── -->
+      <div class="mmb1-img-col">
+        <img
+          src="https://maxmobiles.ru/images/ab__webp/abt__ut2/banners/all/101/iphone-15-pro-max_png.webp"
+          alt="Ремонт iPhone 15 Pro Max — Maxmobiles Севастополь"
+          width="190" height="190"
+        >
+      </div>
+
+      <!-- ── Правая колонка: цена + форма ── -->
+      <div class="mmb1-card">
+
+        <!-- Большая цена -->
+        <div class="mmb1-price-block">
+          <div class="mmb1-price-main">
+            <span id="mmb1-price">20&nbsp;000</span>
+            <span class="mmb1-price-currency">₽</span>
+          </div>
+          <div class="mmb1-price-label">стоимость ремонта</div>
+        </div>
+
+        <!-- Промо-список -->
+        <div class="mmb1-promo-list">
+          <div class="mmb1-promo-item">
+            <span class="mmb1-promo-icon mmb1-promo-icon--green">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            В цену входят работа и запчасти
+          </div>
+          <div class="mmb1-promo-item">
+            <span class="mmb1-promo-icon mmb1-promo-icon--blue" id="mmb1-icon-time">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span id="mmb1-promo-time">30 мин</span>
+          </div>
+          <div class="mmb1-promo-item">
+            <span class="mmb1-promo-icon mmb1-promo-icon--orange" id="mmb1-icon-warranty">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span id="mmb1-promo-warranty">Гарантия 360 дней</span>
+          </div>
+        </div>
+
+        <div class="mmb1-divider"></div>
+
+        <!-- Dropdown выбора услуги -->
+        <div class="mmb1-select-wrap">
+          <select class="mmb1-select" id="mmb1-select" onchange="mmb1OnSelect(this)">
+            <option value="0">Замена стекла</option>
+            <option value="1">Замена дисплея (копия)</option>
+            <option value="2">Замена дисплея (оригинал)</option>
+            <option value="3">Замена заднего стекла</option>
+            <option value="4">Чистка после попадания воды</option>
+            <option value="5">Замена аккумулятора</option>
+            <option value="6">Замена разъёма зарядки</option>
+            <option value="7">Замена микрофона</option>
+            <option value="8">Замена динамика</option>
+            <option value="9">Замена слухового динамика</option>
+            <option value="10">Замена камеры</option>
+            <option value="11">Замена фронтальной камеры</option>
+            <option value="12">Замена стекла камеры</option>
+            <option value="13">Замена корпуса (копия)</option>
+            <option value="14">Замена корпуса (оригинал)</option>
+            <option value="15">Замена кнопок громкости</option>
+            <option value="16">Замена вибро мотора</option>
+            <option value="17">Прошивка</option>
+            <option value="18">Замена контроллера питания</option>
+            <option value="19">Ремонт Face ID</option>
+          </select>
+        </div>
+
+        <!-- CTA -->
+        <button class="mmb1-cta" onclick="mmb1OpenModal()">
+          Оставить заявку →
+        </button>
+
+      </div><!-- /.mmb1-card -->
+
+    </div><!-- /.mmb1-grid -->
+  </div><!-- /.mmb1-banner -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       МОДАЛЬНОЕ ОКНО
+  ═══════════════════════════════════════════════════ -->
+  <div class="mmb1-overlay" id="mmb1-overlay" onclick="mmb1OverlayClick(event)">
+    <div class="mmb1-modal" role="dialog" aria-modal="true" aria-labelledby="mmb1-modal-title">
+
+      <div class="mmb1-modal-hero">
+        <button class="mmb1-modal-close" onclick="mmb1CloseModal()" aria-label="Закрыть">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <h3 id="mmb1-modal-title">Ремонт iPhone&nbsp;15&nbsp;Pro&nbsp;Max</h3>
+        <p>Перезвоним в течение <strong style="color:#fff">30 минут</strong> и уточним детали</p>
+        <div class="mmb1-modal-service-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="mmb1-modal-svc">Замена стекла</span>
+          &nbsp;—&nbsp;
+          <span id="mmb1-modal-prc">20 000 ₽</span>
+        </div>
+      </div>
+
+      <div class="mmb1-modal-body" id="mmb1-form-wrap">
+        <form id="mmb1-form" action="{""|fn_url}" method="post" enctype="multipart/form-data" novalidate>
+          <input type="hidden" name="fake"                      value="">
+          <input type="hidden" name="page_id"                   value="1079">
+          <input type="hidden" name="dispatch[pages.send_form]" value="">
+          <input type="hidden" name="form_values[742]"          value="Ремонт iPhone 15 Pro Max">
+          <input type="hidden" name="form_values[743]"          id="mmb1-f-svc"   value="Замена стекла">
+          <input type="hidden" name="form_values[744]"          id="mmb1-f-price" value="20 000 ₽">
+
+          <div class="mmb1-form-field">
+            <label for="mmb1-name">Ваше имя</label>
+            <input type="text" id="mmb1-name" name="form_values[745]"
+              placeholder="Как вас зовут?" autocomplete="given-name">
+          </div>
+          <div class="mmb1-form-field">
+            <label for="mmb1-phone">Телефон для связи</label>
+            <input type="tel" id="mmb1-phone" name="form_values[746]"
+              placeholder="+7 (___) ___-__-__" autocomplete="tel" maxlength="18">
+          </div>
+
+          <!-- Капча -->
+          <div class="mmb1-cap-field" id="mmb1-cap-field">
+            <label>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Защита от роботов
+            </label>
+            <div class="mmb1-cap-wrap">
+              <p class="mmb1-cap-q" id="mmb1-cap-q"></p>
+              <div class="mmb1-cap-btns" id="mmb1-cap-btns">
+                <button type="button" class="mmb1-cap-btn" data-idx="0"></button>
+                <button type="button" class="mmb1-cap-btn" data-idx="1"></button>
+                <button type="button" class="mmb1-cap-btn" data-idx="2"></button>
+              </div>
+            </div>
+            <span class="mmb1-cap-err" id="mmb1-cap-err">Выберите правильное число</span>
+          </div>
+
+          <!-- Согласие -->
+          <div class="mmb1-agree-wrap" id="mmb1-agree-wrap">
+            <label class="mmb1-agree-label" for="mmb1-agree">
+              <input type="checkbox" class="mmb1-agree-input" id="mmb1-agree" name="personal_data" value="Y" style="display:none!important;position:absolute;opacity:0;width:0;height:0;pointer-events:none">
+              <span class="mmb1-agree-box">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="mmb1-agree-text">Я согласен с <a href="/politika-konfidencialnosti/" target="_blank" rel="noopener" onclick="event.stopPropagation()">политикой конфиденциальности</a> и даю согласие на обработку персональных данных</span>
+            </label>
+            <span class="mmb1-agree-err" id="mmb1-agree-err">Необходимо принять условия</span>
+          </div>
+
+          <button type="submit" class="mmb1-modal-submit">Отправить заявку</button>
+        </form>
+      </div>
+
+      <div class="mmb1-success" id="mmb1-success">
+        <div class="mmb1-success-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#30d158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Заявка принята!</h3>
+        <p>Мы свяжемся с вами в ближайшее время и уточним детали ремонта</p>
+        <button class="mmb1-success-close" onclick="mmb1CloseModal()">Закрыть</button>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.mmb1 -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>{literal}
+(function () {
+  'use strict';
+
+  /* ─── Данные услуг ───────────────────────────────────── */
+  var SERVICES = [
+    {
+      name:     'Замена стекла',
+      price:    '20 000 ₽',
+      priceNum: '20\u00a0000',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/displey-zamena-razbitogo-stekla-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена дисплея (копия)',
+      price:    '22 000 ₽',
+      priceNum: '22\u00a0000',
+      time:     '30 мин',
+      warranty: 'Гарантия 180 дней',
+      url:      '/displey-original-zamena-iphone-15-pro-max/',
+      option:   'Копия'
+    },
+    {
+      name:     'Замена дисплея (оригинал)',
+      price:    '32 000 ₽',
+      priceNum: '32\u00a0000',
+      time:     '40 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/displey-original-zamena-iphone-15-pro-max/',
+      option:   'Оригинал'
+    },
+    {
+      name:     'Замена заднего стекла',
+      price:    '9 000 ₽',
+      priceNum: '9\u00a0000',
+      time:     '120 мин',
+      warranty: 'Гарантия 180 дней',
+      url:      '/zadnyaya-kryshka-v-sbore-so-vspyshkoy-i-besprovodnoy-zaryadkoy-zamena-iphone-15-pro-max/',
+      option:   'Копия'
+    },
+    {
+      name:     'Чистка после попадания воды',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '60 мин',
+      warranty: 'Гарантия 30 дней',
+      url:      '/profilaktika-posle-vody-cena-ot-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена аккумулятора',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/akkumulyator-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена разъёма зарядки',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '40 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/razem-zaryadki-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена микрофона',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '40 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/mikrofon-odin-iz-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена динамика',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/dinamik-razgovornyy-verhniy-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена слухового динамика',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/dinamik-vyzova-zvonok-gromkaya-svyaz-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена камеры',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '40 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/kamera-osnovnaya-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена фронтальной камеры',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/kamera-frontalnaya-perednyaya-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена стекла камеры',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 180 дней',
+      url:      '/kamera-zamena-razbitogo-stekla-1-sht-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена корпуса (копия)',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '120 мин',
+      warranty: 'Гарантия 180 дней',
+      url:      '/korpus-replika-snyatyy-zamena-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена корпуса (оригинал)',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '120 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/korpus-replika-snyatyy-zamena-iphone-15-pro-max/',
+      option:   'Оригинал'
+    },
+    {
+      name:     'Замена кнопок громкости',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/knopka-vklyucheniya-zamena-remont-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Замена вибро мотора',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/vibro-zamena-proshivka-taptika-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Прошивка',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '30 мин',
+      warranty: 'Гарантия 30 дней',
+      url:      '/proshivka-bez-rezervnoy-kopii-iphone-11/',
+      option:   ''
+    },
+    {
+      name:     'Замена контроллера питания',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '120 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/remont-platy-iphone-15-pro-max/',
+      option:   ''
+    },
+    {
+      name:     'Ремонт Face ID',
+      price:    '— ₽',
+      priceNum: '—',
+      time:     '60 мин',
+      warranty: 'Гарантия 360 дней',
+      url:      '/face-id-remont-vostanovlenie-zamena-iphone-15-pro-max/',
+      option:   ''
+    }
+  ];
+
+  var _idx = 0;
+
+  function svc() { return SERVICES[_idx]; }
+
+  /* ─── Обновление UI при смене услуги ────────────────── */
+  function updateUI(idx) {
+    _idx = idx;
+    var s = svc();
+
+    document.getElementById('mmb1-price').textContent        = s.priceNum;
+    document.getElementById('mmb1-promo-time').textContent    = s.time;
+    document.getElementById('mmb1-promo-warranty').textContent = s.warranty;
+  }
+
+  window.mmb1OnSelect = function (sel) {
+    updateUI(parseInt(sel.value, 10));
+  };
+
+  /* ─── Капча ─────────────────────────────────────────── */
+  var mmb1CapCorrect = null;
+  var mmb1CapSolved  = false;
+
+  function mmb1GenerateCaptcha() {
+    var nums = [];
+    while (nums.length < 3) {
+      var n = Math.floor(Math.random() * 89) + 10;
+      if (nums.indexOf(n) === -1) nums.push(n);
+    }
+    nums.sort(function () { return Math.random() - 0.5; });
+    var correctIdx = Math.floor(Math.random() * 3);
+    mmb1CapCorrect = nums[correctIdx];
+    mmb1CapSolved  = false;
+
+    document.getElementById('mmb1-cap-q').innerHTML =
+      'Нажмите на число <strong>' + mmb1CapCorrect + '</strong>:';
+
+    document.querySelectorAll('.mmb1-cap-btn').forEach(function (btn, i) {
+      btn.textContent  = nums[i];
+      btn.dataset.num  = nums[i];
+      btn.className    = 'mmb1-cap-btn';
+    });
+    document.getElementById('mmb1-cap-field').classList.remove('mmb1-cap-invalid');
+  }
+
+  document.getElementById('mmb1-cap-btns').addEventListener('click', function (e) {
+    var btn = e.target.closest('.mmb1-cap-btn');
+    if (!btn) return;
+    var val = parseInt(btn.dataset.num, 10);
+
+    document.querySelectorAll('.mmb1-cap-btn').forEach(function (b) { b.className = 'mmb1-cap-btn'; });
+    document.getElementById('mmb1-cap-field').classList.remove('mmb1-cap-invalid');
+
+    if (val === mmb1CapCorrect) {
+      btn.classList.add('mmb1-cap-correct');
+      mmb1CapSolved = true;
+    } else {
+      btn.classList.add('mmb1-cap-wrong');
+      mmb1CapSolved = false;
+      setTimeout(mmb1GenerateCaptcha, 900);
+    }
+  });
+
+  /* ─── Открытие модалки ──────────────────────────────── */
+  window.mmb1OpenModal = function () {
+    var s = svc();
+    document.getElementById('mmb1-f-svc').value   = s.name;
+    document.getElementById('mmb1-f-price').value = s.price;
+    document.getElementById('mmb1-modal-svc').textContent = s.name;
+    document.getElementById('mmb1-modal-prc').textContent = s.price;
+
+    document.getElementById('mmb1-form-wrap').style.display = 'block';
+    document.getElementById('mmb1-success').style.display   = 'none';
+
+    document.getElementById('mmb1-agree-wrap').classList.remove('mmb1-agree-invalid');
+    document.getElementById('mmb1-agree').checked = false;
+    mmb1GenerateCaptcha();
+
+    document.getElementById('mmb1-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      var first = document.getElementById('mmb1-name');
+      if (first) first.focus();
+    }, 60);
+  };
+
+  window.mmb1CloseModal = function () {
+    document.getElementById('mmb1-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.mmb1OverlayClick = function (e) {
+    if (e.target === document.getElementById('mmb1-overlay')) mmb1CloseModal();
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') mmb1CloseModal();
+  });
+
+  /* ─── Маска телефона ────────────────────────────────── */
+  var phoneInput = document.getElementById('mmb1-phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function (e) {
+      var val = e.target.value.replace(/\D/g, '');
+      if (!val.length) { e.target.value = ''; return; }
+      if (val[0] !== '7') val = '7' + val;
+      val = val.substring(0, 11);
+      var r = '+7';
+      if (val.length > 1) r += ' (' + val.substring(1, 4);
+      if (val.length >= 4) r += ') ' + val.substring(4, 7);
+      if (val.length >= 7) r += '-' + val.substring(7, 9);
+      if (val.length >= 9) r += '-' + val.substring(9, 11);
+      e.target.value = r;
+    });
+    phoneInput.addEventListener('keydown', function (e) {
+      if ([8, 46, 37, 38, 39, 40, 9].indexOf(e.keyCode) !== -1) return;
+      if (!/[\d+]/.test(e.key)) e.preventDefault();
+    });
+  }
+
+  /* ─── Отправка формы ────────────────────────────────── */
+  var form = document.getElementById('mmb1-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name  = document.getElementById('mmb1-name').value.trim();
+      var phone = document.getElementById('mmb1-phone').value.trim();
+
+      document.getElementById('mmb1-name').style.borderColor  = '';
+      document.getElementById('mmb1-phone').style.borderColor = '';
+
+      var ok = true;
+
+      if (!name)  {
+        document.getElementById('mmb1-name').style.borderColor = '#ff3b30';
+        document.getElementById('mmb1-name').focus();
+        ok = false;
+      }
+      if (phone.replace(/\D/g, '').length < 11) {
+        document.getElementById('mmb1-phone').style.borderColor = '#ff3b30';
+        if (ok) document.getElementById('mmb1-phone').focus();
+        ok = false;
+      }
+
+      /* Проверка капчи */
+      var capField = document.getElementById('mmb1-cap-field');
+      if (!mmb1CapSolved) {
+        capField.classList.add('mmb1-cap-invalid');
+        ok = false;
+      } else {
+        capField.classList.remove('mmb1-cap-invalid');
+      }
+
+      /* Проверка чекбокса */
+      var agreeWrap = document.getElementById('mmb1-agree-wrap');
+      if (!document.getElementById('mmb1-agree').checked) {
+        agreeWrap.classList.add('mmb1-agree-invalid');
+        ok = false;
+      } else {
+        agreeWrap.classList.remove('mmb1-agree-invalid');
+      }
+
+      if (!ok) return;
+
+      document.getElementById('mmb1-form-wrap').style.display = 'none';
+      document.getElementById('mmb1-success').style.display   = 'block';
+
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .catch(function () {});
+    });
+  }
+
+  /* ─── Динамические цены (XHR + DOMParser) ───────────── *
+   * Подход: загружаем страницу товара, парсим цену из HTML  *
+   * Без API-ключа — только запросы к тому же домену        *
+   * ─────────────────────────────────────────────────────── */
+  var mmb1UrlCache = {};
+
+  function mmb1FormatNum(n) {
+    return n.toLocaleString('ru-RU');
+  }
+
+  function mmb1ParsePrice(html, optionName) {
+    var doc = (new DOMParser()).parseFromString(html, 'text/html');
+    if (!optionName) {
+      var el = doc.querySelector('[id^="sec_discounted_price_"]') ||
+               doc.querySelector('[id^="sec_price_"]') ||
+               doc.querySelector('.ty-price-num');
+      if (!el) return null;
+      var n = parseInt(el.textContent.replace(/\D/g, ''), 10);
+      return n > 0 ? n : null;
+    } else {
+      var nodes = doc.querySelectorAll('option, li, label');
+      for (var i = 0; i < nodes.length; i++) {
+        var txt = nodes[i].textContent.trim();
+        if (txt.indexOf(optionName) !== -1) {
+          var m = txt.match(/([\d][\d\s]{2,})\s*[₽р]/);
+          if (m) {
+            var num = parseInt(m[1].replace(/\s/g, ''), 10);
+            if (num > 100) return num;
+          }
+        }
+      }
+      var re = new RegExp(optionName.replace(/[()]/g, '\\$&') + '[^<]{0,40}?([\\d][\\d\\s]{3,9})\\s*[₽р]');
+      var bm = doc.body.innerHTML.match(re);
+      if (bm) {
+        var n2 = parseInt(bm[1].replace(/\s/g, ''), 10);
+        if (n2 > 100) return n2;
+      }
+      return null;
+    }
+  }
+
+  function mmb1FetchUrl(url, cb) {
+    if (mmb1UrlCache[url] !== undefined) { cb(mmb1UrlCache[url]); return; }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function () {
+      mmb1UrlCache[url] = xhr.status === 200 ? xhr.responseText : null;
+      cb(mmb1UrlCache[url]);
+    };
+    xhr.onerror = function () { mmb1UrlCache[url] = null; cb(null); };
+    xhr.send();
+  }
+
+  function mmb1LoadPrices() {
+    var urls = [];
+    SERVICES.forEach(function (s) {
+      if (urls.indexOf(s.url) === -1) urls.push(s.url);
+    });
+
+    urls.forEach(function (url) {
+      mmb1FetchUrl(url, function (html) {
+        if (!html) return;
+        SERVICES.forEach(function (s, idx) {
+          if (s.url !== url) return;
+          var price = mmb1ParsePrice(html, s.option);
+          if (!price) return;
+          s.priceNum = mmb1FormatNum(price);
+          s.price    = mmb1FormatNum(price) + '\u00a0₽';
+          /* Обновляем UI если это текущая услуга */
+          if (idx === _idx) {
+            document.getElementById('mmb1-price').textContent = s.priceNum;
+          }
+          /* Обновляем текст <option> в select */
+          var opt = document.querySelector('#mmb1-select option[value="' + idx + '"]');
+          if (opt) opt.textContent = s.name;
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mmb1LoadPrices);
+  } else {
+    mmb1LoadPrices();
+  }
+
+})();
+{/literal}</script>
