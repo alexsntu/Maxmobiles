@@ -44,12 +44,16 @@ async def init_db() -> None:
                 FOREIGN KEY (user_id) REFERENCES users(telegram_id)
             );
         """)
-        # Migration: add blitz_price column to existing DBs
-        try:
-            await db.execute("ALTER TABLE lots ADD COLUMN blitz_price INTEGER")
-            await db.commit()
-        except Exception:
-            pass  # Column already exists
+        # Migrations for existing DBs
+        for migration in [
+            "ALTER TABLE lots ADD COLUMN blitz_price INTEGER",
+            "ALTER TABLE lots ADD COLUMN rules TEXT",
+        ]:
+            try:
+                await db.execute(migration)
+                await db.commit()
+            except Exception:
+                pass  # Column already exists
 
 
 # ─── Users ────────────────────────────────────────────────────────────────────
@@ -90,13 +94,14 @@ async def create_lot(
     end_time: datetime,
     created_by: int,
     blitz_price: Optional[int] = None,
+    rules: Optional[str] = None,
 ) -> int:
     async with aiosqlite.connect(DB_PATH) as db:
         cur = await db.execute(
             """
             INSERT INTO lots
-                (title, description, photo_id, start_price, min_step, blitz_price, current_price, end_time, created_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (title, description, photo_id, start_price, min_step, blitz_price, current_price, end_time, created_by, rules)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 title,
@@ -108,6 +113,7 @@ async def create_lot(
                 start_price,
                 end_time.isoformat(),
                 created_by,
+                rules,
             ),
         )
         await db.commit()

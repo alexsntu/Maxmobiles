@@ -43,7 +43,7 @@ async def cmd_newlot(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.set_state(NewLotStates.waiting_photo)
     await message.answer(
-        "📸 <b>Шаг 1/6.</b> Отправьте фото товара.",
+        "📸 <b>Шаг 1/8.</b> Отправьте фото товара.",
         parse_mode="HTML",
     )
 
@@ -54,7 +54,7 @@ async def process_photo(message: Message, state: FSMContext) -> None:
     await state.update_data(photo_id=photo_id)
     await state.set_state(NewLotStates.waiting_title)
     await message.answer(
-        "✏️ <b>Шаг 2/6.</b> Введите <b>название</b> лота (до 100 символов).",
+        "✏️ <b>Шаг 2/8.</b> Введите <b>название</b> лота (до 100 символов).",
         parse_mode="HTML",
     )
 
@@ -73,7 +73,7 @@ async def process_title(message: Message, state: FSMContext) -> None:
     await state.update_data(title=title)
     await state.set_state(NewLotStates.waiting_description)
     await message.answer(
-        "📝 <b>Шаг 3/6.</b> Введите <b>описание</b> лота.\n"
+        "📝 <b>Шаг 3/8.</b> Введите <b>описание</b> лота.\n"
         "Напишите <code>-</code> чтобы оставить без описания.",
         parse_mode="HTML",
     )
@@ -85,7 +85,7 @@ async def process_description(message: Message, state: FSMContext) -> None:
     await state.update_data(description="" if desc == "-" else desc)
     await state.set_state(NewLotStates.waiting_start_price)
     await message.answer(
-        "💰 <b>Шаг 4/6.</b> Укажите <b>стартовую цену</b> в рублях (целое число).",
+        "💰 <b>Шаг 4/8.</b> Укажите <b>стартовую цену</b> в рублях (целое число).",
         parse_mode="HTML",
     )
 
@@ -102,7 +102,7 @@ async def process_start_price(message: Message, state: FSMContext) -> None:
     await state.update_data(start_price=price)
     await state.set_state(NewLotStates.waiting_min_step)
     await message.answer(
-        "📈 <b>Шаг 5/6.</b> Укажите <b>минимальный шаг ставки</b> в рублях.",
+        "📈 <b>Шаг 5/8.</b> Укажите <b>минимальный шаг ставки</b> в рублях.",
         parse_mode="HTML",
     )
 
@@ -119,7 +119,7 @@ async def process_min_step(message: Message, state: FSMContext) -> None:
     await state.update_data(min_step=step)
     await state.set_state(NewLotStates.waiting_blitz_price)
     await message.answer(
-        "⚡ <b>Шаг 6/7.</b> Укажите <b>блиц-цену</b> (купить сейчас).\n\n"
+        "⚡ <b>Шаг 6/8.</b> Укажите <b>блиц-цену</b> (купить сейчас).\n\n"
         "Эта кнопка позволяет сразу выиграть лот по фиксированной цене "
         "и исчезает после 10 ставок.\n\n"
         "Введите сумму в рублях или напишите <code>-</code> чтобы пропустить.",
@@ -140,9 +140,22 @@ async def process_blitz_price(message: Message, state: FSMContext) -> None:
             await message.answer("❗ Укажите корректную сумму или напишите <code>-</code> чтобы пропустить.", parse_mode="HTML")
             return
     await state.update_data(blitz_price=blitz_price)
+    await state.set_state(NewLotStates.waiting_rules)
+    await message.answer(
+        "📋 <b>Шаг 7/8.</b> Введите <b>правила аукциона</b>.\n\n"
+        "Этот текст участники увидят при нажатии кнопки «ℹ️ Инфо» под лотом.\n\n"
+        "Напишите <code>-</code> чтобы оставить без правил.",
+        parse_mode="HTML",
+    )
+
+
+@router.message(NewLotStates.waiting_rules, F.text)
+async def process_rules(message: Message, state: FSMContext) -> None:
+    rules = message.text.strip()
+    await state.update_data(rules=None if rules == "-" else rules)
     await state.set_state(NewLotStates.waiting_duration)
     await message.answer(
-        "⏱ <b>Шаг 7/7.</b> Выберите или введите <b>длительность аукциона</b>.\n\n"
+        "⏱ <b>Шаг 8/8.</b> Выберите или введите <b>длительность аукциона</b>.\n\n"
         "Можно ввести число минут вручную или выбрать готовый вариант:",
         parse_mode="HTML",
         reply_markup=duration_keyboard(),
@@ -178,6 +191,8 @@ async def _finalize_duration(
     data = await state.get_data()
     blitz = data.get("blitz_price")
     blitz_line = f"⚡ Блиц-цена: <b>{blitz:,} ₽</b> (до 10 ставок)\n" if blitz else ""
+    rules = data.get("rules")
+    rules_line = f"📋 Правила: <i>{rules[:80]}{'…' if len(rules) > 80 else ''}</i>\n" if rules else ""
 
     preview_text = (
         "👀 <b>Превью лота:</b>\n\n"
@@ -186,6 +201,7 @@ async def _finalize_duration(
         f"💰 Стартовая цена: <b>{data['start_price']:,} ₽</b>\n"
         f"📈 Минимальный шаг: <b>{data['min_step']:,} ₽</b>\n"
         f"{blitz_line}"
+        f"{rules_line}"
         f"⏱ Длительность: <b>{minutes} мин</b>\n\n"
         "Всё верно? Публикуем?"
     )
@@ -219,6 +235,7 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
         end_time=end_time,
         created_by=callback.from_user.id,
         blitz_price=data.get("blitz_price"),
+        rules=data.get("rules"),
     )
 
     lot = await db.get_lot(lot_id)

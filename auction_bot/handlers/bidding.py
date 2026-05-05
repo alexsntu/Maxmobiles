@@ -7,11 +7,10 @@ Ways to bid:
   3. Reply to the lot message with a plain number in the group
 """
 
-import re
 from datetime import datetime, timedelta, timezone
 
 from aiogram import Bot, F, Router
-from aiogram.types import CallbackQuery, ForceReply, Message
+from aiogram.types import CallbackQuery, Message
 
 import database as db
 from config import ANTI_SNIPE_SECONDS, GROUP_ID
@@ -19,15 +18,6 @@ from keyboards import lot_keyboard
 from utils import format_lot_message, seconds_until
 
 router = Router()
-
-# Marker embedded in the ForceReply prompt so we can extract lot_id from it
-_LOT_ID_MARKER = "📌 lot_id:"
-
-
-def _extract_lot_id(text: str) -> int | None:
-    """Extract lot_id from the ForceReply prompt text."""
-    m = re.search(rf"{re.escape(_LOT_ID_MARKER)}\s*(\d+)", text or "")
-    return int(m.group(1)) if m else None
 
 
 # ─── Core bid logic ───────────────────────────────────────────────────────────
@@ -58,6 +48,11 @@ async def _place_bid(
     remaining = seconds_until(lot["end_time"])
     if remaining <= 0:
         msg = "⏹ Время аукциона истекло."
+        await (reply_target.answer(msg, show_alert=True) if is_callback else reply_target.answer(msg))
+        return
+
+    if lot.get("winner_id") == user_id:
+        msg = "⏳ Вы уже лидируете! Дождитесь ставки другого участника, чтобы сделать свою ставку снова."
         await (reply_target.answer(msg, show_alert=True) if is_callback else reply_target.answer(msg))
         return
 
@@ -133,6 +128,13 @@ async def quick_bid(callback: CallbackQuery, bot: Bot) -> None:
         await callback.answer("Аукцион уже завершён.", show_alert=True)
         return
 
+    if lot.get("winner_id") == callback.from_user.id:
+        await callback.answer(
+            "⏳ Вы уже лидируете! Дождитесь ставки другого участника, чтобы сделать свою ставку снова.",
+            show_alert=True,
+        )
+        return
+
     amount = lot["current_price"] + increment
 
     await _place_bid(
@@ -147,78 +149,7 @@ async def quick_bid(callback: CallbackQuery, bot: Bot) -> None:
     )
 
 
-# ─── Way 2: Custom amount via ForceReply DM ───────────────────────────────────
-
-@router.callback_query(F.data.startswith("bid:"))
-async def bid_button(callback: CallbackQuery, bot: Bot) -> None:
-    """Send a ForceReply message in PM. lot_id is embedded in the text."""
-    lot_id = int(callback.data.split(":")[1])
-    lot = await db.get_lot(lot_id)
-
-    if lot is None or lot["status"] != "active":
-        await callback.answer("Аукцион уже завершён.", show_alert=True)
-        return
-
-    min_bid = lot["current_price"] + lot["min_step"]
-
-    try:
-        await bot.send_message(
-            chat_id=callback.from_user.id,
-            text=(
-                f"✏️ <b>Своя ставка — {lot['title']}</b>\n\n"
-                f"Текущая цена: <b>{lot['current_price']:,} ₽</b>\n"
-                f"Минимальная ставка: <b>{min_bid:,} ₽</b>\n\n"
-                f"Введите сумму и нажмите отправить:\n\n"
-                f"<i>{_LOT_ID_MARKER} {lot_id}</i>"
-            ),
-            parse_mode="HTML",
-            reply_markup=ForceReply(selective=True, input_field_placeholder=f"от {min_bid:,} ₽"),
-        )
-        await callback.answer("Проверьте личные сообщения 👆")
-    except Exception:
-        await callback.answer(
-            "⚠️ Сначала напишите боту /start в личке.",
-            show_alert=True,
-        )
-
-
-@router.message(F.chat.type == "private", F.reply_to_message)
-async def bid_amount_pm(message: Message, bot: Bot) -> None:
-    """Handle reply to ForceReply prompt in PM — extract lot_id from original message."""
-    # Only handle replies to our bot's messages that contain the lot_id marker
-    replied = message.reply_to_message
-    if not replied or not replied.text:
-        return
-
-    lot_id = _extract_lot_id(replied.text)
-    if lot_id is None:
-        return  # Not our ForceReply message
-
-    if not message.text:
-        await message.answer("❗ Введите сумму числом.")
-        return
-
-    try:
-        amount = int(message.text.strip().replace(" ", "").replace(",", ""))
-        if amount <= 0:
-            raise ValueError
-    except ValueError:
-        await message.answer("❗ Введите корректную сумму — целое положительное число.")
-        return
-
-    await _place_bid(
-        bot=bot,
-        lot_id=lot_id,
-        user_id=message.from_user.id,
-        username=message.from_user.username,
-        full_name=message.from_user.full_name,
-        amount=amount,
-        reply_target=message,
-        is_callback=False,
-    )
-
-
-# ─── Way 3: Reply to lot message with number in group ─────────────────────────
+# ─── Way 2: Reply to lot message with number in group ─────────────────────────
 
 @router.message(
     F.chat.id == GROUP_ID,
@@ -340,6 +271,25 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
             pass
 
     await callback.answer("⚡ Поздравляем! Лот ваш!", show_alert=True)
+
+
+# ─── Info / rules popup ───────────────────────────────────────────────────────
+
+@router.callback_query(F.data.startswith("info:"))
+async def show_info(callback: CallbackQuery) -> None:
+    """Show auction rules for this lot."""
+    lot_id = int(callback.data.split(":")[1])
+    lot = await db.get_lot(lot_id)
+
+    if lot is None:
+        await callback.answer("Лот не найден.", show_alert=True)
+        return
+
+    rules = lot.get("rules") or ""
+    if rules:
+        await callback.answer(rules, show_alert=True)
+    else:
+        await callback.answer("ℹ️ Правила для этого лота не заданы.", show_alert=True)
 
 
 # ─── My bid popup ─────────────────────────────────────────────────────────────

@@ -30,8 +30,9 @@ def lot_keyboard(
 
     builder.button(text="📊 Топ ставок", callback_data=f"history:{lot_id}")
     builder.button(text="👤 Моя ставка", callback_data=f"mybid:{lot_id}")
+    builder.button(text="ℹ️ Инфо",       callback_data=f"info:{lot_id}")
 
-    row_layout = [3, 2, 2]
+    row_layout = [3, 2, 3]
 
     # Блиц-кнопка — только если цена задана и ставок меньше лимита
     if blitz_price and bid_count < BLITZ_MAX_BIDS:

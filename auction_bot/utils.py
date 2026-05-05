@@ -29,6 +29,11 @@ def format_lot_message(lot: dict, top_bids: list[dict] | None = None, bid_count:
     blitz_available = blitz and bid_count < BLITZ_MAX_BIDS and lot.get("status") == "active"
     blitz_line = f"⚡ <b>Блиц-цена:</b> {blitz:,} ₽\n" if blitz_available else ""
 
+    remaining_line = ""
+    if lot["status"] == "active":
+        remaining = seconds_until(lot["end_time"])
+        remaining_line = f"⏳ <b>Осталось:</b> {format_time_remaining(remaining)}\n"
+
     base = (
         f"🏷 <b>{lot['title']}</b>\n\n"
         f"{desc_block}"
@@ -37,6 +42,7 @@ def format_lot_message(lot: dict, top_bids: list[dict] | None = None, bid_count:
         f"{blitz_line}"
         f"🔝 <b>Текущая ставка:</b> {lot['current_price']:,} ₽\n"
         f"⏰ <b>Окончание:</b> {time_str}\n"
+        f"{remaining_line}"
         f"🔖 <b>ID лота:</b> #{lot['id']}"
     )
 
@@ -96,3 +102,21 @@ def seconds_until(end_time_iso: str) -> float:
     end_time = datetime.fromisoformat(end_time_iso)
     now = datetime.now(tz=end_time.tzinfo)
     return (end_time - now).total_seconds()
+
+
+def format_time_remaining(seconds: float) -> str:
+    """Human-readable countdown string for lot end time."""
+    if seconds <= 0:
+        return "истекло"
+    total = int(seconds)
+    days = total // 86400
+    hours = (total % 86400) // 3600
+    minutes = (total % 3600) // 60
+    secs = total % 60
+    if days > 0:
+        return f"{days} д {hours} ч {minutes} мин"
+    if hours > 0:
+        return f"{hours} ч {minutes} мин"
+    if minutes > 0:
+        return f"{minutes} мин {secs} сек"
+    return f"{secs} сек"

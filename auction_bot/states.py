@@ -9,6 +9,7 @@ class NewLotStates(StatesGroup):
     waiting_start_price = State()
     waiting_min_step    = State()
     waiting_blitz_price = State()
+    waiting_rules       = State()
     waiting_duration    = State()
     waiting_confirm     = State()
 
