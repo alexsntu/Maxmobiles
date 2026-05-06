@@ -29,11 +29,6 @@ def format_lot_message(lot: dict, top_bids: list[dict] | None = None, bid_count:
     blitz_available = blitz and bid_count < BLITZ_MAX_BIDS and lot.get("status") == "active"
     blitz_line = f"⚡ <b>Блиц-цена:</b> {blitz:,} ₽\n" if blitz_available else ""
 
-    remaining_line = ""
-    if lot["status"] == "active":
-        remaining = seconds_until(lot["end_time"])
-        remaining_line = f"⏳ <b>Осталось:</b> {format_time_remaining(remaining)}\n"
-
     base = (
         f"🏷 <b>{lot['title']}</b>\n\n"
         f"{desc_block}"
@@ -41,9 +36,7 @@ def format_lot_message(lot: dict, top_bids: list[dict] | None = None, bid_count:
         f"📈 <b>Минимальный шаг:</b> {lot['min_step']:,} ₽\n"
         f"{blitz_line}"
         f"🔝 <b>Текущая ставка:</b> {lot['current_price']:,} ₽\n"
-        f"⏰ <b>Окончание:</b> {time_str}\n"
-        f"{remaining_line}"
-        f"🔖 <b>ID лота:</b> #{lot['id']}"
+        f"⏰ <b>Окончание:</b> {time_str}"
     )
 
     if top_bids:
