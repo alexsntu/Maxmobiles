@@ -284,7 +284,11 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
 
 @router.callback_query(F.data.startswith("info:"))
 async def show_info(callback: CallbackQuery) -> None:
-    """Show auction rules for this lot."""
+    """Show auction rules for this lot.
+
+    Short rules (≤ 195 chars) are shown as a Telegram popup.
+    Long rules are sent as a regular reply message in the chat — no length limit.
+    """
     try:
         lot_id = int(callback.data.split(":")[1])
         lot = await db.get_lot(lot_id)
@@ -294,14 +298,23 @@ async def show_info(callback: CallbackQuery) -> None:
             return
 
         rules = (lot.get("rules") or "").strip()
-        if rules:
-            text = rules if len(rules) <= _TG_ANSWER_LIMIT else rules[:_TG_ANSWER_LIMIT - 1] + "…"
-        else:
-            text = "ℹ️ Правила для этого лота не заданы."
 
-        await callback.answer(text, show_alert=True)
+        if not rules:
+            await callback.answer("ℹ️ Правила для этого лота не заданы.", show_alert=True)
+            return
+
+        if len(rules) <= _TG_ANSWER_LIMIT:
+            # Укладывается в лимит — показываем попап
+            await callback.answer(rules, show_alert=True)
+        else:
+            # Длинные правила — отправляем сообщением в чат (лимита нет)
+            await callback.message.answer(
+                f"ℹ️ <b>Правила лота #{lot_id}:</b>\n\n{rules}",
+                parse_mode="HTML",
+            )
+            await callback.answer()   # убираем спиннер с кнопки
     except Exception:
-        logger.exception("show_info error (lot callback_data=%s)", callback.data)
+        logger.exception("show_info error (callback_data=%s)", callback.data)
         await callback.answer("⚠️ Не удалось загрузить информацию.", show_alert=True)
 
 

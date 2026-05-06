@@ -15,26 +15,25 @@ def lot_keyboard(
     """
     Inline keyboard with quickbid buttons.
 
-    bid_variants=1 — only one button (+min_step).
-    bid_variants=3 — three buttons (+1x, +2x, +5x min_step).
+    bid_variants=1 — only one button (Сделать ставку + min_step).
+    bid_variants=3 — three buttons (×1, ×2, ×5 min_step).
     Blitz button shown only when blitz_price is set and bid_count < BLITZ_MAX_BIDS.
-    Bottom row: 'Моя ставка' and 'Инфо'.
+    Bottom row: 'Моя ставка'.
     """
     builder = InlineKeyboardBuilder()
 
     multipliers = [1, 2, 5] if bid_variants >= 3 else [1]
     for m in multipliers:
         amount = min_step * m
-        label = f"+{amount:,} ₽".replace(",", " ")
+        label = f"🔨 Сделать ставку +{amount:,} ₽".replace(",", " ")
         builder.button(
             text=label,
             callback_data=f"quickbid:{lot_id}:{amount}",
         )
 
     builder.button(text="👤 Моя ставка", callback_data=f"mybid:{lot_id}")
-    builder.button(text="ℹ️ Инфо",       callback_data=f"info:{lot_id}")
 
-    row_layout = [len(multipliers), 2]
+    row_layout = [len(multipliers), 1]
 
     # Блиц-кнопка — только если цена задана и ставок меньше лимита
     if blitz_price and bid_count < BLITZ_MAX_BIDS:
