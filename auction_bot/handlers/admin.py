@@ -22,7 +22,7 @@ from keyboards import (
     lot_keyboard,
 )
 from states import NewLotStates
-from utils import format_lot_message
+from utils import format_lot_message, format_time_remaining
 
 MOSCOW_TZ = ZoneInfo("Europe/Moscow")
 
@@ -371,6 +371,74 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
     await callback.answer("Лот опубликован!")
 
 
+# ─── Stats helper ─────────────────────────────────────────────────────────────
+
+async def _build_stats_text(lot_id: int) -> str:
+    """Build a full statistics message for a lot (works for any status)."""
+    lot = await db.get_lot(lot_id)
+    if not lot:
+        return f"❌ Лот #{lot_id} не найден."
+
+    bids_chrono = await db.get_lot_bids_chrono(lot_id)
+    unique_count = await db.get_unique_bidder_count(lot_id)
+    total_bids = len(bids_chrono)
+
+    status_map = {"active": "🟢 Активен", "finished": "✅ Завершён", "cancelled": "🚫 Отменён"}
+    status_label = status_map.get(lot["status"], lot["status"])
+
+    start = lot["start_price"]
+    current = lot["current_price"]
+    gain = current - start
+    gain_pct = round(gain / start * 100) if start else 0
+    gain_line = (
+        f"📈 Прирост: <b>+{gain:,} ₽ (+{gain_pct}%)</b>\n".replace(",", " ")
+        if gain > 0 else ""
+    )
+
+    # Winner info
+    winner_line = ""
+    if lot.get("winner_id"):
+        user = await db.get_user(lot["winner_id"])
+        if user:
+            name = user.get("full_name") or user.get("username") or f"#{lot['winner_id']}"
+            winner_line = f"🏆 Победитель: <b>{name}</b>\n"
+
+    header = (
+        f"📊 <b>Статистика лота #{lot_id}</b>\n"
+        f"🏷 {lot['title']}\n\n"
+        f"Статус: {status_label}\n"
+        f"👥 Участников: <b>{unique_count}</b>\n"
+        f"🔢 Всего ставок: <b>{total_bids}</b>\n"
+        f"💰 Стартовая цена: <b>{start:,} ₽</b>\n".replace(",", " ") +
+        f"🔝 Итоговая цена: <b>{current:,} ₽</b>\n".replace(",", " ") +
+        gain_line +
+        winner_line
+    )
+
+    if not bids_chrono:
+        return header + "\n<i>Ставок не было.</i>"
+
+    medals = ["🥇", "🥈", "🥉"]
+    # Sort by amount desc to assign medals
+    sorted_by_amount = sorted(bids_chrono, key=lambda b: b["amount"], reverse=True)
+    medal_map = {b["id"]: medals[i] if i < 3 else f"{i + 1}." for i, b in enumerate(sorted_by_amount)}
+
+    lines = []
+    for b in reversed(bids_chrono):   # newest first in the list
+        name = b.get("full_name") or b.get("username") or f"#{b['user_id']}"
+        try:
+            dt = datetime.fromisoformat(b["created_at"]).replace(tzinfo=timezone.utc)
+            dt_msk = dt.astimezone(MOSCOW_TZ)
+            time_str = dt_msk.strftime("%d.%m %H:%M")
+        except Exception:
+            time_str = "—"
+        medal = medal_map.get(b["id"], "•")
+        lines.append(f"{medal} <b>{name}</b> — {b['amount']:,} ₽ · {time_str}".replace(",", " "))
+
+    bids_block = "\n📋 <b>История ставок (новые → старые):</b>\n" + "\n".join(lines)
+    return header + bids_block
+
+
 # ─── /lots ────────────────────────────────────────────────────────────────────
 
 @router.message(Command("lots"))
@@ -420,13 +488,9 @@ async def admin_lot_bids(callback: CallbackQuery) -> None:
         await callback.answer("⛔ Нет доступа.", show_alert=True)
         return
     lot_id = int(callback.data.split(":")[1])
-    bids = await db.get_lot_bids(lot_id)
-    if not bids:
-        await callback.answer("Ставок ещё нет.", show_alert=True)
-        return
-    lines = [f"{i+1}. {b['full_name'] or b['username'] or b['user_id']} — {b['amount']:,} ₽"
-             for i, b in enumerate(bids[:20])]
-    await callback.answer("\n".join(lines), show_alert=True)
+    text = await _build_stats_text(lot_id)
+    await callback.message.answer(text, parse_mode="HTML")
+    await callback.answer()
 
 
 @router.callback_query(F.data.startswith("admin_cancel:"))
@@ -445,10 +509,11 @@ async def admin_cancel_lot(callback: CallbackQuery, bot: Bot) -> None:
     # Update group message
     if lot["group_message_id"]:
         lot_updated = await db.get_lot(lot_id)
+        lot_group_id = lot.get("group_chat_id") or GROUP_ID
         cancelled_text = format_lot_message(lot_updated)
         try:
             await bot.edit_message_caption(
-                chat_id=GROUP_ID,
+                chat_id=lot_group_id,
                 message_id=lot["group_message_id"],
                 caption=cancelled_text,
                 parse_mode="HTML",
@@ -475,6 +540,21 @@ async def admin_back(callback: CallbackQuery) -> None:
             reply_markup=admin_lots_keyboard(lots),
         )
     await callback.answer()
+
+
+# ─── /stats <id> ──────────────────────────────────────────────────────────────
+
+@router.message(Command("stats"))
+async def cmd_stats(message: Message) -> None:
+    if not _admin_only(message):
+        return
+    parts = message.text.split()
+    if len(parts) < 2 or not parts[1].isdigit():
+        await message.answer("Использование: /stats &lt;id лота&gt;", parse_mode="HTML")
+        return
+    lot_id = int(parts[1])
+    text = await _build_stats_text(lot_id)
+    await message.answer(text, parse_mode="HTML")
 
 
 # ─── /cancel <id> ─────────────────────────────────────────────────────────────

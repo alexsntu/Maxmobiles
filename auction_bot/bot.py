@@ -58,6 +58,7 @@ async def main() -> None:
         BotCommand(command="help",    description="ℹ️ Справка"),
         BotCommand(command="newlot",  description="➕ Создать новый лот"),
         BotCommand(command="lots",    description="📋 Активные лоты"),
+        BotCommand(command="stats",   description="📊 Статистика лота"),
         BotCommand(command="cancel",  description="🚫 Отменить лот"),
     ]
     for admin_id in ADMIN_IDS:

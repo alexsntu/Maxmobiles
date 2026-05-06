@@ -227,6 +227,33 @@ async def get_lot_bids(lot_id: int) -> list[dict]:
             return [dict(r) for r in rows]
 
 
+async def get_unique_bidder_count(lot_id: int) -> int:
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute(
+            "SELECT COUNT(DISTINCT user_id) FROM bids WHERE lot_id = ?", (lot_id,)
+        ) as cur:
+            row = await cur.fetchone()
+            return row[0] if row else 0
+
+
+async def get_lot_bids_chrono(lot_id: int) -> list[dict]:
+    """All bids for a lot ordered chronologically (oldest first)."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            """
+            SELECT b.*, u.username, u.full_name
+            FROM bids b
+            LEFT JOIN users u ON b.user_id = u.telegram_id
+            WHERE b.lot_id = ?
+            ORDER BY b.created_at ASC
+            """,
+            (lot_id,),
+        ) as cur:
+            rows = await cur.fetchall()
+            return [dict(r) for r in rows]
+
+
 async def get_user_bid_for_lot(lot_id: int, user_id: int) -> Optional[dict]:
     async with aiosqlite.connect(DB_PATH) as db:
         db.row_factory = aiosqlite.Row

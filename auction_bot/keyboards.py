@@ -89,7 +89,7 @@ def admin_lots_keyboard(lots: list[dict]) -> InlineKeyboardMarkup:
 def admin_lot_actions_keyboard(lot_id: int) -> InlineKeyboardMarkup:
     """Per-lot admin action keyboard."""
     builder = InlineKeyboardBuilder()
-    builder.button(text="📊 Ставки",       callback_data=f"admin_bids:{lot_id}")
+    builder.button(text="📊 Статистика",   callback_data=f"admin_bids:{lot_id}")
     builder.button(text="🚫 Отменить лот", callback_data=f"admin_cancel:{lot_id}")
     builder.button(text="◀️ Назад",        callback_data="admin_back")
     builder.adjust(2, 1)
