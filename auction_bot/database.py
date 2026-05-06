@@ -48,6 +48,7 @@ async def init_db() -> None:
         for migration in [
             "ALTER TABLE lots ADD COLUMN blitz_price INTEGER",
             "ALTER TABLE lots ADD COLUMN rules TEXT",
+            "ALTER TABLE lots ADD COLUMN bid_variants INTEGER NOT NULL DEFAULT 3",
         ]:
             try:
                 await db.execute(migration)
@@ -95,13 +96,15 @@ async def create_lot(
     created_by: int,
     blitz_price: Optional[int] = None,
     rules: Optional[str] = None,
+    bid_variants: int = 3,
 ) -> int:
     async with aiosqlite.connect(DB_PATH) as db:
         cur = await db.execute(
             """
             INSERT INTO lots
-                (title, description, photo_id, start_price, min_step, blitz_price, current_price, end_time, created_by, rules)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (title, description, photo_id, start_price, min_step, blitz_price,
+                 current_price, end_time, created_by, rules, bid_variants)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 title,
@@ -114,6 +117,7 @@ async def create_lot(
                 end_time.isoformat(),
                 created_by,
                 rules,
+                bid_variants,
             ),
         )
         await db.commit()

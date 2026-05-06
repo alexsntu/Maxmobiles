@@ -8,6 +8,7 @@ class NewLotStates(StatesGroup):
     waiting_description = State()
     waiting_start_price = State()
     waiting_min_step    = State()
+    waiting_bid_variants = State()  # 1 или 3 — количество кнопок-вариантов ставки
     waiting_blitz_price = State()
     waiting_rules       = State()
     waiting_duration    = State()

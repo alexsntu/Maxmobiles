@@ -100,6 +100,7 @@ async def _place_bid(
                 lot_updated["min_step"],
                 lot_updated.get("blitz_price"),
                 bid_count,
+                bid_variants=lot_updated.get("bid_variants") or 3,
             ),
         )
     except Exception:

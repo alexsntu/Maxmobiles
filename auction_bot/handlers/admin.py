@@ -15,6 +15,7 @@ from config import ADMIN_IDS, GROUP_ID
 from keyboards import (
     admin_lot_actions_keyboard,
     admin_lots_keyboard,
+    bid_variants_keyboard,
     confirm_lot_keyboard,
     duration_keyboard,
     lot_keyboard,
@@ -43,7 +44,7 @@ async def cmd_newlot(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.set_state(NewLotStates.waiting_photo)
     await message.answer(
-        "📸 <b>Шаг 1/8.</b> Отправьте фото товара.",
+        "📸 <b>Шаг 1/9.</b> Отправьте фото товара.",
         parse_mode="HTML",
     )
 
@@ -54,7 +55,7 @@ async def process_photo(message: Message, state: FSMContext) -> None:
     await state.update_data(photo_id=photo_id)
     await state.set_state(NewLotStates.waiting_title)
     await message.answer(
-        "✏️ <b>Шаг 2/8.</b> Введите <b>название</b> лота (до 100 символов).",
+        "✏️ <b>Шаг 2/9.</b> Введите <b>название</b> лота (до 100 символов).",
         parse_mode="HTML",
     )
 
@@ -73,7 +74,7 @@ async def process_title(message: Message, state: FSMContext) -> None:
     await state.update_data(title=title)
     await state.set_state(NewLotStates.waiting_description)
     await message.answer(
-        "📝 <b>Шаг 3/8.</b> Введите <b>описание</b> лота.\n"
+        "📝 <b>Шаг 3/9.</b> Введите <b>описание</b> лота.\n"
         "Напишите <code>-</code> чтобы оставить без описания.",
         parse_mode="HTML",
     )
@@ -85,7 +86,7 @@ async def process_description(message: Message, state: FSMContext) -> None:
     await state.update_data(description="" if desc == "-" else desc)
     await state.set_state(NewLotStates.waiting_start_price)
     await message.answer(
-        "💰 <b>Шаг 4/8.</b> Укажите <b>стартовую цену</b> в рублях (целое число).",
+        "💰 <b>Шаг 4/9.</b> Укажите <b>стартовую цену</b> в рублях (целое число).",
         parse_mode="HTML",
     )
 
@@ -102,7 +103,8 @@ async def process_start_price(message: Message, state: FSMContext) -> None:
     await state.update_data(start_price=price)
     await state.set_state(NewLotStates.waiting_min_step)
     await message.answer(
-        "📈 <b>Шаг 5/8.</b> Укажите <b>минимальный шаг ставки</b> в рублях.",
+        "📈 <b>Шаг 5/9.</b> Укажите <b>минимальный шаг ставки</b> в рублях.\n\n"
+        "<i>(Для режима фиксированной цены этот шаг не используется — можно ввести любое число.)</i>",
         parse_mode="HTML",
     )
 
@@ -117,14 +119,27 @@ async def process_min_step(message: Message, state: FSMContext) -> None:
         await message.answer("❗ Укажите корректный шаг — целое положительное число.")
         return
     await state.update_data(min_step=step)
-    await state.set_state(NewLotStates.waiting_blitz_price)
+    await state.set_state(NewLotStates.waiting_bid_variants)
     await message.answer(
-        "⚡ <b>Шаг 6/8.</b> Укажите <b>блиц-цену</b> (купить сейчас).\n\n"
+        "🎯 <b>Шаг 6/9.</b> Сколько вариантов ставки показывать участникам?",
+        parse_mode="HTML",
+        reply_markup=bid_variants_keyboard(),
+    )
+
+
+@router.callback_query(NewLotStates.waiting_bid_variants, F.data.startswith("bidvariants:"))
+async def process_bid_variants(callback: CallbackQuery, state: FSMContext) -> None:
+    bid_variants = int(callback.data.split(":")[1])   # 1 или 3
+    await state.update_data(bid_variants=bid_variants)
+    await state.set_state(NewLotStates.waiting_blitz_price)
+    await callback.message.edit_text(
+        "⚡ <b>Шаг 7/9.</b> Укажите <b>блиц-цену</b> (купить сейчас).\n\n"
         "Эта кнопка позволяет сразу выиграть лот по фиксированной цене "
         "и исчезает после 10 ставок.\n\n"
         "Введите сумму в рублях или напишите <code>-</code> чтобы пропустить.",
         parse_mode="HTML",
     )
+    await callback.answer()
 
 
 @router.message(NewLotStates.waiting_blitz_price, F.text)
@@ -142,7 +157,7 @@ async def process_blitz_price(message: Message, state: FSMContext) -> None:
     await state.update_data(blitz_price=blitz_price)
     await state.set_state(NewLotStates.waiting_rules)
     await message.answer(
-        "📋 <b>Шаг 7/8.</b> Введите <b>правила аукциона</b>.\n\n"
+        "📋 <b>Шаг 8/9.</b> Введите <b>правила аукциона</b>.\n\n"
         "Этот текст участники увидят при нажатии кнопки «ℹ️ Инфо» под лотом.\n\n"
         "Напишите <code>-</code> чтобы оставить без правил.",
         parse_mode="HTML",
@@ -155,7 +170,7 @@ async def process_rules(message: Message, state: FSMContext) -> None:
     await state.update_data(rules=None if rules == "-" else rules)
     await state.set_state(NewLotStates.waiting_duration)
     await message.answer(
-        "⏱ <b>Шаг 8/8.</b> Выберите или введите <b>длительность аукциона</b>.\n\n"
+        "⏱ <b>Шаг 9/9.</b> Выберите или введите <b>длительность аукциона</b>.\n\n"
         "Можно ввести число минут вручную или выбрать готовый вариант:",
         parse_mode="HTML",
         reply_markup=duration_keyboard(),
@@ -193,6 +208,8 @@ async def _finalize_duration(
     blitz_line = f"⚡ Блиц-цена: <b>{blitz:,} ₽</b> (до 10 ставок)\n" if blitz else ""
     rules = data.get("rules")
     rules_line = f"📋 Правила: <i>{rules[:80]}{'…' if len(rules) > 80 else ''}</i>\n" if rules else ""
+    bid_variants = data.get("bid_variants", 3)
+    variants_line = f"🎯 Вариантов ставки: <b>{bid_variants}</b>\n"
 
     preview_text = (
         "👀 <b>Превью лота:</b>\n\n"
@@ -200,6 +217,7 @@ async def _finalize_duration(
         f"{data.get('description', '') or '<i>Без описания</i>'}\n\n"
         f"💰 Стартовая цена: <b>{data['start_price']:,} ₽</b>\n"
         f"📈 Минимальный шаг: <b>{data['min_step']:,} ₽</b>\n"
+        f"{variants_line}"
         f"{blitz_line}"
         f"{rules_line}"
         f"⏱ Длительность: <b>{minutes} мин</b>\n\n"
@@ -226,6 +244,8 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
 
     end_time = datetime.fromisoformat(data["end_time"])
 
+    bid_variants = data.get("bid_variants", 3)
+
     lot_id = await db.create_lot(
         title=data["title"],
         description=data.get("description", ""),
@@ -236,6 +256,7 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
         created_by=callback.from_user.id,
         blitz_price=data.get("blitz_price"),
         rules=data.get("rules"),
+        bid_variants=bid_variants,
     )
 
     lot = await db.get_lot(lot_id)
@@ -246,7 +267,13 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
         photo=data["photo_id"],
         caption=lot_text,
         parse_mode="HTML",
-        reply_markup=lot_keyboard(lot_id, data["min_step"], data.get("blitz_price"), 0),
+        reply_markup=lot_keyboard(
+            lot_id,
+            data["min_step"],
+            data.get("blitz_price"),
+            0,
+            bid_variants=bid_variants,
+        ),
     )
 
     await db.set_lot_message_id(lot_id, sent.message_id)
