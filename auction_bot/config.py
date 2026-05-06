@@ -19,7 +19,27 @@ ADMIN_IDS: list[int] = [
     if uid.strip()
 ]
 
-GROUP_ID: int = int(_require("GROUP_ID"))
+# ─── Каналы/группы для публикации лотов ───────────────────────────────────────
+# Формат GROUPS: "Название1:ID1,Название2:ID2"
+# Если GROUPS не задан — используется одиночный GROUP_ID (обратная совместимость)
+_groups_raw = os.getenv("GROUPS", "").strip()
+if _groups_raw:
+    GROUPS: list[tuple[str, int]] = [
+        (pair.split(":", 1)[0].strip(), int(pair.split(":", 1)[1].strip()))
+        for pair in _groups_raw.split(",")
+        if ":" in pair
+    ]
+else:
+    _gid = os.getenv("GROUP_ID")
+    if not _gid:
+        raise RuntimeError("Missing required env var: GROUPS or GROUP_ID")
+    GROUPS = [("Основной", int(_gid))]
+
+# Первый канал из списка (обратная совместимость со старым GROUP_ID)
+GROUP_ID: int = GROUPS[0][1]
+
+# Множество всех ID каналов (для фильтрации входящих сообщений)
+GROUP_IDS: set[int] = {gid for _, gid in GROUPS}
 
 TIMEZONE: str = os.getenv("TIMEZONE", "Europe/Moscow")
 

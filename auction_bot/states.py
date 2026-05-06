@@ -3,8 +3,9 @@ from aiogram.fsm.state import State, StatesGroup
 
 class NewLotStates(StatesGroup):
     """FSM states for the lot creation wizard."""
-    waiting_photo       = State()
-    waiting_title       = State()
+    waiting_group        = State()   # выбор канала (только если их несколько)
+    waiting_photo        = State()
+    waiting_title        = State()
     waiting_description = State()
     waiting_start_price = State()
     waiting_min_step    = State()

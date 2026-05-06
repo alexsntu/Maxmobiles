@@ -1,9 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-MOSCOW_TZ = ZoneInfo("Europe/Moscow")
-from typing import Any
-
 from aiogram import Bot, F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -14,17 +11,20 @@ from aiogram.types import (
 )
 
 import database as db
-from config import ADMIN_IDS, GROUP_ID
+from config import ADMIN_IDS, GROUP_ID, GROUPS
 from keyboards import (
     admin_lot_actions_keyboard,
     admin_lots_keyboard,
     bid_variants_keyboard,
     confirm_lot_keyboard,
     duration_keyboard,
+    group_select_keyboard,
     lot_keyboard,
 )
 from states import NewLotStates
 from utils import format_lot_message
+
+MOSCOW_TZ = ZoneInfo("Europe/Moscow")
 
 router = Router()
 
@@ -45,11 +45,33 @@ async def cmd_newlot(message: Message, state: FSMContext) -> None:
     if not _admin_only(message):
         return
     await state.clear()
+
+    if len(GROUPS) > 1:
+        await state.set_state(NewLotStates.waiting_group)
+        names = "\n".join(f"• {name}" for name, _ in GROUPS)
+        await message.answer(
+            f"📢 <b>В каком канале публикуем лот?</b>\n\n{names}",
+            parse_mode="HTML",
+            reply_markup=group_select_keyboard(GROUPS),
+        )
+    else:
+        await state.update_data(target_group_id=GROUPS[0][1], target_group_name=GROUPS[0][0])
+        await state.set_state(NewLotStates.waiting_photo)
+        await message.answer("📸 <b>Шаг 1/9.</b> Отправьте фото товара.", parse_mode="HTML")
+
+
+@router.callback_query(NewLotStates.waiting_group, F.data.startswith("group:"))
+async def process_group(callback: CallbackQuery, state: FSMContext) -> None:
+    group_id = int(callback.data.split(":")[1])
+    group_name = next((name for name, gid in GROUPS if gid == group_id), str(group_id))
+    await state.update_data(target_group_id=group_id, target_group_name=group_name)
     await state.set_state(NewLotStates.waiting_photo)
-    await message.answer(
+    await callback.message.edit_text(
+        f"📢 Канал: <b>{group_name}</b>\n\n"
         "📸 <b>Шаг 1/9.</b> Отправьте фото товара.",
         parse_mode="HTML",
     )
+    await callback.answer()
 
 
 @router.message(NewLotStates.waiting_photo, F.photo)
@@ -263,6 +285,8 @@ async def _finalize_duration(
     rules_line = f"📋 Правила: <i>{rules[:80]}{'…' if len(rules) > 80 else ''}</i>\n" if rules else ""
     bid_variants = data.get("bid_variants", 3)
     variants_line = f"🎯 Вариантов ставки: <b>{bid_variants}</b>\n"
+    group_name = data.get("target_group_name", "")
+    group_line = f"📢 Канал: <b>{group_name}</b>\n" if group_name and len(GROUPS) > 1 else ""
 
     preview_text = (
         "👀 <b>Превью лота:</b>\n\n"
@@ -273,7 +297,8 @@ async def _finalize_duration(
         f"{variants_line}"
         f"{blitz_line}"
         f"{rules_line}"
-        f"⏱ Завершение: <b>{time_label}</b>\n\n"
+        f"⏱ Завершение: <b>{time_label}</b>\n"
+        f"{group_line}\n"
         "Всё верно? Публикуем?"
     )
 
@@ -296,8 +321,9 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
     await state.clear()
 
     end_time = datetime.fromisoformat(data["end_time"])
-
     bid_variants = data.get("bid_variants", 3)
+    target_group_id = data.get("target_group_id") or GROUP_ID
+    target_group_name = data.get("target_group_name", "")
 
     lot_id = await db.create_lot(
         title=data["title"],
@@ -310,13 +336,14 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
         blitz_price=data.get("blitz_price"),
         rules=data.get("rules"),
         bid_variants=bid_variants,
+        group_chat_id=target_group_id,
     )
 
     lot = await db.get_lot(lot_id)
     lot_text = format_lot_message(lot)
 
     sent = await bot.send_photo(
-        chat_id=GROUP_ID,
+        chat_id=target_group_id,
         photo=data["photo_id"],
         caption=lot_text,
         parse_mode="HTML",
@@ -335,9 +362,10 @@ async def confirm_yes(callback: CallbackQuery, state: FSMContext, bot: Bot) -> N
     from scheduler import schedule_lot_close
     schedule_lot_close(lot_id, end_time, bot)
 
+    channel_hint = f" ({target_group_name})" if target_group_name else ""
     await callback.message.edit_text(
-        f"✅ Лот <b>#{lot_id}</b> опубликован в группе!\n"
-        f"Окончание: <b>{data['duration_minutes']} мин</b>",
+        f"✅ Лот <b>#{lot_id}</b> опубликован{channel_hint}!\n"
+        f"Завершение: <b>{data.get('duration_minutes')} мин</b>",
         parse_mode="HTML",
     )
     await callback.answer("Лот опубликован!")

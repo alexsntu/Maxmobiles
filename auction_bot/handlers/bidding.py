@@ -14,7 +14,7 @@ from aiogram import Bot, F, Router
 from aiogram.types import CallbackQuery, Message
 
 import database as db
-from config import ANTI_SNIPE_SECONDS, GROUP_ID
+from config import ANTI_SNIPE_SECONDS, GROUP_ID, GROUP_IDS
 from keyboards import lot_keyboard
 from utils import format_lot_message, seconds_until
 
@@ -95,9 +95,10 @@ async def _place_bid(
     if extended:
         caption += f"\n⚡ <i>Таймер продлён на {ANTI_SNIPE_SECONDS} сек!</i>"
 
+    lot_group_id = lot_updated.get("group_chat_id") or GROUP_ID
     try:
         await bot.edit_message_caption(
-            chat_id=GROUP_ID,
+            chat_id=lot_group_id,
             message_id=lot_updated["group_message_id"],
             caption=caption,
             parse_mode="HTML",
@@ -159,11 +160,12 @@ async def quick_bid(callback: CallbackQuery, bot: Bot) -> None:
 # ─── Way 2: Reply to lot message with number in group ─────────────────────────
 
 @router.message(
-    F.chat.id == GROUP_ID,
     F.reply_to_message.photo.as_("photos"),
     F.text.regexp(r"^\s*\d[\d\s,]*$"),
 )
 async def bid_via_reply(message: Message, bot: Bot) -> None:
+    if message.chat.id not in GROUP_IDS:
+        return
     if message.from_user.is_bot:
         return
 
@@ -236,10 +238,11 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
         lot["title"], user_id, full_name, username, blitz_price, is_blitz=True
     )
 
+    lot_group_id = lot.get("group_chat_id") or GROUP_ID
     if lot["group_message_id"]:
         try:
             await bot.edit_message_caption(
-                chat_id=GROUP_ID,
+                chat_id=lot_group_id,
                 message_id=lot["group_message_id"],
                 caption=caption + f"\n\n{announcement}",
                 parse_mode="HTML",
@@ -249,7 +252,7 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
             pass
 
     try:
-        await bot.send_message(GROUP_ID, announcement, parse_mode="HTML")
+        await bot.send_message(lot_group_id, announcement, parse_mode="HTML")
     except Exception:
         pass
 

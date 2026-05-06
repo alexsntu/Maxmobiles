@@ -59,6 +59,8 @@ async def _close_lot(lot_id: int, bot: Bot) -> None:
 
     await db.finish_lot(lot_id, winner_id)
 
+    lot_group_id = lot.get("group_chat_id") or GROUP_ID
+
     # Update the group message (caption = lot info + short winner line)
     lot_finished = await db.get_lot(lot_id)
     top_bids = await db.get_lot_bids(lot_id)
@@ -70,7 +72,7 @@ async def _close_lot(lot_id: int, bot: Bot) -> None:
     if lot["group_message_id"]:
         try:
             await bot.edit_message_caption(
-                chat_id=GROUP_ID,
+                chat_id=lot_group_id,
                 message_id=lot["group_message_id"],
                 caption=caption,
                 parse_mode="HTML",
@@ -84,7 +86,7 @@ async def _close_lot(lot_id: int, bot: Bot) -> None:
         lot["title"], winner_id, winner_full_name, winner_username, lot["current_price"]
     )
     try:
-        await bot.send_message(GROUP_ID, announcement, parse_mode="HTML")
+        await bot.send_message(lot_group_id, announcement, parse_mode="HTML")
     except Exception:
         pass
 

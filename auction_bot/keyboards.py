@@ -47,6 +47,15 @@ def lot_keyboard(
     return builder.as_markup()
 
 
+def group_select_keyboard(groups: list[tuple[str, int]]) -> InlineKeyboardMarkup:
+    """Step keyboard: choose which channel/group to publish the lot in."""
+    builder = InlineKeyboardBuilder()
+    for name, gid in groups:
+        builder.button(text=f"📢 {name}", callback_data=f"group:{gid}")
+    builder.adjust(1)
+    return builder.as_markup()
+
+
 def bid_variants_keyboard() -> InlineKeyboardMarkup:
     """Step keyboard: choose how many bid-increment buttons to show on the lot."""
     builder = InlineKeyboardBuilder()
