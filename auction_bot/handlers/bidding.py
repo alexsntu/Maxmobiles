@@ -7,6 +7,7 @@ Ways to bid:
   3. Reply to the lot message with a plain number in the group
 """
 
+import logging
 from datetime import datetime, timedelta, timezone
 
 from aiogram import Bot, F, Router
@@ -16,6 +17,11 @@ import database as db
 from config import ANTI_SNIPE_SECONDS, GROUP_ID
 from keyboards import lot_keyboard
 from utils import format_lot_message, seconds_until
+
+logger = logging.getLogger(__name__)
+
+# Telegram's hard limit for answerCallbackQuery text
+_TG_ANSWER_LIMIT = 195
 
 router = Router()
 
@@ -279,18 +285,24 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
 @router.callback_query(F.data.startswith("info:"))
 async def show_info(callback: CallbackQuery) -> None:
     """Show auction rules for this lot."""
-    lot_id = int(callback.data.split(":")[1])
-    lot = await db.get_lot(lot_id)
+    try:
+        lot_id = int(callback.data.split(":")[1])
+        lot = await db.get_lot(lot_id)
 
-    if lot is None:
-        await callback.answer("Лот не найден.", show_alert=True)
-        return
+        if lot is None:
+            await callback.answer("Лот не найден.", show_alert=True)
+            return
 
-    rules = lot.get("rules") or ""
-    if rules:
-        await callback.answer(rules, show_alert=True)
-    else:
-        await callback.answer("ℹ️ Правила для этого лота не заданы.", show_alert=True)
+        rules = (lot.get("rules") or "").strip()
+        if rules:
+            text = rules if len(rules) <= _TG_ANSWER_LIMIT else rules[:_TG_ANSWER_LIMIT - 1] + "…"
+        else:
+            text = "ℹ️ Правила для этого лота не заданы."
+
+        await callback.answer(text, show_alert=True)
+    except Exception:
+        logger.exception("show_info error (lot callback_data=%s)", callback.data)
+        await callback.answer("⚠️ Не удалось загрузить информацию.", show_alert=True)
 
 
 # ─── My bid popup ─────────────────────────────────────────────────────────────
@@ -298,39 +310,48 @@ async def show_info(callback: CallbackQuery) -> None:
 @router.callback_query(F.data.startswith("mybid:"))
 async def my_bid(callback: CallbackQuery) -> None:
     """Show the user their own current highest bid for this lot."""
-    lot_id = int(callback.data.split(":")[1])
-    bid = await db.get_user_bid_for_lot(lot_id, callback.from_user.id)
+    try:
+        lot_id = int(callback.data.split(":")[1])
+        bid = await db.get_user_bid_for_lot(lot_id, callback.from_user.id)
 
-    if bid is None:
-        await callback.answer("У вас пока нет ставок по этому лоту.", show_alert=True)
-        return
+        if bid is None:
+            await callback.answer("У вас пока нет ставок по этому лоту.", show_alert=True)
+            return
 
-    lot = await db.get_lot(lot_id)
-    current = lot["current_price"] if lot else 0
-    is_leading = lot and lot.get("winner_id") == callback.from_user.id
+        lot = await db.get_lot(lot_id)
+        current = lot["current_price"] if lot else 0
+        is_leading = lot and lot.get("winner_id") == callback.from_user.id
 
-    status = "🥇 Вы лидируете!" if is_leading else "📉 Вас перебили."
-    await callback.answer(
-        f"👤 Ваша ставка: {bid['amount']:,} ₽\n"
-        f"🔝 Текущая цена: {current:,} ₽\n"
-        f"{status}",
-        show_alert=True,
-    )
+        status = "🥇 Вы лидируете!" if is_leading else "📉 Вас перебили."
+        text = (
+            f"👤 Ваша ставка: {bid['amount']:,} ₽\n"
+            f"🔝 Текущая цена: {current:,} ₽\n"
+            f"{status}"
+        )
+        await callback.answer(text[:_TG_ANSWER_LIMIT], show_alert=True)
+    except Exception:
+        logger.exception("my_bid error (lot callback_data=%s)", callback.data)
+        await callback.answer("⚠️ Не удалось загрузить данные.", show_alert=True)
 
 
 # ─── Bid history popup ────────────────────────────────────────────────────────
 
 @router.callback_query(F.data.startswith("history:"))
 async def show_history(callback: CallbackQuery) -> None:
-    lot_id = int(callback.data.split(":")[1])
-    bids = await db.get_lot_bids(lot_id)
-    if not bids:
-        await callback.answer("Ставок ещё нет.", show_alert=True)
-        return
-    medals = ["🥇", "🥈", "🥉"]
-    lines = []
-    for i, b in enumerate(bids[:10]):
-        name = b["full_name"] or b["username"] or str(b["user_id"])
-        prefix = medals[i] if i < 3 else f"{i+1}."
-        lines.append(f"{prefix} {name} — {b['amount']:,} ₽")
-    await callback.answer("\n".join(lines), show_alert=True)
+    try:
+        lot_id = int(callback.data.split(":")[1])
+        bids = await db.get_lot_bids(lot_id)
+        if not bids:
+            await callback.answer("Ставок ещё нет.", show_alert=True)
+            return
+        medals = ["🥇", "🥈", "🥉"]
+        lines = []
+        for i, b in enumerate(bids[:10]):
+            name = b["full_name"] or b["username"] or str(b["user_id"])
+            prefix = medals[i] if i < 3 else f"{i + 1}."
+            lines.append(f"{prefix} {name} — {b['amount']:,} ₽")
+        text = "\n".join(lines)
+        await callback.answer(text[:_TG_ANSWER_LIMIT], show_alert=True)
+    except Exception:
+        logger.exception("show_history error (lot callback_data=%s)", callback.data)
+        await callback.answer("⚠️ Не удалось загрузить историю.", show_alert=True)
