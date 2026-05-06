@@ -11,8 +11,9 @@ class NewLotStates(StatesGroup):
     waiting_bid_variants = State()  # 1 или 3 — количество кнопок-вариантов ставки
     waiting_blitz_price = State()
     waiting_rules       = State()
-    waiting_duration    = State()
-    waiting_confirm     = State()
+    waiting_duration      = State()
+    waiting_end_datetime  = State()   # точная дата/время завершения (МСК)
+    waiting_confirm       = State()
 
 
 class BidStates(StatesGroup):

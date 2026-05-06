@@ -101,5 +101,6 @@ def duration_keyboard() -> InlineKeyboardMarkup:
     ]
     for label, value in durations:
         builder.button(text=label, callback_data=f"duration:{value}")
-    builder.adjust(3)
+    builder.button(text="📅 Точная дата и время", callback_data="duration:datetime")
+    builder.adjust(3, 3, 1, 1)
     return builder.as_markup()

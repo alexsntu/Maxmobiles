@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+MOSCOW_TZ = ZoneInfo("Europe/Moscow")
 from typing import Any
 
 from aiogram import Bot, F, Router
@@ -179,7 +182,20 @@ async def process_rules(message: Message, state: FSMContext) -> None:
 
 @router.callback_query(NewLotStates.waiting_duration, F.data.startswith("duration:"))
 async def process_duration_callback(callback: CallbackQuery, state: FSMContext) -> None:
-    minutes = int(callback.data.split(":")[1])
+    value = callback.data.split(":")[1]
+    if value == "datetime":
+        await state.set_state(NewLotStates.waiting_end_datetime)
+        await callback.message.edit_text(
+            "📅 <b>Шаг 9/9 — точное время.</b>\n\n"
+            "Введите дату и время завершения аукциона по <b>московскому времени (МСК, UTC+3)</b>.\n\n"
+            "Формат: <code>ДД.ММ.ГГГГ ЧЧ:ММ</code>\n"
+            "Пример: <code>10.05.2026 18:30</code>",
+            parse_mode="HTML",
+        )
+        await callback.answer()
+        return
+
+    minutes = int(value)
     await _finalize_duration(callback.message, state, minutes, edit=True)
     await callback.answer()
 
@@ -196,10 +212,47 @@ async def process_duration_text(message: Message, state: FSMContext) -> None:
     await _finalize_duration(message, state, minutes)
 
 
+@router.message(NewLotStates.waiting_end_datetime, F.text)
+async def process_end_datetime(message: Message, state: FSMContext) -> None:
+    raw = message.text.strip()
+    try:
+        dt_naive = datetime.strptime(raw, "%d.%m.%Y %H:%M")
+    except ValueError:
+        await message.answer(
+            "❗ Неверный формат. Введите дату и время так:\n"
+            "<code>ДД.ММ.ГГГГ ЧЧ:ММ</code>\n\n"
+            "Пример: <code>10.05.2026 18:30</code>",
+            parse_mode="HTML",
+        )
+        return
+
+    end_time = dt_naive.replace(tzinfo=MOSCOW_TZ).astimezone(timezone.utc)
+    now = datetime.now(tz=timezone.utc)
+    if end_time <= now:
+        await message.answer(
+            "❗ Это время уже прошло. Введите будущую дату и время по МСК."
+        )
+        return
+
+    minutes = max(1, int((end_time - now).total_seconds() / 60))
+    time_label = dt_naive.strftime("%d.%m.%Y %H:%M МСК")
+    await _finalize_duration(message, state, minutes, edit=False,
+                             end_time=end_time, time_label=time_label)
+
+
 async def _finalize_duration(
-    message: Message, state: FSMContext, minutes: int, edit: bool = False
+    message: Message,
+    state: FSMContext,
+    minutes: int,
+    edit: bool = False,
+    end_time: datetime | None = None,
+    time_label: str | None = None,
 ) -> None:
-    end_time = datetime.now(tz=timezone.utc) + timedelta(minutes=minutes)
+    if end_time is None:
+        end_time = datetime.now(tz=timezone.utc) + timedelta(minutes=minutes)
+    if time_label is None:
+        time_label = f"{minutes} мин"
+
     await state.update_data(duration_minutes=minutes, end_time=end_time.isoformat())
     await state.set_state(NewLotStates.waiting_confirm)
 
@@ -220,7 +273,7 @@ async def _finalize_duration(
         f"{variants_line}"
         f"{blitz_line}"
         f"{rules_line}"
-        f"⏱ Длительность: <b>{minutes} мин</b>\n\n"
+        f"⏱ Завершение: <b>{time_label}</b>\n\n"
         "Всё верно? Публикуем?"
     )
 
