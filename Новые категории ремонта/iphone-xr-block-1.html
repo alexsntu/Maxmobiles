@@ -1,0 +1,1181 @@
+﻿
+
+<style>{literal}
+.mmixr {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1d1d1f;
+}
+.mmixr *, .mmixr *::before, .mmixr *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.mmixr-banner {
+  background: #fff;
+  border: 1px solid #e8e8ed;
+  border-radius: 20px;
+  padding: 48px 40px;
+}
+
+.mmixr-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr 340px;
+  gap: 40px;
+  align-items: center;
+}
+
+.mmixr-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0071e3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.mmixr-eyebrow svg { flex-shrink: 0; }
+
+.mmixr-h1 {
+  font-size: clamp(24px, 3.2vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  color: #1d1d1f;
+  margin-bottom: 16px;
+}
+
+.mmixr-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #6e6e73;
+  margin-bottom: 28px;
+}
+
+.mmixr-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mmixr-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #3d3d3f;
+  font-weight: 500;
+}
+.mmixr-trust-item svg {
+  color: #0071e3;
+  flex-shrink: 0;
+}
+
+.mmixr-img-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+.mmixr-img-col img {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0,0,0,0.12));
+}
+
+.mmixr-card {
+  background: #f5f5f7;
+  border-radius: 18px;
+  padding: 28px 24px;
+}
+
+.mmixr-price-block {
+  margin-bottom: 20px;
+}
+.mmixr-price-main {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #1d1d1f;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.mmixr-price-currency {
+  font-size: 24px;
+  font-weight: 600;
+}
+.mmixr-price-from {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ff9500;
+  display: none;
+}
+.mmixr-price-label {
+  font-size: 12px;
+  color: #86868b;
+  margin-top: 4px;
+}
+
+.mmixr-promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+.mmixr-promo-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: #3d3d3f;
+  font-weight: 500;
+}
+.mmixr-promo-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mmixr-promo-icon--green  { background: #d1f0dc; color: #1a7f3c; }
+.mmixr-promo-icon--blue   { background: #d6e9ff; color: #0056b3; }
+.mmixr-promo-icon--orange { background: #fff0d6; color: #a05c00; }
+
+.mmixr-divider {
+  height: 1px;
+  background: #e2e2e7;
+  margin-bottom: 16px;
+}
+
+.mmixr-select-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.mmixr-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #86868b;
+  pointer-events: none;
+}
+.mmixr-select {
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border: 1.5px solid #d2d2d7;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.mmixr-select:focus { border-color: #0071e3; }
+
+.mmixr-cta {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  background: #0071e3;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  transition: background 0.2s, transform 0.15s;
+}
+.mmixr-cta:hover  { background: #0077ed; transform: translateY(-1px); }
+.mmixr-cta:active { transform: translateY(0); }
+
+.mmixr-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0,0,0,0.45);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.mmixr-overlay.open { display: flex; }
+
+.mmixr-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.22);
+  animation: mmixrIn 0.22s ease;
+}
+@keyframes mmixrIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.mmixr-modal-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #0071e3 100%);
+  padding: 28px 28px 22px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mmixr-modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.mmixr-modal-close:hover { background: rgba(255,255,255,0.3); }
+
+.mmixr-modal-hero h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+.mmixr-modal-hero p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+}
+.mmixr-modal-service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 100px;
+  margin-top: 12px;
+}
+
+.mmixr-modal-body {
+  padding: 22px 28px 28px;
+}
+.mmixr-form-field {
+  margin-bottom: 14px;
+}
+.mmixr-form-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #86868b;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.mmixr-form-field input {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e8e8ed;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #1d1d1f;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.18s;
+}
+.mmixr-form-field input:focus { border-color: #0071e3; background: #fff; }
+.mmixr-form-field input::placeholder { color: #aeaeb2; }
+
+.mmixr-modal-submit {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #0071e3;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 18px;
+  transition: background 0.2s;
+}
+.mmixr-modal-submit:hover { background: #0077ed; }
+.mmixr-modal-note {
+  font-size: 11px;
+  color: #aeaeb2;
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.mmixr-cap-wrap {
+  background: #f9f9fb;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.mmixr-cap-q {
+  font-size: 13px;
+  color: #3a3a3c;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.mmixr-cap-btns {
+  display: flex;
+  gap: 10px;
+}
+.mmixr-cap-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border: 2px solid #e5e5ea;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1c1e;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.mmixr-cap-btn:hover  { border-color: #0071e3; color: #0071e3; background: rgba(0,113,227,0.04); }
+.mmixr-cap-btn.mmixr-cap-correct { border-color: #34c759; background: rgba(52,199,89,0.1);  color: #34c759; }
+.mmixr-cap-btn.mmixr-cap-wrong   { border-color: #ff3b30; background: rgba(255,59,48,0.08); color: #ff3b30; animation: mmixr-shake .3s ease; }
+@keyframes mmixr-shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-4px); }
+  75%     { transform: translateX(4px); }
+}
+.mmixr-cap-field { margin-bottom: 14px; }
+.mmixr-cap-field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #86868b;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.mmixr-cap-field.mmixr-cap-invalid .mmixr-cap-wrap {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.mmixr-cap-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; }
+.mmixr-cap-field.mmixr-cap-invalid .mmixr-cap-err { display: block; }
+
+.mmixr-agree-wrap { margin-bottom: 16px; }
+.mmixr-agree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+.mmixr-agree-input { display: none; }
+.mmixr-agree-box {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border: 2px solid #d1d1d6;
+  border-radius: 6px;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  margin-top: 1px;
+}
+.mmixr-agree-box svg { opacity: 0; transition: opacity 0.15s; }
+.mmixr-agree-input:checked + .mmixr-agree-box { background: #0071e3; border-color: #0071e3; }
+.mmixr-agree-input:checked + .mmixr-agree-box svg { opacity: 1; }
+.mmixr-agree-wrap.mmixr-agree-invalid .mmixr-agree-box {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.mmixr-agree-wrap.mmixr-agree-invalid .mmixr-agree-err { display: block; }
+.mmixr-agree-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; padding-left: 30px; }
+.mmixr-agree-text {
+  font-size: 12.5px;
+  color: #6e6e73;
+  line-height: 1.45;
+}
+.mmixr-agree-text a { color: #0071e3; text-decoration: none; }
+.mmixr-agree-text a:hover { text-decoration: underline; }
+
+.mmixr-success {
+  display: none;
+  text-align: center;
+  padding: 44px 28px;
+}
+.mmixr-success-icon {
+  width: 60px; height: 60px;
+  background: #e8f8ef;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+.mmixr-success h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.mmixr-success p {
+  font-size: 14px;
+  color: #6e6e73;
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto 22px;
+}
+.mmixr-success-close {
+  padding: 11px 26px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .mmixr-banner { padding: 32px 24px; }
+  .mmixr-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 24px;
+  }
+  .mmixr-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .mmixr-card {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .mmixr-img-col {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: stretch;
+    justify-content: center;
+  }
+  .mmixr-img-col img {
+    width: 100%;
+    height: 100%;
+    max-height: 460px;
+    object-fit: contain;
+  }
+}
+@media (max-width: 680px) {
+  .mmixr-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: unset;
+  }
+  .mmixr-img-col { grid-column: 1; grid-row: unset; justify-content: center; }
+  .mmixr-left    { grid-column: 1; grid-row: unset; }
+  .mmixr-card    { grid-column: 1; grid-row: unset; }
+  .mmixr-price-main { font-size: 34px; }
+}
+{/literal}</style>
+
+<div class="mmixr">
+
+  <div class="mmixr-banner">
+    <div class="mmixr-grid">
+
+      <div class="mmixr-left">
+
+        <div class="mmixr-eyebrow">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Сервисный центр Maxmobiles
+        </div>
+
+        <h1 class="mmixr-h1">Ремонт&nbsp;iPhone&nbsp;Xr</h1>
+
+        <p class="mmixr-text">Нужен ремонт Айфон Хр? Максмобайлс обслуживает технику Apple более 15 лет. У нас всегда в наличии запчасти класса оригинал и профессиональное оборудование для оперативного устранения любых проблем: от сложной пайки материнской платы до быстрой замены экранов динамиков и батарей. На все работы дается полугодовая гарантия</p>
+
+        <div class="mmixr-trust">
+          <div class="mmixr-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Диагностика при вас — быстро и точно
+          </div>
+          <div class="mmixr-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Гарантия на все виды работ
+          </div>
+          <div class="mmixr-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Ежедневно с 10:00 до 20:00
+          </div>
+          <div class="mmixr-trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Опыт с 2011 года
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mmixr-img-col">
+        <img
+          src="https://maxmobiles.ru/images/ab__webp/abt__ut2/banners/all/57/iphone12-pro-colors_jpg.webp"
+          alt="Ремонт iPhone Xr — Maxmobiles Севастополь"
+          width="190" height="190"
+        >
+      </div>
+
+      <div class="mmixr-card">
+
+        <div class="mmixr-price-block">
+          <div class="mmixr-price-main">
+            <span class="mmixr-price-from" id="mmixr-price-from">от&nbsp;</span>
+            <span id="mmixr-price">Уточняйте</span>
+            <span class="mmixr-price-currency" style="display: none;">₽</span>
+          </div>
+          <div class="mmixr-price-label">стоимость ремонта</div>
+        </div>
+
+        <div class="mmixr-promo-list">
+          <div class="mmixr-promo-item">
+            <span class="mmixr-promo-icon mmixr-promo-icon--green">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            В цену входят работа и запчасти
+          </div>
+          <div class="mmixr-promo-item">
+            <span class="mmixr-promo-icon mmixr-promo-icon--blue" id="mmixr-icon-time">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span id="mmixr-promo-time">30 мин</span>
+          </div>
+          <div class="mmixr-promo-item">
+            <span class="mmixr-promo-icon mmixr-promo-icon--orange" id="mmixr-icon-warranty">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span id="mmixr-promo-warranty">Гарантия 90 дней</span>
+          </div>
+        </div>
+
+        <div class="mmixr-divider"></div>
+
+        <div class="mmixr-select-wrap">
+          <select class="mmixr-select" id="mmixr-select" onchange="mmixrOnSelect(this)">
+            <option value="0">Замена дисплея (копия)</option>
+            <option value="1">Замена дисплея (оригинал)</option>
+            <option value="2">Замена заднего стекла</option>
+            <option value="3">Чистка после попадания воды</option>
+            <option value="4">Замена аккумулятора</option>
+            <option value="5">Замена разъема зарядки</option>
+            <option value="6">Замена микрофона</option>
+            <option value="7">Замена динамика</option>
+            <option value="8">Замена слухового динамика</option>
+            <option value="9">Замена камеры</option>
+            <option value="10">Замена фронтальной камеры</option>
+            <option value="11">Замена стекла камеры</option>
+            <option value="12">Замена корпуса</option>
+            <option value="13">Ремонт кнопок</option>
+            <option value="14">Прошивка</option>
+            <option value="15">Ремонт материнской платы</option>
+            <option value="16">Ремонт Face ID</option>
+          </select>
+        </div>
+
+        <button class="mmixr-cta" onclick="mmixrOpenModal()">
+          Оставить заявку →
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mmixr-overlay" id="mmixr-overlay" onclick="mmixrOverlayClick(event)">
+    <div class="mmixr-modal" role="dialog" aria-modal="true" aria-labelledby="mmixr-modal-title">
+
+      <div class="mmixr-modal-hero">
+        <button class="mmixr-modal-close" onclick="mmixrCloseModal()" aria-label="Закрыть">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <h3 id="mmixr-modal-title">Ремонт&nbsp;iPhone&nbsp;Xr</h3>
+        <p>Перезвоним в течение <strong style="color:#fff">30 минут</strong> и уточним детали</p>
+        <div class="mmixr-modal-service-tag">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="mmixr-modal-svc">Замена стекла</span>
+          &nbsp;—&nbsp;
+          <span id="mmixr-modal-prc">— ₽</span>
+        </div>
+      </div>
+
+      <div class="mmixr-modal-body" id="mmixr-form-wrap">
+        <form id="mmixr-form" action="{""|fn_url}" method="post" enctype="multipart/form-data" novalidate>
+          <input type="hidden" name="fake"                      value="">
+          <input type="hidden" name="page_id"                   value="1079">
+          <input type="hidden" name="dispatch[pages.send_form]" value="">
+          <input type="hidden" name="form_values[742]"          value="Ремонт iPhone Xr">
+          <input type="hidden" name="form_values[743]"          id="mmixr-f-svc"   value="Замена стекла">
+          <input type="hidden" name="form_values[744]"          id="mmixr-f-price" value="— ₽">
+
+          <div class="mmixr-form-field">
+            <label for="mmixr-name">Ваше имя</label>
+            <input type="text" id="mmixr-name" name="form_values[745]"
+              placeholder="Как вас зовут?" autocomplete="given-name">
+          </div>
+          <div class="mmixr-form-field">
+            <label for="mmixr-phone">Телефон для связи</label>
+            <input type="tel" id="mmixr-phone" name="form_values[746]"
+              placeholder="+7 (___) ___-__-__" autocomplete="tel" maxlength="18">
+          </div>
+
+          <div class="mmixr-cap-field" id="mmixr-cap-field">
+            <label>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Защита от роботов
+            </label>
+            <div class="mmixr-cap-wrap">
+              <p class="mmixr-cap-q" id="mmixr-cap-q"></p>
+              <div class="mmixr-cap-btns" id="mmixr-cap-btns">
+                <button type="button" class="mmixr-cap-btn" data-idx="0"></button>
+                <button type="button" class="mmixr-cap-btn" data-idx="1"></button>
+                <button type="button" class="mmixr-cap-btn" data-idx="2"></button>
+              </div>
+            </div>
+            <span class="mmixr-cap-err" id="mmixr-cap-err">Выберите правильное число</span>
+          </div>
+
+          <div class="mmixr-agree-wrap" id="mmixr-agree-wrap">
+            <label class="mmixr-agree-label" for="mmixr-agree">
+              <input type="checkbox" class="mmixr-agree-input" id="mmixr-agree" name="personal_data" value="Y" style="display:none!important;position:absolute;opacity:0;width:0;height:0;pointer-events:none">
+              <span class="mmixr-agree-box">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="mmixr-agree-text">Я согласен с <a href="/politika-konfidencialnosti/" target="_blank" rel="noopener" onclick="event.stopPropagation()">политикой конфиденциальности</a> и даю согласие на обработку персональных данных</span>
+            </label>
+            <span class="mmixr-agree-err" id="mmixr-agree-err">Необходимо принять условия</span>
+          </div>
+
+          <button type="submit" class="mmixr-modal-submit">Отправить заявку</button>
+        </form>
+      </div>
+
+      <div class="mmixr-success" id="mmixr-success">
+        <div class="mmixr-success-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#30d158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Заявка принята!</h3>
+        <p>Мы свяжемся с вами в ближайшее время и уточним детали ремонта</p>
+        <button class="mmixr-success-close" onclick="mmixrCloseModal()">Закрыть</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>{literal}
+(function () {
+  'use strict';
+
+                                                  var SERVICES = [
+      {
+        name:     'Замена дисплея (копия)',
+        price:    'Уточняйте',
+        priceNum: 'Уточняйте',
+        time:     '30 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/displey-kopiya-aaa-zamena-iphone-xr/',
+        option:   '',
+        askPrice: true
+      },
+      {
+        name:     'Замена дисплея (оригинал)',
+        price:    '— ₽',
+        priceNum: '—',
+        fromPrice: true,
+        time:     '30 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/displey-original-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена заднего стекла',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '120 мин',
+        warranty: 'Гарантия 180 дней',
+        url:      'https://maxmobiles.ru/zadnyaya-kryshka-zamena-stekla-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Чистка после попадания воды',
+        price:    '— ₽',
+        priceNum: '—',
+        fromPrice: true,
+        time:     '30 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/profilaktika-posle-vody-cena-ot-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена аккумулятора',
+        price:    '— ₽',
+        priceNum: '—',
+        fromPrice: true,
+        time:     '35 мин',
+        warranty: 'Гарантия 180 дней',
+        url:      'https://maxmobiles.ru/akkumulyator-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена разъема зарядки',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '35 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/razem-zaryadki-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена микрофона',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '30 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/mikrofon-odin-iz-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена динамика',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '35 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/dinamik-vyzova-zvonok-gromkaya-svyaz-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена слухового динамика',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '35 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/dinamik-razgovornyy-verhniy-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена камеры',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '40 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/kamera-osnovnaya-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена фронтальной камеры',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '35 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/kamera-frontalnaya-perednyaya-zamena-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена стекла камеры',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '35 мин',
+        warranty: 'Гарантия 180 дней',
+        url:      'https://maxmobiles.ru/kamera-zamena-razbitogo-stekla-1sht-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Замена корпуса',
+        price:    'Уточняйте',
+        priceNum: 'Уточняйте',
+        time:     '60 мин',
+        warranty: 'Гарантия 180 дней',
+        url:      'https://maxmobiles.ru/korpus-kopiya-vysokoe-kachestvo-zamena-iphone-xr/',
+        option:   '',
+        askPrice: true
+      },
+      {
+        name:     'Ремонт кнопок',
+        price:    'Уточняйте',
+        priceNum: 'Уточняйте',
+        time:     '40 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/knopka-vkl-power-zamena-remont-iphone-xr/',
+        option:   '',
+        askPrice: true
+      },
+      {
+        name:     'Прошивка',
+        price:    '— ₽',
+        priceNum: '—',
+        time:     '120 мин',
+        warranty: 'Гарантия уточняется',
+        url:      'https://maxmobiles.ru/proshivka-bez-rezervnoy-kopii-iphone-11/',
+        option:   ''
+      },
+      {
+        name:     'Ремонт материнской платы',
+        price:    '— ₽',
+        priceNum: '—',
+        fromPrice: true,
+        time:     '180 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/remont-platy-iphone-xr/',
+        option:   ''
+      },
+      {
+        name:     'Ремонт Face ID',
+        price:    '— ₽',
+        priceNum: '—',
+        fromPrice: true,
+        time:     '180 мин',
+        warranty: 'Гарантия 90 дней',
+        url:      'https://maxmobiles.ru/face-id-remont-vosstanovlenie-zamena-iphone-xr/',
+        option:   ''
+      }
+    ];
+
+  var _idx = 0;
+
+  function svc() { return SERVICES[_idx]; }
+
+  function updateUI(idx) {
+    _idx = idx;
+    var s = svc();
+
+    document.getElementById('mmixr-price').textContent         = s.priceNum;
+    var fromEl   = document.getElementById('mmixr-price-from');
+    var currency = document.querySelector('.mmixr-price-currency');
+    if (s.askPrice) {
+      if (fromEl)   fromEl.style.display   = 'none';
+      if (currency) currency.style.display = 'none';
+    } else {
+      if (fromEl)   fromEl.style.display   = s.fromPrice ? 'inline' : 'none';
+      if (currency) currency.style.display = 'inline';
+    }
+    document.getElementById('mmixr-promo-time').textContent     = s.time;
+    document.getElementById('mmixr-promo-warranty').textContent = s.warranty;
+  }
+
+  window.mmixrOnSelect = function (sel) {
+    updateUI(parseInt(sel.value, 10));
+  };
+
+  var mmixrCapCorrect = null;
+  var mmixrCapSolved  = false;
+
+  function mmixrGenerateCaptcha() {
+    var nums = [];
+    while (nums.length < 3) {
+      var n = Math.floor(Math.random() * 89) + 10;
+      if (nums.indexOf(n) === -1) nums.push(n);
+    }
+    nums.sort(function () { return Math.random() - 0.5; });
+    var correctIdx = Math.floor(Math.random() * 3);
+    mmixrCapCorrect = nums[correctIdx];
+    mmixrCapSolved  = false;
+
+    document.getElementById('mmixr-cap-q').innerHTML =
+      'Нажмите на число <strong>' + mmixrCapCorrect + '</strong>:';
+
+    document.querySelectorAll('.mmixr-cap-btn').forEach(function (btn, i) {
+      btn.textContent  = nums[i];
+      btn.dataset.num  = nums[i];
+      btn.className    = 'mmixr-cap-btn';
+    });
+    document.getElementById('mmixr-cap-field').classList.remove('mmixr-cap-invalid');
+  }
+
+  document.getElementById('mmixr-cap-btns').addEventListener('click', function (e) {
+    var btn = e.target.closest('.mmixr-cap-btn');
+    if (!btn) return;
+    var val = parseInt(btn.dataset.num, 10);
+
+    document.querySelectorAll('.mmixr-cap-btn').forEach(function (b) { b.className = 'mmixr-cap-btn'; });
+    document.getElementById('mmixr-cap-field').classList.remove('mmixr-cap-invalid');
+
+    if (val === mmixrCapCorrect) {
+      btn.classList.add('mmixr-cap-correct');
+      mmixrCapSolved = true;
+    } else {
+      btn.classList.add('mmixr-cap-wrong');
+      mmixrCapSolved = false;
+      setTimeout(mmixrGenerateCaptcha, 900);
+    }
+  });
+
+  window.mmixrOpenModal = function () {
+    var s = svc();
+    document.getElementById('mmixr-f-svc').value   = s.name;
+    document.getElementById('mmixr-f-price').value = s.price;
+    document.getElementById('mmixr-modal-svc').textContent = s.name;
+    document.getElementById('mmixr-modal-prc').textContent = s.price;
+
+    document.getElementById('mmixr-form-wrap').style.display = 'block';
+    document.getElementById('mmixr-success').style.display   = 'none';
+
+    document.getElementById('mmixr-agree-wrap').classList.remove('mmixr-agree-invalid');
+    document.getElementById('mmixr-agree').checked = false;
+    mmixrGenerateCaptcha();
+
+    document.getElementById('mmixr-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      var first = document.getElementById('mmixr-name');
+      if (first) first.focus();
+    }, 60);
+  };
+
+  window.mmixrCloseModal = function () {
+    document.getElementById('mmixr-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.mmixrOverlayClick = function (e) {
+    if (e.target === document.getElementById('mmixr-overlay')) mmixrCloseModal();
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') mmixrCloseModal();
+  });
+
+  var phoneInput = document.getElementById('mmixr-phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function (e) {
+      var val = e.target.value.replace(/\D/g, '');
+      if (!val.length) { e.target.value = ''; return; }
+      if (val[0] !== '7') val = '7' + val;
+      val = val.substring(0, 11);
+      var r = '+7';
+      if (val.length > 1) r += ' (' + val.substring(1, 4);
+      if (val.length >= 4) r += ') ' + val.substring(4, 7);
+      if (val.length >= 7) r += '-' + val.substring(7, 9);
+      if (val.length >= 9) r += '-' + val.substring(9, 11);
+      e.target.value = r;
+    });
+    phoneInput.addEventListener('keydown', function (e) {
+      if ([8, 46, 37, 38, 39, 40, 9].indexOf(e.keyCode) !== -1) return;
+      if (!/[\d+]/.test(e.key)) e.preventDefault();
+    });
+  }
+
+  var form = document.getElementById('mmixr-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name  = document.getElementById('mmixr-name').value.trim();
+      var phone = document.getElementById('mmixr-phone').value.trim();
+
+      document.getElementById('mmixr-name').style.borderColor  = '';
+      document.getElementById('mmixr-phone').style.borderColor = '';
+
+      var ok = true;
+
+      if (!name)  {
+        document.getElementById('mmixr-name').style.borderColor = '#ff3b30';
+        document.getElementById('mmixr-name').focus();
+        ok = false;
+      }
+      if (phone.replace(/\D/g, '').length < 11) {
+        document.getElementById('mmixr-phone').style.borderColor = '#ff3b30';
+        if (ok) document.getElementById('mmixr-phone').focus();
+        ok = false;
+      }
+
+      var capField = document.getElementById('mmixr-cap-field');
+      if (!mmixrCapSolved) {
+        capField.classList.add('mmixr-cap-invalid');
+        ok = false;
+      } else {
+        capField.classList.remove('mmixr-cap-invalid');
+      }
+
+      var agreeWrap = document.getElementById('mmixr-agree-wrap');
+      if (!document.getElementById('mmixr-agree').checked) {
+        agreeWrap.classList.add('mmixr-agree-invalid');
+        ok = false;
+      } else {
+        agreeWrap.classList.remove('mmixr-agree-invalid');
+      }
+
+      if (!ok) return;
+
+      document.getElementById('mmixr-form-wrap').style.display = 'none';
+      document.getElementById('mmixr-success').style.display   = 'block';
+
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .catch(function () {});
+    });
+  }
+
+  var API_URL  = 'https://maxmobiles.ru/api/products/';
+  var API_AUTH = 'Basic ' + btoa('servis-api@maxmobiles.ru:k57Z8R11085Y98m5l7s5JDJlaqsS37P3');
+  var CAT_ID = 2063;
+
+  function mmixrFormatNum(n) {
+    return n.toLocaleString('ru-RU');
+  }
+
+  function mmixrSlugFromUrl(url) {
+    return (url || '').replace(/\/$/, '').split('/').pop();
+  }
+
+  function mmixrApplyPriceMap(priceMap) {
+    SERVICES.forEach(function (s, idx) {
+      if (s.askPrice) return;
+      var slug  = mmixrSlugFromUrl(s.url);
+      var entry = priceMap[slug];
+      if (!entry) return;
+
+      var price = 0;
+      if (s.option && entry.variants && entry.variants[s.option] > 0) {
+        price = entry.variants[s.option];
+      } else if (!s.option && entry.price > 0) {
+        price = entry.price;
+      }
+      if (!price) return;
+
+      s.priceNum = mmixrFormatNum(price);
+      s.price    = (s.fromPrice ? 'от\u00a0' : '') + mmixrFormatNum(price) + '\u00a0₽';
+
+      if (idx === _idx) {
+        document.getElementById('mmixr-price').textContent = s.priceNum;
+        var fromEl = document.getElementById('mmixr-price-from');
+        if (fromEl) fromEl.style.display = s.fromPrice ? 'inline' : 'none';
+      }
+    });
+  }
+
+  function mmixrLoadPrices() {
+    var ctrl  = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 8000) : null;
+
+    fetch(API_URL + '?cid=' + CAT_ID + '&get_options=true&items_per_page=100', {
+      headers: { 'Authorization': API_AUTH, 'Accept': 'application/json' },
+      signal: ctrl ? ctrl.signal : undefined
+    })
+      .then(function (r) {
+        clearTimeout(timer);
+        return r.ok ? r.json() : null;
+      })
+      .then(function (json) {
+        if (!json || !json.products) return;
+
+        var priceMap = {};
+        json.products.forEach(function (p) {
+          var entry = { price: parseFloat(p.price) || 0, variants: {} };
+
+          if (p.has_options && p.product_options) {
+            Object.keys(p.product_options).forEach(function (optId) {
+              var vars = p.product_options[optId].variants;
+              if (!vars) return;
+              Object.keys(vars).forEach(function (varId) {
+                var v = vars[varId];
+                if (v.modifier_type === 'A') {
+                  entry.variants[v.variant_name] = parseFloat(v.modifier) || 0;
+                }
+              });
+            });
+          }
+
+          priceMap[p.seo_name] = entry;
+        });
+
+        mmixrApplyPriceMap(priceMap);
+      })
+      .catch(function () { if (timer) clearTimeout(timer); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mmixrLoadPrices);
+  } else {
+    mmixrLoadPrices();
+  }
+
+})();
+{/literal}</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
