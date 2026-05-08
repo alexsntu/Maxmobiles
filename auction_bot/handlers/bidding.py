@@ -15,7 +15,7 @@ from aiogram.types import CallbackQuery, Message
 
 import database as db
 from config import ANTI_SNIPE_SECONDS, GROUP_ID, GROUP_IDS
-from keyboards import lot_keyboard
+from keyboards import blitz_confirm_keyboard, lot_keyboard
 from utils import format_lot_message, seconds_until
 
 logger = logging.getLogger(__name__)
@@ -108,6 +108,7 @@ async def _place_bid(
                 lot_updated.get("blitz_price"),
                 bid_count,
                 bid_variants=lot_updated.get("bid_variants") or 3,
+                has_bids=bid_count > 0,
             ),
         )
     except Exception:
@@ -191,7 +192,7 @@ async def bid_via_reply(message: Message, bot: Bot) -> None:
     )
 
 
-# ─── Blitz purchase ───────────────────────────────────────────────────────────
+# ─── Blitz purchase — шаг 1: запрос подтверждения ────────────────────────────
 
 @router.callback_query(F.data.startswith("blitz:"))
 async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
@@ -215,9 +216,34 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
         )
         return
 
-    user_id = callback.from_user.id
-    username = callback.from_user.username
-    full_name = callback.from_user.full_name
+    await callback.answer()
+
+    lot_group_id = lot.get("group_chat_id") or GROUP_ID
+    reply_to = lot.get("group_message_id")
+
+    await bot.send_message(
+        chat_id=lot_group_id,
+        text=(
+            f"⚡ <b>{callback.from_user.full_name}</b>, вы нажали «Купить по блиц-цене».\n\n"
+            f"Нажимая кнопку купить по блиц-цене вы делаете заявку на покупку данного лота "
+            f"по блиц-цене <b>{blitz_price:,} ₽</b>. "
+            f"Если вы нажали случайно — то отменить покупку можно кнопкой ниже."
+        ),
+        parse_mode="HTML",
+        reply_to_message_id=reply_to,
+        reply_markup=blitz_confirm_keyboard(lot_id),
+    )
+
+
+# ─── Blitz purchase — шаг 2: подтверждение ───────────────────────────────────
+
+async def _execute_blitz(bot: Bot, lot_id: int, user_id: int, username: str | None, full_name: str) -> None:
+    """Финальное выполнение блиц-покупки."""
+    lot = await db.get_lot(lot_id)
+    if lot is None or lot["status"] != "active":
+        return
+
+    blitz_price = lot["blitz_price"]
 
     await db.upsert_user(user_id, username, full_name)
     await db.add_bid(lot_id, user_id, blitz_price)
@@ -280,7 +306,97 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
         except Exception:
             pass
 
+
+@router.callback_query(F.data.startswith("blitz_confirm:"))
+async def blitz_confirm_handler(callback: CallbackQuery, bot: Bot) -> None:
+    lot_id = int(callback.data.split(":")[1])
+    lot = await db.get_lot(lot_id)
+
+    if lot is None or lot["status"] != "active":
+        await callback.answer("Аукцион уже завершён.", show_alert=True)
+        try:
+            await callback.message.delete()
+        except Exception:
+            pass
+        return
+
+    await _execute_blitz(
+        bot=bot,
+        lot_id=lot_id,
+        user_id=callback.from_user.id,
+        username=callback.from_user.username,
+        full_name=callback.from_user.full_name,
+    )
+
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass
+
     await callback.answer("⚡ Поздравляем! Лот ваш!", show_alert=True)
+
+
+@router.callback_query(F.data.startswith("blitz_cancel_confirm:"))
+async def blitz_cancel_handler(callback: CallbackQuery) -> None:
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass
+    await callback.answer("↩️ Покупка отменена. Аукцион продолжается.", show_alert=False)
+
+
+# ─── Cancel bid ───────────────────────────────────────────────────────────────
+
+@router.callback_query(F.data.startswith("cancelbid:"))
+async def cancel_bid_handler(callback: CallbackQuery, bot: Bot) -> None:
+    lot_id = int(callback.data.split(":")[1])
+    user_id = callback.from_user.id
+
+    lot = await db.get_lot(lot_id)
+    if lot is None or lot["status"] != "active":
+        await callback.answer("Аукцион уже завершён.", show_alert=True)
+        return
+
+    # Проверяем, является ли пользователь текущим лидером
+    if lot.get("winner_id") != user_id:
+        await callback.answer(
+            "❌ Вы не лидируете — ставку отменить нельзя.\n"
+            "Отмена доступна только текущему лидеру торгов.",
+            show_alert=True,
+        )
+        return
+
+    removed = await db.cancel_top_bid(lot_id, user_id)
+    if not removed:
+        await callback.answer("У вас нет ставок по этому лоту.", show_alert=True)
+        return
+
+    # Обновляем сообщение лота
+    lot_updated = await db.get_lot(lot_id)
+    top_bids = await db.get_lot_bids(lot_id)
+    bid_count = await db.count_bids(lot_id)
+    caption = format_lot_message(lot_updated, top_bids=top_bids[:3], bid_count=bid_count)
+
+    lot_group_id = lot_updated.get("group_chat_id") or GROUP_ID
+    try:
+        await bot.edit_message_caption(
+            chat_id=lot_group_id,
+            message_id=lot_updated["group_message_id"],
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=lot_keyboard(
+                lot_id,
+                lot_updated["min_step"],
+                lot_updated.get("blitz_price"),
+                bid_count,
+                bid_variants=lot_updated.get("bid_variants") or 3,
+                has_bids=bid_count > 0,
+            ),
+        )
+    except Exception:
+        pass
+
+    await callback.answer("↩️ Ваша ставка отменена.", show_alert=True)
 
 
 # ─── Info / rules popup ───────────────────────────────────────────────────────

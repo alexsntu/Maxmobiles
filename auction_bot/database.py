@@ -263,3 +263,51 @@ async def get_user_bid_for_lot(lot_id: int, user_id: int) -> Optional[dict]:
         ) as cur:
             row = await cur.fetchone()
             return dict(row) if row else None
+
+
+async def cancel_top_bid(lot_id: int, user_id: int) -> bool:
+    """Remove the user's top bid from a lot and restore price to previous leader.
+
+    Returns True if the bid was successfully removed, False if the user has no bids.
+    """
+    async with aiosqlite.connect(DB_PATH) as db:
+        async with db.execute(
+            "SELECT id FROM bids WHERE lot_id = ? AND user_id = ? ORDER BY amount DESC LIMIT 1",
+            (lot_id, user_id),
+        ) as cur:
+            bid_row = await cur.fetchone()
+
+        if not bid_row:
+            return False
+
+        await db.execute("DELETE FROM bids WHERE id = ?", (bid_row[0],))
+
+        # Find new leader after removal
+        async with db.execute(
+            """
+            SELECT b.user_id, b.amount
+            FROM bids b
+            WHERE b.lot_id = ?
+            ORDER BY b.amount DESC
+            LIMIT 1
+            """,
+            (lot_id,),
+        ) as cur:
+            top_row = await cur.fetchone()
+
+        if top_row:
+            new_winner_id, new_price = top_row[0], top_row[1]
+        else:
+            async with db.execute(
+                "SELECT start_price FROM lots WHERE id = ?", (lot_id,)
+            ) as cur:
+                lot_row = await cur.fetchone()
+            new_price = lot_row[0] if lot_row else 0
+            new_winner_id = None
+
+        await db.execute(
+            "UPDATE lots SET current_price = ?, winner_id = ? WHERE id = ?",
+            (new_price, new_winner_id, lot_id),
+        )
+        await db.commit()
+        return True

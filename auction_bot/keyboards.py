@@ -11,6 +11,7 @@ def lot_keyboard(
     blitz_price: int | None = None,
     bid_count: int = 0,
     bid_variants: int = 3,
+    has_bids: bool = False,
 ) -> InlineKeyboardMarkup:
     """
     Inline keyboard with quickbid buttons.
@@ -18,6 +19,7 @@ def lot_keyboard(
     bid_variants=1 — only one button (Сделать ставку + min_step).
     bid_variants=3 — three buttons (×1, ×2, ×5 min_step).
     Blitz button shown only when blitz_price is set and bid_count < BLITZ_MAX_BIDS.
+    Cancel button shown only when has_bids=True (someone is leading).
     Bottom row: 'Моя ставка'.
     """
     builder = InlineKeyboardBuilder()
@@ -43,7 +45,21 @@ def lot_keyboard(
         )
         row_layout.append(1)
 
+    # Кнопка отмены ставки — только если есть хотя бы одна ставка
+    if has_bids:
+        builder.button(text="↩️ Отменить свою ставку", callback_data=f"cancelbid:{lot_id}")
+        row_layout.append(1)
+
     builder.adjust(*row_layout)
+    return builder.as_markup()
+
+
+def blitz_confirm_keyboard(lot_id: int) -> InlineKeyboardMarkup:
+    """Confirmation keyboard shown before completing a blitz purchase."""
+    builder = InlineKeyboardBuilder()
+    builder.button(text="⚡ Купить по блиц-цене", callback_data=f"blitz_confirm:{lot_id}")
+    builder.button(text="❌ Отмена",               callback_data=f"blitz_cancel_confirm:{lot_id}")
+    builder.adjust(1)
     return builder.as_markup()
 
 
