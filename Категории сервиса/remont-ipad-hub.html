@@ -170,12 +170,13 @@
      CSS подключается через: Дизайн → Темы → Свой CSS (файл maxmobiles-styles.css)
      Заголовки: H2 → H3 → H4 (H1 уже есть на странице CS-Cart)
 ================================================================ -->
-<div class="mm-collapse-wrapper">
-<div class="mm-collapse-content">
-
+<!-- ================================================================
+     BLOCK 1: SEO-ядро — всегда виден
+     Intro + Trust strip + Services grid
+================================================================ -->
 <div class="mm-block" itemscope itemtype="https://schema.org/LocalBusiness">
-  <meta content="Maxmobiles">
-  <meta content="https://maxmobiles.ru">
+  <meta itemprop="name" content="Maxmobiles">
+  <meta itemprop="url" content="https://maxmobiles.ru">
   <meta itemprop="telephone" content="+7-978-820-30-01">
 
   <!-- ---- Заголовок и лид ---- -->
@@ -243,7 +244,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F5A5;</span>
         <h4>Замена стекла и тачскрина</h4>
         <p>
           Стекло треснуло, но изображение есть и сенсор работает?
@@ -255,7 +255,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
         <h4>Замена дисплея в сборе</h4>
         <p>
           Пятна, полосы, нет изображения или сенсор не реагирует на касания &#8212;
@@ -266,7 +265,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x26A1;</span>
         <h4>Замена аккумулятора</h4>
         <p>
           iPad быстро разряжается, самопроизвольно выключается или аккумулятор
@@ -278,6 +276,15 @@
     </div>
   </section>
 
+</div><!-- /Block 1: mm-block -->
+
+<!-- ================================================================
+     BLOCK 2: пользовательский контент — collapse 350px
+================================================================ -->
+<div class="mm-collapse-wrapper">
+<div class="mm-collapse-content">
+
+<div class="mm-block">
   <!-- ---- Как проходит ремонт (HowTo) ---- -->
   <section class="mm-section" aria-labelledby="mm-h3-howto">
     <h3 id="mm-h3-howto" class="mm-section-title">
@@ -458,8 +465,7 @@
   </section>
 
   <!-- ---- CTA ---- -->
-  <section class="mm-cta" aria-labelledby="mm-h3-cta"
-           itemscope itemtype="https://schema.org/Service">
+  <section class="mm-cta" aria-labelledby="mm-h3-cta">
     <div class="mm-cta-text">
       <h3 id="mm-h3-cta">
         Записаться на ремонт iPad в Севастополе
@@ -486,8 +492,7 @@
     </div>
   </section>
 
-</div>
-<!-- /mm-block -->
+</div><!-- /mm-block -->
 
   <!-- Градиент-шторка (внутри overflow:hidden) -->
   <div class="mm-collapse-fade"></div>
@@ -527,7 +532,7 @@
   var allContents = document.querySelectorAll('.mm-collapse-content');
   var content = allContents[allContents.length - 1];
   if (!content) return;
-  content.style.maxHeight = '400px';
+  content.style.maxHeight = '350px';
   content.dataset.mmState = 'collapsed';
   var fade = content.querySelector('.mm-collapse-fade');
   if (fade) fade.style.opacity = '1';
@@ -561,7 +566,7 @@ function mmBlockToggle(btn) {
     content.dataset.mmState  = 'collapsing';
     void content.offsetHeight;
     content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
-    content.style.maxHeight  = '400px';
+    content.style.maxHeight  = '350px';
     content.dataset.mmState  = 'collapsed';
     if (fade)  { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
     btn.classList.remove('mm-is-expanded');

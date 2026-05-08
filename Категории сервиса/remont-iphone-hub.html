@@ -190,16 +190,14 @@
 </script>
 
 <!-- ================================================================
-     2. HTML-КОНТЕНТ
-     CSS подключается через: Дизайн → Темы → Свой CSS (файл maxmobiles-styles.css)
+     BLOCK 1: SEO-ядро — всегда виден
+     Intro + Trust strip + Services grid (6 карточек услуг с microdata)
+     CSS: maxmobiles-styles.css (Дизайн → Свой CSS)
      Заголовки: H2 → H3 → H4 (H1 уже есть на странице CS-Cart)
 ================================================================ -->
-<div class="mm-collapse-wrapper">
-<div class="mm-collapse-content">
-
 <div class="mm-block" itemscope itemtype="https://schema.org/LocalBusiness">
-  <meta content="Maxmobiles">
-  <meta content="https://maxmobiles.ru">
+  <meta itemprop="name" content="Maxmobiles">
+  <meta itemprop="url" content="https://maxmobiles.ru">
   <meta itemprop="telephone" content="+7-978-820-30-01">
 
   <!-- ---- Заголовок и лид ---- -->
@@ -247,7 +245,7 @@
     <div class="mm-trust-item" role="listitem">
       <span class="mm-trust-icon" aria-hidden="true">&#x1F50D;</span>
       <span class="mm-trust-label">
-        <strong>Диагностика</strong>Входит в стоимость ремонта
+        <strong>Диагностика бесплатна</strong>При проведении ремонта
       </span>
     </div>
   </div>
@@ -267,7 +265,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F5A5;</span>
         <h4>Замена дисплея</h4>
         <p>
           Тёмные пятна, цветные полосы, нет изображения или не реагирует сенсор &#8212;
@@ -278,7 +275,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x26A1;</span>
         <h4>Замена аккумулятора</h4>
         <p>
           iPhone быстро разряжается, самопроизвольно выключается или ёмкость
@@ -289,7 +285,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
         <h4>Переклейка стекла</h4>
         <p>
           Стекло разбито, но изображение чёткое, сенсор работает?
@@ -300,7 +295,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F50C;</span>
         <h4>Замена разъёма зарядки</h4>
         <p>
           iPhone не заряжается через кабель, разъём болтается или погнут после падения?
@@ -311,7 +305,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F7;</span>
         <h4>Замена камеры</h4>
         <p>
           Размытые снимки, артефакты, ошибки автофокуса или повреждённое стекло
@@ -322,7 +315,6 @@
 
       <article class="mm-service-card" role="listitem"
                itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4A7;</span>
         <h4>Восстановление после воды</h4>
         <p>
           Ультразвуковая очистка платы, замена повреждённых компонентов
@@ -334,6 +326,17 @@
     </div>
   </section>
 
+</div><!-- /Block 1: mm-block -->
+
+<!-- ================================================================
+     BLOCK 2: пользовательский контент — collapse 350px
+     HowTo + Advantages + FAQ + CTA (HowTo и FAQ покрыты JSON-LD)
+================================================================ -->
+<div class="mm-collapse-wrapper">
+<div class="mm-collapse-content">
+
+<div class="mm-block">
+
   <!-- ---- Как проходит ремонт (HowTo) ---- -->
   <section class="mm-section" aria-labelledby="mm-h3-howto">
     <h3 id="mm-h3-howto" class="mm-section-title">
@@ -341,8 +344,7 @@
     </h3>
 
     <ol class="mm-howto-steps" role="list"
-        itemscope itemtype="https://schema.org/HowTo"
-        itemprop="step">
+        itemscope itemtype="https://schema.org/HowTo">
       <li class="mm-howto-step" role="listitem"
           itemscope itemtype="https://schema.org/HowToStep">
         <div class="mm-howto-step-body">
@@ -438,83 +440,73 @@
   </section>
 
   <!-- ---- FAQ (AEO: Google Featured Snippets, Яндекс, Алиса) ---- -->
-  <section class="mm-faq" aria-labelledby="mm-h3-faq"
-          >
+  <section class="mm-faq" aria-labelledby="mm-h3-faq">
     <h3 id="mm-h3-faq" class="mm-section-title">
       Частые вопросы о ремонте iPhone в Севастополе
     </h3>
 
-    <div class="mm-faq-item"
-        >
+    <div class="mm-faq-item">
       <p class="mm-faq-question">
         Сколько стоит ремонт iPhone в Севастополе?
       </p>
-      <div class="mm-faq-answer"
-          >
-        <span>
+      <div class="mm-faq-answer">
+        <p>
           Стоимость ремонта iPhone в Maxmobiles определяется после диагностики &#8212;
           цена зависит от модели и вида поломки. Актуальные цены на каждую модель
           смотрите в прайс-листах выше: выберите свой iPhone и откройте таблицу
           с ценами. Ремонт начинается только после согласия клиента со сметой &#8212;
           скрытых доплат нет.
-        </span>
+        </p>
       </div>
     </div>
 
-    <div class="mm-faq-item"
-        >
+    <div class="mm-faq-item">
       <p class="mm-faq-question">
         Как долго длится ремонт iPhone в Maxmobiles?
       </p>
-      <div class="mm-faq-answer"
-          >
-        <span>
+      <div class="mm-faq-answer">
+        <p>
           Большинство ремонтов iPhone &#8212; замена дисплея, аккумулятора или стекла &#8212;
           выполняется в день обращения за 30–90&nbsp;минут в присутствии клиента.
           Сложные случаи: ремонт платы или восстановление после воды &#8212;
           от 1 до 3&nbsp;рабочих дней. Точные сроки инженер озвучивает на диагностике.
-        </span>
+        </p>
       </div>
     </div>
 
-    <div class="mm-faq-item"
-        >
+    <div class="mm-faq-item">
       <p class="mm-faq-question">
         Дают ли гарантию на ремонт iPhone в Maxmobiles?
       </p>
-      <div class="mm-faq-answer"
-          >
-        <span>
+      <div class="mm-faq-answer">
+        <p>
           Да. Maxmobiles даёт гарантию до 6&nbsp;месяцев на все виды ремонта
           и установленные запчасти &#8212; это в 6&nbsp;раз дольше, чем у большинства
           сервисных центров Севастополя. По завершении работ выдаётся гарантийный
           талон и акт. Используем только оригинальные сертифицированные комплектующие Apple.
-        </span>
+        </p>
       </div>
     </div>
 
-    <div class="mm-faq-item"
-        >
+    <div class="mm-faq-item">
       <p class="mm-faq-question">
         Что делать, если iPhone разбит или не включается?
       </p>
-      <div class="mm-faq-answer"
-          >
-        <span>
+      <div class="mm-faq-answer">
+        <p>
           Приезжайте в Maxmobiles: Севастополь, пр-т Нахимова&nbsp;19, ежедневно
           10:00&#8211;20:00. Инженер бесплатно диагностирует iPhone и назовёт причину.
           Разбитый экран меняем за 30–60&nbsp;минут. iPhone не включается &#8212;
           в большинстве случаев аккумулятор или плата, решается в день обращения.
           Записаться заранее &#8212; через Telegram-бот.
-        </span>
+        </p>
       </div>
     </div>
 
   </section>
 
   <!-- ---- CTA ---- -->
-  <section class="mm-cta" aria-labelledby="mm-h3-cta"
-           itemscope itemtype="https://schema.org/Service">
+  <div class="mm-cta" role="complementary" aria-labelledby="mm-h3-cta">
     <div class="mm-cta-text">
       <h3 id="mm-h3-cta">
         Записаться на ремонт iPhone в Севастополе
@@ -526,36 +518,32 @@
       </p>
     </div>
     <div class="mm-cta-actions">
-      <a href="#"
-         data-repair-modal="1"
+      <a href="https://t.me/maxmobiles_service_bot"
          class="mm-btn mm-btn-primary"
          aria-label="Записаться на диагностику iPhone через Telegram — Maxmobiles">
         Записаться на диагностику
       </a>
       <a href="tel:+79788203001"
          class="mm-btn mm-btn-secondary"
-         aria-label="Позвонить в сервисный центр Maxmobiles Севастополь"
-         itemprop="telephone">
+         aria-label="Позвонить в сервисный центр Maxmobiles Севастополь">
         &#x260E;&nbsp; +7&#x2011;978&#x2011;820&#x2011;30&#x2011;01
       </a>
     </div>
-  </section>
+  </div>
 
-</div>
-<!-- /mm-block -->
+</div><!-- /mm-block -->
 
   <!-- Градиент-шторка (внутри overflow:hidden) -->
   <div class="mm-collapse-fade"></div>
 
-</div>
-<!-- /mm-collapse-content -->
+</div><!-- /mm-collapse-content -->
 
 <!-- Кнопка «Показать больше / Скрыть» -->
 <div class="mm-collapse-trigger">
   <button class="mm-collapse-btn" onclick="mmBlockToggle(this)" aria-expanded="false">
     <span class="mm-collapse-btn-text">Показать больше</span>
     <span class="mm-collapse-chevron" aria-hidden="true">
-      <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
         <path d="M1 1.5L7 7.5L13 1.5" stroke="#0071e3" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -563,8 +551,7 @@
   </button>
 </div>
 
-</div>
-<!-- /mm-collapse-wrapper -->
+</div><!-- /mm-collapse-wrapper -->
 
 <!-- ================================================================
      3. СКРИПТ COLLAPSE
@@ -582,7 +569,7 @@
   var allContents = document.querySelectorAll('.mm-collapse-content');
   var content = allContents[allContents.length - 1];
   if (!content) return;
-  content.style.maxHeight = '400px';
+  content.style.maxHeight = '350px';
   content.dataset.mmState = 'collapsed';
   var fade = content.querySelector('.mm-collapse-fade');
   if (fade) fade.style.opacity = '1';
@@ -616,7 +603,7 @@ function mmBlockToggle(btn) {
     content.dataset.mmState  = 'collapsing';
     void content.offsetHeight;
     content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
-    content.style.maxHeight  = '400px';
+    content.style.maxHeight  = '350px';
     content.dataset.mmState  = 'collapsed';
     if (fade)  { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
     btn.classList.remove('mm-is-expanded');

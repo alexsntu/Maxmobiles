@@ -41,7 +41,7 @@ alwaysApply: false
 **LSI и синонимы (расширяют семантическое поле — только в коммерческом контексте):**
 - Характеристики как аргументы покупки: «камера», «дисплей», «автономность», «память»
 - Условия покупки: «гарантия 1 год», «рассрочка», «кредит», «Trade-In», «обмен»
-- Доверительные маркеры: «официальный», «оригинал», «магазин Apple», «с 2010 года»
+- Доверительные маркеры: «официальный», «оригинал», «магазин Apple», «с 2011 года»
 
 > Ключевые запросы органично распределяются по: H2, H3, лид-абзацу (`.mm-intro-text`),
 > карточкам моделей/категорий, FAQ-вопросам и CTA-блоку.
@@ -57,7 +57,7 @@ alwaysApply: false
 
 | Принцип | Как применять в блоке |
 |---|---|
-| Авторитетные утверждения | «работаем с 2010 года», «15 лет на рынке», «официальный партнёр» |
+| Авторитетные утверждения | «работаем с 2011 года», «15 лет на рынке», «официальный партнёр» |
 | Сущностная полнота | Явно: бренд + город + категория товара + условия покупки + гарантия |
 | Самодостаточные абзацы | Каждый абзац понятен без контекста — AI вырезает куски дословно |
 | Прямые ответы | Лид `.mm-intro-text` за 2–3 предложения: что продаём, где, как купить, что получает клиент |
@@ -70,7 +70,7 @@ alwaysApply: false
 - `speakable.cssSelector` — включать `.mm-intro-text` и `.mm-faq`
 
 **E-E-A-T сигналы для товарных страниц:**
-- Опыт: «с 2010 года», «15 лет в индустрии Apple»
+- Опыт: «с 2011 года», «15 лет в индустрии Apple»
 - Экспертиза: «собственный сервисный центр», «знаем технику изнутри»
 - Авторитетность: Trade-In программа, СДЭК-доставка, самовывоз в 4 городах
 - Доверие: гарантия 1 год на новую технику, возврат, официальная продажа
@@ -161,25 +161,103 @@ alwaysApply: false
 
 ## Структура файла
 
-Каждый HTML-блок состоит из **трёх частей** строго в этом порядке:
+Каждый HTML-блок состоит из **четырёх частей** строго в этом порядке:
 1. JSON-LD (`<script type="application/ld+json">`)
-2. HTML-контент в обёртке collapse (`.mm-collapse-wrapper → .mm-collapse-content → .mm-block`)
-3. `<script>` с функцией `mmBlockToggle` и инициализацией
+2. **Block 1 — SEO-ядро** (всегда видим, без collapse): `.mm-block` → Intro + Trust strip + Highlights grid
+3. **Block 2 — пользовательский контент** (collapse, 350px): `.mm-collapse-wrapper → .mm-collapse-content → .mm-block` → Advantages + FAQ + CTA
+4. `<script>` с функцией `mmBlockToggle` и инициализацией (только для Block 2)
 
 > **ВАЖНО:** `<style>` теги ЗАПРЕЩЕНЫ внутри HTML-блока CS-Cart. Весь CSS хранится
 > в `maxmobiles-styles.css` и подключается через **Дизайн → Темы → Редактировать → Свой CSS**
 > (один раз для всего сайта).
 
+## Распределение контента: Block 1 (SEO-ядро) vs Block 2 (пользовательский)
+
+Разделение на два блока — ключевое SEO-решение. **Block 1 всегда виден** без CSS-ограничений,
+**Block 2 скрыт** за collapse с начальной высотой 350px.
+
+### Block 1 — SEO-ядро (всегда виден, без collapse)
+
+Содержит самый ценный для ранжирования контент:
+
+| Секция | Почему в Block 1 |
+|---|---|
+| `mm-intro` (H2 + `.mm-intro-text` + `.mm-stat-badge`) | Главный ключ в H2 + все 5 GEO-сущностей в лиде — максимальный вес страницы |
+| `mm-trust-strip` (4 иконки) | Коммерческие E-E-A-T сигналы, ключи в `<strong>`: гарантия, доставка, Trade-In |
+| `mm-services-grid` (карточки моделей) | Коммерческие названия моделей в H3, внутренние ссылки на страницы товаров |
+
+> **Правило:** все карточки моделей/подкатегорий (3 или 6) — ВСЕГДА целиком в Block 1.
+> Не разрезать сетку. Внутренние ссылки в карточках обязательны — они всегда должны быть видимы.
+
+### Block 2 — пользовательский контент (collapse, 350px)
+
+Контент полезен для пользователей, но для SEO покрыт структурированными данными в JSON-LD:
+
+| Секция | Почему в Block 2 | JSON-LD-страховка |
+|---|---|---|
+| Преимущества (`mm-advantages-list`) | Дублирует trust strip, меньше инкрементальной SEO-ценности | — |
+| FAQ (`mm-faq`) | HTML-версия за collapse допустима при наличии JSON-LD | Покрыт JSON-LD `FAQPage` |
+| CTA (`mm-cta`) | Конверсионный элемент, ключевых слов не несёт | — |
+
+> **Начальная высота Block 2 — 350px** — достаточно, чтобы показать первые 2–3 пункта
+> преимуществ с иконками и стимулировать клик «Показать больше».
+
+### Microdata и itemscope — только в Block 1
+
+```html
+<!-- Block 1: itemscope/itemtype ЗДЕСЬ -->
+<div class="mm-block" itemscope itemtype="https://schema.org/WebPage">
+  <!-- intro + trust strip + highlights grid с внутренними ссылками -->
+</div>
+
+<!-- Block 2: itemscope/itemtype НЕТ -->
+<div class="mm-collapse-wrapper">
+  <div class="mm-collapse-content">
+    <div class="mm-block">  <!-- без itemscope! -->
+      <!-- advantages + faq + cta -->
+    </div>
+    <div class="mm-collapse-fade"></div>
+  </div>
+  ...
+</div>
+```
+
+**Collapse — опциональный механизм (для Block 2):**
+| Указание пользователя | Поведение |
+|---|---|
+| «с коллапсом» / «collapse» / не указано | Block 2 обёрнут в `.mm-collapse-wrapper`, добавить `<script>` |
+| «без коллапса» / «no collapse» | Block 2 выводится напрямую без обёртки и без `<script>` |
+
+> Block 1 (SEO-ядро) всегда видим независимо от этой настройки.
+
 ## Механизм collapse / expand (собственный)
 
 CS-Cart имеет встроенный toggle, но он ненадёжен в Chrome. Используется собственный механизм.
 
-**Структура HTML:**
+**Структура HTML (два блока):**
 ```html
+<!-- ===== BLOCK 1: SEO-ядро — всегда виден ===== -->
+<div class="mm-block" itemscope itemtype="https://schema.org/WebPage">
+  <section class="mm-intro" aria-labelledby="...">
+    <!-- H2 + .mm-intro-text + .mm-stat-badge -->
+  </section>
+
+  <div class="mm-trust-strip" role="list" aria-label="...">
+    <!-- 4 trust items -->
+  </div>
+
+  <section class="mm-section" aria-labelledby="...">
+    <!-- H3 + 3 или 6 карточек моделей с внутренними ссылками -->
+  </section>
+</div>
+
+<!-- ===== BLOCK 2: пользовательский контент — collapse ===== -->
 <div class="mm-collapse-wrapper">
   <div class="mm-collapse-content">
-    <div class="mm-block" itemscope ...>
-      <!-- весь контент страницы -->
+    <div class="mm-block">
+      <!-- mm-advantages-list -->
+      <!-- mm-faq -->
+      <!-- mm-cta -->
     </div>
     <div class="mm-collapse-fade"></div>
   </div>
@@ -201,7 +279,7 @@ CS-Cart имеет встроенный toggle, но он ненадёжен в 
   var allContents = document.querySelectorAll('.mm-collapse-content');
   var content = allContents[allContents.length - 1];
   if (!content) return;
-  content.style.maxHeight = '400px';
+  content.style.maxHeight = '350px';
   content.dataset.mmState = 'collapsed';
   var fade = content.querySelector('.mm-collapse-fade');
   if (fade) fade.style.opacity = '1';
@@ -234,7 +312,7 @@ function mmBlockToggle(btn) {
     content.dataset.mmState  = 'collapsing';
     void content.offsetHeight;
     content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
-    content.style.maxHeight  = '400px';
+    content.style.maxHeight  = '350px';
     content.dataset.mmState  = 'collapsed';
     if (fade) { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
     btn.classList.remove('mm-is-expanded');
@@ -249,19 +327,12 @@ function mmBlockToggle(btn) {
 ```
 
 **Правила collapse:**
-- Начальная высота: **400px** (без анимации при загрузке)
+- Применяется **только к Block 2** — Block 1 (SEO-ядро) всегда видим, без обёртки
+- Начальная высота Block 2: **350px** (без анимации при загрузке) — показывает начало advantages
 - Fade-шторка: находится **внутри** `.mm-collapse-content` (`position: absolute; bottom: 0`)
 - `transform` на hover **ЗАПРЕЩЁН** — вызывает баг Chrome с `overflow: hidden`
 - После раскрытия `max-height` снимается (`'none'`) через `setTimeout` 580ms
 - При сворачивании — плавная прокрутка к началу блока (`scrollIntoView`)
-
-**Collapse — опциональный механизм:**
-Collapse используется **только если пользователь явно указал** это в задании на генерацию (или не указал ничего — тогда collapse включён по умолчанию).
-
-| Указание пользователя | Поведение |
-|---|---|
-| «с коллапсом» / «collapse» / не указано | Обернуть `.mm-block` в `.mm-collapse-wrapper`, добавить `<script>` |
-| «без коллапса» / «no collapse» | Вывести `.mm-block` напрямую, без обёртки и без `<script>` |
 
 ## JSON-LD — обязательные типы
 
@@ -437,10 +508,16 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 
 ## Структура HTML-контента
 
-Обязательные секции в порядке:
+Контент разделён на два блока с разными SEO-приоритетами.
+
+### Block 1 — SEO-ядро (всегда виден, без collapse)
+
 1. **Intro** — H2 + лид-абзац `.mm-intro-text` + `.mm-stat-badge`
 2. **Trust strip** — 4 иконки с подписями `.mm-trust-strip`
-3. **Highlights grid** — карточки `.mm-services-grid` + `<article>` с `itemprop`
+3. **Highlights grid** — карточки `.mm-services-grid` с внутренними ссылками (все 3 или 6 карточек целиком)
+
+### Block 2 — пользовательский контент (collapse, начальная высота 350px)
+
 4. **Преимущества** — список `.mm-advantages-list` или highlight-блок `.mm-highlight`
 5. **FAQ** — 4 вопроса в обычном HTML (только класс `.mm-faq`; без `itemscope/itemtype/itemprop`)
 6. **CTA** — тёмный блок `.mm-cta` с двумя кнопками
@@ -481,6 +558,15 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 
 Перед тем как выдать готовый блок — пройти по всем пунктам:
 
+**Блок-разделение (split):**
+- [ ] Block 1 содержит: intro + trust strip + highlights grid (все карточки, не обрезать)
+- [ ] Block 2 содержит: advantages + FAQ + CTA
+- [ ] Block 1 **не обёрнут** в `.mm-collapse-wrapper` — он всегда виден
+- [ ] Block 2 обёрнут в `.mm-collapse-wrapper` с начальной высотой **350px** (не 400px)
+- [ ] `itemscope itemtype="https://schema.org/WebPage"` — только на `.mm-block` Block 1
+- [ ] В Block 2's `.mm-block` **нет** `itemscope`/`itemtype`/`itemprop`
+- [ ] Каждая карточка Block 1 содержит `.mm-service-link` с реальным внутренним URL
+
 **GEO (Generative Engine Optimization):**
 - [ ] Лид `.mm-intro-text` содержит все 5 сущностей: бренд + город + категория/модель + действие + условие покупки
 - [ ] `LocalBusiness.description` — 2–3 предложения с описанием специализации магазина + гео, не просто название
@@ -506,7 +592,7 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 | `&#x1F6E1;` | Гарантия 1 год | на новую технику |
 | `&#x1F69A;` | Доставка СДЭК | по всей России |
 | `&#x1F504;` | Trade-In | сдайте старое |
-| `&#x1F4BB;` | Maxmobiles | с 2010 года |
+| `&#x1F4BB;` | Maxmobiles | с 2011 года |
 | `&#x260E;` | Бесплатный звонок | 8 (800) 250-81-58 |
 | `&#x1F4E6;` | Самовывоз | в 4 городах |
 
@@ -528,7 +614,6 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 
 ```html
 <article class="mm-service-card" role="listitem">
-  <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
   <h3>Название модели / подкатегории</h3>
   <p>Ключевая характеристика или преимущество — 1–2 предложения.</p>
   <a href="https://maxmobiles.ru/[slug]/" class="mm-service-link"

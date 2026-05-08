@@ -165,12 +165,13 @@
      CSS подключается через: Дизайн → Темы → Свой CSS (файл maxmobiles-styles.css)
      Заголовки: H2 → H3 → H4 (H1 уже есть на странице CS-Cart)
 ================================================================ -->
-<div class="mm-collapse-wrapper">
-<div class="mm-collapse-content">
-
+<!-- ================================================================
+     BLOCK 1: SEO-ядро — всегда виден
+     Intro + Trust strip + Services grid
+================================================================ -->
 <div class="mm-block" itemscope itemtype="https://schema.org/LocalBusiness">
-  <meta content="Maxmobiles">
-  <meta content="https://maxmobiles.ru">
+  <meta itemprop="name" content="Maxmobiles">
+  <meta itemprop="url" content="https://maxmobiles.ru">
   <meta itemprop="telephone" content="+7-978-820-30-01">
 
   <!-- ---- Заголовок и лид ---- -->
@@ -242,7 +243,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F1;</span>
         <h4>Замена стекла (переклейка)</h4>
         <p>
           Стекло разбито, но матрица цела, изображение без пятен и полос, сенсор реагирует?
@@ -258,7 +258,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F5A5;</span>
         <h4>Замена дисплея</h4>
         <p>
           При повреждении матрицы (тёмные пятна, цветные полосы, нет изображения)
@@ -274,7 +273,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x26A1;</span>
         <h4>Замена аккумулятора</h4>
         <p>
           Телефон быстро разряжается, самопроизвольно выключается или ёмкость
@@ -291,7 +289,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4F7;</span>
         <h4>Замена камеры</h4>
         <p>
           Размытые снимки, артефакты на фото, ошибки автофокуса двойной камеры
@@ -307,7 +304,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F527;</span>
         <h4>Замена разъёма USB-C</h4>
         <p>
           iPhone&nbsp;15&nbsp;Plus &#8212; первый Plus с разъёмом USB-C вместо Lightning.
@@ -323,7 +319,6 @@
         itemscope
         itemtype="https://schema.org/Offer"
       >
-        <span class="mm-service-card-icon" aria-hidden="true">&#x1F4E6;</span>
         <h4>Ремонт корпуса и заднего стекла</h4>
         <p>
           В 15&nbsp;Plus задняя стеклянная панель меняется отдельно от корпуса.
@@ -335,6 +330,15 @@
     </div>
   </section>
 
+</div><!-- /Block 1: mm-block -->
+
+<!-- ================================================================
+     BLOCK 2: пользовательский контент — collapse 350px
+================================================================ -->
+<div class="mm-collapse-wrapper">
+<div class="mm-collapse-content">
+
+<div class="mm-block">
   <!-- ---- Преимущества ---- -->
   <section class="mm-section" aria-labelledby="mm-h3-why">
     <h3 id="mm-h3-why" class="mm-section-title">Почему стоит доверить ремонт Maxmobiles</h3>
@@ -452,8 +456,6 @@
   <section
     class="mm-cta"
     aria-labelledby="mm-h3-cta"
-    itemscope
-    itemtype="https://schema.org/Service"
   >
     <div class="mm-cta-text">
       <h3 id="mm-h3-cta">Сдать iPhone&nbsp;15&nbsp;Plus в ремонт в Севастополе</h3>
@@ -475,15 +477,13 @@
         href="tel:+79788203001"
         class="mm-btn mm-btn-secondary"
         aria-label="Позвонить в сервисный центр Maxmobiles"
-        itemprop="telephone"
       >
         &#x260E;&nbsp; +7&#x2011;978&#x2011;820&#x2011;30&#x2011;01
       </a>
     </div>
   </section>
 
-</div>
-<!-- /mm-block -->
+</div><!-- /mm-block -->
 
   <!-- Градиент-шторка (внутри overflow:hidden) -->
   <div class="mm-collapse-fade"></div>
@@ -512,7 +512,7 @@
   var allContents = document.querySelectorAll('.mm-collapse-content');
   var content = allContents[allContents.length - 1];
   if (!content) return;
-  content.style.maxHeight = '400px';
+  content.style.maxHeight = '350px';
   content.dataset.mmState = 'collapsed';
   var fade = content.querySelector('.mm-collapse-fade');
   if (fade) fade.style.opacity = '1';
@@ -550,7 +550,7 @@ function mmBlockToggle(btn) {
     content.dataset.mmState  = 'collapsing';
     void content.offsetHeight; /* force reflow */
     content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
-    content.style.maxHeight  = '400px';
+    content.style.maxHeight  = '350px';
     content.dataset.mmState  = 'collapsed';
     if (fade)  { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
     btn.classList.remove('mm-is-expanded');

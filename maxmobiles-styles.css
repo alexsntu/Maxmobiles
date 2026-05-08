@@ -184,8 +184,10 @@
 .mm-service-card {
   background: #f5f5f7;
   border-radius: 18px;
-  padding: 26px 24px;
+  padding: 22px 24px;
   transition: box-shadow 0.22s ease, background-color 0.22s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .mm-service-card:hover {
@@ -213,6 +215,7 @@
   font-size: 14px;
   color: #6e6e73;
   line-height: 1.6;
+  flex: 1;
 }
 
 
@@ -490,7 +493,7 @@
 ================================================================ */
 .mm-service-link {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 16px;
   color: #0071e3;
   font-size: 14px;
   font-weight: 500;
