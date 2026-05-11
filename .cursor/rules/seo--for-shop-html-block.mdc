@@ -1,0 +1,734 @@
+---
+description: Стандарт генерации SEO HTML-блоков для CS-Cart (Maxmobiles). Применяется при создании/редактировании HTML-страниц для категорий ТОВАРОВ интернет-магазина (не сервисного центра).
+globs: **/*.html
+alwaysApply: false
+---
+
+# SEO HTML-блоки для категорий товаров Maxmobiles — стандарт CS-Cart
+
+## Бренд и контакты (магазин)
+
+- Название бренда всегда: `Maxmobiles` (не MaxMobiles, не MAXMOBILES)
+- Единый бесплатный номер: `8 (800) 250-81-58` / `href="tel:+78002508158"` — звонок по России бесплатный
+- Номер магазина: `+7 (978) 222-01-23` / `href="tel:+79782220123"`
+- Адрес главного магазина: `пр-т Нахимова 19, ТЦ «Детский мир», Севастополь`
+- Email: `store@maxmobiles.ru`
+- Часы работы: ежедневно 10:00–20:00
+- Сайт: `https://maxmobiles.ru`
+- Доставка: СДЭК по всей России
+- Самовывоз: Севастополь · Симферополь · Ялта · Москва
+
+## Этап исследования — запросы, GEO, AEO и анализ конкурентов
+
+Перед генерацией HTML-блока **обязательно** выполняется исследовательский этап.
+Он состоит из четырёх шагов, результаты которых влияют на текст, структуру и разметку блока.
+
+---
+
+### Шаг 1 — Сбор семантического ядра (SEO + LSI)
+
+Страницы магазина работают **только с коммерческим интентом** — информационные запросы (обзоры, характеристики, «стоит ли покупать») не используются.
+
+Собери 2 группы запросов для целевой категории:
+
+**Транзакционные (коммерческие):**
+- «купить [Категория/Модель] в Севастополе», «[Модель] цена Крым»
+- «[Модель] официальный магазин Севастополь», «[Модель] доставка по России»
+- «купить [Модель] с доставкой СДЭК», «заказать [Модель] онлайн»
+- «[Модель] цена купить официальный магазин Крым»
+- «[Модель] Trade-In рассрочка кредит»
+
+**LSI и синонимы (расширяют семантическое поле — только в коммерческом контексте):**
+- Характеристики как аргументы покупки: «камера», «дисплей», «автономность», «память»
+- Условия покупки: «гарантия 1 год», «рассрочка», «кредит», «Trade-In», «обмен»
+- Доверительные маркеры: «официальный», «оригинал», «магазин Apple», «с 2011 года»
+
+> Ключевые запросы органично распределяются по: H2, H3, лид-абзацу (`.mm-intro-text`),
+> карточкам моделей/категорий, FAQ-вопросам и CTA-блоку.
+
+---
+
+### Шаг 2 — GEO (Generative Engine Optimization)
+
+**GEO** — оптимизация под AI-поисковики: ChatGPT Search, Gemini, Perplexity, Bing Copilot.
+Они цитируют страницы дословно, поэтому контент должен быть «цитируемым».
+
+**Принципы GEO-контента для товарных категорий:**
+
+| Принцип | Как применять в блоке |
+|---|---|
+| Авторитетные утверждения | «работаем с 2011 года», «15 лет на рынке», «официальный партнёр» |
+| Сущностная полнота | Явно: бренд + город + категория товара + условия покупки + гарантия |
+| Самодостаточные абзацы | Каждый абзац понятен без контекста — AI вырезает куски дословно |
+| Прямые ответы | Лид `.mm-intro-text` за 2–3 предложения: что продаём, где, как купить, что получает клиент |
+| Структурированные списки | Условия покупки, что входит в гарантию, модели — всегда `<ul>` / `<ol>` |
+| Цитируемые формулировки | «Maxmobiles в Севастополе — официальный магазин [Бренд] с доставкой по России через СДЭК» |
+
+**JSON-LD усиления для GEO:**
+- `LocalBusiness.description` — специализация магазина + категория + гео (2–3 предложения)
+- `WebPage.description` — прямой ответ на главный транзакционный запрос страницы
+- `speakable.cssSelector` — включать `.mm-intro-text` и `.mm-faq`
+
+**E-E-A-T сигналы для товарных страниц:**
+- Опыт: «с 2011 года», «15 лет в индустрии Apple»
+- Экспертиза: «собственный сервисный центр», «знаем технику изнутри»
+- Авторитетность: Trade-In программа, СДЭК-доставка, самовывоз в 4 городах
+- Доверие: гарантия 1 год на новую технику, возврат, официальная продажа
+
+---
+
+### Шаг 3 — AEO (Answer Engine Optimization)
+
+**AEO** — оптимизация под прямые ответы: Google Featured Snippets, People Also Ask,
+голосовой поиск (Siri, Алиса, Google Assistant).
+
+**Правила AEO для FAQ-секции товарных категорий:**
+
+- **4 вопроса** в формате реальных поисковых запросов
+- Структура ответа: **1-е предложение = прямой ответ** → затем детали
+- Длина ответа: 40–80 слов — оптимально для Featured Snippet
+- Вопросы охватывают 4 типа покупательских интентов:
+
+| Тип интента | Пример вопроса |
+|---|---|
+| Доставка | «Как купить [Модель] с доставкой в [Город]?» |
+| Гарантия | «Какая гарантия на [Модель] в Maxmobiles?» |
+| Trade-In | «Можно ли сдать старый iPhone в зачёт нового?» |
+| Выбор | «Чем [Модель A] отличается от [Модель B]?» |
+
+**`speakable` разметка** — обязательна:
+```json
+"speakable": {
+  "@type": "SpeakableSpecification",
+  "cssSelector": [".mm-intro-text", ".mm-faq"]
+}
+```
+
+**HowTo-разметка** (опционально, если страница описывает процесс покупки/Trade-In):
+Если есть шаги «Как оформить заказ» или «Как сдать по Trade-In» — добавлять
+`itemtype="https://schema.org/HowTo"` с `HowToStep`. Даёт расширенный сниппет в Google.
+
+---
+
+### Шаг 4 — Анализ конкурентов (когда предоставлены URL)
+
+Когда пользователь присылает ссылки на страницы конкурентов — **обязательно** выполнить
+анализ через `WebFetch` перед генерацией блока.
+
+**Процесс анализа:**
+
+1. **Загрузи каждую страницу** с помощью WebFetch
+2. **Заполни таблицу анализа** по каждому конкуренту:
+
+| Параметр | Что фиксировать |
+|---|---|
+| H1 / H2-заголовки | Формулировки, ключи, гео |
+| Модели и категории | Какие выделены, как названы |
+| Условия покупки | Гарантия, доставка, рассрочка, Trade-In — как подаются |
+| FAQ-вопросы | Темы, которые закрывают |
+| LSI-термины | Слова и фразы, которых нет в нашей семантике |
+| CTA-формулировки | Тексты кнопок, призывы |
+| Структурные паттерны | Порядок секций, уникальные блоки |
+| Слабые стороны | Что отсутствует, что сделано плохо |
+
+3. **Выяви конкурентные разрывы** (Gap Analysis):
+   - Что есть у конкурентов и чего нет у нас → добавить в контент
+   - Что есть у нас и чего нет у них → усилить как преимущество
+   - Какие LSI-термины они используют → включить органично
+
+4. **Сформулируй 2–3 тезиса** уникального преимущества Maxmobiles vs конкуренты.
+
+**Формат вывода Gap Analysis** (перед генерацией HTML):
+
+```
+## Gap Analysis: [Категория/Модель]
+
+### Конкурент 1: [домен]
+- Категории/модели: ...
+- LSI-находки: ...
+- Условия: гарантия, доставка, рассрочка
+- Слабо: нет FAQ, нет Schema.org, нет гео
+
+### Наши преимущества vs конкурент 1:
+✅ Самовывоз в 4 городах
+✅ Trade-In + собственный сервис
+⚠️ Добавить в контент: «...»
+```
+
+> Текст всегда оригинальный. Анализ — только для поиска точек отрыва.
+
+---
+
+## Структура файла
+
+Каждый HTML-блок состоит из **четырёх частей** строго в этом порядке:
+1. JSON-LD (`<script type="application/ld+json">`)
+2. **Block 1 — SEO-ядро** (всегда видим, без collapse): `.mm-block` → Intro + Trust strip + Highlights grid
+3. **Block 2 — пользовательский контент** (collapse, 350px): `.mm-collapse-wrapper → .mm-collapse-content → .mm-block` → Advantages + FAQ + CTA
+4. `<script>` с функцией `mmBlockToggle` и инициализацией (только для Block 2)
+
+> **ВАЖНО:** `<style>` теги ЗАПРЕЩЕНЫ внутри HTML-блока CS-Cart. Весь CSS хранится
+> в `maxmobiles-styles.css` и подключается через **Дизайн → Темы → Редактировать → Свой CSS**
+> (один раз для всего сайта).
+
+## Распределение контента: Block 1 (SEO-ядро) vs Block 2 (пользовательский)
+
+Разделение на два блока — ключевое SEO-решение. **Block 1 всегда виден** без CSS-ограничений,
+**Block 2 скрыт** за collapse с начальной высотой 350px.
+
+### Block 1 — SEO-ядро (всегда виден, без collapse)
+
+Содержит самый ценный для ранжирования контент:
+
+| Секция | Почему в Block 1 |
+|---|---|
+| `mm-intro` (H2 + `.mm-intro-text` + `.mm-stat-badge`) | Главный ключ в H2 + все 5 GEO-сущностей в лиде — максимальный вес страницы |
+| `mm-trust-strip` (4 иконки) | Коммерческие E-E-A-T сигналы, ключи в `<strong>`: гарантия, доставка, Trade-In |
+| `mm-services-grid` (карточки моделей) | Коммерческие названия моделей в H3, внутренние ссылки на страницы товаров |
+
+> **Правило:** все карточки моделей/подкатегорий (3 или 6) — ВСЕГДА целиком в Block 1.
+> Не разрезать сетку. Внутренние ссылки в карточках обязательны — они всегда должны быть видимы.
+
+### Block 2 — пользовательский контент (collapse, 350px)
+
+Контент полезен для пользователей, но для SEO покрыт структурированными данными в JSON-LD:
+
+| Секция | Почему в Block 2 | JSON-LD-страховка |
+|---|---|---|
+| Преимущества (`mm-advantages-list`) | Дублирует trust strip, меньше инкрементальной SEO-ценности | — |
+| FAQ (`mm-faq`) | HTML-версия за collapse допустима при наличии JSON-LD | Покрыт JSON-LD `FAQPage` |
+| CTA (`mm-cta`) | Конверсионный элемент, ключевых слов не несёт | — |
+
+> **Начальная высота Block 2 — 350px** — достаточно, чтобы показать первые 2–3 пункта
+> преимуществ с иконками и стимулировать клик «Показать больше».
+
+### Microdata и itemscope — только в Block 1
+
+```html
+<!-- Block 1: itemscope/itemtype ЗДЕСЬ -->
+<div class="mm-block" itemscope itemtype="https://schema.org/WebPage">
+  <!-- intro + trust strip + highlights grid с внутренними ссылками -->
+</div>
+
+<!-- Block 2: itemscope/itemtype НЕТ -->
+<div class="mm-collapse-wrapper">
+  <div class="mm-collapse-content">
+    <div class="mm-block">  <!-- без itemscope! -->
+      <!-- advantages + faq + cta -->
+    </div>
+    <div class="mm-collapse-fade"></div>
+  </div>
+  ...
+</div>
+```
+
+**Collapse — опциональный механизм (для Block 2):**
+| Указание пользователя | Поведение |
+|---|---|
+| «с коллапсом» / «collapse» / не указано | Block 2 обёрнут в `.mm-collapse-wrapper`, добавить `<script>` |
+| «без коллапса» / «no collapse» | Block 2 выводится напрямую без обёртки и без `<script>` |
+
+> Block 1 (SEO-ядро) всегда видим независимо от этой настройки.
+
+## Механизм collapse / expand (собственный)
+
+CS-Cart имеет встроенный toggle, но он ненадёжен в Chrome. Используется собственный механизм.
+
+**Структура HTML (два блока):**
+```html
+<!-- ===== BLOCK 1: SEO-ядро — всегда виден ===== -->
+<div class="mm-block" itemscope itemtype="https://schema.org/WebPage">
+  <section class="mm-intro" aria-labelledby="...">
+    <!-- H2 + .mm-intro-text + .mm-stat-badge -->
+  </section>
+
+  <div class="mm-trust-strip" role="list" aria-label="...">
+    <!-- 4 trust items -->
+  </div>
+
+  <section class="mm-section" aria-labelledby="...">
+    <!-- H3 + 3 или 6 карточек моделей с внутренними ссылками -->
+  </section>
+</div>
+
+<!-- ===== BLOCK 2: пользовательский контент — collapse ===== -->
+<div class="mm-collapse-wrapper">
+  <div class="mm-collapse-content">
+    <div class="mm-block">
+      <!-- mm-advantages-list -->
+      <!-- mm-faq -->
+      <!-- mm-cta -->
+    </div>
+    <div class="mm-collapse-fade"></div>
+  </div>
+  <div class="mm-collapse-trigger">
+    <button class="mm-collapse-btn" onclick="mmBlockToggle(this)" aria-expanded="false">
+      <span class="mm-collapse-btn-text">Показать больше</span>
+      <span class="mm-collapse-chevron" aria-hidden="true">
+        <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
+          <path d="M1 1.5L7 7.5L13 1.5" stroke="#0071e3" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var allContents = document.querySelectorAll('.mm-collapse-content');
+  var content = allContents[allContents.length - 1];
+  if (!content) return;
+  content.style.maxHeight = '350px';
+  content.dataset.mmState = 'collapsed';
+  var fade = content.querySelector('.mm-collapse-fade');
+  if (fade) fade.style.opacity = '1';
+})();
+
+function mmBlockToggle(btn) {
+  var trigger = btn.parentElement;
+  var content = trigger.previousElementSibling;
+  var fade    = content.querySelector('.mm-collapse-fade');
+  var label   = btn.querySelector('.mm-collapse-btn-text');
+  var wrapper = trigger.parentElement;
+
+  if (content.dataset.mmState !== 'expanded') {
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'expanded';
+    if (fade) { fade.style.transition = 'opacity 0.25s ease'; fade.style.opacity = '0'; }
+    btn.classList.add('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    if (label) label.textContent = 'Скрыть';
+    setTimeout(function () {
+      if (content.dataset.mmState === 'expanded') {
+        content.style.transition = '';
+        content.style.maxHeight  = 'none';
+      }
+    }, 580);
+  } else {
+    content.style.transition = '';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'collapsing';
+    void content.offsetHeight;
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = '350px';
+    content.dataset.mmState  = 'collapsed';
+    if (fade) { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
+    btn.classList.remove('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    if (label) label.textContent = 'Показать больше';
+    setTimeout(function () {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+}
+</script>
+```
+
+**Правила collapse:**
+- Применяется **только к Block 2** — Block 1 (SEO-ядро) всегда видим, без обёртки
+- Начальная высота Block 2: **350px** (без анимации при загрузке) — показывает начало advantages
+- Fade-шторка: находится **внутри** `.mm-collapse-content` (`position: absolute; bottom: 0`)
+- `transform` на hover **ЗАПРЕЩЁН** — вызывает баг Chrome с `overflow: hidden`
+- После раскрытия `max-height` снимается (`'none'`) через `setTimeout` 580ms
+- При сворачивании — плавная прокрутка к началу блока (`scrollIntoView`)
+
+## JSON-LD — обязательные типы
+
+```json
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "LocalBusiness" },
+    { "@type": "WebPage" },
+    { "@type": "FAQPage" }
+  ]
+}
+```
+
+Опционально для страниц с перечнем моделей — добавлять `ItemList` в граф:
+```json
+{
+  "@type": "ItemList",
+  "name": "Купить [Категория] в Севастополе — Maxmobiles",
+  "description": "...",
+  "numberOfItems": N,
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "[Модель 1]", "url": "https://maxmobiles.ru/..." },
+    { "@type": "ListItem", "position": 2, "name": "[Модель 2]", "url": "https://maxmobiles.ru/..." }
+  ]
+}
+```
+
+### LocalBusiness — обязательные поля
+
+```json
+{
+  "@type": "LocalBusiness",
+  "@id": "https://maxmobiles.ru/#business",
+  "name": "Maxmobiles",
+  "alternateName": "Магазин Apple Maxmobiles",
+  "description": "...",
+  "url": "https://maxmobiles.ru",
+  "telephone": "+7-978-222-01-23",
+  "priceRange": "&#8381;&#8381;&#8381;",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "пр-т Нахимова 19",
+    "addressLocality": "Севастополь",
+    "addressRegion": "Севастополь",
+    "addressCountry": "RU"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Севастополь" },
+    { "@type": "Country", "name": "Россия" }
+  ],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00",
+    "closes": "20:00"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "120",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+}
+```
+
+### WebPage — обязательные поля
+
+```json
+{
+  "@type": "WebPage",
+  "@id": "https://maxmobiles.ru/SLUG/#webpage",
+  "name": "Купить [Категория] в Севастополе — Maxmobiles",
+  "description": "...",
+  "url": "https://maxmobiles.ru/SLUG/",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".mm-intro-text", ".mm-faq"]
+  },
+  "about": { "@id": "https://maxmobiles.ru/#business" }
+}
+```
+
+### FAQPage
+- 4 реальных вопроса из контента страницы
+- Обязательное поле: `"name"` (человекочитаемый заголовок FAQ, например: `"Частые вопросы о покупке [Модель]"`)
+- Обязательно охватывают **4 типа покупательских интентов** (AEO): доставка · гарантия · Trade-In · выбор модели
+- Каждый `acceptedAnswer` начинается с прямого ответа (первое предложение = вся суть)
+
+## Заголовки
+
+- Начинать с **H2** (H1 уже есть на странице CS-Cart)
+- Иерархия: H2 → H3 → H4
+- H2 размер: **28px** на ПК, **24px** на мобильных (≤640px)
+- H3 размер: `clamp(19px, 2.8vw, 26px)`
+
+## Иконки и спецсимволы
+
+**Запрещено** использовать эмодзи-символы напрямую — только HTML-сущности:
+
+| Символ | Сущность |
+|--------|----------|
+| ⚡ молния | `&#x26A1;` |
+| 📱 телефон | `&#x1F4F1;` |
+| 💻 ноутбук | `&#x1F4BB;` |
+| ⌚ часы | `&#x231A;` |
+| 📷 камера | `&#x1F4F7;` |
+| 🛡 щит | `&#x1F6E1;` |
+| 🔍 лупа | `&#x1F50D;` |
+| 📦 коробка | `&#x1F4E6;` |
+| 💎 кристалл | `&#x1F48E;` |
+| 🚚 доставка | `&#x1F69A;` |
+| 🔄 обмен | `&#x1F504;` |
+| ✔ галочка | `&#x2714;` |
+| ☎ телефон | `&#x260E;` |
+| — тире | `&#8212;` |
+| · точка | `&#183;` |
+| ₽ рубль | `&#8381;` |
+
+## Бейдж `.mm-stat-badge` — правила
+
+Бейдж выводится под лид-абзацем (`.mm-intro-text`) и содержит 1–2 тезиса.
+
+**Формулировки для магазина:**
+- ✅ «Официальная гарантия 1 год» — для новых устройств
+- ✅ «Доставка по России через СДЭК» — условия доставки
+- ✅ «Trade-In: обменяйте старое устройство» — программа обмена
+- ❌ Конкретные сроки доставки в днях — могут меняться
+
+**Однострочный бейдж** (один тезис):
+```html
+<span class="mm-stat-badge" role="note" aria-label="...">
+  &#x2714;&nbsp; Текст тезиса
+</span>
+```
+
+**Двухстрочный бейдж** (два тезиса — для длинных фраз):
+```html
+<span class="mm-stat-badge" role="note" aria-label="...">
+  <span class="mm-badge-item">&#x2714;&nbsp; Первый тезис</span>
+  <span class="mm-badge-sep" aria-hidden="true">&#183;</span>
+  <span class="mm-badge-item">&#x2714;&nbsp; Второй тезис</span>
+</span>
+```
+
+## CSS — дизайн-система Apple
+
+Идентична сервисному блоку. Все стили изолированы в `.mm-block`.
+Хранятся в `maxmobiles-styles.css`.
+
+**Цвета:**
+- Текст: `#1d1d1f`
+- Вторичный: `#6e6e73`
+- Фон карточек: `#f5f5f7`
+- Акцент синий: `#0071e3` (hover: `#0077ed`)
+- Разделитель: `#e8e8ed`
+- CTA-блок фон: `linear-gradient(145deg, #1d1d1f, #2c2c2e)`
+
+**Шрифт:**
+```css
+font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+             "Helvetica Neue", Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+```
+
+**Кнопки — hover без transform:**
+```css
+/* transform на hover ЗАПРЕЩЁН — вызывает баг Chrome с overflow:hidden */
+.mm-btn-primary:hover  { background: #0077ed; box-shadow: 0 4px 16px rgba(0,113,227,0.35); }
+.mm-btn-secondary:hover { background: rgba(255,255,255,0.22); box-shadow: 0 4px 16px rgba(255,255,255,0.1); }
+```
+
+## Структура HTML-контента
+
+Контент разделён на два блока с разными SEO-приоритетами.
+
+### Block 1 — SEO-ядро (всегда виден, без collapse)
+
+1. **Intro** — H2 + лид-абзац `.mm-intro-text` + `.mm-stat-badge`
+2. **Trust strip** — 4 иконки с подписями `.mm-trust-strip`
+3. **Highlights grid** — карточки `.mm-services-grid` с внутренними ссылками (все 3 или 6 карточек целиком)
+
+### Block 2 — пользовательский контент (collapse, начальная высота 350px)
+
+4. **Преимущества** — список `.mm-advantages-list` или highlight-блок `.mm-highlight`
+5. **FAQ** — 4 вопроса в обычном HTML (только класс `.mm-faq`; без `itemscope/itemtype/itemprop`)
+6. **CTA** — тёмный блок `.mm-cta` с двумя кнопками
+
+### Требования к лид-абзацу `.mm-intro-text` (GEO)
+
+Лид обязан содержать **все 5 сущностей** — это минимум для цитирования AI-поисковиками:
+1. **Бренд**: «Maxmobiles»
+2. **Город**: «Севастополь» (или «в Крыму»)
+3. **Категория/модель**: «iPhone 16 Pro Max», «MacBook Pro» и т.д.
+4. **Действие/предложение**: «купить», «в наличии», «официальный магазин»
+5. **Условие покупки**: гарантия или доставка (СДЭК / 1 год гарантии)
+
+Пример корректного лида:
+> «В **Maxmobiles** в **Севастополе** вы найдёте полный ассортимент **iPhone 16** с официальной **гарантией 1 год**. Доставляем по всей России через СДЭК — оформите заказ онлайн или заберите в магазине.»
+
+### Требования к FAQ-секции (AEO)
+
+Секция обёрнута классом `.mm-faq` — это обязательно для `speakable` разметки:
+```html
+<section class="mm-faq" aria-labelledby="faq-heading">
+```
+
+`FAQPage` размещается **только в JSON-LD**. Дублировать FAQ через microdata в HTML запрещено.
+
+4 вопроса строго покрывают 4 интента (см. Шаг 3):
+
+| № | Интент | Пример |
+|---|---|---|
+| 1 | Доставка | «Как купить [Модель] с доставкой по России?» |
+| 2 | Гарантия | «Какая гарантия на [Модель] в Maxmobiles?» |
+| 3 | Trade-In | «Можно ли сдать старый iPhone в зачёт нового?» |
+| 4 | Выбор | «Чем [Модель A] отличается от [Модель B]?» |
+
+Каждый ответ: **первое предложение = прямой ответ**, затем детали. Объём 40–80 слов.
+
+## Чеклист GEO/AEO перед финальным выводом HTML
+
+Перед тем как выдать готовый блок — пройти по всем пунктам:
+
+**Блок-разделение (split):**
+- [ ] Block 1 содержит: intro + trust strip + highlights grid (все карточки, не обрезать)
+- [ ] Block 2 содержит: advantages + FAQ + CTA
+- [ ] Block 1 **не обёрнут** в `.mm-collapse-wrapper` — он всегда виден
+- [ ] Block 2 обёрнут в `.mm-collapse-wrapper` с начальной высотой **350px** (не 400px)
+- [ ] `itemscope itemtype="https://schema.org/WebPage"` — только на `.mm-block` Block 1
+- [ ] В Block 2's `.mm-block` **нет** `itemscope`/`itemtype`/`itemprop`
+- [ ] Каждая карточка Block 1 содержит `.mm-service-link` с реальным внутренним URL
+
+**GEO (Generative Engine Optimization):**
+- [ ] Лид `.mm-intro-text` содержит все 5 сущностей: бренд + город + категория/модель + действие + условие покупки
+- [ ] `LocalBusiness.description` — 2–3 предложения с описанием специализации магазина + гео, не просто название
+- [ ] `WebPage.description` — сформулирован как прямой ответ на главный транзакционный запрос страницы
+- [ ] `speakable.cssSelector` содержит `[".mm-intro-text", ".mm-faq"]`
+- [ ] Преимущества конкретны: не «быстрая доставка», а «доставка по России через СДЭК»; не «официальный», а «официальная гарантия 1 год»
+
+**AEO (Answer Engine Optimization):**
+- [ ] FAQ-секция обёрнута в `<section class="mm-faq" ...>`
+- [ ] 4 вопроса покрывают 4 интента: доставка · гарантия · Trade-In · выбор модели
+- [ ] В JSON-LD `FAQPage` заполнено поле `"name"`
+- [ ] Каждый `acceptedAnswer` начинается с прямого ответа (не вводного слова, не «мы»)
+- [ ] Длина каждого ответа: 40–80 слов
+- [ ] JSON-LD `FAQPage` содержит те же 4 вопроса, что и HTML (не расходятся!)
+- [ ] В HTML FAQ нет `itemscope`, `itemtype`, `itemprop` для `FAQPage/Question/Answer`
+
+### Trust strip — иконки для магазина
+
+Используй 4 из следующих (выбирай наиболее релевантные для категории):
+
+| Иконка | `<strong>` (жирный) | Дополнение (обычный текст) |
+|---|---|---|
+| `&#x1F6E1;` | Гарантия 1 год | на новую технику |
+| `&#x1F69A;` | Доставка СДЭК | по всей России |
+| `&#x1F504;` | Trade-In | сдайте старое |
+| `&#x1F4BB;` | Maxmobiles | с 2011 года |
+| `&#x260E;` | Бесплатный звонок | 8 (800) 250-81-58 |
+| `&#x1F4E6;` | Самовывоз | в 4 городах |
+
+> **CSS `.mm-trust-label strong`** выводит первую строку жирным. Всегда используй двухуровневую структуру:
+> ```html
+> <span class="mm-trust-label"><strong>Гарантия 1 год</strong> на новую технику</span>
+> ```
+
+### Highlights grid — карточки категории
+
+Карточки в сетке `.mm-services-grid` (строго 3 или 6) представляют:
+- **Топовые модели** категории (например: iPhone 16 Pro Max, iPhone 16 Pro, iPhone 16)
+- **Подкатегории** (например: MacBook Pro, MacBook Air, Mac mini)
+- **Ключевые особенности** линейки (например: камера, дисплей, автономность)
+
+**Структура карточки:**
+
+> **Заголовок карточки — `<h3>`** (CSS стилизует `.mm-service-card h3` и `.mm-service-card h4` одинаково; используй `<h3>` для правильной семантической иерархии H2 → H3-секция → H3-карточка).
+
+```html
+<article class="mm-service-card" role="listitem">
+  <h3>Название модели / подкатегории</h3>
+  <p>Ключевая характеристика или преимущество — 1–2 предложения.</p>
+  <a href="https://maxmobiles.ru/[slug]/" class="mm-service-link"
+     aria-label="Купить [Модель] в Maxmobiles">Выбрать модель &#8594;</a>
+</article>
+```
+
+> Цены в карточках **ЗАПРЕЩЕНЫ**. Для цен используется прайс-лист CS-Cart.
+
+### Перелинковка внутри блока
+
+Все карточки моделей/подкатегорий **обязаны** содержать внутреннюю ссылку на соответствующую страницу каталога.
+
+**Правила перелинковки:**
+- Класс ссылки: `mm-service-link` (стили уже в `maxmobiles-styles.css`)
+- `aria-label` содержит полное название: «Купить [Модель] в Maxmobiles»
+- Текст ссылки в карточке модели: «Выбрать модель &#8594;»
+- Текст ссылки в карточке подкатегории: «Смотреть каталог &#8594;»
+- URL строится по паттернам из раздела **URL patterns** (см. ниже)
+- Если URL страницы неизвестен — оставить `href="#"` с комментарием `<!-- TODO: вставить URL -->`
+
+**Ссылки в тексте FAQ и преимуществах:**
+Если в тексте упоминается конкретная модель или раздел сайта — оборачивать в `<a href="...">` с точным URL:
+```html
+<a href="https://maxmobiles.ru/iphone/iphone-17-pro-max/">iPhone 17 Pro Max</a>
+```
+
+### CTA — кнопки для магазина
+
+> **Обязательно:** текст и заголовок CTA должны быть обёрнуты в `<div class="mm-cta-text">` — только тогда применяются CSS-правила `.mm-cta-text h3` и `.mm-cta-text p`. Заголовок — `<h3>`, не `<h2>`.
+
+```html
+<div class="mm-cta" role="complementary" aria-label="Контакты для заказа [Категория]">
+  <div class="mm-cta-text">
+    <h3>Готовы сделать заказ?</h3>
+    <p>Позвоните нам или напишите — поможем выбрать модель и оформить покупку.</p>
+  </div>
+  <div class="mm-cta-actions">
+    <a href="tel:+78002508158" class="mm-btn mm-btn-primary" aria-label="Позвонить бесплатно 8-800-250-81-58">
+      &#x260E;&nbsp; 8 (800) 250-81-58
+    </a>
+    <a href="mailto:store@maxmobiles.ru" class="mm-btn mm-btn-secondary" aria-label="Написать на email магазина">
+      &#x2714;&nbsp; store@maxmobiles.ru
+    </a>
+  </div>
+</div>
+```
+
+## ARIA и доступность
+
+- Все секции: `aria-labelledby="id-заголовка"`
+- Декоративные иконки: `aria-hidden="true"`
+- Списки: `role="list"` / `role="listitem"`
+- Кнопки: `aria-label` с полным описанием действия
+- Кнопка collapse: `aria-expanded="false"` / `"true"` (переключается JS)
+
+## Сетка карточек `.mm-services-grid`
+
+Сетка **3 колонки** на десктопе (≥901px). Количество карточек — строго **3 или 6**.
+
+```css
+.mm-services-grid { grid-template-columns: repeat(3, 1fr); }
+.mm-services-grid > article:last-child:nth-child(3n + 1) { grid-column: 2; }
+@media (max-width: 900px) and (min-width: 641px) { .mm-services-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .mm-services-grid { grid-template-columns: 1fr; } }
+```
+
+**Как выбрать количество:**
+- Категория с 3–4 топовыми моделями → **3 карточки**
+- Категория с 5+ моделями или подкатегориями → **6 карточек**
+
+## Адаптивность
+
+```css
+@media (max-width: 640px) {
+  .mm-intro h2 { font-size: 24px; }
+  .mm-cta { padding: 28px 22px; }
+  .mm-services-grid { grid-template-columns: 1fr; }
+  .mm-trust-strip { gap: 16px; }
+  .mm-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
+  .mm-highlight { flex-direction: column; gap: 12px; padding: 22px 20px; }
+  .mm-stat-badge { font-size: 13px; padding: 8px 15px; gap: 6px; }
+  .mm-stat-badge:has(.mm-badge-sep) { flex-direction: column; align-items: flex-start; gap: 3px; border-radius: 14px; }
+  .mm-badge-sep { display: none; }
+}
+```
+
+## Цены в тексте — ЗАПРЕЩЕНО
+
+Конкретные цены в рублях **запрещено** указывать в HTML-тексте и в JSON-LD.
+
+**Запрещено:**
+- ❌ Любые конкретные суммы в тексте и карточках
+- ❌ Упоминание цен в описаниях карточек
+
+## Product microdata в карточках — запрещено
+
+В SEO-блоках карточки `.mm-service-card` не размечаются как `Product` через HTML microdata.
+Иначе Google требует обязательные поля `offers` / `review` / `aggregateRating` и помечает
+страницу критичной ошибкой.
+
+**Запрещено в карточках:**
+- `itemscope itemtype="https://schema.org/Product"`
+- `itemprop="name"`
+- `itemprop="description"`
+- `itemprop="url"`
+- ❌ Цены в `description` полей JSON-LD
+
+**Допустимо:**
+- ✅ «Актуальные цены смотрите в каталоге выше»
+- ✅ `"priceRange": "&#8381;&#8381;&#8381;"` в JSON-LD `LocalBusiness`
+- ✅ Сравнительные формулировки: «выгоднее при покупке в комплекте»
+
+## Именование файлов
+
+- Главная страница iPhone: `iphone-category.html`
+- Конкретная модель: `iphone-16-pro-max.html`, `macbook-pro-m4.html`
+- Аксессуары: `airpods-pro-category.html`, `apple-watch-category.html`

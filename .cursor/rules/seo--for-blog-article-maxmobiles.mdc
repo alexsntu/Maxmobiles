@@ -1,0 +1,221 @@
+---
+description: Стандарт генерации SEO HTML-блоков для статей блога Maxmobiles (maxmobiles.ru/blog/). Применяется при создании, оптимизации или переработке статей блога: лайфхаки, инструкции, новости и статьи по технике Apple. Отличие от правил для категорий магазина/сервиса — информационный + коммерческий интент, JSON-LD BlogPosting, блок автора, Key Facts box.
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# SEO HTML-блоки статей блога Maxmobiles — стандарт CS-Cart
+
+## Бренд и контакты
+
+- Бренд: `Maxmobiles`
+- Телефон: `8 (800) 250-81-58` / `href="tel:+78002508158"` — бесплатно
+- Сайт: `https://maxmobiles.ru` · Блог: `https://maxmobiles.ru/blog/`
+- Email: `store@maxmobiles.ru`
+- Логотип: `https://maxmobiles.ru/images/logos/maxmobiles-logo.png`
+- Специализация: старейший Apple-эксперт в Крыму, магазин в Севастополе, работает с 2011 года
+- Адрес: `Россия, Севастополь, пр-т Нахимова 19`
+
+---
+
+## Структура файла (строго в порядке)
+
+1. `<script type="application/ld+json">` — JSON-LD
+2. `<div class="mm-block mm-article" itemscope itemtype="https://schema.org/Article">`
+   - **Article header** `.mm-article-header`
+   - **Key Facts box** `.mm-article-key-facts` ← GEO: первичный цитируемый элемент
+   - **TOC** `.mm-article-toc` *(только если 4+ секций H2)*
+   - **Article body** `.mm-article-body`
+   - **FAQ** `<section class="mm-faq">` ← AEO
+   - **CTA** `.mm-cta`
+   - **Author box** `.mm-article-author` ← E-E-A-T (всегда последний блок статьи)
+
+> `<style>` теги внутри HTML-блока **ЗАПРЕЩЕНЫ**. Весь CSS — в `maxmobiles-styles.css`.
+> Эмодзи-символы напрямую **ЗАПРЕЩЕНЫ** — только HTML-сущности.
+
+---
+
+## JSON-LD — обязательные типы
+
+`@graph` содержит:
+- `BlogPosting` — headline, description (150-160 chars), datePublished, dateModified, author, publisher с logo, image (если есть), url, inLanguage: `"ru"`, keywords (3-7 слов), speakable, mainEntityOfPage, articleSection
+- `BreadcrumbList` — 4 уровня: Главная → Блог Maxmobiles → Категория → Заголовок статьи
+- `FAQPage` — те же 4 вопроса, что и HTML-секция FAQ (должны совпадать)
+
+---
+
+## Article header
+
+```html
+<header class="mm-article-header">
+  <div class="mm-article-tags">
+    <a class="mm-article-tag" href="https://maxmobiles.ru/blog/">Блог Maxmobiles</a>
+    <a class="mm-article-tag" href="https://maxmobiles.ru/blog/layfhaki-i-instrukcii/">КАТЕГОРИЯ</a>
+  </div>
+</header>
+```
+
+**Ссылка на объект-категорию блога:**
+- Ссылка на основной блог для тега `Блог Maxmobiles` всегда: `https://maxmobiles.ru/blog/`.
+- Ссылка на категорию (второй тег в `.mm-article-tags`) берется автоматически из фиксированного списка разрешенных категорий ниже.
+- URL категории у пользователя не запрашивается.
+
+**Разрешённые категории блога (использовать только этот список):**
+- `Лайфхаки и инструкции` → `https://maxmobiles.ru/blog/layfhaki-i-instrukcii/`
+- `Статьи` → `https://maxmobiles.ru/blog/stati/`
+- `Новости` → `https://maxmobiles.ru/blog/novosti-produkcii-apple/`
+
+Новые/другие категории добавлять нельзя. Если категория вне списка, нужно запросить уточнение у пользователя.
+
+Блок с автором, датой и временем чтения в начале статьи не выводится в HTML — эти данные показывает CS-Cart.
+
+**H1 всегда задан в CS-Cart отдельно** — тег `<h1>` в HTML-блок не добавлять, первый заголовок в теле статьи — H2.
+
+---
+
+## Обязательные параметры для сборки статьи
+
+Запрашиваются 4 параметра — все сразу, одним сообщением:
+
+1. `slug` статьи
+2. Дата публикации (`YYYY-MM-DD`)
+3. Категория из разрешенного списка (`Лайфхаки и инструкции`, `Статьи`, `Новости`)
+4. Ссылки для перелинковки (необязательно) — формат: `Анкор -> URL`. Если нет — `нет`.
+
+---
+
+## Key Facts box (GEO — основной элемент цитирования AI)
+
+```html
+<div class="mm-article-key-facts">
+  <p class="mm-article-key-facts-title">&#x2714;&nbsp; Ключевые факты</p>
+  <ul class="mm-article-key-facts-list">
+    <li>Факт 1 — конкретный, самодостаточный</li>
+    <li>Факт 2</li>
+    <li>Факт 3</li>
+  </ul>
+</div>
+```
+
+---
+
+## Table of Contents (если 4+ секций H2)
+
+```html
+<nav class="mm-article-toc" aria-label="Содержание статьи">
+  <p class="mm-article-toc-title">Содержание</p>
+  <ol class="mm-article-toc-list">
+    <li><a class="mm-article-toc-link" href="#section-1">Раздел 1</a></li>
+    <li><a class="mm-article-toc-link" href="#section-2">Раздел 2</a></li>
+  </ol>
+</nav>
+```
+
+Каждый H2 в `.mm-article-body` **обязан** иметь уникальный `id`, совпадающий с href в TOC.
+
+---
+
+## Канонический HTML-паттерн (как в готовых статьях)
+
+Использовать единый формат, который уже применен в актуальных статьях из `Блог/Готовые`:
+
+- блок перелинковки всегда с классом `mm-catalog-links`;
+- FAQ-заголовок секции — `h3` с `id="faq-heading"`;
+- вопрос в FAQ — `h4` с классом `mm-faq-question`;
+- авторский блок — `<div class="mm-article-author" role="contentinfo" ...>`.
+
+---
+
+## Перелинковка: блок «Что выбрать в каталоге Maxmobiles»
+
+Если пользователь передал список ссылок и анкоров, добавлять в конце `.mm-article-body` отдельным блоком:
+
+```html
+<section class="mm-section mm-catalog-links" aria-labelledby="catalog-links-heading">
+  <h3 id="catalog-links-heading">Что выбрать в каталоге Maxmobiles</h3>
+  <ul>
+    <li><a href="https://maxmobiles.ru/primer-1/">Анкор 1</a></li>
+  </ul>
+</section>
+```
+
+---
+
+## FAQ — обязательный формат (AEO)
+
+FAQ-секция должна строго соответствовать шаблону:
+
+- Ровно 4 вопроса.
+- Первое предложение каждого ответа — прямой ответ на вопрос.
+- Длина каждого ответа: **40-80 слов** (не короткие однофразные ответы).
+- Вопросы должны быть сформулированы как реальные поисковые запросы.
+- Тексты вопросов и ответов в HTML и JSON-LD `FAQPage` должны совпадать дословно.
+
+Рекомендуемый HTML-шаблон FAQ (использовать по умолчанию):
+
+```html
+<section class="mm-faq" aria-labelledby="faq-heading">
+  <h3 id="faq-heading">Частые вопросы</h3>
+  <div class="mm-faq-item">
+    <h4 class="mm-faq-question">Вопрос 1?</h4>
+    <p class="mm-faq-answer">Ответ 1...</p>
+  </div>
+</section>
+```
+
+---
+
+## E-E-A-T сигналы
+
+| Фактор | Формулировка |
+|---|---|
+| Experience | «с 2011 года», «более 14 лет опыта» |
+| Expertise | собственный сервисный центр Maxmobiles, корректные технические факты |
+| Authoritativeness | старейший Apple-эксперт в Крыму |
+| Trustworthiness | гарантия 1 год, Trade-In, рассрочка, реальный адрес и контакты |
+
+---
+
+## CTA
+
+```html
+<div class="mm-cta" role="complementary" aria-label="Контакты Maxmobiles">
+  <div class="mm-cta-text">
+    <h3>Нужна помощь с выбором?</h3>
+    <p>Напишите нам на почту или позвоните бесплатно — специалисты Maxmobiles помогут выбрать устройство и оформить заказ с доставкой по Крыму и России.</p>
+  </div>
+  <div class="mm-cta-actions">
+    <a href="mailto:store@maxmobiles.ru" class="mm-btn mm-btn-primary">&#x2709;&nbsp; store@maxmobiles.ru</a>
+    <a href="tel:+78002508158" class="mm-btn mm-btn-secondary">&#x260E;&nbsp; 8 (800) 250-81-58</a>
+  </div>
+</div>
+```
+
+---
+
+## CSS — белый список классов для статей
+
+Использовать только классы `mm-*` из `maxmobiles-styles.css`:
+
+`mm-block`, `mm-intro`, `mm-intro-text`, `mm-section`, `mm-section-title`, `mm-highlight`, `mm-highlight-icon`, `mm-highlight-body`, `mm-howto-steps`, `mm-howto-step`, `mm-howto-step-body`, `mm-faq`, `mm-faq-item`, `mm-faq-question`, `mm-faq-answer`, `mm-cta`, `mm-cta-text`, `mm-cta-actions`, `mm-btn`, `mm-btn-primary`, `mm-btn-secondary`.
+
+Для статей дополнительно применяются:
+
+`mm-article`, `mm-article-header`, `mm-article-tags`, `mm-article-tag`, `mm-article-key-facts`, `mm-article-key-facts-title`, `mm-article-key-facts-list`, `mm-article-toc`, `mm-article-toc-title`, `mm-article-toc-list`, `mm-article-toc-link`, `mm-article-body`, `mm-article-pullquote`, `mm-catalog-links`, `mm-article-author`, `mm-article-author-icon`, `mm-article-author-body`.
+
+---
+
+## Чеклист перед выводом HTML
+
+- [ ] Нет `<style>` тегов, нет сырых эмодзи
+- [ ] Каждый H2 имеет уникальный `id`
+- [ ] TOC и `id` совпадают (или TOC отсутствует при < 4 H2)
+- [ ] Блок «Что выбрать в каталоге Maxmobiles» имеет класс `mm-catalog-links`
+- [ ] Key Facts: 3-5 самодостаточных пунктов
+- [ ] FAQ: 4 вопроса, первое предложение = прямой ответ
+- [ ] FAQ размечен как `h3` (заголовок секции) + `h4.mm-faq-question` (вопросы)
+- [ ] Каждый FAQ-ответ содержит 40-80 слов
+- [ ] `BlogPosting.description` — 150-160 символов
+- [ ] `BreadcrumbList` — 4 уровня
+- [ ] `FAQPage` дословно совпадает с HTML FAQ
+

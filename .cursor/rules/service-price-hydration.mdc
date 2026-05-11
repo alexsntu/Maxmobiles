@@ -1,0 +1,196 @@
+---
+description: Стандарт JS-гидратации цен для таблиц ремонта Maxmobiles. Применяется при генерации или редактировании *-block-2.html файлов — описывает как работает блок автоматического обновления цен через CS-Cart REST API.
+globs: Новые категории ремонта/*-block-2.html
+alwaysApply: false
+---
+
+# JS-гидратация цен через CS-Cart REST API — стандарт Maxmobiles
+
+## Концепция: Static-first + JS hydration
+
+Каждый `*-block-2.html` использует **двухслойный** подход к ценам:
+
+| Слой | Что делает | Зачем |
+|---|---|---|
+| **Статическая цена** в `<span class="mmb2-price">` | Вписана в HTML при сборке файла | SEO-индексация, fallback при ошибке сети |
+| **JS гидратация** (второй `<script>` блок) | При загрузке делает ОДИН API-запрос и обновляет все цены | Пользователь всегда видит актуальную цену |
+
+Статические цены **никогда не удаляются** — они остаются в HTML как запасной вариант.
+
+---
+
+## Структура двух script-блоков
+
+Каждый `*-block-2.html` содержит ровно **два** `<script>` блока в строгом порядке:
+
+```html
+<!-- Блок 1: обязательный, существующий -->
+<script>{literal}
+(function () {
+  window.mmb2OpenModal = function (...) { ... };
+  function mmb2InitAccordion() { ... }
+  // ...
+})();
+{/literal}</script>
+
+<!-- Блок 2: гидратация цен через API — добавляется после блока 1 -->
+<!-- ═══ JAVASCRIPT — гидратация цен через CS-Cart REST API ═══ -->
+<script>{literal}
+(function () { ... })();
+{/literal}</script>
+```
+
+Оба блока обёрнуты в `{literal}...{/literal}` — обязательно для Smarty CS-Cart.
+
+---
+
+## Конфигурация API-блока
+
+Каждый `*-block-2.html` имеет уникальный `CAT_ID` — ID категории CS-Cart для этого устройства:
+
+```javascript
+var API_URL  = 'https://maxmobiles.ru/api/products/';
+var API_AUTH = 'Basic ' + btoa('servis-api@maxmobiles.ru:k57Z8R11085Y98m5l7s5JDJlaqsS37P3');
+var CAT_ID   = 2260;  // ← меняется для каждого устройства
+```
+
+| Файл | CAT_ID |
+|---|---|
+| `iphone-15-pro-max-block-2.html` | `2260` |
+
+При создании нового `*-block-2.html` нужно только изменить `CAT_ID`.
+
+> **Без кэша**: цены загружаются при каждой загрузке страницы напрямую из API. Никакого `sessionStorage`. Это гарантирует, что пользователь всегда видит актуальную цену.
+
+---
+
+## API-запрос
+
+Один запрос получает все товары категории:
+
+```
+GET /api/products/?cid=CAT_ID&items_per_page=100
+Authorization: Basic base64(email:key)
+Accept: application/json
+```
+
+> **Важно**: заголовок `Accept: application/json` обязателен. Без него CS-Cart может вернуть HTML-редирект вместо JSON, и скрипт молча упадёт в `.catch()` без обновления цен.
+
+**Из каждого товара используется только `p.price` и `p.seo_name`.**
+
+---
+
+## Как JS сопоставляет строки таблицы с API
+
+### Slug из href
+
+```javascript
+function slugFromHref(href) {
+  return (href || '').replace(/\/$/, '').split('/').pop();
+}
+// '/displey-zamena-razbitogo-stekla-iphone-15-pro-max/' → 'displey-zamena-razbitogo-stekla-iphone-15-pro-max'
+```
+
+Этот slug совпадает с `seo_name` в ответе API — через него происходит поиск цены.
+
+### Правило цены: всегда `entry.price`
+
+**Детекция вариантов по названию услуги запрещена.** Всегда используется `entry.price` — базовая цена продукта из API.
+
+Если у товара в CS-Cart несколько вариантов (Копия / Оригинал / б/у), `p.price` возвращает цену первого (наименьшего) варианта. Это намеренное поведение: в таблице показываем минимальную цену «от», клиент уточняет детали при заказе.
+
+```javascript
+// Сборка priceMap — только price, variants не нужны
+var priceMap = {};
+json.products.forEach(function (p) {
+  priceMap[p.seo_name] = { price: parseFloat(p.price) || 0 };
+});
+
+// applyAll — всегда entry.price
+function applyAll(priceMap) {
+  rows.forEach(function (row) {
+    var entry = priceMap[row.slug];
+    if (!entry) return;
+    applyPrice(row.span, entry.price, row.isFrom);
+  });
+}
+```
+
+### Определение признака «от»
+
+Из наличия вложенного `<span style="...ff9500...">` внутри `.mmb2-price`:
+- есть → `isFrom = true`
+
+### Услуги с пометкой «Цену уточняйте»
+
+Если в задании на сборку блока пользователь для услуги указал «уточняйте» — для этой строки таблицы цена через API **не парсится**. В колонке выводится статическая надпись `Цену уточняйте`.
+
+**Статическая разметка:**
+```html
+<span class="mmb2-price mmb2-price-ask" id="mmb2-pN">Цену&nbsp;уточняйте</span>
+```
+
+- Класс `mmb2-price-ask` — обязательный маркер
+- Текст обязательно через `&nbsp;` (одна строка, не переносится)
+- `<div class="mmb2-price-from-label">` для таких ячеек **не добавляется**
+
+**Skip-логика в JS-гидратации:**
+В цикле `document.querySelectorAll('.mmb2-table tbody tr').forEach(...)` сразу после получения `span` через `tr.querySelector('.mmb2-price')` — проверка класса:
+```javascript
+if (span.classList.contains('mmb2-price-ask')) return;
+```
+Строки с этим классом не попадают в массив `rows[]`, цена для них никогда не запрашивается и не перетирается.
+
+---
+
+## Кэш
+
+**sessionStorage не используется.** Цены загружаются при каждой загрузке страницы — один API-запрос на всю категорию. Это обеспечивает актуальность цен без ручной очистки кэша.
+
+---
+
+## Форматирование цены
+
+```javascript
+// Число → строка с неразрывными пробелами
+22000 → "22\u00A0000\u00A0₽"
+
+// Цена «от»: сохраняем оранжевый префикс
+span.innerHTML = '<span style="font-size:13px;font-weight:500;color:#ff9500">от\u00A0</span>' + formatted;
+
+// Обычная цена: textContent (XSS-безопасно)
+span.textContent = formatted;
+```
+
+---
+
+## Правила написания и копирования JS-блока
+
+- **Эталон** — конец файла `Новые категории ремонта/iphone-15-pro-max-block-2.html`
+- При создании нового `*-block-2.html` — копировать блок гидратации целиком, менять только `CAT_ID`
+- `CACHE_KEY` автоматически уникален — менять не нужно
+- Не добавлять `console.log`, `alert`, `debugger` в продакшн-код
+- Обёртка `{literal}...{/literal}` — обязательна
+
+---
+
+## Совместимость с ручным пересбором цен
+
+```
+Статика в HTML   ←──── «пересобери цены» (ручное / периодическое)
+       ↓
+JS гидратация    ←──── каждая загрузка страницы (один API-запрос)
+       ↓
+Пользователь видит актуальную цену
+Поисковик видит валидную статическую цену
+```
+
+---
+
+## Что делать если цена не обновляется
+
+1. **Console**: Открой DevTools → Console — есть ли ошибки fetch / 401 / 403?
+2. **`CAT_ID`**: убедись что соответствует правильной категории устройства.
+3. **`seo_name`**: убедись что `slug` из `href` строки совпадает с `seo_name` товара в API.
+4. **`Accept` заголовок**: в fetch обязательно должны быть оба заголовка:
+   `'Authorization': API_AUTH, 'Accept': 'application/json'`
