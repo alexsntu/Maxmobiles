@@ -1,0 +1,28 @@
+# Cursor IDE
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node / Python (если появятся скрипты)
+node_modules/
+__pycache__/
+*.pyc
+.env
+.env.*
+
+# Временные файлы редакторов
+*.swp
+*.swo
+*~
+*.bak
+*.tmp
+
+# Логи
+*.log
+logs/
+
+# VS Code
+.vscode/
