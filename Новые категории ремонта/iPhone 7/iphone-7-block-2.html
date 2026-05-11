@@ -1,0 +1,788 @@
+
+<style>{literal}
+.mmb2 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1d1d1f;
+  margin-top: 40px;
+}
+.mmb2 *, .mmb2 *::before, .mmb2 *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.mmb2-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.mmb2-h2 {
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: #1d1d1f;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.mmb2-sub {
+  font-size: 15px;
+  color: #6e6e73;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.mmb2-table-outer {
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(120, 200, 255, 0.55) 0%,
+    rgba(200, 160, 255, 0.45) 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(100, 220, 255, 0.4)  75%,
+    rgba(180, 120, 255, 0.5)  100%
+  );
+  box-shadow:
+    -6px 0 28px rgba(80,  180, 255, 0.22),
+     6px 0 28px rgba(160, 100, 255, 0.2),
+     0  12px 40px rgba(0,   0,   0,  0.09),
+     0  -2px 16px rgba(120, 200, 255, 0.18);
+}
+.mmb2-table-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border-top: 2px solid #1d1d1f;
+  border-bottom: 2px solid #1d1d1f;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(0,0,0,0.04);
+}
+
+.mmb2-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.mmb2-table colgroup col:nth-child(1) { width: 300px; }
+.mmb2-table colgroup col:nth-child(2) { width: 155px; }
+.mmb2-table colgroup col:nth-child(3) { width: auto;  }
+.mmb2-table colgroup col:nth-child(4) { width: 190px; }
+
+.mmb2-table thead tr {
+  background: #f5f5f7;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.mmb2-table thead th {
+  padding: 13px 22px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #86868b;
+  text-align: left;
+}
+.mmb2-table thead th:nth-child(2) { text-align: center; }
+.mmb2-table thead th:last-child   { text-align: center; }
+
+.mmb2-table tbody tr {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.18s;
+}
+.mmb2-table tbody tr:last-child { border-bottom: none; }
+.mmb2-table tbody tr:nth-child(even) { background: #f7f7f9; }
+.mmb2-table tbody tr:hover { background: #eef4fd; }
+
+.mmb2 .mmb2-table th,
+.mmb2 .mmb2-table td {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+.mmb2-table td {
+  padding: 20px 22px;
+  vertical-align: top;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #3a3a3c;
+}
+
+.mmb2-svc-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 4px;
+  transition: color 0.15s;
+}
+a.mmb2-svc-name:hover { color: #0071e3; }
+.mmb2-svc-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #3a3a3c;
+  font-weight: 500;
+}
+.mmb2-svc-time::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #0071e3;
+  opacity: 0.5;
+}
+.mmb2-svc-warranty {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a7f4f;
+  background: rgba(52, 199, 89, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.1px;
+}
+.mmb2-svc-warranty::before {
+  content: '✓';
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.mmb2-table td:nth-child(2) {
+  text-align: right;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.mmb2-price-wrap { display: inline-block; text-align: right; }
+.mmb2-price {
+  display: block;
+  font-size: 21px;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.6px;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+.mmb2-price-from-label {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #ff9500;
+  white-space: normal;
+  line-height: 1.35;
+  max-width: 130px;
+  margin: 5px auto 0;
+  text-align: right;
+}
+
+.mmb2-desc {
+  font-size: 13px;
+  color: #6e6e73;
+  line-height: 1.65;
+}
+
+.mmb2-table td:last-child {
+  text-align: center;
+  vertical-align: middle;
+}
+.mmb2-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: transparent;
+  color: #0071e3;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1.5px solid #0071e3;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+  transition: background 0.18s, color 0.18s, transform 0.15s;
+  text-decoration: none;
+  text-align: center;
+}
+.mmb2-btn:hover  { background: #0071e3; color: #fff; transform: translateY(-1px); }
+.mmb2-btn:active { transform: translateY(0); }
+
+.mmb2-expand-btn { display: none; }
+
+@media (max-width: 780px) {
+
+  .mmb2-table-wrap {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    padding: 0;
+  }
+  .mmb2-table-outer { padding: 0 4px; }
+
+  .mmb2-table colgroup { display: none; }
+  .mmb2-table thead    { display: none; }
+  .mmb2-table,
+  .mmb2-table tbody    { display: block; width: 100%; }
+
+  .mmb2-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 155px;
+    column-gap: 12px;
+    padding: 13px 14px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.06);
+    margin-bottom: 8px;
+    border-bottom: none;
+    transition: box-shadow 0.18s;
+  }
+
+  .mmb2-table tbody tr:nth-child(even) { background: #fff; }
+  .mmb2-table tbody tr:hover           { background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,113,227,0.15); }
+  .mmb2-table tbody tr:last-child      { margin-bottom: 0; }
+
+  .mmb2 .mmb2-table th,
+  .mmb2 .mmb2-table td {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  .mmb2-table td {
+    display: block;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mmb2-table td:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    min-width: 0;
+  }
+
+  .mmb2-table td:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+    white-space: nowrap;
+    align-self: start;
+    vertical-align: top;
+  }
+  .mmb2-price-from-label { text-align: right; margin: 3px 0 0; white-space: nowrap; max-width: none; }
+
+  .mmb2-expand-btn {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 7px 0 2px;
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    cursor: pointer;
+    color: #0071e3;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    letter-spacing: 0;
+  }
+  .mmb2-expand-btn::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.22s;
+  }
+  .mmb2-table tbody tr.mmb2-open .mmb2-expand-btn { color: #86868b; }
+  .mmb2-table tbody tr.mmb2-open .mmb2-expand-btn::after {
+    transform: rotate(-135deg) translateY(2px);
+  }
+
+  .mmb2-table td:nth-child(3) {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: none;
+    padding-top: 10px;
+    color: #6e6e73;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .mmb2-table td:nth-child(4) {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    display: none;
+    padding-top: 8px;
+  }
+
+  .mmb2-table tbody tr.mmb2-open td:nth-child(3),
+  .mmb2-table tbody tr.mmb2-open td:nth-child(4) {
+    display: block;
+  }
+
+  .mmb2-price        { font-size: 20px; letter-spacing: -0.4px; }
+  .mmb2-svc-name     { font-size: 16px; margin-bottom: 3px; }
+  .mmb2-svc-time     { font-size: 11px; }
+  .mmb2-svc-warranty { margin-top: 5px; font-size: 10.5px; padding: 2px 6px; }
+  .mmb2-btn          { width: 100%; text-align: center; padding: 12px 20px; }
+}
+
+@media (max-width: 480px) {
+  .mmb2-h2      { font-size: 20px; }
+  .mmb2-table-outer { padding: 0; }
+  .mmb2-table tbody tr { grid-template-columns: 1fr 148px; }
+}
+{/literal}</style>
+
+<div class="mmb2">
+
+  <div class="mmb2-header">
+    <h2 class="mmb2-h2">Цена на Ремонт iPhone&nbsp;7</h2>
+    <p class="mmb2-sub">У нас нет &laquo;хитрых&raquo; наценок. В цену уже входит и запчасть и работа мастера</p>
+  </div>
+
+  <div class="mmb2-table-outer">
+  <div class="mmb2-table-wrap">
+    <table class="mmb2-table">
+      <colgroup>
+        <col><col><col><col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Услуга</th>
+          <th>Стоимость</th>
+          <th>Описание</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/displey-zamena-razbitogo-stekla-vosstanovlenie-iphone-7/" target="_blank" rel="noopener">Замена стекла</a>
+            <span class="mmb2-svc-time">30 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p0">2&nbsp;500&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">При поломке только стекла на Вашем аппарате, без ущерба для дисплея и сенсора, возможна замена только стекла. Мы выполняем эту процедуру с использованием профессионального оборудования, обеспечивая сохранение оригинального экрана.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена стекла','mmb2-p0')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/displey-kopiya-aaa-zamena-iphone-7/" target="_blank" rel="noopener">Замена дисплея (копия)</a>
+            <span class="mmb2-svc-time">30 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price mmb2-price-ask" id="mmb2-p1">Цену&nbsp;уточняйте</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">У нас есть несколько вариантов копий на любой кошелек! Разница заключается в цветопередаче и возможности использования функции True Tone.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена дисплея (копия)','mmb2-p1')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/displey-original-zamena-iphone-7/" target="_blank" rel="noopener">Замена дисплея (оригинал)</a>
+            <span class="mmb2-svc-time">30 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p2"><span style="font-size:13px;font-weight:500;color:#ff9500">от&nbsp;</span>3&nbsp;000&nbsp;₽</span>
+              <div class="mmb2-price-from-label">зависит от запчасти</div>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Хотите, чтобы всё работало как по-старому? Тогда оригинальный дисплей — ваш выбор. Сохранится цветопередача, Face ID и True Tone.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена дисплея (оригинал)','mmb2-p2')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/profilaktika-posle-vody-cena-ot-iphone-7/" target="_blank" rel="noopener">Чистка после попадания воды</a>
+            <span class="mmb2-svc-time">30 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p3"><span style="font-size:13px;font-weight:500;color:#ff9500">от&nbsp;</span>2&nbsp;500&nbsp;₽</span>
+              <div class="mmb2-price-from-label">зависит от повреждения</div>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Apple заявляет, что их гаджеты надёжно защищены от воды, но это не так. При этом не сохраняется официальная гарантия. Протрите, отключите телефон и бегом в сервис!</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Чистка после попадания воды','mmb2-p3')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/akkumulyator-zamena-iphone-7/" target="_blank" rel="noopener">Замена аккумулятора</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 180 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p4">1&nbsp;800&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Аккумулятор нетрудно заменить, однако проблема может быть не в нём. Приходите на диагностику, и мы разберёмся, что нужно менять: АКБ, контроллер питания или разъём зарядки.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена аккумулятора','mmb2-p4')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/razem-zaryadki-zamena-iphone-7/" target="_blank" rel="noopener">Замена разъёма зарядки</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p5">2&nbsp;200&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Почему iPhone не заряжается? Это может быть как проблема с батареей, контроллером питания или разъёмом зарядки. Если причина неочевидна, определить её поможет диагностика.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена разъёма зарядки','mmb2-p5')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/mikrofon-odin-iz-zamena-iphone-7/" target="_blank" rel="noopener">Замена микрофона</a>
+            <span class="mmb2-svc-time">30 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p6">2&nbsp;200&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Эту поломку легко обнаружить при разговоре или записи, но устранить её сможет только квалифицированный мастер, ведь нужно разбирать устройство и менять шлейфы.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена микрофона','mmb2-p6')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/dinamik-vyzova-zvonok-gromkaya-svyaz-zamena-iphone-7/" target="_blank" rel="noopener">Замена динамика</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p7">1&nbsp;600&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Динамик iPhone хрипит? Это могло произойти из-за воды, грязи или механического повреждения. Не рискуйте техникой — обращайтесь в наш сервис.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена динамика','mmb2-p7')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/dinamik-razgovornyy-verhniy-iphone-7/" target="_blank" rel="noopener">Замена слухового динамика</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p8">1&nbsp;600&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">На замену верхнего динамика, как и нижнего, предоставляется гарантия 90 дней. Процедура нужна, если Вы не слышите собеседника, звук верхнего динамика отсутствует.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена слухового динамика','mmb2-p8')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/kamera-osnovnaya-zamena-iphone-7/" target="_blank" rel="noopener">Замена камеры</a>
+            <span class="mmb2-svc-time">40 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p9">3&nbsp;500&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Не работает камера iPhone? Приходите в сервис на диагностику. Выявим все неполадки и устраним в кратчайшие сроки.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена камеры','mmb2-p9')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/kamera-frontalnaya-perednyaya-zamena-iphone-7/" target="_blank" rel="noopener">Замена фронтальной камеры</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p10">2&nbsp;500&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Почему камера на Айфоне не работает? Проблема может быть в сбое ПО, механических повреждениях, замыкании.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена фронтальной камеры','mmb2-p10')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/kamera-zamena-razbitogo-stekla-1sht-iphone-7/" target="_blank" rel="noopener">Замена стекла камеры</a>
+            <span class="mmb2-svc-time">35 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 180 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p11">1&nbsp;500&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Повреждения камеры, проявляющиеся в виде отказа макросъёмки и проблем с фокусировкой, обычно связаны с загрязнением подвижного объектива мелкими частицами. Если в камеру попала пыль или осколки стекла, это может нарушить её нормальную работу.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена стекла камеры','mmb2-p11')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/korpus-kopiya-vysokoe-kachestvo-zamena-iphone-7/" target="_blank" rel="noopener">Замена корпуса</a>
+            <span class="mmb2-svc-time">60 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 180 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price mmb2-price-ask" id="mmb2-p12">Цену&nbsp;уточняйте</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Для замены корпуса потребуется полная разборка аппарата. Не стоит поручать столь ответственную процедуру дилетантам. Сертифицированные инженеры Максмобайлс быстро и качественно выполнят все ремонтные работы и Ваш гаджет будет как новый.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Замена корпуса','mmb2-p12')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/knopka-vkl-power-zamena-remont-iphone-7/" target="_blank" rel="noopener">Ремонт кнопок</a>
+            <span class="mmb2-svc-time">40 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price mmb2-price-ask" id="mmb2-p13">Цену&nbsp;уточняйте</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Регулировка громкости связана с другими элементами — кнопкой блокировки, переключателем вибро-режима, датчиком приближения и вспышкой. Эти детали объединяются верхним шлейфом, из-за чего при его повреждении может понадобиться комплексный ремонт.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Ремонт кнопок','mmb2-p13')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/proshivka-bez-rezervnoy-kopii-iphone-11/" target="_blank" rel="noopener">Прошивка</a>
+            <span class="mmb2-svc-time">120 мин</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p14">1&nbsp;100&nbsp;₽</span>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Только после оценки состояния Вашего девайса и выявления всех неполадок наш специалист сможет определить, нужна ли восстановительная прошивка или полная замена системного ПО.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Прошивка','mmb2-p14')">Оставить заявку</button></td>
+        </tr>
+
+        <tr>
+          <td>
+            <a class="mmb2-svc-name" href="/remont-platy-iphone-7/" target="_blank" rel="noopener">Ремонт материнской платы</a>
+            <span class="mmb2-svc-time">180 мин</span>
+            <span class="mmb2-svc-warranty">Гарантия 90 дней</span>
+          </td>
+          <td>
+            <div class="mmb2-price-wrap">
+              <span class="mmb2-price" id="mmb2-p15"><span style="font-size:13px;font-weight:500;color:#ff9500">от&nbsp;</span>2&nbsp;000&nbsp;₽</span>
+              <div class="mmb2-price-from-label">зависит от повреждения</div>
+            </div>
+          </td>
+          <td>
+            <span class="mmb2-desc">Инженеры Максмобайлс проведут комплексную диагностику вашего iPhone, чтобы точно определить проблему. Мы используем современное оборудование для выявления неисправностей и восстановления работоспособности платы.</span>
+          </td>
+          <td><button class="mmb2-btn" type="button" onclick="mmb2OpenModal('Ремонт материнской платы','mmb2-p15')">Оставить заявку</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+</div>
+
+<script>{literal}
+(function () {
+  'use strict';
+
+  window.mmb2OpenModal = function (svcName, priceId) {
+    if (typeof window.mmi7OpenModal !== 'function') return;
+
+    var priceEl = document.getElementById(priceId);
+    var priceText = priceEl ? priceEl.textContent.trim() : '';
+
+    window.mmi7OpenModal();
+
+    var tagSvc = document.getElementById('mmi7-modal-svc');
+    var tagPrc = document.getElementById('mmi7-modal-prc');
+    if (tagSvc) tagSvc.textContent = svcName;
+    if (tagPrc) tagPrc.textContent = priceText;
+
+    var fSvc = document.getElementById('mmi7-f-svc');
+    var fPrc = document.getElementById('mmi7-f-price');
+    if (fSvc) fSvc.value = svcName;
+    if (fPrc) fPrc.value = priceText;
+  };
+
+  function mmb2InitAccordion() {
+    var rows = document.querySelectorAll('.mmb2-table tbody tr');
+    rows.forEach(function (tr) {
+      if (tr.querySelector('.mmb2-expand-btn')) return;
+
+      var btn = document.createElement('button');
+      btn.className = 'mmb2-expand-btn';
+      btn.type = 'button';
+      btn.textContent = 'Подробнее';
+      btn.setAttribute('aria-label', 'Развернуть');
+      tr.appendChild(btn);
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        tr.classList.toggle('mmb2-open');
+        btn.textContent = tr.classList.contains('mmb2-open') ? 'Скрыть' : 'Подробнее';
+        btn.setAttribute('aria-label',
+          tr.classList.contains('mmb2-open') ? 'Свернуть' : 'Развернуть');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mmb2InitAccordion);
+  } else {
+    mmb2InitAccordion();
+  }
+
+})();
+{/literal}</script>
+
+<script>{literal}
+(function () {
+  'use strict';
+
+  var API_URL  = 'https://maxmobiles.ru/api/products/';
+  var API_AUTH = 'Basic ' + btoa('servis-api@maxmobiles.ru:k57Z8R11085Y98m5l7s5JDJlaqsS37P3');
+  var CAT_ID   = 2068;
+
+  function formatPrice(num) {
+    return num.toLocaleString('ru-RU').replace(/\s/g, '\u00A0') + '\u00A0\u20BD';
+  }
+
+  function applyPrice(span, num, isFrom) {
+    if (!num || num <= 0) return;
+    var formatted = formatPrice(num);
+    if (isFrom) {
+      span.innerHTML =
+        '<span style="font-size:13px;font-weight:500;color:#ff9500">\u043e\u0442\u00A0</span>' +
+        formatted;
+    } else {
+      span.textContent = formatted;
+    }
+  }
+
+  function slugFromHref(href) {
+    return (href || '').replace(/\/$/, '').split('/').pop();
+  }
+
+  var rows = [];
+
+  document.querySelectorAll('.mmb2-table tbody tr').forEach(function (tr) {
+    var a    = tr.querySelector('a.mmb2-svc-name');
+    var span = tr.querySelector('.mmb2-price');
+    if (!a || !span) return;
+    if (span.classList.contains('mmb2-price-ask')) return;
+
+    var slug   = slugFromHref(a.getAttribute('href'));
+    var isFrom = !!span.querySelector('span[style*="ff9500"]');
+
+    rows.push({ span: span, slug: slug, isFrom: isFrom });
+  });
+
+  if (!rows.length) return;
+
+  function applyAll(priceMap) {
+    rows.forEach(function (row) {
+      var entry = priceMap[row.slug];
+      if (!entry) return;
+      applyPrice(row.span, entry.price, row.isFrom);
+    });
+  }
+
+  var ctrl  = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 8000) : null;
+
+  fetch(API_URL + '?cid=' + CAT_ID + '&get_options=true&items_per_page=100', {
+    headers: { 'Authorization': API_AUTH, 'Accept': 'application/json' },
+    signal: ctrl ? ctrl.signal : undefined
+  })
+    .then(function (r) {
+      clearTimeout(timer);
+      return r.ok ? r.json() : null;
+    })
+    .then(function (json) {
+      if (!json || !json.products) return;
+
+      var priceMap = {};
+      json.products.forEach(function (p) {
+        priceMap[p.seo_name] = { price: parseFloat(p.price) || 0 };
+      });
+
+      applyAll(priceMap);
+    })
+    .catch(function () { clearTimeout(timer); });
+
+})();
+{/literal}</script>
