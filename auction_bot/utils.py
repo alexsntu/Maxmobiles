@@ -65,15 +65,20 @@ def format_winner_announcement(
     winner_username: str | None,
     price: int,
     is_blitz: bool = False,
+    top_bids: list[dict] | None = None,
 ) -> str:
-    """Full group announcement text at auction end."""
+    """Full group announcement text at auction end.
+
+    top_bids — up to 3 top bids from db.get_lot_bids(); used to show
+    2nd and 3rd place so the admin can contact them if the winner is unreachable.
+    """
     if winner_id is None:
         return "😔 <b>Аукцион завершён.</b>\nСтавок не поступало — лот не продан."
 
     link = tg_link(winner_id, winner_full_name, winner_username)
     blitz_note = " по блиц-цене" if is_blitz else ""
 
-    return (
+    text = (
         f"🏆 <b>Аукцион завершён!</b>\n\n"
         f"Поздравляем победителя {link} — "
         f"его ставка сыграла и стала выигрышной{blitz_note}!\n\n"
@@ -81,6 +86,17 @@ def format_winner_announcement(
         f"Мы скоро с вами свяжемся и скажем, как можно будет купить "
         f"выбранный лот по вашей цене."
     )
+
+    # Show 2nd and 3rd place so admin has reserve contacts
+    if top_bids and len(top_bids) > 1:
+        reserve_lines = []
+        for i, b in enumerate(top_bids[1:3], start=2):
+            medal = MEDALS[i - 1] if i - 1 < len(MEDALS) else f"{i}."
+            b_link = tg_link(b["user_id"], b.get("full_name"), b.get("username"))
+            reserve_lines.append(f"{medal} {b_link} — {b['amount']:,} ₽")
+        text += "\n\n<i>Резерв:</i>\n" + "\n".join(reserve_lines)
+
+    return text
 
 
 def format_winner_line(winner_id: int | None, winner_name: str | None, price: int) -> str:

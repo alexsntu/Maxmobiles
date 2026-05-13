@@ -265,7 +265,8 @@ async def _execute_blitz(bot: Bot, lot_id: int, user_id: int, username: str | No
     final_bid_count = await db.count_bids(lot_id)
     caption = format_lot_message(lot_finished, top_bids=top_bids[:3], bid_count=final_bid_count)
     announcement = format_winner_announcement(
-        lot["title"], user_id, full_name, username, blitz_price, is_blitz=True
+        lot["title"], user_id, full_name, username, blitz_price, is_blitz=True,
+        top_bids=top_bids,
     )
 
     lot_group_id = lot.get("group_chat_id") or GROUP_ID

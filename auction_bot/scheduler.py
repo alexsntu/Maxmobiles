@@ -83,7 +83,8 @@ async def _close_lot(lot_id: int, bot: Bot) -> None:
 
     # Send full announcement as separate message in the group
     announcement = format_winner_announcement(
-        lot["title"], winner_id, winner_full_name, winner_username, lot["current_price"]
+        lot["title"], winner_id, winner_full_name, winner_username, lot["current_price"],
+        top_bids=top_bids,
     )
     try:
         await bot.send_message(lot_group_id, announcement, parse_mode="HTML")
@@ -108,17 +109,26 @@ async def _close_lot(lot_id: int, bot: Bot) -> None:
             pass
 
     # Notify all admins
+    from utils import tg_link
     winner_display = winner_full_name or winner_username or str(winner_id)
-    admin_text = (
-        f"📦 <b>Аукцион завершён!</b>\n\n"
-        f"Лот #{lot_id}: <b>{lot['title']}</b>\n"
-        + (
-            f"Победитель: <b>{winner_display}</b>\n"
-            f"Итог: <b>{lot['current_price']:,} ₽</b>"
-            if winner_id
-            else "Ставок не поступало. Лот не продан."
+    if winner_id:
+        admin_text = (
+            f"📦 <b>Аукцион завершён!</b>\n\n"
+            f"Лот #{lot_id}: <b>{lot['title']}</b>\n"
+            f"Итог: <b>{lot['current_price']:,} ₽</b>\n\n"
+            f"🥇 {tg_link(winner_id, winner_full_name, winner_username)}"
         )
-    )
+        if top_bids and len(top_bids) > 1:
+            from utils import MEDALS
+            for i, b in enumerate(top_bids[1:3], start=2):
+                medal = MEDALS[i - 1] if i - 1 < len(MEDALS) else f"{i}."
+                admin_text += f"\n{medal} {tg_link(b['user_id'], b.get('full_name'), b.get('username'))} — {b['amount']:,} ₽"
+    else:
+        admin_text = (
+            f"📦 <b>Аукцион завершён!</b>\n\n"
+            f"Лот #{lot_id}: <b>{lot['title']}</b>\n"
+            f"Ставок не поступало. Лот не продан."
+        )
     for admin_id in ADMIN_IDS:
         try:
             await bot.send_message(admin_id, admin_text, parse_mode="HTML")
