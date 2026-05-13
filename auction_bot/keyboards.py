@@ -54,11 +54,15 @@ def lot_keyboard(
     return builder.as_markup()
 
 
-def blitz_confirm_keyboard(lot_id: int) -> InlineKeyboardMarkup:
-    """Confirmation keyboard shown before completing a blitz purchase."""
+def blitz_confirm_keyboard(lot_id: int, user_id: int) -> InlineKeyboardMarkup:
+    """Confirmation keyboard shown before completing a blitz purchase.
+
+    user_id is embedded in callback_data so that only the initiating user
+    can confirm or cancel — even if the DM is somehow forwarded.
+    """
     builder = InlineKeyboardBuilder()
-    builder.button(text="⚡ Купить по блиц-цене", callback_data=f"blitz_confirm:{lot_id}")
-    builder.button(text="❌ Отмена",               callback_data=f"blitz_cancel_confirm:{lot_id}")
+    builder.button(text="⚡ Купить по блиц-цене", callback_data=f"blitz_confirm:{lot_id}:{user_id}")
+    builder.button(text="❌ Отмена",               callback_data=f"blitz_cancel_confirm:{lot_id}:{user_id}")
     builder.adjust(1)
     return builder.as_markup()
 

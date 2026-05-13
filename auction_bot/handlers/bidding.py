@@ -218,21 +218,25 @@ async def blitz_purchase(callback: CallbackQuery, bot: Bot) -> None:
 
     await callback.answer()
 
-    lot_group_id = lot.get("group_chat_id") or GROUP_ID
-    reply_to = lot.get("group_message_id")
-
-    await bot.send_message(
-        chat_id=lot_group_id,
-        text=(
-            f"⚡ <b>{callback.from_user.full_name}</b>, вы нажали «Купить по блиц-цене».\n\n"
-            f"Нажимая кнопку купить по блиц-цене вы делаете заявку на покупку данного лота "
-            f"по блиц-цене <b>{blitz_price:,} ₽</b>. "
-            f"Если вы нажали случайно — то отменить покупку можно кнопкой ниже."
-        ),
-        parse_mode="HTML",
-        reply_to_message_id=reply_to,
-        reply_markup=blitz_confirm_keyboard(lot_id),
-    )
+    try:
+        await bot.send_message(
+            chat_id=callback.from_user.id,
+            text=(
+                f"⚡ Вы нажали «Купить по блиц-цене».\n\n"
+                f"Лот: <b>{lot['title']}</b>\n"
+                f"Блиц-цена: <b>{blitz_price:,} ₽</b>\n\n"
+                f"Нажмите кнопку ниже, чтобы подтвердить покупку. "
+                f"Если вы нажали случайно — отмените кнопкой «Отмена»."
+            ),
+            parse_mode="HTML",
+            reply_markup=blitz_confirm_keyboard(lot_id, callback.from_user.id),
+        )
+    except Exception:
+        await callback.answer(
+            "❌ Не получилось отправить личное сообщение.\n"
+            "Пожалуйста, напишите боту в личку (/start) и повторите попытку.",
+            show_alert=True,
+        )
 
 
 # ─── Blitz purchase — шаг 2: подтверждение ───────────────────────────────────
@@ -309,7 +313,14 @@ async def _execute_blitz(bot: Bot, lot_id: int, user_id: int, username: str | No
 
 @router.callback_query(F.data.startswith("blitz_confirm:"))
 async def blitz_confirm_handler(callback: CallbackQuery, bot: Bot) -> None:
-    lot_id = int(callback.data.split(":")[1])
+    parts = callback.data.split(":")
+    lot_id = int(parts[1])
+    authorized_user_id = int(parts[2]) if len(parts) > 2 else None
+
+    if authorized_user_id and callback.from_user.id != authorized_user_id:
+        await callback.answer("❌ Это подтверждение предназначено не для вас.", show_alert=True)
+        return
+
     lot = await db.get_lot(lot_id)
 
     if lot is None or lot["status"] != "active":
@@ -338,6 +349,13 @@ async def blitz_confirm_handler(callback: CallbackQuery, bot: Bot) -> None:
 
 @router.callback_query(F.data.startswith("blitz_cancel_confirm:"))
 async def blitz_cancel_handler(callback: CallbackQuery) -> None:
+    parts = callback.data.split(":")
+    authorized_user_id = int(parts[2]) if len(parts) > 2 else None
+
+    if authorized_user_id and callback.from_user.id != authorized_user_id:
+        await callback.answer("❌ Это подтверждение предназначено не для вас.", show_alert=True)
+        return
+
     try:
         await callback.message.delete()
     except Exception:

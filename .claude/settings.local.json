@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:maxmobiles.ru)",
+      "WebSearch",
+      "WebFetch(domain:i-store.net)",
+      "WebFetch(domain:apple-market.net)",
+      "WebFetch(domain:allohastore.ru)",
+      "WebFetch(domain:mactime.pro)",
+      "WebFetch(domain:mpoint.su)",
+      "WebFetch(domain:gadjet-crimea.ru)"
+    ]
+  }
+}
