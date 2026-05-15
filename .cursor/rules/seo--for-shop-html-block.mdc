@@ -182,7 +182,7 @@ alwaysApply: false
 
 | Секция | Почему в Block 1 |
 |---|---|
-| `mm-intro` (H2 + `.mm-intro-text` + `.mm-stat-badge`) | Главный ключ в H2 + все 5 GEO-сущностей в лиде — максимальный вес страницы |
+| `mm-intro` (H2 + `.mm-intro-text`) | Главный ключ в H2 + все 5 GEO-сущностей в лиде — максимальный вес страницы |
 | `mm-trust-strip` (4 иконки) | Коммерческие E-E-A-T сигналы, ключи в `<strong>`: гарантия, доставка, Trade-In |
 | `mm-services-grid` (карточки моделей) | Коммерческие названия моделей в H3, внутренние ссылки на страницы товаров |
 
@@ -239,7 +239,7 @@ CS-Cart имеет встроенный toggle, но он ненадёжен в 
 <!-- ===== BLOCK 1: SEO-ядро — всегда виден ===== -->
 <div class="mm-block" itemscope itemtype="https://schema.org/WebPage">
   <section class="mm-intro" aria-labelledby="...">
-    <!-- H2 + .mm-intro-text + .mm-stat-badge -->
+    <!-- H2 + .mm-intro-text -->
   </section>
 
   <div class="mm-trust-strip" role="list" aria-label="...">
@@ -432,52 +432,20 @@ function mmBlockToggle(btn) {
 
 ## Иконки и спецсимволы
 
-**Запрещено** использовать эмодзи-символы напрямую — только HTML-сущности:
+**Критическое ограничение CS-Cart:** TinyMCE декодирует HTML-сущности в Unicode до сохранения. Затем MySQL заменяет любые символы выше U+00FF (255) на `???` — это касается всех эмодзи (`&#x1F...`), спецсимволов (`&#x2714;`, `&#x260E;`, `&#x1F6E1;` и т.п.).
+
+**Единственное надёжное решение — inline SVG** (содержит только ASCII, не подвергается замене).
+
+Допустимы **только в прозе** (не как иконки):
 
 | Символ | Сущность |
 |--------|----------|
-| ⚡ молния | `&#x26A1;` |
-| 📱 телефон | `&#x1F4F1;` |
-| 💻 ноутбук | `&#x1F4BB;` |
-| ⌚ часы | `&#x231A;` |
-| 📷 камера | `&#x1F4F7;` |
-| 🛡 щит | `&#x1F6E1;` |
-| 🔍 лупа | `&#x1F50D;` |
-| 📦 коробка | `&#x1F4E6;` |
-| 💎 кристалл | `&#x1F48E;` |
-| 🚚 доставка | `&#x1F69A;` |
-| 🔄 обмен | `&#x1F504;` |
-| ✔ галочка | `&#x2714;` |
-| ☎ телефон | `&#x260E;` |
 | — тире | `&#8212;` |
+| → стрелка | `&#8594;` |
+| ″ дюйм | `&#8243;` |
 | · точка | `&#183;` |
 | ₽ рубль | `&#8381;` |
-
-## Бейдж `.mm-stat-badge` — правила
-
-Бейдж выводится под лид-абзацем (`.mm-intro-text`) и содержит 1–2 тезиса.
-
-**Формулировки для магазина:**
-- ✅ «Официальная гарантия 1 год» — для новых устройств
-- ✅ «Доставка по России через СДЭК» — условия доставки
-- ✅ «Trade-In: обменяйте старое устройство» — программа обмена
-- ❌ Конкретные сроки доставки в днях — могут меняться
-
-**Однострочный бейдж** (один тезис):
-```html
-<span class="mm-stat-badge" role="note" aria-label="...">
-  &#x2714;&nbsp; Текст тезиса
-</span>
-```
-
-**Двухстрочный бейдж** (два тезиса — для длинных фраз):
-```html
-<span class="mm-stat-badge" role="note" aria-label="...">
-  <span class="mm-badge-item">&#x2714;&nbsp; Первый тезис</span>
-  <span class="mm-badge-sep" aria-hidden="true">&#183;</span>
-  <span class="mm-badge-item">&#x2714;&nbsp; Второй тезис</span>
-</span>
-```
+| \| вертикальная черта | `&#x7C;` |
 
 ## CSS — дизайн-система Apple
 
@@ -512,7 +480,7 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 
 ### Block 1 — SEO-ядро (всегда виден, без collapse)
 
-1. **Intro** — H2 + лид-абзац `.mm-intro-text` + `.mm-stat-badge`
+1. **Intro** — H2 + лид-абзац `.mm-intro-text`
 2. **Trust strip** — 4 иконки с подписями `.mm-trust-strip`
 3. **Highlights grid** — карточки `.mm-services-grid` с внутренними ссылками (все 3 или 6 карточек целиком)
 
@@ -585,21 +553,30 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 
 ### Trust strip — иконки для магазина
 
-Используй 4 из следующих (выбирай наиболее релевантные для категории):
+Все иконки — **inline SVG** (не HTML-сущности). CSS `.mm-trust-label strong` выводит первую строку жирным.
 
-| Иконка | `<strong>` (жирный) | Дополнение (обычный текст) |
-|---|---|---|
-| `&#x1F6E1;` | Гарантия 1 год | на новую технику |
-| `&#x1F69A;` | Доставка СДЭК | по всей России |
-| `&#x1F504;` | Trade-In | сдайте старое |
-| `&#x1F4BB;` | Maxmobiles | с 2011 года |
-| `&#x260E;` | Бесплатный звонок | 8 (800) 250-81-58 |
-| `&#x1F4E6;` | Самовывоз | в 4 городах |
+Стандартный набор (4 слота):
 
-> **CSS `.mm-trust-label strong`** выводит первую строку жирным. Всегда используй двухуровневую структуру:
-> ```html
-> <span class="mm-trust-label"><strong>Гарантия 1 год</strong> на новую технику</span>
-> ```
+| Слот | SVG-иконка | `<strong>` | Суффикс |
+|---|---|---|---|
+| Щит | shield SVG | Гарантия 1 год | на новую технику |
+| Грузовик | truck SVG | Доставка СДЭК | по всей России |
+| Стрелки | arrows SVG | Trade-In | сдайте старое |
+| Дом | home SVG | Maxmobiles | с 2011 года |
+
+SVG-коды для всех слотов см. в `seo-shop-page-builder/SKILL.md`, раздел «Иконки — SVG-стандарт».
+
+Структура элемента:
+```html
+<div class="mm-trust-item">
+  <span class="mm-trust-icon" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- SVG paths -->
+    </svg>
+  </span>
+  <span class="mm-trust-label"><strong>Гарантия 1 год</strong> на новую технику</span>
+</div>
+```
 
 ### Highlights grid — карточки категории
 
@@ -653,10 +630,12 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
   </div>
   <div class="mm-cta-actions">
     <a href="tel:+78002508158" class="mm-btn mm-btn-primary" aria-label="Позвонить бесплатно 8-800-250-81-58">
-      &#x260E;&nbsp; 8 (800) 250-81-58
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 2h3l1.5 3.5-1.5 1a8 8 0 0 0 3.5 3.5l1-1.5L14 10v3a1 1 0 0 1-1 1C5.5 14 2 7.5 2 3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      8 (800) 250-81-58
     </a>
     <a href="mailto:store@maxmobiles.ru" class="mm-btn mm-btn-secondary" aria-label="Написать на email магазина">
-      &#x2714;&nbsp; store@maxmobiles.ru
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      store@maxmobiles.ru
     </a>
   </div>
 </div>
@@ -695,9 +674,6 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
   .mm-trust-strip { gap: 16px; }
   .mm-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
   .mm-highlight { flex-direction: column; gap: 12px; padding: 22px 20px; }
-  .mm-stat-badge { font-size: 13px; padding: 8px 15px; gap: 6px; }
-  .mm-stat-badge:has(.mm-badge-sep) { flex-direction: column; align-items: flex-start; gap: 3px; border-radius: 14px; }
-  .mm-badge-sep { display: none; }
 }
 ```
 

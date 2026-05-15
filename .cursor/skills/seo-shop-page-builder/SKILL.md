@@ -126,7 +126,7 @@ Follow **all** rules in `.cursor/rules/seo--for-shop-html-block.mdc` strictly.
 
 **Block 1 — SEO core (always visible, no collapse):**
 - `<div class="mm-block" itemscope itemtype="https://schema.org/WebPage">`
-- **Intro**: H2 («Купить [Категория] в Севастополе — Maxmobiles») + `.mm-intro-text` + `.mm-stat-badge`
+- **Intro**: H2 («Купить [Категория] в Севастополе — Maxmobiles») + `.mm-intro-text`
 - **Trust strip**: 4 icons — гарантия 1 год, доставка СДЭК, Trade-In, магазин с 2011
 - **Highlights grid**: strictly **3 or 6** `<article>` cards with `.mm-service-link` internal URLs (all cards in Block 1, never split)
 
@@ -145,6 +145,88 @@ Required output order:
 2. **Block 1** — `div.mm-block[itemscope]` → Intro + Trust strip + Highlights grid
 3. **Block 2** — `.mm-collapse-wrapper → .mm-collapse-content → div.mm-block` (or plain `.mm-block` if collapse OFF) → Advantages + FAQ + CTA
 4. **`<script>`** — collapse init at **350px** + `mmBlockToggle` function (only if collapse ON)
+
+**Collapse HTML structure:**
+
+`.mm-collapse-fade` должен быть **внутри** `.mm-collapse-content` (он `position:absolute` относительно него). `max-height` задаётся через JS IIFE — **не** инлайн в HTML:
+
+```html
+<div class="mm-collapse-wrapper">
+  <div class="mm-collapse-content">
+    <div class="mm-block">
+      <!-- Advantages + FAQ + CTA -->
+    </div>
+    <div class="mm-collapse-fade"></div>  <!-- ВНУТРИ content, после mm-block -->
+  </div>
+  <div class="mm-collapse-trigger">
+    <button class="mm-collapse-btn" type="button" aria-expanded="false" onclick="mmBlockToggle(this)">
+      <span>Читать полностью</span>
+      <svg class="mm-collapse-chevron" ...>...</svg>
+    </button>
+  </div>
+</div>
+```
+
+**Collapse `<script>` — правильный паттерн (после закрывающего `</div>` обёртки):**
+
+```html
+<script>
+(function () {
+  var allContents = document.querySelectorAll('.mm-collapse-content');
+  var content = allContents[allContents.length - 1];
+  if (!content) return;
+  content.style.maxHeight = '350px';
+  content.dataset.mmState = 'collapsed';
+  var fade = content.querySelector('.mm-collapse-fade');
+  if (fade) fade.style.opacity = '1';
+})();
+
+function mmBlockToggle(btn) {
+  var trigger = btn.parentElement;
+  var content = trigger.previousElementSibling;
+  var fade = content.querySelector('.mm-collapse-fade');
+  var label = btn.querySelector('span');
+  var wrapper = trigger.parentElement;
+
+  if (content.dataset.mmState !== 'expanded') {
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.dataset.mmState = 'expanded';
+    if (fade) { fade.style.transition = 'opacity 0.25s ease'; fade.style.opacity = '0'; }
+    btn.classList.add('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    if (label) label.textContent = 'Свернуть';
+    setTimeout(function () {
+      if (content.dataset.mmState === 'expanded') {
+        content.style.transition = '';
+        content.style.maxHeight = 'none';
+      }
+    }, 580);
+  } else {
+    content.style.transition = '';
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.dataset.mmState = 'collapsing';
+    void content.offsetHeight;
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight = '350px';
+    content.dataset.mmState = 'collapsed';
+    if (fade) { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
+    btn.classList.remove('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    if (label) label.textContent = 'Читать полностью';
+    setTimeout(function () {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+}
+</script>
+```
+
+Ключевые правила:
+1. `mm-collapse-fade` — **внутри** `mm-collapse-content` (не снаружи)
+2. `mm-is-expanded` — на **`btn`** (CSS: `.mm-collapse-btn.mm-is-expanded .mm-collapse-chevron`)
+3. `max-height` и `fade.style.opacity = '1'` — инициализировать через IIFE при загрузке
+4. `<script>` идёт **после** `</div>` обёртки, внутри того же HTML-блока CS-Cart
 
 **Internal linking (обязательно):**
 Each model/subcategory card **must** include a `.mm-service-link` pointing to its catalog page:
@@ -168,7 +250,7 @@ URLs are built from the **URL patterns** section of the brand constants below.
 **Structure & code:**
 - [ ] No `<style>` tags inside the block
 - [ ] No concrete prices in ₽
-- [ ] No emoji — only HTML entities
+- [ ] Все иконки — **inline SVG** (не HTML-сущности Unicode). TinyMCE CS-Cart декодирует сущности до сохранения; БД заменяет любые символы выше U+00FF на `???`. Это касается всех `&#x1F...`, `&#x2714;`, `&#x260E;` и т.п. В прозе допустимы текстовые сущности: `&#8212;` `&#8594;` `&#8243;` `&#183;`
 - [ ] `fetchpriority="high"` on first `<img>`, `loading="lazy"` on all others
 - [ ] Cards count is exactly 3 or 6
 - [ ] Every card has a `.mm-service-link` with a valid internal URL
@@ -239,7 +321,7 @@ Collapse:      mm-collapse-wrapper · mm-collapse-content · mm-collapse-fade
 
 ### Step 7 — Output
 
-Output **only** the final HTML in a single code block. No commentary before or after.
+Сохранить финальный HTML в файл `SEO-страницы/[slug].html` (где `[slug]` — URL-slug страницы, например `macbook-neo`, `iphone-16-pro`). В чат выводить только одну строку подтверждения: путь к файлу и краткую сводку (H1, title, кол-во FAQ-вопросов).
 
 ---
 
@@ -288,12 +370,104 @@ Always use the two-level label structure — CSS `.mm-trust-label strong` bolds 
 <span class="mm-trust-label"><strong>Гарантия 1 год</strong> на новую технику</span>
 ```
 
-| Icon | `<strong>` text | Plain suffix |
+| Slot | `<strong>` text | Plain suffix |
 |---|---|---|
-| `&#x1F6E1;` | Гарантия 1 год | на новую технику |
-| `&#x1F69A;` | Доставка СДЭК | по всей России |
-| `&#x1F504;` | Trade-In | сдайте старое |
-| `&#x1F4BB;` | Maxmobiles | с 2011 года |
+| Щит (SVG) | Гарантия 1 год | на новую технику |
+| Грузовик (SVG) | Доставка СДЭК | по всей России |
+| Стрелки (SVG) | Trade-In | сдайте старое |
+| Дом (SVG) | Maxmobiles | с 2011 года |
+
+## Иконки — SVG-стандарт (обязательно)
+
+**Критическое ограничение CS-Cart:** TinyMCE декодирует HTML-сущности в Unicode до сохранения. БД заменяет любые символы выше U+00FF на `???` — включая `&#x1F6E1;`, `&#x2714;`, `&#x260E;` и т.п. **Единственное надёжное решение — inline SVG** (содержит только ASCII).
+
+Допустимы в тексте прозы (не как иконки): `&#8212;` (—), `&#8594;` (→), `&#8243;` (″), `&#183;` (·), `&#x7C;` (|).
+
+### Trust strip (24×24)
+
+**Гарантия — щит:**
+```html
+<span class="mm-trust-icon" aria-hidden="true">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L4 6v6c0 4.4 3.4 8.5 8 9.9 4.6-1.4 8-5.5 8-9.9V6L12 2z" fill="#0071e3"/>
+    <path d="M8.5 12l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
+```
+
+**Доставка — грузовик:**
+```html
+<span class="mm-trust-icon" aria-hidden="true">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="6" width="13" height="10" rx="1.5" fill="#0071e3"/>
+    <path d="M14 10h4l3 3v4h-7V10z" fill="#0071e3"/>
+    <circle cx="5.5" cy="18" r="2" fill="#1d1d1f"/><circle cx="18.5" cy="18" r="2" fill="#1d1d1f"/>
+    <circle cx="5.5" cy="18" r="1" fill="#fff"/><circle cx="18.5" cy="18" r="1" fill="#fff"/>
+  </svg>
+</span>
+```
+
+**Trade-In — стрелки обмена:**
+```html
+<span class="mm-trust-icon" aria-hidden="true">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17 2l4 4-4 4" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3 11V9a4 4 0 014-4h14" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/>
+    <path d="M7 22l-4-4 4-4" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21 13v2a4 4 0 01-4 4H3" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</span>
+```
+
+**Maxmobiles с 2011 — дом:**
+```html
+<span class="mm-trust-icon" aria-hidden="true">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z" fill="#0071e3"/>
+    <path d="M9 22V14h6v8" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
+```
+
+### Advantages (20×20, currentColor)
+
+**Галочка (гарантия, доставка, кредит):**
+```html
+<span class="mm-advantage-icon" aria-hidden="true">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="3,10 8,16 17,5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+```
+
+**Trade-In (стрелки):**
+```html
+<span class="mm-advantage-icon" aria-hidden="true">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6h12M14 6l-3-3m3 3l-3 3M18 14H6m0 0l3-3m-3 3l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+```
+
+**Звезда (опыт/рейтинг):**
+```html
+<span class="mm-advantage-icon" aria-hidden="true">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><polygon points="10,2 12.5,7.5 18.5,8.2 14,12.5 15.5,18.5 10,15.5 4.5,18.5 6,12.5 1.5,8.2 7.5,7.5"/></svg>
+</span>
+```
+
+### CTA кнопки (16×16, currentColor)
+
+**Телефон:**
+```html
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 2h3l1.5 3.5-1.5 1a8 8 0 0 0 3.5 3.5l1-1.5L14 10v3a1 1 0 0 1-1 1C5.5 14 2 7.5 2 3a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+```
+
+**Email:**
+```html
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 5l6 5 6-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+```
+
+**Правила SVG-иконок:**
+- Атрибут `xmlns="http://www.w3.org/2000/svg"` обязателен — без него CS-Cart не рендерит SVG
+- `aria-hidden="true"` на `<span>` или на `<svg>` (не дублировать на обоих)
+- Цвет: `fill="#0071e3"` для trust strip; `stroke="currentColor"` / `fill="currentColor"` для advantages и кнопок
 
 ## Reference
 

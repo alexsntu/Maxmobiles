@@ -11,7 +11,11 @@
       "WebFetch(domain:gadjet-crimea.ru)",
       "WebFetch(domain:irepair.ru)",
       "Bash(curl -s \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\")",
-      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\" -o /tmp/page.html)"
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\" -o /tmp/page.html)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" --compressed \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\" -o /tmp/page_decoded.html)",
+      "Bash(awk 'NR==4330,/^<\\\\/script>/{print NR\": \"$0}' /tmp/page_decoded.html)",
+      "Bash(python3 *)",
+      "WebFetch(domain:re-store.ru)"
     ]
   }
 }
