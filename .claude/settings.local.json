@@ -15,7 +15,27 @@
       "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" --compressed \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\" -o /tmp/page_decoded.html)",
       "Bash(awk 'NR==4330,/^<\\\\/script>/{print NR\": \"$0}' /tmp/page_decoded.html)",
       "Bash(python3 *)",
-      "WebFetch(domain:re-store.ru)"
+      "WebFetch(domain:re-store.ru)",
+      "Skill(update-config)",
+      "Bash(claude mcp *)",
+      "Bash(node *)",
+      "Bash(iconv -f utf-8 -t utf-8)",
+      "WebFetch(domain:lobehub.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm show *)",
+      "Bash(npx yandex-wordstat-mcp *)",
+      "WebFetch(domain:aistudio.yandex.ru)",
+      "Bash(curl *)",
+      "Bash(cd /tmp)",
+      "Bash(npm install *)",
+      "WebFetch(domain:yandex.cloud)",
+      "WebFetch(domain:glama.ai)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__pixelplus-mcp__pixelplus_get_groups",
+      "mcp__pixelplus-mcp__pixelplus_add_queries",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

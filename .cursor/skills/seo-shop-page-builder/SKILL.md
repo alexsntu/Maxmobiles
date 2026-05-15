@@ -337,7 +337,8 @@ Email:       store@maxmobiles.ru
 Site:        https://maxmobiles.ru
 Delivery:    СДЭК по всей России
 Pickup:      Севастополь · Симферополь · Ялта · Москва
-Rating:      4.9 / 120 отзывов
+Rating:      5.0 / 1000+ отзывов (Яндекс Карты, org ID 237809440282; точное число в JSON-LD — обновлять вручную)
+Widget:      <iframe src="https://yandex.ru/sprav/widget/rating-badge/237809440282?type=rating" width="150" height="50" frameborder="0" title="Рейтинг Maxmobiles на Яндекс Картах" loading="lazy"></iframe>
 Since:       2011
 ```
 
