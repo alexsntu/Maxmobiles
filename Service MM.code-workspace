@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../Downloads/скилы/seo-meta-builder"
+		},
+		{
+			"path": "../Downloads/скилы/seo-shop-page-builder"
 		}
 	],
 	"settings": {}
