@@ -91,7 +91,7 @@ Distribute: H2 (1 ключ) → лид-абзац (2–3) → карточки (
 - `WebPage.description` — прямой ответ на главный транзакционный запрос страницы
 - `speakable.cssSelector`: `[".mm-intro-text", ".mm-faq"]` — обязательно
 
-**AEO (Answer Engine Optimization)** — FAQ должен попадать в Featured Snippets и голосовой поиск:
+**AEO (Answer Engine Optimization)** — FAQ попадает в Featured Snippets и голосовой поиск:
 
 - Ровно **4 вопроса**, покрывающих 4 покупательских интента:
   1. **Доставка** — «Как купить [Модель] с доставкой по России?»
@@ -100,9 +100,7 @@ Distribute: H2 (1 ключ) → лид-абзац (2–3) → карточки (
   4. **Выбор модели** — «Чем [Модель A] отличается от [Модель B]?»
 - Первое предложение каждого ответа = прямой ответ (не вводное слово, не «мы»)
 - Длина ответа: **40–80 слов** — оптимум для Featured Snippet
-- JSON-LD `FAQPage` содержит **те же 4 вопроса**, что и HTML (строго совпадают)
-- JSON-LD `FAQPage` всегда содержит поле `"name"` с человекочитаемым заголовком FAQ
-- `FAQPage` используется только в JSON-LD; в HTML FAQ не добавлять `itemscope/itemtype/itemprop`
+- `FAQPage` JSON-LD **не используется** — CS-Cart дублирует script-теги и вызывает ошибки GSC. Вместо этого — HTML + `speakable`
 
 ### Step 4 — Image audit
 
@@ -133,18 +131,25 @@ Follow **all** rules in `.cursor/rules/seo--for-shop-html-block.mdc` strictly.
 **Block 2 — user content (collapse, initial height 350px — only if collapse enabled):**
 - `<div class="mm-block">` without itemscope
 - **Advantages**: `.mm-advantages-list` — why buy at Maxmobiles
-- **FAQ**: 4 questions in plain HTML (`.mm-faq`) without schema microdata
+- **FAQ**: 4 questions in plain HTML (`.mm-faq`) without schema microdata — for speakable + Featured Snippets
 - **CTA**: dark gradient block, 2 buttons (phone 8-800 + email)
 
 **Collapse condition (from Step 1):**
 - **Collapse ON** (default): wrap Block 2 in `.mm-collapse-wrapper → .mm-collapse-content`, add `.mm-collapse-fade`, `.mm-collapse-trigger`, `<script>` at the end. Block 1 is always visible.
 - **Collapse OFF**: output Block 2 content directly after Block 1, no wrapper, no `<script>`
 
-Required output order:
-1. **JSON-LD** — `@graph`: LocalBusiness + WebPage + FAQPage (+ ItemList if listing models)
-2. **Block 1** — `div.mm-block[itemscope]` → Intro + Trust strip + Highlights grid
-3. **Block 2** — `.mm-collapse-wrapper → .mm-collapse-content → div.mm-block` (or plain `.mm-block` if collapse OFF) → Advantages + FAQ + CTA
-4. **`<script>`** — collapse init at **350px** + `mmBlockToggle` function (only if collapse ON)
+Required output — **два отдельных файла**:
+
+> **Критично:** JSON-LD нельзя вставлять в wysiwyg-описание категории. CS-Cart дублирует все `<script>` теги из wysiwyg **дважды** → structured data появляется на странице 2 раза → ошибки GSC. Layout-блок рендерится ровно один раз.
+
+**Файл 1: `[slug]-jsonld.html`** — только JSON-LD, размещается в CS-Cart **Дизайн → Макеты → HTML-блок**:
+1. `<script>` LocalBusiness (отдельный тег)
+2. `<script>` ItemList (опционально, если перечисляются модели)
+
+**Файл 2: `[slug].html`** — только HTML, размещается в **описании категории**:
+1. **Block 1** — `div.mm-block[itemscope]` → Intro + Trust strip + Highlights grid
+2. **Block 2** — `.mm-collapse-wrapper → .mm-collapse-content → div.mm-block` (or plain `.mm-block` if collapse OFF) → Advantages + CTA
+3. **`<script>`** — collapse init at **350px** + `mmBlockToggle` function (only if collapse ON)
 
 **Collapse HTML structure:**
 
@@ -247,6 +252,11 @@ URLs are built from the **URL patterns** section of the brand constants below.
 - [ ] `itemscope itemtype="https://schema.org/WebPage"` only on Block 1's `.mm-block`
 - [ ] Block 2's `.mm-block` has NO `itemscope`/`itemtype`/`itemprop`
 
+**JSON-LD placement:**
+- [ ] JSON-LD находится в отдельном файле `[slug]-jsonld.html`, НЕ в описании категории
+- [ ] JSON-LD размещён в CS-Cart **Дизайн → Макеты → HTML-блок** (Layout-блок, не wysiwyg)
+- [ ] Каждый тип (`LocalBusiness`, `ItemList`) — отдельный `<script>` тег, не @graph
+
 **Structure & code:**
 - [ ] No `<style>` tags inside the block
 - [ ] No concrete prices in ₽
@@ -268,11 +278,9 @@ URLs are built from the **URL patterns** section of the brand constants below.
 **AEO checklist:**
 - [ ] FAQ обёрнут в `<section class="mm-faq" ...>`
 - [ ] 4 вопроса покрывают 4 интента: доставка · гарантия · Trade-In · выбор модели
-- [ ] В JSON-LD `FAQPage` заполнено поле `"name"`
 - [ ] Первое предложение каждого ответа = прямой ответ
 - [ ] Длина каждого ответа: 40–80 слов
-- [ ] JSON-LD FAQPage содержит те же 4 вопроса, что и HTML (строго совпадают)
-- [ ] В HTML FAQ нет `itemscope`, `itemtype`, `itemprop` (во избежание дубля `FAQPage`)
+- [ ] В HTML FAQ нет `itemscope`, `itemtype`, `itemprop` (FAQPage JSON-LD не используется)
 
 **E-E-A-T checklist:**
 - [ ] **Experience**: упомянут реальный опыт — «с 2011 года», «15 лет», конкретные цифры (клиенты, устройства)
@@ -297,10 +305,10 @@ Cards:         mm-services-grid · mm-service-card · mm-service-card-icon · mm
 Advantages:    mm-advantages-list · mm-advantage-item · mm-advantage-icon
                mm-advantage-num · mm-advantage-body
 Highlight box: mm-highlight · mm-highlight-icon · mm-highlight-body
-FAQ:           mm-faq · mm-faq-item · mm-faq-question · mm-faq-answer
 CTA:           mm-cta · mm-cta-text · mm-cta-actions · mm-btn · mm-btn-primary · mm-btn-secondary
 HowTo:         mm-howto-steps · mm-howto-step · mm-howto-step-body
 Quick links:   mm-quick-links · mm-quick-links-tags · mm-quick-link
+FAQ:           mm-faq · mm-faq-item · mm-faq-question · mm-faq-answer
 Collapse:      mm-collapse-wrapper · mm-collapse-content · mm-collapse-fade
                mm-collapse-trigger · mm-collapse-btn · mm-collapse-chevron · mm-is-expanded
 ```
@@ -321,7 +329,7 @@ Collapse:      mm-collapse-wrapper · mm-collapse-content · mm-collapse-fade
 
 ### Step 7 — Output
 
-Сохранить финальный HTML в файл `SEO-страницы/[slug].html` (где `[slug]` — URL-slug страницы, например `macbook-neo`, `iphone-16-pro`). В чат выводить только одну строку подтверждения: путь к файлу и краткую сводку (H1, title, кол-во FAQ-вопросов).
+Сохранить финальный HTML в файл `SEO-страницы/[slug].html` (где `[slug]` — URL-slug страницы, например `macbook-neo`, `iphone-16-pro`). В чат выводить только одну строку подтверждения: путь к файлу и краткую сводку (H2, description).
 
 ---
 

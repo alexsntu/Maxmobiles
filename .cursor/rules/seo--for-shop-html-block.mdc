@@ -44,7 +44,7 @@ alwaysApply: false
 - Доверительные маркеры: «официальный», «оригинал», «магазин Apple», «с 2011 года»
 
 > Ключевые запросы органично распределяются по: H2, H3, лид-абзацу (`.mm-intro-text`),
-> карточкам моделей/категорий, FAQ-вопросам и CTA-блоку.
+> карточкам моделей/категорий и CTA-блоку.
 
 ---
 
@@ -147,7 +147,7 @@ alwaysApply: false
 - Категории/модели: ...
 - LSI-находки: ...
 - Условия: гарантия, доставка, рассрочка
-- Слабо: нет FAQ, нет Schema.org, нет гео
+- Слабо: нет Schema.org, нет гео
 
 ### Наши преимущества vs конкурент 1:
 ✅ Самовывоз в 4 городах
@@ -161,11 +161,12 @@ alwaysApply: false
 
 ## Структура файла
 
-Каждый HTML-блок состоит из **четырёх частей** строго в этом порядке:
-1. JSON-LD (`<script type="application/ld+json">`)
-2. **Block 1 — SEO-ядро** (всегда видим, без collapse): `.mm-block` → Intro + Trust strip + Highlights grid
-3. **Block 2 — пользовательский контент** (collapse, 350px): `.mm-collapse-wrapper → .mm-collapse-content → .mm-block` → Advantages + FAQ + CTA
-4. `<script>` с функцией `mmBlockToggle` и инициализацией (только для Block 2)
+HTML-блок для **описания категории** (wysiwyg-редактор) состоит из **трёх частей** строго в этом порядке:
+1. **Block 1 — SEO-ядро** (всегда видим, без collapse): `.mm-block` → Intro + Trust strip + Highlights grid
+2. **Block 2 — пользовательский контент** (collapse, 350px): `.mm-collapse-wrapper → .mm-collapse-content → .mm-block` → Advantages + FAQ + CTA
+3. `<script>` с функцией `mmBlockToggle` и инициализацией (только для Block 2)
+
+JSON-LD выносится в **отдельный файл** и размещается в отдельном **Layout-блоке** (см. раздел «JSON-LD — размещение»).
 
 > **ВАЖНО:** `<style>` теги ЗАПРЕЩЕНЫ внутри HTML-блока CS-Cart. Весь CSS хранится
 > в `maxmobiles-styles.css` и подключается через **Дизайн → Темы → Редактировать → Свой CSS**
@@ -196,7 +197,7 @@ alwaysApply: false
 | Секция | Почему в Block 2 | JSON-LD-страховка |
 |---|---|---|
 | Преимущества (`mm-advantages-list`) | Дублирует trust strip, меньше инкрементальной SEO-ценности | — |
-| FAQ (`mm-faq`) | HTML-версия за collapse допустима при наличии JSON-LD | Покрыт JSON-LD `FAQPage` |
+| FAQ (`mm-faq`) | 4 вопроса в HTML — контент для голосового поиска и Featured Snippets | `speakable` |
 | CTA (`mm-cta`) | Конверсионный элемент, ключевых слов не несёт | — |
 
 > **Начальная высота Block 2 — 350px** — достаточно, чтобы показать первые 2–3 пункта
@@ -334,31 +335,38 @@ function mmBlockToggle(btn) {
 - После раскрытия `max-height` снимается (`'none'`) через `setTimeout` 580ms
 - При сворачивании — плавная прокрутка к началу блока (`scrollIntoView`)
 
-## JSON-LD — обязательные типы
+## JSON-LD — размещение
 
-```json
+> **Критично:** CS-Cart **вырезает все `<script>` теги из wysiwyg-описания категории** и перемещает их в конец страницы — и делает это **дважды**. Это приводит к дублированию structured data и ошибкам GSC.
+
+**Правило:** JSON-LD **никогда не вставляется** в описание категории (wysiwyg-редактор).
+
+### Как разместить JSON-LD правильно
+
+1. Создать отдельный файл `[slug]-jsonld.html` с JSON-LD скриптами
+2. В CS-Cart Admin → **Дизайн → Макеты** → найти страницу категории
+3. Добавить новый **HTML-блок** в любую зону (например `Top`)
+4. Вставить содержимое `[slug]-jsonld.html` в этот блок
+5. Layout-блоки рендерятся ровно один раз — дублирования не происходит
+
+### Структура JSON-LD — отдельные script-блоки (не @graph)
+
+**Запрещено:** объединять в один `@graph` — CMS-схемы (BreadcrumbList, Product, Organization) генерируются отдельно и @graph создаёт конфликты типов.
+
+Опционально для страниц с перечнем моделей — добавлять `ItemList` отдельным скриптом:
+```html
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    { "@type": "LocalBusiness" },
-    { "@type": "WebPage" },
-    { "@type": "FAQPage" }
-  ]
-}
-```
-
-Опционально для страниц с перечнем моделей — добавлять `ItemList` в граф:
-```json
-{
   "@type": "ItemList",
   "name": "Купить [Категория] в Севастополе — Maxmobiles",
-  "description": "...",
   "numberOfItems": N,
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "[Модель 1]", "url": "https://maxmobiles.ru/..." },
     { "@type": "ListItem", "position": 2, "name": "[Модель 2]", "url": "https://maxmobiles.ru/..." }
   ]
 }
+</script>
 ```
 
 ### LocalBusiness — обязательные поля
@@ -411,17 +419,11 @@ function mmBlockToggle(btn) {
   "url": "https://maxmobiles.ru/SLUG/",
   "speakable": {
     "@type": "SpeakableSpecification",
-    "cssSelector": [".mm-intro-text", ".mm-faq"]
+    "cssSelector": [".mm-intro-text"]
   },
   "about": { "@id": "https://maxmobiles.ru/#business" }
 }
 ```
-
-### FAQPage
-- 4 реальных вопроса из контента страницы
-- Обязательное поле: `"name"` (человекочитаемый заголовок FAQ, например: `"Частые вопросы о покупке [Модель]"`)
-- Обязательно охватывают **4 типа покупательских интентов** (AEO): доставка · гарантия · Trade-In · выбор модели
-- Каждый `acceptedAnswer` начинается с прямого ответа (первое предложение = вся суть)
 
 ## Заголовки
 
@@ -509,7 +511,7 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 <section class="mm-faq" aria-labelledby="faq-heading">
 ```
 
-`FAQPage` размещается **только в JSON-LD**. Дублировать FAQ через microdata в HTML запрещено.
+`FAQPage` JSON-LD **не используется** — CS-Cart дублирует script-теги из wysiwyg, что вызывает ошибки GSC. Вместо этого контент индексируется через HTML и `speakable`.
 
 4 вопроса строго покрывают 4 интента (см. Шаг 3):
 
@@ -545,11 +547,9 @@ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
 **AEO (Answer Engine Optimization):**
 - [ ] FAQ-секция обёрнута в `<section class="mm-faq" ...>`
 - [ ] 4 вопроса покрывают 4 интента: доставка · гарантия · Trade-In · выбор модели
-- [ ] В JSON-LD `FAQPage` заполнено поле `"name"`
-- [ ] Каждый `acceptedAnswer` начинается с прямого ответа (не вводного слова, не «мы»)
+- [ ] Каждый ответ начинается с прямого ответа (не вводного слова, не «мы»)
 - [ ] Длина каждого ответа: 40–80 слов
-- [ ] JSON-LD `FAQPage` содержит те же 4 вопроса, что и HTML (не расходятся!)
-- [ ] В HTML FAQ нет `itemscope`, `itemtype`, `itemprop` для `FAQPage/Question/Answer`
+- [ ] В HTML FAQ нет `itemscope`, `itemtype`, `itemprop` (FAQPage JSON-LD не используется)
 
 ### Trust strip — иконки для магазина
 
@@ -612,7 +612,7 @@ SVG-коды для всех слотов см. в `seo-shop-page-builder/SKILL.
 - URL строится по паттернам из раздела **URL patterns** (см. ниже)
 - Если URL страницы неизвестен — оставить `href="#"` с комментарием `<!-- TODO: вставить URL -->`
 
-**Ссылки в тексте FAQ и преимуществах:**
+**Ссылки в тексте преимуществ:**
 Если в тексте упоминается конкретная модель или раздел сайта — оборачивать в `<a href="...">` с точным URL:
 ```html
 <a href="https://maxmobiles.ru/iphone/iphone-17-pro-max/">iPhone 17 Pro Max</a>

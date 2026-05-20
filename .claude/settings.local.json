@@ -35,7 +35,12 @@
       "mcp__pixelplus-mcp__pixelplus_get_groups",
       "mcp__pixelplus-mcp__pixelplus_add_queries",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(del block_2.txt block_3.txt)",
+      "Bash(nvm use *)",
+      "PowerShell(nvm use *)",
+      "PowerShell(winget install *)",
+      "Bash(gemini *)"
     ]
   }
 }
