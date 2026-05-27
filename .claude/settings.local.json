@@ -40,7 +40,11 @@
       "Bash(nvm use *)",
       "PowerShell(nvm use *)",
       "PowerShell(winget install *)",
-      "Bash(gemini *)"
+      "Bash(gemini *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\.cursor\\\\skills\\\\seo-meta-builder-v2\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\.cursor\\\\skills\\\\seo-shop-page-builder-v2\")",
+      "WebFetch(domain:park-mobile.ru)",
+      "WebFetch(domain:mobilo4ka.ru)"
     ]
   }
 }
