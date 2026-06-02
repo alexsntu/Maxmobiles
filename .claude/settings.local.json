@@ -44,7 +44,11 @@
       "Bash(mkdir -p \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\.cursor\\\\skills\\\\seo-meta-builder-v2\")",
       "Bash(mkdir -p \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\.cursor\\\\skills\\\\seo-shop-page-builder-v2\")",
       "WebFetch(domain:park-mobile.ru)",
-      "WebFetch(domain:mobilo4ka.ru)"
+      "WebFetch(domain:mobilo4ka.ru)",
+      "WebFetch(domain:jinglestore.ru)",
+      "WebFetch(domain:goodmi.ru)",
+      "Bash(npm update *)",
+      "Bash(claude *)"
     ]
   }
 }

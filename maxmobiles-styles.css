@@ -226,6 +226,8 @@
   list-style: none;
   display: grid;
   gap: 12px;
+  padding: 0;
+  margin: 0;
 }
 
 .mm-advantage-item {
@@ -458,7 +460,12 @@
     grid-column: auto;
   }
 
-  .mm-trust-strip { gap: 16px; }
+  .mm-trust-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .mm-trust-item { padding: 0; }
   .mm-trust-item:not(:last-child) { border-right: none; margin-right: 0; }
 
   .mm-highlight { flex-direction: column; gap: 12px; padding: 22px 20px; }
@@ -565,6 +572,91 @@
   font-size: 14px;
   color: #6e6e73;
   line-height: 1.6;
+}
+
+
+/* ================================================================
+   10d. Scroll wrap + кнопки прокрутки (горизонтальный скролл)
+================================================================ */
+.mm-services-scroll-wrap {
+  position: relative;
+}
+
+.mm-scroll-btn {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .mm-services-scroll-wrap {
+    padding: 0 40px;
+  }
+
+  .mm-services-scroll-wrap .mm-services-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 12px;
+  }
+
+  .mm-services-scroll-wrap .mm-services-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mm-services-scroll-wrap .mm-services-grid .mm-service-card {
+    flex: 0 0 calc(100% - 8px);
+    scroll-snap-align: start;
+  }
+
+  .mm-scroll-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: calc(50% - 16px);
+    width: 32px;
+    height: 32px;
+    background: #ffffff;
+    border: 1.5px solid #d2d2d7;
+    border-radius: 50%;
+    color: #0071e3;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .mm-scroll-btn:hover {
+    background: #f0f7ff;
+    border-color: #0071e3;
+  }
+
+  .mm-scroll-btn--prev { left: 0; }
+  .mm-scroll-btn--next { right: 0; }
+}
+
+
+/* ================================================================
+   10e. Ссылка внутри преимущества
+================================================================ */
+.mm-advantage-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0071e3;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: -0.1px;
+  transition: color 0.18s ease;
+}
+
+.mm-advantage-link:hover {
+  color: #0077ed;
+  text-decoration: underline;
 }
 
 
