@@ -48,7 +48,8 @@
       "WebFetch(domain:jinglestore.ru)",
       "WebFetch(domain:goodmi.ru)",
       "Bash(npm update *)",
-      "Bash(claude *)"
+      "Bash(claude *)",
+      "WebFetch(domain:docs.google.com)"
     ]
   }
 }
