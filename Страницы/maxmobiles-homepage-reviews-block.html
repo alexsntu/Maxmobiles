@@ -1,0 +1,766 @@
+<style>
+/* ===== Блок отзывов Maxmobiles — локальные стили ===== */
+
+/* Rating summary */
+.mm-reviews-rating-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.mm-reviews-rating-summary-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mm-reviews-rating-summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1d1d1f;
+  line-height: 1;
+}
+.mm-reviews-rating-summary-of {
+  font-size: 14px;
+  color: #6e6e73;
+}
+.mm-reviews-rating-summary-stars {
+  display: flex;
+  gap: 2px;
+}
+.mm-reviews-rating-summary-star {
+  color: #FFB800;
+  font-size: 20px;
+}
+.mm-reviews-rating-summary-based {
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+/* Sources strip */
+.mm-review-sources {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.mm-review-source-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #0071e3;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.mm-review-source-item:hover {
+  opacity: 0.7;
+}
+.mm-review-source-icon-lg {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+/* Scroll wrapper */
+.mm-services-scroll-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+/* Arrow buttons */
+.mm-scroll-btn {
+  flex-shrink: 0;
+  align-self: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e8e8ed;
+  background: #fff;
+  color: #1d1d1f;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.mm-scroll-btn:hover {
+  background: #f5f5f7;
+  border-color: #0071e3;
+  color: #0071e3;
+}
+
+/* Grid → horizontal scroll */
+.mm-homepage-reviews-short .mm-services-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  grid-template-columns: unset !important;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 12px;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
+}
+.mm-homepage-reviews-short .mm-services-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Review card */
+.mm-homepage-review-card {
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  scroll-snap-align: start;
+  display: flex !important;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  background: #ffffff !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.05);
+}
+
+/* Source title — скрыт, источник дублируется внизу карточки */
+.mm-review-source-title {
+  display: none;
+}
+.mm-review-source-icon {
+  height: 18px;
+  width: auto;
+  display: block;
+}
+
+/* Review head */
+.mm-review-head { margin-bottom: 10px; }
+.mm-review-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mm-review-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+.mm-review-user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.mm-review-user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d1d1f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mm-review-stars {
+  display: flex;
+  gap: 1px;
+}
+.mm-review-star {
+  font-size: 13px;
+  color: #d1d1d6;
+}
+.mm-review-star--filled { color: #FFB800; }
+.mm-review-date {
+  font-size: 11px;
+  color: #aeaeb2;
+  font-style: normal;
+}
+
+/* Review text with collapse */
+.mm-review-text-collapsed {
+  overflow: hidden;
+  max-height: 120px;
+  flex: 1;
+}
+.mm-review-card--expanded .mm-review-text-collapsed {
+  max-height: none;
+}
+.mm-review-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #3d3d3f;
+  margin: 0;
+}
+
+/* "Читать полностью" button */
+.mm-review-show-more-btn {
+  background: none;
+  border: none;
+  padding: 4px 0 8px;
+  font-size: 12px;
+  color: #0071e3;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+  text-align: left;
+}
+.mm-review-show-more-btn:hover { text-decoration: underline; }
+
+/* Bottom source anchor */
+.mm-review-source-anchor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f5;
+}
+.mm-review-source-view {
+  font-size: 12px;
+  color: #0071e3;
+  font-weight: 500;
+}
+.mm-review-source-anchor:hover .mm-review-source-view { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .mm-scroll-btn { display: none; }
+
+  /* Перебиваем padding: 0 40px из maxmobiles-styles.css */
+  .mm-services-scroll-wrap {
+    padding: 0 !important;
+    margin: 0;
+    width: 100%;
+  }
+  /* 12px слева = выравнивание по заголовку блока */
+  .mm-homepage-reviews-short .mm-services-grid {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  /* Карточка чуть уже контента — правый краешек следующей даёт подсказку о скролле */
+  .mm-homepage-review-card {
+    flex: 0 0 calc(100% - 28px) !important;
+    width: calc(100% - 28px) !important;
+  }
+  .mm-review-source-icon-lg { height: 18px; }
+}
+</style>
+<div class="mm-block">
+  <section class="mm-section mm-homepage-reviews-short" aria-labelledby="home-reviews-heading">
+    <h3 id="home-reviews-heading" class="mm-section-title">Последние популярные отзывы</h3>
+
+    <div class="mm-reviews-rating-summary" role="img" aria-label="5.0 из 5 на основе 1534 оценок">
+      <div class="mm-reviews-rating-summary-line">
+        <span class="mm-reviews-rating-summary-value">5.0</span>
+        <span class="mm-reviews-rating-summary-of">из 5</span>
+        <div class="mm-reviews-rating-summary-stars" aria-hidden="true">
+          <span class="mm-reviews-rating-summary-star">&#9733;</span>
+          <span class="mm-reviews-rating-summary-star">&#9733;</span>
+          <span class="mm-reviews-rating-summary-star">&#9733;</span>
+          <span class="mm-reviews-rating-summary-star">&#9733;</span>
+          <span class="mm-reviews-rating-summary-star">&#9733;</span>
+        </div>
+      </div>
+      <div class="mm-reviews-rating-summary-based">На основе 1534 оценок</div>
+    </div>
+
+    <div class="mm-review-sources" role="list" aria-label="Источники отзывов Maxmobiles">
+      <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-review-source-item" role="listitem" target="_blank" rel="nofollow noopener" aria-label="Смотреть отзывы Maxmobiles на Яндекс Картах">
+        <img class="mm-review-source-icon-lg" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+      </a>
+
+      <a href="https://vk.com/reviews-51179234" class="mm-review-source-item" role="listitem" target="_blank" rel="nofollow noopener" aria-label="Смотреть отзывы Maxmobiles во ВКонтакте">
+        <img class="mm-review-source-icon-lg" src="https://res.smartwidgets.ru/res/review_vk_market_reviews.svg" alt="ВКонтакте" loading="lazy">
+      </a>
+
+      <a href="https://www.avito.ru/brands/i130325730/" class="mm-review-source-item" role="listitem" target="_blank" rel="nofollow noopener" aria-label="Смотреть отзывы Maxmobiles на Авито">
+        <img class="mm-review-source-icon-lg" src="https://res.smartwidgets.ru/res/review_avito.svg" alt="Авито" loading="lazy">
+      </a>
+
+      <a href="https://otzovik.com/reviews/maxmobiles_ru-internet-magazin_tehniki_apple/" class="mm-review-source-item" role="listitem" target="_blank" rel="nofollow noopener" aria-label="Смотреть отзывы Maxmobiles на Отзовике">
+        <img class="mm-review-source-icon-lg" src="https://res.smartwidgets.ru/res/review_otzovik.svg" alt="Отзовик" loading="lazy">
+      </a>
+
+      <a href="https://maxmobiles.ru/otzyvy/" class="mm-review-source-item" role="listitem" aria-label="Смотреть все отзывы о Maxmobiles">
+        <span>Все отзывы</span>
+      </a>
+    </div>
+
+    <div class="mm-services-scroll-wrap" aria-label="Лента отзывов (горизонтальный скроллер)">
+      <button class="mm-scroll-btn mm-scroll-btn--prev" type="button" aria-label="Предыдущие отзывы">&#8592;</button>
+      <div class="mm-services-grid" role="list">
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://avatars.mds.yandex.net/get-yapic/39460/enc-1b28c5fc8d0d5e7e6fff10a82294d8fe21bb1204e03679d55741bc533f544e94/islands-200" alt="Vlad R." loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Vlad R.</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06-21">21 июня 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «Отличный магазин, всегда приветливые сотрудники. Цены отличные, сервис на высоте.»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Vlad R. на Яндекс Картах">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://avatars.mds.yandex.net/get-yapic/58107/TxQRFryE6NDQxSH5fMlSUzGcY-1/islands-200" alt="Андрюсик Папусик" loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Андрюсик Папусик</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06-20">20 июня 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «Приобрел смартфон в Maxmobile онлайн. Привезли очень быстро и со скидкой. Отдельно хочу отметить работу менеджера Валерия &#8212; установил все необходимые программы, перенес данные со старого телефона, все подробно объяснил. Грамотный специалист, ответил на все вопросы, дал полезные рекомендации. Компетентная и вежливая команда &#8212; делает свою работу на совесть. Спасибо Maxmobile за качественный сервис!»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Андрюсика Папусика на Яндекс Картах">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_avito.svg" alt="Авито" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://80.img.avito.st/image/1/1.sMAEYba2CikywJ4paBuh7o_CHCO6QhyrsMIe.gJmNZexPgIXJFO8fHo1GtVBeEyFbdu3t6ueBeYtIAvg" alt="Марина Бондарчук" loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Марина Бондарчук</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06">июнь 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «Очень обрадовало, что в городе нашлись такие замечательные мастера, которые смогли отремонтировать раритетную PS2. Не отнекивались, с готовностью взялись помочь. Да, пришлось немного подождать &#8212; шла доставка запчастей из других регионов. Я очень благодарна за отличный ремонт и за то, что мои внуки теперь довольны и счастливы от вновь обретённой приставки!»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://www.avito.ru/brands/i130325730/all?sellerId=73c70ce43de9add19f20e5fe9ef037a2" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Марины Бондарчук на Авито">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_avito.svg" alt="Авито" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://avatars.mds.yandex.net/get-yapic/37154/ZGGihAgTn62aFra3x57hQOL3GLY-1/islands-200" alt="Юлия Орёл" loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Юлия Орёл</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06-18">18 июня 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «Брали в махмобайл и компьютер и не один раз телефоны и наушники. Так же сдавали в сервис ноутбук и айфон &#8212; всегда всё на высоте и по срокам и по качеству. Очередной раз буду менять наушники и телефон и только здесь. У дочери 11 айфон до сих пор работает.»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Юлии Орёл на Яндекс Картах">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://avatars.mds.yandex.net/get-yapic/45131/dtj6o3Ytqoy1A22l8V6UaNa8Lz8-1/islands-200" alt="Andrey Kolesnikov" loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Andrey Kolesnikov</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06-14">14 июня 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «На днях заказывал здесь iPhone 17. Заказ пришел очень быстро. Персонал и обслуживание вообще на 5 звезд!»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Andrey Kolesnikov на Яндекс Картах">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+        <article class="mm-service-card mm-homepage-review-card" role="listitem">
+          <div class="mm-review-source-title"><span>Источник:</span><img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy"></div>
+
+          <div class="mm-review-head">
+            <div class="mm-review-user">
+              <img class="mm-review-avatar" src="https://avatars.mds.yandex.net/get-yapic/28053/JRCxbBry3GMH47XkrdCPN7bBl0-1/islands-200" alt="Софья" loading="lazy">
+              <div class="mm-review-user-meta">
+                <span class="mm-review-user-name">Софья</span>
+                <div class="mm-review-stars" role="img" aria-label="Рейтинг 5 из 5">
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                  <span class="mm-review-star mm-review-star--filled" aria-hidden="true">&#9733;</span>
+                </div>
+                <time class="mm-review-date" datetime="2026-06-13">13 июня 2026</time>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-review-text-collapsed">
+            <p class="mm-review-text">
+              «Просто 10 из 10, ребята всегда помогут и подскажут. Отличный сервис &#8212; если нужно купить/отремонтировать данный бренд, только сюда. Всего вам наилучшего, спасибо за всё!»
+            </p>
+          </div>
+          <button type="button" class="mm-review-show-more-btn" aria-expanded="false" aria-label="Читать полностью текст отзыва">
+            Читать полностью
+          </button>
+
+          <a href="https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/" class="mm-service-link mm-review-source-anchor" rel="nofollow noopener" target="_blank" aria-label="Открыть отзыв Софьи на Яндекс Картах">
+            <img class="mm-review-source-icon" src="https://res.smartwidgets.ru/res/review_yandex_map.svg" alt="Яндекс Карты" loading="lazy">
+            <span class="mm-review-source-view">Посмотреть &#8594;</span>
+          </a>
+        </article>
+
+      </div>
+      <button class="mm-scroll-btn mm-scroll-btn--next" type="button" aria-label="Следующие отзывы">&#8594;</button>
+    </div>
+
+    <div class="mm-cta" style="margin-top: 15px;" role="complementary" aria-label="Переход к полному списку отзывов">
+      <div class="mm-cta-text">
+        <h3>Хотите посмотреть все отзывы?</h3>
+        <p>Более 1500 реальных отзывов покупателей на разных площадках &#8212; собраны на одной странице.</p>
+      </div>
+      <div class="mm-cta-actions">
+        <a href="https://maxmobiles.ru/otzyvy/" class="mm-btn mm-btn-primary" aria-label="Смотреть все отзывы о Maxmobiles">
+          Смотреть все отзывы
+        </a>
+        <a href="https://maxmobiles.ru/kak-ostavit-otzyv-o-nas-ru/" class="mm-btn mm-btn-secondary" aria-label="Оставить отзыв о Maxmobiles">
+          Оставить отзыв
+        </a>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://maxmobiles.ru/#organization",
+      "name": "Maxmobiles",
+      "url": "https://maxmobiles.ru/",
+      "logo": "https://maxmobiles.ru/images/logos/maxmobiles-logo.png",
+      "telephone": "+7-978-222-01-23",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "пр-т Нахимова 19",
+        "addressLocality": "Севастополь",
+        "addressRegion": "Севастополь",
+        "addressCountry": "RU"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "bestRating": "5",
+        "reviewCount": "1534"
+      },
+      "sameAs": [
+        "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/",
+        "https://vk.com/reviews-51179234",
+        "https://www.avito.ru/brands/i130325730/",
+        "https://otzovik.com/reviews/maxmobiles_ru-internet-magazin_tehniki_apple/"
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Популярные отзывы о Maxmobiles",
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": 6,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Vlad R." },
+            "reviewBody": "Отличный магазин, всегда приветливые сотрудники. Цены отличные, сервис на высоте.",
+            "datePublished": "2026-06-21",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Яндекс Карты" },
+            "url": "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Андрюсик Папусик" },
+            "reviewBody": "Приобрел смартфон в Maxmobile онлайн. Привезли очень быстро и со скидкой. Отдельно хочу отметить работу менеджера Валерия — установил все необходимые программы, перенес данные со старого телефона, все подробно объяснил. Компетентная и вежливая команда — делает свою работу на совесть. Спасибо Maxmobile за качественный сервис!",
+            "datePublished": "2026-06-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Яндекс Карты" },
+            "url": "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Марина Бондарчук" },
+            "reviewBody": "Очень обрадовало, что в городе нашлись такие замечательные мастера, которые смогли отремонтировать раритетную PS2. Не отнекивались, с готовностью взялись помочь. Пришлось немного подождать — шла доставка запчастей из других регионов. Я очень благодарна за отличный ремонт и за то, что мои внуки теперь довольны и счастливы от вновь обретённой приставки!",
+            "datePublished": "2026-06-01",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Авито" },
+            "url": "https://www.avito.ru/brands/i130325730/all?sellerId=73c70ce43de9add19f20e5fe9ef037a2"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Юлия Орёл" },
+            "reviewBody": "Брали в махмобайл и компьютер и не один раз телефоны и наушники. Так же сдавали в сервис ноутбук и айфон — всегда всё на высоте и по срокам и по качеству. Очередной раз буду менять наушники и телефон и только здесь. У дочери 11 айфон до сих пор работает.",
+            "datePublished": "2026-06-18",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Яндекс Карты" },
+            "url": "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Andrey Kolesnikov" },
+            "reviewBody": "На днях заказывал здесь iPhone 17. Заказ пришел очень быстро. Персонал и обслуживание вообще на 5 звезд!",
+            "datePublished": "2026-06-14",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Яндекс Карты" },
+            "url": "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Review",
+            "itemReviewed": { "@id": "https://maxmobiles.ru/#organization" },
+            "author": { "@type": "Person", "name": "Софья" },
+            "reviewBody": "Просто 10 из 10, ребята всегда помогут и подскажут. Отличный сервис — если нужно купить/отремонтировать данный бренд, только сюда. Всего вам наилучшего, спасибо за всё!",
+            "datePublished": "2026-06-13",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "publisher": { "@type": "Organization", "name": "Яндекс Карты" },
+            "url": "https://yandex.ru/maps/org/maxmobiles_ru/237809440282/reviews/"
+          }
+        }
+      ]
+    }
+  </script>
+  <script>
+    (function () {
+      var MOBILE_PX = 640;
+      var containers = document.querySelectorAll(".mm-block .mm-homepage-reviews-short");
+      if (!containers.length) return;
+
+      containers.forEach(function (container) {
+        if (container.dataset.mmReviewShowMoreInited) return;
+        container.dataset.mmReviewShowMoreInited = "1";
+
+        var cards = container.querySelectorAll(".mm-homepage-review-card");
+
+        function updateCard(card) {
+          var btn = card.querySelector(".mm-review-show-more-btn");
+          var wrap = card.querySelector(".mm-review-text-collapsed");
+          if (!btn || !wrap) return;
+
+          if (card.classList.contains("mm-review-card--expanded")) {
+            btn.style.display = "none";
+            btn.setAttribute("aria-expanded", "true");
+            return;
+          }
+
+          var visible = wrap.clientHeight;
+          var textEl = wrap.querySelector(".mm-review-text");
+          var fullText = textEl ? textEl.scrollHeight : wrap.scrollHeight;
+          var shouldShow = fullText > visible + 2;
+          btn.style.display = shouldShow ? "inline-flex" : "none";
+          btn.setAttribute("aria-expanded", "false");
+        }
+
+        cards.forEach(function (card) {
+          var btn = card.querySelector(".mm-review-show-more-btn");
+          if (!btn) return;
+          btn.addEventListener("click", function () {
+            card.classList.add("mm-review-card--expanded");
+            btn.setAttribute("aria-expanded", "true");
+            btn.style.display = "none";
+          });
+        });
+
+        function updateAll() { cards.forEach(updateCard); }
+        window.addEventListener("resize", function () { requestAnimationFrame(updateAll); });
+
+        var grid = container.querySelector(".mm-services-grid");
+        var btnPrev = container.querySelector(".mm-scroll-btn--prev");
+        var btnNext = container.querySelector(".mm-scroll-btn--next");
+
+        if (grid && btnPrev && btnNext) {
+          var firstCard = container.querySelector(".mm-homepage-review-card");
+          var cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 340;
+          var step = cardWidth + 12;
+
+          btnPrev.addEventListener("click", function () {
+            if (window.matchMedia("(max-width: " + MOBILE_PX + "px)").matches) return;
+            grid.scrollBy({ left: -step, behavior: "smooth" });
+          });
+          btnNext.addEventListener("click", function () {
+            if (window.matchMedia("(max-width: " + MOBILE_PX + "px)").matches) return;
+            grid.scrollBy({ left: step, behavior: "smooth" });
+          });
+
+          grid.addEventListener("wheel", function (e) {
+            if (window.matchMedia("(max-width: " + MOBILE_PX + "px)").matches) return;
+            if (Math.abs(e.deltaY) < 1) return;
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+            grid.scrollLeft += e.deltaY;
+          }, { passive: true });
+
+          var isDown = false, startX = 0, startScrollLeft = 0;
+
+          function canStartDrag(target) {
+            if (!target) return true;
+            if (target.closest && target.closest("a, button")) return false;
+            return true;
+          }
+
+          grid.addEventListener("mousedown", function (e) {
+            if (window.matchMedia("(max-width: " + MOBILE_PX + "px)").matches) return;
+            if (e.button !== 2) return;
+            if (!canStartDrag(e.target)) return;
+            isDown = true;
+            startX = e.pageX;
+            startScrollLeft = grid.scrollLeft;
+            grid.style.cursor = "grabbing";
+            e.preventDefault();
+          });
+          document.addEventListener("mousemove", function (e) {
+            if (!isDown) return;
+            grid.scrollLeft = startScrollLeft - (e.pageX - startX);
+          });
+          document.addEventListener("mouseup", function () {
+            if (!isDown) return;
+            isDown = false;
+            grid.style.cursor = "";
+          });
+          grid.addEventListener("contextmenu", function (e) {
+            if (window.matchMedia("(max-width: " + MOBILE_PX + "px)").matches) return;
+            if (isDown) e.preventDefault();
+          });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", updateAll);
+        } else {
+          updateAll();
+        }
+      });
+    })();
+  </script>
+</div>
