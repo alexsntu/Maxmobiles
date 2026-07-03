@@ -1,10 +1,4 @@
 ﻿<style>
-/* ==========================================
-   Mobile Navigation — Maxmobiles
-   Размещение: Design → Layouts → HTML block
-   (внутри кнопки меню CS-Cart)
-   ========================================== */
-
 .mm-nav-content *,
 .mm-nav-content *::before,
 .mm-nav-content *::after,
@@ -15,8 +9,6 @@
   margin: 0;
   padding: 0;
 }
-
-/* ── Search trigger (открывает Diginetica) ── */
 .mm-nav-search {
   display: flex;
   align-items: center;
@@ -38,22 +30,16 @@
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   pointer-events: none;
 }
-
-/* ── Divider ── */
 .mm-nav-divider {
   height: 1px;
   background: #e5e5ea;
   margin: 4px 0;
 }
-
-/* ── List resets ── */
 .mm-nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
-/* ── Nav item base ── */
 .mm-nav-item {
   display: flex;
   align-items: center;
@@ -73,8 +59,6 @@
   -webkit-font-smoothing: antialiased;
 }
 .mm-nav-item:active { opacity: 0.6; }
-
-/* ── Main items ── */
 .mm-nav-item--main {
   font-size: 17px;
   font-weight: 600;
@@ -88,8 +72,6 @@
   align-items: center;
   justify-content: center;
 }
-
-/* ── Secondary items ── */
 .mm-nav-item--secondary {
   font-size: 15px;
   font-weight: 400;
@@ -102,16 +84,12 @@
   align-items: center;
   justify-content: center;
 }
-
 .mm-nav-item__label { flex: 1; }
-
 .mm-nav-item__arrow {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
 }
-
-/* ── Account item ── */
 .mm-nav-account-wrap { padding: 8px 0 0; }
 .mm-nav-item--account {
   font-size: 16px;
@@ -128,8 +106,6 @@
   height: 26px;
   flex-shrink: 0;
 }
-
-/* ── Submenu panel (уровень 2, поверх CS-Cart) ── */
 .mm-nav-sub {
   position: fixed;
   top: 0;
@@ -148,7 +124,6 @@
   -webkit-font-smoothing: antialiased;
 }
 .mm-nav-sub.is-open { transform: translateX(0); }
-
 .mm-nav-sub__header {
   display: flex;
   align-items: center;
@@ -163,8 +138,6 @@
   color: #1d1d1f;
   letter-spacing: -0.01em;
 }
-
-/* ── Level 3 & 4: увеличенный заголовок ── */
 .mm-nav-level3 .mm-nav-sub__header,
 .mm-nav-level4 .mm-nav-sub__header {
   padding: 18px 16px;
@@ -174,7 +147,6 @@
   font-size: 20px;
   font-weight: 700;
 }
-
 .mm-nav-sub-scroll {
   flex: 1;
   overflow-y: auto;
@@ -182,8 +154,6 @@
   -webkit-overflow-scrolling: touch;
   padding: 12px 16px 28px;
 }
-
-/* ── Back / close button ── */
 .mm-nav-back {
   display: inline-flex;
   align-items: center;
@@ -200,8 +170,6 @@
   flex-shrink: 0;
 }
 .mm-nav-back:hover { background: rgba(0,0,0,0.06); }
-
-/* ── Level 2: sub header close ── */
 .mm-nav-sub__close {
   display: inline-flex;
   align-items: center;
@@ -219,8 +187,6 @@
 }
 .mm-nav-sub__close:hover { background: rgba(0,0,0,0.06); }
 .mm-nav-sub__header { justify-content: space-between; }
-
-/* ── Level 2: Quick pills ── */
 .mm-nav-pills {
   display: flex;
   align-items: center;
@@ -257,8 +223,6 @@
   flex-shrink: 0;
   align-self: center;
 }
-
-/* ── Level 2: Category items with image ── */
 .mm-nav-item--cat {
   font-size: 16px;
   font-weight: 500;
@@ -272,8 +236,6 @@
   object-fit: contain;
   flex-shrink: 0;
 }
-
-/* ── Level 3 panel ── */
 .mm-nav-level3 {
   position: fixed;
   top: 0;
@@ -295,8 +257,6 @@
 .mm-nav-level3 *,
 .mm-nav-level3 *::before,
 .mm-nav-level3 *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* ── Level 3: Items ── */
 .mm-nav-l3-scroll {
   flex: 1;
   overflow-y: auto;
@@ -326,8 +286,6 @@
   color: #8e8e93 !important;
   font-weight: 400;
 }
-
-/* ── Level 3 item that opens level 4 (button variant) ── */
 .mm-nav-l3-btn {
   display: flex;
   align-items: center;
@@ -348,8 +306,6 @@
 .mm-nav-l3-btn:last-child { border-bottom: none; }
 .mm-nav-l3-btn:active { opacity: 0.6; }
 .mm-nav-l3-btn__label { flex: 1; }
-
-/* ── Level 4 panel ── */
 .mm-nav-level4 {
   position: fixed;
   top: 0;
@@ -371,8 +327,6 @@
 .mm-nav-level4 *,
 .mm-nav-level4 *::before,
 .mm-nav-level4 *::after { box-sizing: border-box; }
-
-/* ── Explicit overrides for l3-items inside level 4 (beat * reset + site link colors) ── */
 .mm-nav-level4 a.mm-nav-l3-item {
   display: block;
   padding: 14px 20px;
@@ -388,29 +342,19 @@
 .mm-nav-level4 a.mm-nav-l3-item:active { opacity: 0.6; }
 .mm-nav-level4 a.mm-nav-l3-item--all { color: #8e8e93 !important; font-weight: 400; }
 </style>
-
-<!-- ══════════════════════════════════════════
-     Контент меню (внутри CS-Cart панели)
-     ══════════════════════════════════════════ -->
 <div class="mm-nav-content">
-
-  <!-- Поиск: кнопка-триггер для Diginetica -->
-  <button class="mm-nav-search" onclick="mmNavOpenSearch()" aria-label="Открыть поиск" type="button">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+<button class="mm-nav-search" onclick="mmNavOpenSearch()" aria-label="Открыть поиск" type="button">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
       <circle cx="7.5" cy="7.5" r="5.5" stroke="#8e8e93" stroke-width="1.8"/>
       <path d="M12.5 12.5L16 16" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
     <span class="mm-nav-search__placeholder">Искать товары</span>
   </button>
-
-  <!-- Основные пункты -->
-  <ul class="mm-nav-list" role="list">
-
-    <!-- Каталог → (открывает уровень 2) -->
-    <li>
+<ul class="mm-nav-list" role="list">
+<li>
       <button class="mm-nav-item mm-nav-item--main" onclick="mmNavOpenSub()" type="button" aria-haspopup="true" aria-expanded="false">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M3.4 6C3.4 4.56406 4.56406 3.4 6 3.4H10C10.3314 3.4 10.6 3.66863 10.6 4V8C10.6 9.43594 9.43594 10.6 8 10.6H4C3.66863 10.6 3.4 10.3314 3.4 10V6Z" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="0.8"/>
             <path d="M3.4 16C3.4 14.5641 4.56406 13.4 6 13.4H10C10.3314 13.4 10.6 13.6686 10.6 14V18C10.6 19.4359 9.43594 20.6 8 20.6H4C3.66863 20.6 3.4 20.3314 3.4 20V16Z" fill="#4A4A4A" stroke="#4A4A4A" stroke-width="0.8"/>
             <path d="M13.4 16C13.4 14.5641 14.5641 13.4 16 13.4H20C20.3314 13.4 20.6 13.6686 20.6 14V18C20.6 19.4359 19.4359 20.6 18 20.6H14C13.6686 20.6 13.4 20.3314 13.4 20V16Z" fill="url(#cat_grad_fill)" stroke="url(#cat_grad_stroke)" stroke-width="0.8"/>
@@ -428,17 +372,15 @@
           </svg>
         </span>
         <span class="mm-nav-item__label">Каталог</span>
-        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
           <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
     </li>
-
-    <!-- Идеальное БУ -->
     <li>
       <button class="mm-nav-item mm-nav-item--main" onclick="mmNavOpenLevel3('bu')" type="button">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="18" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="18" viewBox="0 0 20 15" fill="none">
             <path d="M19.1177 4.0197C19.3156 4.04438 19.5016 4.12604 19.652 4.25432C19.8029 4.38184 19.9116 4.5504 19.9643 4.73854C20.017 4.92668 20.0113 5.1259 19.9479 5.31085L16.8644 14.5498C16.8334 14.6429 16.7814 14.728 16.7121 14.7988C16.6429 14.8695 16.5583 14.9241 16.4645 14.9585C16.3708 14.9929 16.2703 15.0062 16.1706 14.9974C16.0709 14.9886 15.9745 14.9579 15.8886 14.9077C15.8694 14.8963 13.7385 13.6954 9.99837 13.6954C6.25825 13.6954 4.12734 14.8963 4.10651 14.9085C4.0206 14.9583 3.92435 14.9885 3.82489 14.997C3.72543 15.0055 3.62528 14.992 3.53185 14.9576C3.43842 14.9232 3.35409 14.8686 3.28508 14.7981C3.21607 14.7275 3.16415 14.6426 3.13315 14.5498L0.0497117 5.3084C-0.0119145 5.1235 -0.0163431 4.92492 0.0369818 4.73757C0.0903067 4.55022 0.19901 4.38245 0.349449 4.25531C0.499888 4.12817 0.685363 4.04733 0.882596 4.02294C1.07983 3.99854 1.28004 4.03167 1.45809 4.11817L5.64073 6.15624L9.13417 0.477378C9.22398 0.331719 9.35073 0.211228 9.50214 0.127589C9.65355 0.0439501 9.82448 0 9.99837 0C10.1723 0 10.3432 0.0439501 10.4946 0.127589C10.646 0.211228 10.7728 0.331719 10.8626 0.477378L14.356 6.15379L18.5403 4.11573C18.7188 4.02845 18.9198 3.99503 19.1177 4.0197Z" fill="#4A4A4A"/>
             <path d="M19.1175 4.0197C19.3155 4.04438 19.5014 4.12604 19.6518 4.25432C19.8027 4.38184 19.9114 4.5504 19.9641 4.73854C20.0168 4.92668 20.0111 5.1259 19.9477 5.31085L16.8642 14.5498C16.8332 14.6429 16.7812 14.728 16.712 14.7988C16.6427 14.8695 16.5581 14.9241 16.4644 14.9585C16.3706 14.9929 16.2702 15.0062 16.1704 14.9974C16.0707 14.9886 15.9743 14.9579 15.8884 14.9077C15.8729 14.8985 14.4894 14.1187 11.9998 13.8148L9.99818 0C10.1721 0 10.343 0.0439501 10.4944 0.127589C10.6458 0.211228 10.7726 0.331719 10.8624 0.477378L14.3558 6.15379L18.5401 4.11573C18.7186 4.02845 18.9196 3.99503 19.1175 4.0197Z" fill="#4A4A4A"/>
             <path d="M19.1175 4.0197C19.3155 4.04438 19.5014 4.12604 19.6518 4.25432C19.8027 4.38184 19.9114 4.5504 19.9641 4.73854C20.0168 4.92668 20.0111 5.1259 19.9477 5.31085L16.8642 14.5498C16.8332 14.6429 16.7812 14.728 16.712 14.7988C16.6427 14.8695 16.5581 14.9241 16.4644 14.9585C16.3706 14.9929 16.2702 15.0062 16.1704 14.9974C16.0707 14.9886 15.9743 14.9579 15.8884 14.9077C15.8729 14.8985 14.4894 14.1187 11.9998 13.8148L9.99818 0C10.1721 0 10.343 0.0439501 10.4944 0.127589C10.6458 0.211228 10.7726 0.331719 10.8624 0.477378L14.3558 6.15379L18.5401 4.11573C18.7186 4.02845 18.9196 3.99503 19.1175 4.0197Z" fill="black" fill-opacity="0.2"/>
@@ -452,17 +394,15 @@
           </svg>
         </span>
         <span class="mm-nav-item__label">Идеальное БУ</span>
-        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
           <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
     </li>
-
-    <!-- Сервисный центр -->
     <li>
       <button class="mm-nav-item mm-nav-item--main" onclick="mmNavOpenLevel3('service')" type="button">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.27258 7.9317L6.77827 8.426L2 5.29541L5.29536 2.00005L8.42595 6.77832L7.93165 7.27262L13.1241 12.4651C14.0288 11.8656 15.2598 11.9645 16.057 12.7616L19.3523 16.057C20.2623 16.967 20.2623 18.4424 19.3523 19.3524C18.4423 20.2623 16.967 20.2623 16.057 19.3524L12.7616 16.057C11.9645 15.2599 11.8656 14.0289 12.465 13.1241L7.27258 7.9317Z" fill="url(#serv_grad_fill)"/>
             <path d="M20.2429 5.6929C20.2362 5.68616 18.8714 7.03618 16.1553 9.7497L14.2496 7.8426L18.3102 3.77906C16.1733 2.49194 13.4281 2.82214 11.648 4.60345C10.9676 5.28398 10.478 6.13158 10.2282 7.06125C9.97839 7.99091 10.1899 9.24117 10.4376 10.1714L10.478 10.3219L4.07579 16.725C3.93662 16.8643 4.00642 17.0288 4.14559 17.168L6.82648 19.8493C6.96565 19.9885 7.13771 20.0658 7.27688 19.9265L13.6791 13.5234L13.8295 13.5639C15.7083 14.0648 17.9892 13.7571 19.3899 12.3554C21.1722 10.5741 21.5022 7.82688 20.2429 5.6929Z" fill="#4A4A4A"/>
             <defs>
@@ -474,17 +414,15 @@
           </svg>
         </span>
         <span class="mm-nav-item__label">Сервисный центр</span>
-        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
           <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
     </li>
-
-    <!-- Акции и скидки -->
     <li>
       <a class="mm-nav-item mm-nav-item--main" href="https://maxmobiles.ru/promotions/">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="9" fill="#4A4A4A"/>
             <path d="M3 12C3 16.9706 7.02944 21 12 21V3C7.02944 3 3 7.02944 3 12Z" fill="url(#promo_grad_fill)"/>
             <path d="M9 9H9.01M15 15H15.01M16 8L8 16M9.5 9C9.5 9.27614 9.27614 9.5 9 9.5C8.72386 9.5 8.5 9.27614 8.5 9C8.5 8.72386 8.72386 8.5 9 8.5C9.27614 8.5 9.5 8.72386 9.5 9ZM15.5 15C15.5 15.2761 15.2761 15.5 15 15.5C14.7239 15.5 14.5 15.2761 14.5 15C14.5 14.7239 14.7239 14.5 15 14.5C15.2761 14.5 15.5 14.7239 15.5 15Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -499,19 +437,13 @@
         <span class="mm-nav-item__label">Акции и скидки</span>
       </a>
     </li>
-
   </ul>
-
   <div class="mm-nav-divider"></div>
-
-  <!-- Вторичные пункты -->
-  <ul class="mm-nav-list" role="list">
-
-    <!-- Контакты -->
-    <li>
+<ul class="mm-nav-list" role="list">
+<li>
       <a class="mm-nav-item mm-nav-item--secondary" href="https://maxmobiles.ru/kontakty-ru/">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0792 21.9507C12.721 22.298 12.3605 22.6475 12 23C11.6395 22.6475 11.279 22.298 10.9208 21.9507C6.80789 17.9629 3 14.2708 3 9.8C3 4.93989 7.02944 1 12 1C16.9706 1 21 4.93989 21 9.8C21 14.2708 17.1921 17.9629 13.0792 21.9507ZM16 10C16 12.2091 14.2091 14 12 14C9.79086 14 8 12.2091 8 10C8 7.79086 9.79086 6 12 6C14.2091 6 16 7.79086 16 10Z" fill="#4A4A4A"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 1C16.9706 1 21 4.93989 21 9.8C21 14.2708 17.1921 17.9629 13.0792 21.9507L13.0789 21.9509C12.7208 22.2981 12.3604 22.6476 12 23V14C14.2091 14 16 12.2091 16 10C16 7.79086 14.2091 6 12 6V1Z" fill="#BDBDBD"/>
           </svg>
@@ -519,12 +451,10 @@
         <span class="mm-nav-item__label">Контакты</span>
       </a>
     </li>
-
-    <!-- Программа лояльности -->
-    <li>
+<li>
       <a class="mm-nav-item mm-nav-item--secondary" href="https://maxmobiles.ru/bonusnaya-programma-ru/">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="18" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="18" viewBox="0 0 22 17" fill="none">
             <path d="M3.5537 2.66276C3.82711 2.09327 4.53375 1.84259 5.13201 2.10286L13.3038 5.6579C13.902 5.91816 14.1654 6.59082 13.8919 7.16031L10.4463 14.3372C10.1729 14.9067 9.46625 15.1574 8.86799 14.8971L0.696241 11.3421C0.0979798 11.0818 -0.165359 10.4092 0.108055 9.83969L3.5537 2.66276Z" fill="#4A4A4A"/>
             <path d="M9.86282 0.332495C10.3157 -0.102536 11.0601 -0.111894 11.5254 0.311594L17.6444 5.88102C18.1097 6.3045 18.1197 7.00047 17.6667 7.4355L10.1372 14.6675C9.68425 15.1025 8.9399 15.1119 8.47462 14.6884L2.35561 9.11898C1.89034 8.6955 1.88033 7.99953 2.33326 7.5645L9.86282 0.332495Z" fill="#919191"/>
             <path d="M17.1914 1.11293C17.753 0.845002 18.4318 1.07012 18.7076 1.61575L21.8838 7.90004C22.1595 8.44567 21.9278 9.10519 21.3662 9.37312L9.80858 14.8871C9.24698 15.155 8.56817 14.9299 8.2924 14.3842L5.11623 8.09996C4.84047 7.55433 5.07218 6.89481 5.63377 6.62688L17.1914 1.11293Z" fill="#BDBDBD"/>
@@ -540,12 +470,10 @@
         <span class="mm-nav-item__label">Программа лояльности</span>
       </a>
     </li>
-
-    <!-- Доставка и оплата -->
-    <li>
+<li>
       <a class="mm-nav-item mm-nav-item--secondary" href="https://maxmobiles.ru/oplata-i-dostavka/">
-        <span class="mm-nav-item__icon" aria-hidden="true">
-          <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <span class="mm-nav-item__icon">
+          <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
             <path d="M19 12H12V17H22V15C22 13.3431 20.6569 12 19 12Z" fill="#BDBDBD"/>
             <path d="M16.1667 7H12V13H20L18.0128 8.23077C17.7023 7.48548 16.9741 7 16.1667 7Z" fill="#BDBDBD"/>
             <path d="M15.2796 8H14V12H18L17.1886 9.40345C16.9277 8.5685 16.1544 8 15.2796 8Z" fill="white"/>
@@ -557,63 +485,50 @@
         <span class="mm-nav-item__label">Доставка и оплата</span>
       </a>
     </li>
-
   </ul>
-
-  <!-- Личный кабинет -->
-  <div class="mm-nav-account-wrap">
+<div class="mm-nav-account-wrap">
     <a class="mm-nav-item mm-nav-item--account" href="https://maxmobiles.ru/login/?return_url=index.php%3Fsl%3Dru%26dispatch%3Dpages.view%26page_id%3D62">
-      <span class="mm-nav-item__icon" aria-hidden="true">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <span class="mm-nav-item__icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M21 22H3C3 22 4.5 14 12 14C19.5 14 21 22 21 22Z" fill="#4A4A4A"/>
           <path d="M12.001 19.5C12.001 19.5 19.5001 14 12.0001 14C4.50013 14 12.001 19.5 12.001 19.5Z" fill="#BDBDBD"/>
           <circle cx="12" cy="7.87207" r="5" fill="#BDBDBD"/>
         </svg>
       </span>
       <span class="mm-nav-item__label">Личный кабинет</span>
-      <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
         <path d="M6.5 4l5 5-5 5" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
   </div>
-
-</div><!-- /mm-nav-content -->
-
-<!-- ══════════════════════════════════════════
-     УРОВЕНЬ 2 — панель «Каталог»
-     ══════════════════════════════════════════ -->
-<div class="mm-nav-sub" id="mmNavSub" aria-hidden="true">
+</div>
+<div class="mm-nav-sub" id="mmNavSub">
   <div class="mm-nav-sub__header">
     <button class="mm-nav-back" onclick="mmNavCloseSub()" aria-label="Назад">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <path d="M11.5 4L6.5 9l5 5" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
     <span class="mm-nav-sub__title">Каталог</span>
     <button class="mm-nav-sub__close" onclick="mmNavCloseAll()" aria-label="Закрыть меню">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M1 1l14 14M15 1L1 15" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
   </div>
-
   <div class="mm-nav-sub-scroll">
-
-    <!-- Поиск Diginetica -->
-    <button class="mm-nav-search" onclick="mmNavOpenSearch()" aria-label="Открыть поиск" type="button">
+<button class="mm-nav-search" onclick="mmNavOpenSearch()" aria-label="Открыть поиск" type="button">
       <span class="mm-nav-search__placeholder">Искать товары</span>
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <circle cx="7.5" cy="7.5" r="5.5" stroke="#8e8e93" stroke-width="1.8"/>
         <path d="M12.5 12.5L16 16" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
-
-    <!-- Быстрые фильтры -->
-    <div class="mm-nav-pills">
+<div class="mm-nav-pills">
       <a class="mm-nav-pill mm-nav-pill--hot" href="https://maxmobiles.ru/iphone/all-iphone-17/">iPhone 17</a>
       <span class="mm-nav-pill-sep"></span>
       <a class="mm-nav-pill" href="https://maxmobiles.ru/promotions/">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="9" fill="#4A4A4A"/>
           <path d="M3 12C3 16.9706 7.02944 21 12 21V3C7.02944 3 3 7.02944 3 12Z" fill="url(#pill_promo_grad)"/>
           <path d="M9 9H9.01M15 15H15.01M16 8L8 16M9.5 9C9.5 9.27614 9.27614 9.5 9 9.5C8.72386 9.5 8.5 9.27614 8.5 9C8.5 8.72386 8.72386 8.5 9 8.5C9.27614 8.5 9.5 8.72386 9.5 9ZM15.5 15C15.5 15.2761 15.2761 15.5 15 15.5C14.7239 15.5 14.5 15.2761 14.5 15C14.5 14.7239 14.7239 14.5 15 14.5C15.2761 14.5 15.5 14.7239 15.5 15Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -628,145 +543,126 @@
       </a>
       <span class="mm-nav-pill-sep"></span>
       <a class="mm-nav-pill" href="https://maxmobiles.ru/novinki/">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
           <path d="M14.2495 2H8.49395C8.31447 2 8.22473 2 8.14551 2.02733C8.07544 2.05149 8.01163 2.09093 7.95868 2.14279C7.89881 2.20143 7.85868 2.2817 7.77841 2.44223L3.57841 10.8422C3.38673 11.2256 3.29089 11.4173 3.31391 11.5731C3.33401 11.7091 3.40927 11.8309 3.52197 11.9097C3.65104 12 3.86534 12 4.29395 12H10.4995L7.49953 22L19.6926 9.35531C20.104 8.9287 20.3097 8.7154 20.3217 8.53288C20.3321 8.37446 20.2667 8.22049 20.1454 8.11803C20.0057 8 19.7094 8 19.1167 8H11.9995L14.2495 2Z" fill="#D9D9D9"/>
           <path fill-rule="evenodd" clip-rule="evenodd" d="M8.49395 2H14.2495L11.9995 8H12L10.4976 12.0063L10.4995 12H4.29395C3.86534 12 3.65104 12 3.52197 11.9097C3.40927 11.8309 3.33401 11.7091 3.31391 11.5731C3.29089 11.4173 3.38673 11.2256 3.57841 10.8422L7.77841 2.44223C7.85868 2.2817 7.89881 2.20143 7.95868 2.14279C8.01163 2.09093 8.07544 2.05149 8.14551 2.02733C8.22473 2 8.31447 2 8.49395 2Z" fill="#4A4A4A"/>
         </svg>
         Новинки
       </a>
     </div>
-
-    <!-- Список категорий -->
-    <ul class="mm-nav-list" id="mmNavCatalogList" role="list">
-
+<ul class="mm-nav-list" id="mmNavCatalogList" role="list">
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('dyson')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-Dyson.png" alt="Dyson" loading="lazy">
           <span class="mm-nav-item__label">Dyson</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('iphone')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-iphone.png" alt="iPhone" loading="lazy">
           <span class="mm-nav-item__label">iPhone</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('ipad')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-ipad.png" alt="iPad" loading="lazy">
           <span class="mm-nav-item__label">iPad</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('mac')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-mac.png" alt="Mac" loading="lazy">
           <span class="mm-nav-item__label">Mac</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('airpods')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-airpods.png" alt="AirPods" loading="lazy">
           <span class="mm-nav-item__label">AirPods</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('watch')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-watch.png" alt="Watch" loading="lazy">
           <span class="mm-nav-item__label">Watch</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('accessories')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-acs.png" alt="Аксессуары" loading="lazy">
           <span class="mm-nav-item__label">Аксессуары</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('smartphones')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-android.png" alt="Смартфоны" loading="lazy">
           <span class="mm-nav-item__label">Смартфоны</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('multimedia')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-gadgets.png" alt="Мультимедиа и гаджеты" loading="lazy">
           <span class="mm-nav-item__label">Мультимедиа и гаджеты</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('beauty')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-krasota.png" alt="Красота и здоровье" loading="lazy">
           <span class="mm-nav-item__label">Красота и здоровье</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
       <li>
         <button class="mm-nav-item mm-nav-item--cat" onclick="mmNavOpenLevel3('games')" type="button">
           <img class="mm-nav-cat-img" src="https://maxmobiles.ru/images/companies/1/Menu/New-mob-menu/menu-game.png" alt="Игры и развлечения" loading="lazy">
           <span class="mm-nav-item__label">Игры и развлечения</span>
-          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <svg class="mm-nav-item__arrow" viewBox="0 0 18 18" fill="none">
             <path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </li>
-
     </ul>
-
   </div>
 </div>
-
-<!-- ══════════════════════════════════════════
-     УРОВЕНЬ 3 — подкатегории
-     ══════════════════════════════════════════ -->
-<div class="mm-nav-level3" id="mmNavLevel3" aria-hidden="true">
+<div class="mm-nav-level3" id="mmNavLevel3">
   <div class="mm-nav-sub__header">
     <button class="mm-nav-back" onclick="mmNavCloseLevel3()" aria-label="Назад">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <path d="M11.5 4L6.5 9l5 5" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
     <span class="mm-nav-sub__title" id="mmNavLevel3Title"></span>
     <button class="mm-nav-sub__close" onclick="mmNavCloseAll()" aria-label="Закрыть меню">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M1 1l14 14M15 1L1 15" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
@@ -775,20 +671,16 @@
     <ul class="mm-nav-l3-list" id="mmNavLevel3Content" role="list"></ul>
   </div>
 </div>
-
-<!-- ══════════════════════════════════════════
-     УРОВЕНЬ 4 — подподкатегории
-     ══════════════════════════════════════════ -->
-<div class="mm-nav-level4" id="mmNavLevel4" aria-hidden="true">
+<div class="mm-nav-level4" id="mmNavLevel4">
   <div class="mm-nav-sub__header">
     <button class="mm-nav-back" onclick="mmNavCloseLevel4()" aria-label="Назад">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <path d="M11.5 4L6.5 9l5 5" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
     <span class="mm-nav-sub__title" id="mmNavLevel4Title"></span>
     <button class="mm-nav-sub__close" onclick="mmNavCloseAll()" aria-label="Закрыть меню">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M1 1l14 14M15 1L1 15" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
@@ -797,7 +689,6 @@
     <ul class="mm-nav-l3-list" id="mmNavLevel4Content" role="list"></ul>
   </div>
 </div>
-
 <script>
 (function () {
   var sub        = document.getElementById('mmNavSub');
@@ -808,9 +699,7 @@
   var l4Title    = document.getElementById('mmNavLevel4Title');
   var l4Content  = document.getElementById('mmNavLevel4Content');
   var catalogBtn = document.querySelector('[aria-haspopup="true"]');
-
-  /* ── Данные каталога (заполняется по мере добавления категорий) ── */
-  var mmCatalogData = {
+var mmCatalogData = {
     'iphone': {
       title: 'iPhone',
       allUrl: 'https://maxmobiles.ru/iphone/',
@@ -979,9 +868,7 @@
       ]
     }
   };
-
-  /* ── Данные уровня 4 ── */
-  var mmLevel4Data = {
+var mmLevel4Data = {
     'iphone17': {
       title: 'iPhone 17',
       allUrl: 'https://maxmobiles.ru/iphone/all-iphone-17/',
@@ -1181,9 +1068,7 @@
       ]
     }
   };
-
-  /* ── Diginetica ── */
-  function mmNavOpenSearch() {
+function mmNavOpenSearch() {
     var digiBtn = document.querySelector('#snapping_id_5406 .ut2-btn-search') ||
                   document.querySelector('.ut2-btn-search');
     if (!digiBtn) return;
@@ -1192,20 +1077,17 @@
     mmNavCloseSub();
     mmNavCloseCSCart();
     setTimeout(function() {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      digiBtn.click();
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        digiBtn.click();
     }, 100);
   }
-
-  /* ── Уровень 2 ── */
-  function mmNavOpenSub() {
+function mmNavOpenSub() {
     if (!sub) return;
     sub.classList.add('is-open');
     sub.setAttribute('aria-hidden', 'false');
     if (catalogBtn) catalogBtn.setAttribute('aria-expanded', 'true');
   }
-
   function mmNavCloseSub() {
     mmNavCloseLevel3();
     if (!sub) return;
@@ -1213,15 +1095,13 @@
     sub.setAttribute('aria-hidden', 'true');
     if (catalogBtn) catalogBtn.setAttribute('aria-expanded', 'false');
   }
-
-  /* ── Уровень 3 ── */
-  function mmNavOpenLevel3(key) {
+function mmNavOpenLevel3(key) {
     var data = mmCatalogData[key];
     if (!data || !level3) return;
     if (l3Title) l3Title.textContent = data.title;
     if (l3Content) {
       var html = '';
-      var arrow = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var arrow = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.5 4l5 5-5 5" stroke="#c7c7cc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       data.items.forEach(function (item) {
         if (item.sub) {
           html += '<li><button class="mm-nav-l3-btn" onclick="mmNavOpenLevel4(\'' + item.sub + '\')" type="button">' +
@@ -1238,16 +1118,13 @@
     level3.classList.add('is-open');
     level3.setAttribute('aria-hidden', 'false');
   }
-
   function mmNavCloseLevel3() {
     mmNavCloseLevel4();
     if (!level3) return;
     level3.classList.remove('is-open');
     level3.setAttribute('aria-hidden', 'true');
   }
-
-  /* ── Уровень 4 ── */
-  function mmNavOpenLevel4(key) {
+function mmNavOpenLevel4(key) {
     var data = mmLevel4Data[key];
     if (!data || !level4) return;
     if (l4Title) l4Title.textContent = data.title;
@@ -1264,24 +1141,18 @@
     level4.classList.add('is-open');
     level4.setAttribute('aria-hidden', 'false');
   }
-
   function mmNavCloseLevel4() {
     if (!level4) return;
     level4.classList.remove('is-open');
     level4.setAttribute('aria-hidden', 'true');
   }
-
-  /* ── Закрыть всё (включая CS-Cart панель) ── */
-  function mmNavCloseAll() {
+function mmNavCloseAll() {
     mmNavCloseLevel4();
     mmNavCloseLevel3();
     mmNavCloseSub();
     mmNavCloseCSCart();
   }
-
   function mmNavCloseCSCart() {
-    /* 1. Ищем кнопку закрытия в родительском контейнере CS-Cart,
-          исключая наши собственные элементы */
     var ourRoot = document.querySelector('.mm-nav-content');
     if (ourRoot && ourRoot.parentElement) {
       var siblings = ourRoot.parentElement.querySelectorAll('button, a, [role="button"]');
@@ -1299,7 +1170,6 @@
         }
       }
     }
-    /* 2. Известные CS-Cart / UT2 селекторы */
     var iconEl = document.querySelector('.ut2-icon-baseline-close');
     var csClose =
       (iconEl && iconEl.closest('.cm-combination, .ut2-sp-f')) ||
@@ -1310,15 +1180,12 @@
       document.querySelector('[class*="offcanvas"] [class*="close"]');
     if (csClose) csClose.click();
   }
-
-  /* ── ESC ── */
-  document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (level4 && level4.classList.contains('is-open')) { mmNavCloseLevel4(); }
     else if (level3 && level3.classList.contains('is-open')) { mmNavCloseLevel3(); }
     else if (sub && sub.classList.contains('is-open')) { mmNavCloseSub(); }
   });
-
   window.mmNavOpenSearch   = mmNavOpenSearch;
   window.mmNavOpenSub      = mmNavOpenSub;
   window.mmNavCloseSub     = mmNavCloseSub;

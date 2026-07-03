@@ -50,7 +50,11 @@
       "Bash(npm update *)",
       "Bash(claude *)",
       "WebFetch(domain:docs.google.com)",
-      "WebFetch(domain:cdn.diginetica.net)"
+      "WebFetch(domain:cdn.diginetica.net)",
+      "PowerShell(\\(Get-Item \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\menu-mobile.html\"\\).Length)",
+      "PowerShell(\\(Get-Item \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\menu-mobile-no-comments.html\"\\).Length)",
+      "WebFetch(domain:docs.cs-cart.abt.team)",
+      "Bash(git -C \"C:\\\\Users\\\\Алекс\\\\Service MM\" diff --stat)"
     ]
   }
 }

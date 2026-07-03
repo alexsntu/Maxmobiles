@@ -1,0 +1,71 @@
+<!-- ==========================================
+     Промо-плашки в мега-меню каталога (десктоп)
+     Разместить: Design → Layouts → HTML block
+     (в самом низу страницы, как и mobile-меню)
+
+     Скрипт находит меню с классом .mm-catalog-menu
+     (тот же класс, что указан в настройках блока меню
+     для стилей menu-desktop-catalog.css) и добавляет
+     в каждую выпадающую панель блок с промо-плашками:
+     самовывоз / гарантия и сервис / доставка СДЭК.
+
+     Плашки одинаковые для всех разделов каталога —
+     это не привязанный к категории контент, а общие
+     факты о магазине (см. Brand constants в CLAUDE.md).
+     ========================================== -->
+<script>
+(function () {
+  var ICON_PIN =
+    '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 7.3 12.28a1 1 0 0 0 1.4 0C13 22 20 15.25 20 10c0-4.42-3.58-8-8-8Z" fill="#568DFE"/>' +
+    '<circle cx="12" cy="10" r="3.2" fill="#fff"/>' +
+    '</svg>';
+
+  var ICON_SHIELD =
+    '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M12 2 4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5l-8-3Z" fill="#568DFE"/>' +
+    '<path d="M8.5 12.2 11 14.7l4.5-5.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>';
+
+  var ICON_TRUCK =
+    '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="2" y="7" width="12" height="9" rx="1.5" fill="#568DFE"/>' +
+    '<path d="M14 10h3.7c.5 0 .96.28 1.2.72L20.6 14v2H14v-6Z" fill="#568DFE"/>' +
+    '<circle cx="7" cy="18" r="2" fill="#1d1d1f"/>' +
+    '<circle cx="17.5" cy="18" r="2" fill="#1d1d1f"/>' +
+    '</svg>';
+
+  var PROMO_HTML =
+    '<div class="mm-menu-promo">' +
+      '<div class="mm-menu-promo__tile">' +
+        '<span class="mm-menu-promo__icon">' + ICON_PIN + '</span>' +
+        '<span class="mm-menu-promo__text">Самовывоз в Севастополе, Симферополе, Ялте и Москве</span>' +
+      '</div>' +
+      '<div class="mm-menu-promo__tile mm-menu-promo__tile--accent">' +
+        '<span class="mm-menu-promo__icon">' + ICON_SHIELD + '</span>' +
+        '<span class="mm-menu-promo__text">Официальный сервис и гарантия от Apple-эксперта в Крыму с 2011 года</span>' +
+      '</div>' +
+      '<div class="mm-menu-promo__tile">' +
+        '<span class="mm-menu-promo__icon">' + ICON_TRUCK + '</span>' +
+        '<span class="mm-menu-promo__text">Доставка СДЭК по всей России</span>' +
+      '</div>' +
+    '</div>';
+
+  function injectMenuPromo() {
+    var lists = document.querySelectorAll('.mm-catalog-menu .ut2-menu__2nd-list');
+    for (var i = 0; i < lists.length; i++) {
+      if (!lists[i].querySelector('.mm-menu-promo')) {
+        var holder = document.createElement('div');
+        holder.innerHTML = PROMO_HTML;
+        lists[i].appendChild(holder.firstChild);
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectMenuPromo);
+  } else {
+    injectMenuPromo();
+  }
+})();
+</script>

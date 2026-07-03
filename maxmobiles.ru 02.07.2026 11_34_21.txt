@@ -1,0 +1,30 @@
+$TTL 2h
+maxmobiles.ru.	IN	SOA	ns1.reg.ru	hostmaster.ns1.reg.ru	(
+
+        1		;serial
+        14400		;refresh
+        3600		;retry
+        604800		;expire
+        10800		;minimum 
+)
+
+@	A	176.123.171.223
+@	MX	10	mx.yandex.net.
+@	TXT	"google-site-verification=AhhHSrna__2RLa9MBC_WRseyHZ7E0iTo1EmToYazBJ0"
+@	TXT	"ngenix-verification=ff577037f53a80e6c95e6f9de156e3a0"
+@	TXT	"v=spf1 a mx include:_spf.hosting.reg.ru ip4:37.140.196.254 ~all"
+@	TXT	"v=spf1 ip4:176.123.171.223 include:_spf.yandex.net include:spf.unisender.com ~all"
+dev	A	176.123.171.223
+mail._domainkey	TXT	"v=DKIM1; k=rsa; t=s; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxsu7PH2Loj7QITjfHRkCwEYyvHmLpgTNhpOdoh06Vw0H6Mc1BAjlAKpvm9dk2YwYipIJsHtKE4y6yW5L+8nUbUXTWCEW+UBaTF1SH7AWsiAKpty1VEC4j0UXVdwIAnQ/7ueNvUKrkQqyPKDQ/2gneDnVzE0b/oonxtdwr/Fyq0QIDAQAB"
+new	A	176.123.171.223
+old	A	176.123.171.223
+portal	A	176.123.171.223
+price	A	91.219.151.252
+work	A	178.255.127.186
+www	A	176.123.171.223
+www.dev	A	176.123.171.223
+www.new	A	176.123.171.223
+www.old	A	176.123.171.223
+www.portal	A	176.123.171.223
+www.price	A	92.219.151.252
+www.work	A	178.255.127.186
