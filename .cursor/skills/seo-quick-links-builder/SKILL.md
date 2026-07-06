@@ -188,7 +188,8 @@ Follow **all** rules in `.cursor/rules/quick-links-seo-block.mdc`.
 
 ### Step 7 — Output
 
-Save the block as a **separate file** in the same folder as the category SEO block.
+Save the block as a **separate file** in `SEO-страницы/Быстрые ссылки/` — not in the same
+folder as the category SEO block.
 Naming: `[category]-quick-links.html` (e.g., `iphone-quick-links.html`, `mac-quick-links.html`).
 
 **Never embed** the quick links block inside the SEO description file (`iphone-category.html` etc.).

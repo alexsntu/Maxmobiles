@@ -127,16 +127,21 @@
 
 **Запрещено** встраивать блок быстрых ссылок в файл SEO-описания.
 
+### Папка сохранения
+
+Все файлы блоков быстрых ссылок сохраняются в `SEO-страницы/Быстрые ссылки/` — отдельно
+от файлов основного SEO-блока категории.
+
 ### Именование файлов
 
 | Страница | Файл SEO-блока | Файл быстрых ссылок |
 |---|---|---|
-| Категория iPhone | `iphone-category.html` | `iphone-quick-links.html` |
-| Категория Mac | `mac-category.html` | `mac-quick-links.html` |
-| Категория iPad | `ipad-category.html` | `ipad-quick-links.html` |
-| Категория AirPods | `airpods-category.html` | `airpods-quick-links.html` |
-| Категория Watch | `watch-category.html` | `watch-quick-links.html` |
-| Ремонт iPhone | `iphone-repair.html` | `iphone-repair-quick-links.html` |
+| Категория iPhone | `iphone-category.html` | `SEO-страницы/Быстрые ссылки/iphone-quick-links.html` |
+| Категория Mac | `mac-category.html` | `SEO-страницы/Быстрые ссылки/mac-quick-links.html` |
+| Категория iPad | `ipad-category.html` | `SEO-страницы/Быстрые ссылки/ipad-quick-links.html` |
+| Категория AirPods | `airpods-category.html` | `SEO-страницы/Быстрые ссылки/airpods-quick-links.html` |
+| Категория Watch | `watch-category.html` | `SEO-страницы/Быстрые ссылки/watch-quick-links.html` |
+| Ремонт iPhone | `iphone-repair.html` | `SEO-страницы/Быстрые ссылки/iphone-repair-quick-links.html` |
 
 ---
 

@@ -54,7 +54,43 @@
       "PowerShell(\\(Get-Item \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\menu-mobile.html\"\\).Length)",
       "PowerShell(\\(Get-Item \"C:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\menu-mobile-no-comments.html\"\\).Length)",
       "WebFetch(domain:docs.cs-cart.abt.team)",
-      "Bash(git -C \"C:\\\\Users\\\\Алекс\\\\Service MM\" diff --stat)"
+      "Bash(git -C \"C:\\\\Users\\\\Алекс\\\\Service MM\" diff --stat)",
+      "WebFetch(domain:micro-line.ru)",
+      "WebFetch(domain:sevastopol.knr24.ru)",
+      "Bash(jq --version)",
+      "Bash(git --version)",
+      "Bash(git -C \"C:/Users/Алекс/Service MM\" check-ignore -v .claude/settings.local.json)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(bash -c ' *)",
+      "mcp__wordstat-mcp__wordstat_top",
+      "mcp__wordstat-mcp__wordstat_bulk",
+      "Bash(chcp.com)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Get-ItemProperty *)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -d .git ]; then if [ -z \"$(git status --porcelain)\" ]; then if git pull --ff-only >/tmp/mm_pull.log 2>&1; then MSG=\"Git pull выполнен успешно.\"; else MSG=\"Git pull не выполнен (возможно расхождение веток) — проверьте вручную: git status\"; fi; else MSG=\"Есть незакоммиченные изменения — git pull пропущен. Сначала сохраните/закоммитьте работу.\"; fi; printf '{\"systemMessage\": \"%s\"}' \"$MSG\"; fi",
+            "shell": "bash"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -d .git ]; then DIRTY=$(git status --porcelain); AHEAD=$(git rev-list @{u}..HEAD --count 2>/dev/null); if [ -n \"$DIRTY\" ]; then printf '{\"systemMessage\": \"Напоминание: есть незакоммиченные изменения. Сделайте git add, commit и push перед завершением работы (особенно если продолжите на другом ПК).\"}'; elif [ -n \"$AHEAD\" ] && [ \"$AHEAD\" -gt 0 ]; then printf '{\"systemMessage\": \"Напоминание: есть закоммиченные, но не отправленные изменения. Не забудьте git push.\"}'; fi; fi",
+            "shell": "bash"
+          }
+        ]
+      }
     ]
   }
 }
