@@ -67,7 +67,17 @@
       "Bash(chcp.com)",
       "PowerShell(Test-Path *)",
       "PowerShell(Get-ItemProperty *)",
-      "WebFetch(domain:playmarketgames.ru)"
+      "WebFetch(domain:playmarketgames.ru)",
+      "mcp__pixelplus-mcp__pixelplus_get_project",
+      "mcp__pixelplus-mcp__pixelplus_get_queries",
+      "mcp__pixelplus-mcp__pixelplus_get_updates",
+      "Bash(python scratch_analyze_queries.py)",
+      "Bash(python -c \"import openpyxl; print\\('ok'\\)\")",
+      "Bash(python -c \"import pandas; print\\('pandas ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(python scratch_positions_analysis.py)",
+      "Skill(loop)"
     ]
   },
   "hooks": {
