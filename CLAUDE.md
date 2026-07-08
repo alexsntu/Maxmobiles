@@ -14,6 +14,8 @@ This repo contains three independent parts:
    - `Переделать/` — product description pages queued for the "Golden Standard" rewrite (`seo-html-copywriting.mdc`)
    - `SEO-страницы/Быстрые ссылки/` — quick-links blocks, always separate files from the main SEO block (see `quick-links-seo-block.mdc`)
 
+Root-level `scratch_*` / `block_*` files (e.g. `scratch_analyze_queries.py`, `scratch_v2_chunk_*.json`) are working artifacts from one-off Wordstat/PixelPlus keyword-cleanup passes — not part of any application's architecture. Ignore them unless the task is explicitly about query-list maintenance.
+
 ---
 
 ## Telegram Auction Bot (`auction_bot/`)
