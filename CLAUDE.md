@@ -8,7 +8,11 @@ This repo contains three independent parts:
 
 1. **`auction_bot/`** — Python Telegram bot for English-style auctions (aiogram 3 + SQLite)
 2. **`vk_auction_bot/`** — Python VK bot with the same auction logic (vkbottle + SQLite)
-3. **HTML folders** (`SEO-страницы/`, `Акции/`, `Блог/`, `Категории магазина/`, `Записаться на ремонт/`, `Новые категории ремонта/`) — static HTML pages for a phone repair shop (Service MM / Maxmobiles)
+3. **HTML folders** (`SEO-страницы/`, `Акции/`, `Блог/`, `Категории магазина/`, `Категории сервиса/`, `Записаться на ремонт/`, `Новые категории ремонта/`, `Меню/`, `Страницы/`, `Переделать/`) — static HTML pages for a phone repair shop (Service MM / Maxmobiles)
+   - `Категории сервиса/` — repair-service hub pages (e.g. `remont-iphone-hub.html`, `remont-macbook-hub.html`)
+   - `Меню/` — desktop/mobile catalog navigation menu HTML+CSS
+   - `Переделать/` — product description pages queued for the "Golden Standard" rewrite (`seo-html-copywriting.mdc`)
+   - `SEO-страницы/Быстрые ссылки/` — quick-links blocks, always separate files from the main SEO block (see `quick-links-seo-block.mdc`)
 
 ---
 
@@ -181,6 +185,8 @@ Rules in `.cursor/rules/` are standards documents referenced by skills:
 - `seo--for-service-html-block.mdc` — structure standard for service/repair pages
 - `seo--meta-tags.mdc` — meta tag format standard (used by meta-builder)
 - `seo--for-blog-article-maxmobiles.mdc` — blog article standard
+- `seo-html-copywriting.mdc` — `alwaysApply: true` — "Golden Standard" for product description copywriting/markup (Apple-style tone, E-E-A-T structure, `<figure>`/LCP image rules, output as HTML code block only — not saved to file)
+- `quick-links-seo-block.mdc` — facet-navigation quick-links block standard: max 6 groups / 20 links, no `rel="nofollow"`, always a separate file in `SEO-страницы/Быстрые ссылки/`, never embedded in the main SEO block file
 - `save-output-to-file.mdc` — `alwaysApply: true` — always save to file
 - `service-price-table-block.mdc`, `service-banner-block.mdc`, etc. — component standards
 
