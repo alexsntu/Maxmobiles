@@ -56,7 +56,20 @@
       "Bash(mv \"SEO-страницы/Готовые/feny-dyson.html\" \"SEO-страницы/feny-dyson.html\")",
       "Bash(mv \"SEO-страницы/Готовые/feny-dyson-jsonld.html\" \"SEO-страницы/feny-dyson-jsonld.html\")",
       "Artifact",
-      "Read(//c/Users/Алекс/**)"
+      "Read(//c/Users/Алекс/**)",
+      "Read(//Users/a0000/.claude/**)",
+      "Read(//Users/a0000/**)",
+      "Bash(git status *)",
+      "Bash(git check-ignore *)",
+      "Bash(git ls-remote *)",
+      "Bash(git log *)",
+      "Bash(gh repo *)",
+      "Bash(git ls-tree *)",
+      "Bash(git fetch *)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(grep -o \"PIXELPLUS_API_TOKEN=..\\\\{0,6\\\\}\" \"/Users/a0000/Документы/Cursor/GOODMi/cscart-mcp-server/.env\")",
+      "mcp__pixelplus-mcp__pixelplus_get_positions"
     ]
   },
   "hooks": {
