@@ -55,7 +55,8 @@
       "Bash(grep -oE '.{0,3}[Фф]ен.{0,3}' /tmp/laifen.html)",
       "Bash(mv \"SEO-страницы/Готовые/feny-dyson.html\" \"SEO-страницы/feny-dyson.html\")",
       "Bash(mv \"SEO-страницы/Готовые/feny-dyson-jsonld.html\" \"SEO-страницы/feny-dyson-jsonld.html\")",
-      "Artifact"
+      "Artifact",
+      "Read(//c/Users/Алекс/**)"
     ]
   },
   "hooks": {
