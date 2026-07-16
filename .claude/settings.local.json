@@ -69,7 +69,8 @@
       "Bash(git pull *)",
       "Bash(git stash *)",
       "Bash(grep -o \"PIXELPLUS_API_TOKEN=..\\\\{0,6\\\\}\" \"/Users/a0000/Документы/Cursor/GOODMi/cscart-mcp-server/.env\")",
-      "mcp__pixelplus-mcp__pixelplus_get_positions"
+      "mcp__pixelplus-mcp__pixelplus_get_positions",
+      "Bash(git rev-list *)"
     ]
   },
   "hooks": {
