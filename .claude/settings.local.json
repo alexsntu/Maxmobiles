@@ -72,7 +72,8 @@
       "mcp__pixelplus-mcp__pixelplus_get_positions",
       "Bash(git rev-list *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(textutil *)"
     ]
   },
   "hooks": {
