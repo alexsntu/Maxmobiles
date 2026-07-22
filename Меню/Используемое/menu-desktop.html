@@ -5,6 +5,14 @@
    Шаг 1: корневые пункты верхней строки +
    адаптивное скрытие лишних пунктов за кнопкой
    "ещё" (три точки) при сужении окна.
+   Шаг 2: первая мега-панель (выпадающий список)
+   для пункта "iPhone" — открывается по hover/focus,
+   позиционируется от .mm-desktop-nav__inner (левый
+   край панели = левый край строки меню, как на
+   референсе), НЕ привязана к позиции самого пункта.
+   JS обобщён через [data-mega-trigger]/[data-mega-panel] —
+   следующие пункты (iPad, Mac...) добавляются тем же
+   способом без переписывания скрипта.
    CSS временно внутри блока, позже вынести в
    общий файл темы (maxmobiles-styles.css).
 
@@ -242,13 +250,149 @@
 .mm-desktop-nav__dropdown-link:hover {
   color: #568DFE;
 }
+
+/* ── Мега-панель (выпадающий список для пунктов с подкатегориями) ── */
+.mm-desktop-nav__inner {
+  position: relative;
+}
+
+/* Внешний слой — зона наведения, включает "пустой" зазор до панели
+   (padding-top), чтобы курсор не терял hover при переходе от пункта
+   меню к выпадающей панели. Видимую карточку рисует вложенный
+   .mm-desktop-mega__panel — так отступ остаётся наводимым, а не
+   мёртвой зоной. */
+.mm-desktop-mega {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 12px;
+  z-index: 60;
+}
+
+.mm-desktop-mega--open {
+  display: block;
+}
+
+.mm-desktop-mega__panel {
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+.mm-desktop-mega__col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 190px;
+}
+
+.mm-desktop-mega__group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mm-desktop-mega__heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-decoration: none;
+}
+
+/* Заголовок-ссылка (например «Аксессуары для iPhone») получает тот же
+   hover-эффект слайд-подчёркивания, что и обычные пункты ── */
+a.mm-desktop-mega__heading {
+  position: relative;
+}
+
+a.mm-desktop-mega__heading::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #568DFE;
+  transition: width 0.25s ease;
+}
+
+a.mm-desktop-mega__heading:hover {
+  color: #568DFE;
+}
+
+a.mm-desktop-mega__heading:hover::before {
+  width: 100%;
+}
+
+/* ── Пункт подменю: во всём выпадающем списке iPhone используется
+   тот же hover-эффект, что и у корневых пунктов верхней строки —
+   цветная полоска, выезжающая слева направо ── */
+.mm-desktop-mega__link {
+  position: relative;
+  font-size: 14px;
+  font-weight: 400;
+  color: #48484f;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mm-desktop-mega__link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #568DFE;
+  transition: width 0.25s ease;
+}
+
+.mm-desktop-mega__link:hover {
+  color: #568DFE;
+}
+
+.mm-desktop-mega__link:hover::before {
+  width: 100%;
+}
+
+/* Пункты без подменю (iPhone Air, iPhone 15, iPhone 13) — тот же
+   размер и жирность, что у заголовков групп («Объём памяти» и т.п.) */
+.mm-desktop-mega__link--root {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.mm-desktop-mega__promo {
+  display: flex;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.mm-desktop-mega__promo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mm-desktop-mega__promo img {
+  display: block;
+  width: 220px;
+  height: auto;
+  border-radius: 16px;
+}
 </style>
 
 <nav class="mm-desktop-nav" aria-label="Каталог">
   <div class="mm-desktop-nav__inner">
     <ul class="mm-desktop-nav__list" id="mmDesktopNavList">
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link mm-desktop-nav__link--highlight" href="https://maxmobiles.ru/aksessuary-ru/portativnye-elektrostancii/">Зарядные станции</a></li>
-      <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/iphone/">iPhone</a></li>
+      <li class="mm-desktop-nav__item" data-mega-trigger="iphone"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/iphone/">iPhone</a></li>
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/ipad/">iPad</a></li>
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/mac/">Mac</a></li>
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/apple-airpods/">AirPods</a></li>
@@ -264,6 +408,65 @@
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/gadzhety/">Мультимедиа и гаджеты</a></li>
       <li class="mm-desktop-nav__item"><a class="mm-desktop-nav__link" href="https://maxmobiles.ru/krasota-i-zdorove-ru/">Красота и здоровье</a></li>
     </ul>
+
+    <div class="mm-desktop-mega" id="mmMegaIphone" data-mega-panel="iphone" role="menu" aria-hidden="true">
+     <div class="mm-desktop-mega__panel">
+      <div class="mm-desktop-mega__col">
+        <a class="mm-desktop-mega__link mm-desktop-mega__link--root" href="https://maxmobiles.ru/iphone/iphone-air/">iPhone Air</a>
+        <div class="mm-desktop-mega__group">
+          <span class="mm-desktop-mega__heading">iPhone 17</span>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-17-pro-max/">iPhone 17 Pro Max</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-17-pro/">iPhone 17 Pro</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-17/">iPhone 17</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-17e/">iPhone 17e</a>
+        </div>
+        <div class="mm-desktop-mega__group">
+          <span class="mm-desktop-mega__heading">iPhone 16</span>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-16-pro-max/">iPhone 16 Pro Max</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-16-pro/">iPhone 16 Pro</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-16-plus/">iPhone 16 Plus</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-16/">iPhone 16</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-16e/">iPhone 16e</a>
+        </div>
+      </div>
+
+      <div class="mm-desktop-mega__col">
+        <a class="mm-desktop-mega__link mm-desktop-mega__link--root" href="https://maxmobiles.ru/iphone/iphone-15/">iPhone 15</a>
+        <a class="mm-desktop-mega__link mm-desktop-mega__link--root" href="https://maxmobiles.ru/iphone/iphone-13/">iPhone 13</a>
+        <div class="mm-desktop-mega__group">
+          <span class="mm-desktop-mega__heading">Объём памяти</span>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/2-tb/">iPhone 2048 Gb</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-1-tb/">iPhone 1024 Gb</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-512-gb/">iPhone 512 Gb</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-256-gb/">iPhone 256 Gb</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/iphone/iphone-128-gb/">iPhone 128 Gb</a>
+        </div>
+      </div>
+
+      <div class="mm-desktop-mega__col" style="min-width:230px;">
+        <div class="mm-desktop-mega__group">
+          <a class="mm-desktop-mega__heading" href="https://maxmobiles.ru/aksessuary-ru/aksessuary-dlya-iphone/">Аксессуары для iPhone</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/apple-airpods/">AirPods</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/chekhly-i-kejsy/chehly-i-keysy-dlya-iphone/">Чехлы для iPhone</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/zasshitnye-stekla/dlya-iphone/">Защитные стекла для iPhone</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/avtomobilnye-derzhateli/">Держатели для iPhone</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/zaryadnye-ustrojstva/besprovodnye-zaryadnye-ustrojstva/">Беспроводные зарядные устройства</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/zaryadnye-ustrojstva/setevye-zaryadnye-ustrojstva/">Сетевые зарядные устройства</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/vneschnie-akkumulyatory/">Внешние аккумуляторы</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/kabeli-dlya-apple/lightning/">Кабели Lightning</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/kabeli-dlya-apple/usb-c/">USB-C кабели</a>
+          <a class="mm-desktop-mega__link" href="https://maxmobiles.ru/aksessuary-ru/chekhly-i-kejsy/chehly-i-keysy-dlya-iphone/kartholdery/">Картхолдеры MagSafe</a>
+        </div>
+      </div>
+
+      <div class="mm-desktop-mega__promo">
+        <div class="mm-desktop-mega__promo-stack">
+          <a href="https://maxmobiles.ru/garantiya/"><img src="https://maxmobiles.ru/images/companies/1/Menu/Dekstop/warranty-mm.png" alt="Гарантия продавца — 24 месяца"></a>
+          <a href="https://maxmobiles.ru/oplata-i-dostavka/"><img src="https://maxmobiles.ru/images/companies/1/Menu/Dekstop/delivery-mm.png" alt="Бесплатная доставка по России"></a>
+        </div>
+      </div>
+     </div>
+    </div>
 
     <div class="mm-desktop-nav__more" id="mmNavMore">
       <button type="button" class="mm-desktop-nav__more-btn" id="mmNavMoreBtn" aria-haspopup="true" aria-expanded="false" aria-label="Ещё разделы каталога">
@@ -359,9 +562,56 @@
     if (moreBtn) moreBtn.setAttribute('aria-expanded', 'false');
   }
 
+  var megaCloseTimer;
+
+  function openMega(panel) {
+    clearTimeout(megaCloseTimer);
+    panel.classList.add('mm-desktop-mega--open');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMega(panel) {
+    panel.classList.remove('mm-desktop-mega--open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  function scheduleMegaClose(panel) {
+    clearTimeout(megaCloseTimer);
+    megaCloseTimer = setTimeout(function () { closeMega(panel); }, 150);
+  }
+
+  function initMega() {
+    var triggers = document.querySelectorAll('[data-mega-trigger]');
+    triggers.forEach(function (trigger) {
+      var key = trigger.getAttribute('data-mega-trigger');
+      var panel = document.querySelector('[data-mega-panel="' + key + '"]');
+      if (!panel) return;
+
+      trigger.addEventListener('mouseenter', function () { openMega(panel); });
+      trigger.addEventListener('mouseleave', function () { scheduleMegaClose(panel); });
+      panel.addEventListener('mouseenter', function () { clearTimeout(megaCloseTimer); });
+      panel.addEventListener('mouseleave', function () { scheduleMegaClose(panel); });
+
+      trigger.addEventListener('focusin', function () { openMega(panel); });
+      trigger.addEventListener('focusout', function (e) {
+        if (!trigger.contains(e.relatedTarget) && !panel.contains(e.relatedTarget)) scheduleMegaClose(panel);
+      });
+      panel.addEventListener('focusout', function (e) {
+        if (!trigger.contains(e.relatedTarget) && !panel.contains(e.relatedTarget)) scheduleMegaClose(panel);
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('.mm-desktop-mega--open').forEach(closeMega);
+    });
+  }
+
   function init() {
     var moreBtn = document.getElementById('mmNavMoreBtn');
     if (moreBtn) moreBtn.addEventListener('click', toggleDropdown);
+
+    initMega();
 
     document.addEventListener('click', function (e) {
       var moreItem = document.getElementById('mmNavMore');

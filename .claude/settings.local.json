@@ -82,7 +82,8 @@
       "Bash(awk 'NR==649{print length\\($0\\)}' \"/c/Users/Алекс/Downloads/Apple iPhone купить в iPort_ цена на Айфоны в Санкт-Петербурге.html\")",
       "Bash(grep -i \"\\\\.css$\")",
       "Bash(awk 'NR==4135{print length\\($0\\)}' '/c/Users/Алекс/Downloads/iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html')",
-      "Bash(awk 'NR>=4120 && NR<=4136{print NR\": \"length\\($0\\)\" chars\"}' '/c/Users/Алекс/Downloads/iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html')"
+      "Bash(awk 'NR>=4120 && NR<=4136{print NR\": \"length\\($0\\)\" chars\"}' '/c/Users/Алекс/Downloads/iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html')",
+      "Bash(pkill -f \"http.server 8934\")"
     ]
   },
   "hooks": {
