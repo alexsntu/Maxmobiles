@@ -1,0 +1,205 @@
+{literal}
+<style>
+/* --- Apple Footer Contacts (No Copyright + Fixes) --- */
+:root {
+    --apple-text-main: #1d1d1f;
+    --apple-text-gray: #86868b;
+    --apple-blue: #0071e3;
+    --apple-transition: all 0.3s ease;
+}
+
+.apple-footer-contacts {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
+    /* Убрали отступ сверху, чтобы подтянуть к заголовку */
+    padding: 0 0 20px 0;
+    max-width: 100%;
+}
+
+/* 1. Контакты */
+.footer-contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 5px;
+    margin-top: 0 !important;
+}
+
+.footer-phone {
+    /* !important нужен, чтобы перебить стили темы CS-Cart */
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: var(--apple-text-main) !important;
+    text-decoration: none !important;
+    letter-spacing: -0.01em;
+    transition: var(--apple-transition);
+    line-height: 1.1 !important;
+    display: block;
+    margin-top: 0 !important;
+    margin-bottom: 2px !important;
+}
+.footer-phone:hover {
+    color: var(--apple-blue) !important;
+    opacity: 0.8;
+}
+
+.footer-hours {
+    font-size: 13px;
+    color: var(--apple-text-gray);
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.footer-email {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--apple-blue);
+    text-decoration: none;
+    transition: var(--apple-transition);
+}
+.footer-email:hover {
+    text-decoration: underline;
+}
+
+/* 2. Логотип */
+.footer-logo-wrapper {
+    margin-bottom: 5px;
+    width: 100%;
+}
+.footer-logo-img {
+    height: auto;
+    width: 220px;
+    max-width: 100%;
+    display: block;
+}
+
+/* 3. Соцсети */
+.footer-socials {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.social-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: #f0f0f2;
+    border-radius: 50%;
+    color: #1d1d1f;
+    transition: var(--apple-transition);
+    border: none;
+    text-decoration: none !important;
+}
+
+.social-icon-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* СПЕЦИАЛЬНЫЙ РАЗМЕР ДЛЯ VK */
+.social-icon-link.vk svg {
+    width: 40px;
+    height: 40px;
+    margin-top: 1px;
+}
+
+/* Hover эффекты */
+.social-icon-link.vk:hover { background-color: #0077FF; color: white; }
+.social-icon-link.tg:hover { background-color: #24A1DE; color: white; }
+.social-icon-link.zen:hover { background-color: #000000; color: white; }
+
+.social-icon-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 4. Ссылки */
+.footer-legal-links {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-legal-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+.footer-legal-item::before { display: none !important; }
+
+.footer-legal-item a {
+    font-size: 13px;
+    color: var(--apple-text-gray);
+    text-decoration: none;
+    transition: var(--apple-transition);
+    line-height: 1.4;
+    display: inline-block;
+}
+
+.footer-legal-item a:hover {
+    color: var(--apple-blue);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .apple-footer-contacts { padding-left: 5px; }
+    .footer-logo-img { width: 200px; }
+    /* На мобильном чуть меньше, чтобы не ломать верстку */
+    .footer-phone { font-size: 28px !important; }
+}
+</style>
+{/literal}
+
+<div class="apple-footer-contacts">
+
+    <!-- 1. Контакты -->
+    <div class="footer-contact-block">
+        <a href="tel:+78002508158" class="footer-phone">8 (800) 250-81-58</a>
+        <div class="footer-hours">ежедневно с 10:00 до 20:00</div>
+        <a href="mailto:store@maxmobiles.ru" class="footer-email">store@maxmobiles.ru</a>
+    </div>
+
+    <!-- 2. Логотип -->
+    <div class="footer-logo-wrapper">
+        <img src="https://maxmobiles.ru/images/logos/73/logo__.svg" alt="Maxmobiles" class="footer-logo-img">
+    </div>
+
+    <!-- 3. Соцсети -->
+    <div class="footer-socials">
+        <!-- VK -->
+        <a href="https://vk.com/maxmobiles" target="_blank" class="social-icon-link vk" aria-label="VK">
+            <svg viewBox="0 0 20 20">
+                <path d="M13.692 11.231s.849.838 1.058 1.227c.006.008.009.016.011.02.085.143.105.254.063.337-.07.138-.31.206-.392.212h-1.5c-.104 0-.322-.027-.586-.209-.203-.142-.403-.375-.598-.602-.291-.338-.543-.63-.797-.63a.305.305 0 0 0-.095.015c-.192.062-.438.336-.438 1.066 0 .228-.18.359-.307.359h-.687c-.234 0-1.453-.082-2.533-1.221-1.322-1.395-2.512-4.193-2.522-4.219-.075-.181.08-.278.249-.278h1.515c.202 0 .268.123.314.232.054.127.252.632.577 1.2.527.926.85 1.302 1.109 1.302a.3.3 0 0 0 .139-.036c.338-.188.275-1.393.26-1.643 0-.047-.001-.539-.174-.775-.124-.171-.335-.236-.463-.26a.55.55 0 0 1 .199-.169c.232-.116.65-.133 1.065-.133h.231c.45.006.566.035.729.076.33.079.337.292.308 1.021-.009.207-.018.441-.018.717 0 .06-.003.124-.003.192-.01.371-.022.792.24.965a.216.216 0 0 0 .114.033c.091 0 .365 0 1.107-1.273a9.718 9.718 0 0 0 .595-1.274c.015-.026.059-.106.111-.137a.266.266 0 0 1 .124-.029h1.781c.194 0 .327.029.352.104.044.119-.008.482-.821 1.583l-.363.479c-.737.966-.737 1.015.046 1.748z" fill="currentColor"/>
+            </svg>
+        </a>
+
+        <!-- Telegram -->
+        <a href="https://t.me/+T8jPTYFzOpC7lwG9" target="_blank" class="social-icon-link tg" aria-label="Telegram">
+             <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.866-.424-.752-.224-1.349-.343-1.298-.724.027-.201.303-.406.832-.615 3.268-1.42 5.454-2.356 6.556-2.808 3.116-1.278 3.763-1.501 4.184-1.507.094.008.31.025.438.084l.359.133z" fill="currentColor"/></svg>
+        </a>
+
+        <!-- Yandex Zen -->
+        <a href="https://u.to/tZhKIg" target="_blank" class="social-icon-link zen" aria-label="Zen">
+            <svg viewBox="0 0 24 24"><path d="M12 2.5c0 5.247 4.253 9.5 9.5 9.5-5.247 0-9.5 4.253-9.5 9.5 0-5.247-4.253-9.5-9.5-9.5 5.247 0 9.5-4.253 9.5-9.5z" fill="currentColor"/></svg>
+        </a>
+    </div>
+
+    <!-- 4. Ссылки -->
+    <ul class="footer-legal-links">
+        <li class="footer-legal-item"><a href="https://maxmobiles.ru/oferta-ru/">Оферта</a></li>
+        <li class="footer-legal-item"><a href="https://maxmobiles.ru/politika-konfidencialnosti/">Политика конфиденциальности</a></li>
+        <li class="footer-legal-item"><a href="https://maxmobiles.ru/images/companies/1/PDF/soglasie_Maxmobiles.pdf">Согласие на обработку персональных данных</a></li>
+    </ul>
+</div>

@@ -1,0 +1,121 @@
+{literal}
+<style>
+/* --- Apple Footer Menu (Blue Hover Effect + анимированная подчёркивающая полоска) --- */
+.apple-footer-menu {
+    --apple-text-link: #424245; /* Темно-серый (обычное состояние) */
+    --apple-blue: #568DFE;      /* Синий, как в шапке сайта — единый дизайн hover-эффектов */
+    --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.apple-footer-menu {
+    font-family: var(--apple-font);
+    text-align: left;
+    padding: 0;
+    width: 100%;
+}
+
+/* Список */
+.apple-menu-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.apple-menu-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+.apple-menu-item::before { display: none !important; }
+
+/* Ссылки */
+.apple-menu-item a {
+    position: relative;
+    font-size: 13px;
+    color: var(--apple-text-link) !important; /* Цвет по умолчанию */
+    text-decoration: none !important;
+    transition: color 0.2s ease-in-out; /* Плавное изменение цвета */
+    display: inline-block;
+    line-height: 1.3;
+}
+
+/* Подчёркивание "выезжает" слева направо при наведении — как в шапке сайта */
+.apple-menu-item a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background: var(--apple-blue);
+    transition: width 0.25s ease;
+}
+
+/* Эффект при наведении - СИНИЙ */
+.apple-menu-item a:hover {
+    color: var(--apple-blue) !important; /* Становится синим */
+    text-decoration: none !important;
+}
+
+.apple-menu-item a:hover::before {
+    width: 100%;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .apple-footer-menu {
+        padding: 5px 0;
+    }
+
+    .apple-menu-item a {
+        font-size: 14px;
+        padding: 4px 0;
+        display: block;
+    }
+}
+</style>
+{/literal}
+
+<div class="apple-footer-menu">
+    <ul class="apple-menu-list">
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/o-nas/">О нас</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/promotions/">Акции и скидки</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/blog/">Наш блог</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/bonusnaya-programma-ru/">Бонусная программа</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/kredit/">Кредит</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/apple-trade-in/">Трейд-ин</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/oplata-i-dostavka/">Оплата и доставка</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/garantiya/">Гарантия</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/vozvrat/">Возврат</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/otzyvy/">Отзывы</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/kak-ostavit-otzyv-o-nas-ru/">Как оставить отзыв</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/kontakty-ru/">Контакты</a>
+        </li>
+    </ul>
+</div>

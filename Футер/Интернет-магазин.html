@@ -1,0 +1,101 @@
+{literal}
+<style>
+/* --- Apple Footer Menu (Catalog Block) --- */
+:root {
+    --apple-text-link: #424245; /* Темно-серый */
+    --apple-blue: #0071e3;      /* Фирменный синий */
+    --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.apple-footer-menu {
+    font-family: var(--apple-font);
+    text-align: left;
+    padding: 0;
+    width: 100%;
+}
+
+/* Список */
+.apple-menu-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.apple-menu-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+.apple-menu-item::before { display: none !important; }
+
+/* Ссылки */
+.apple-menu-item a {
+    font-size: 13px;
+    color: var(--apple-text-link) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease-in-out;
+    display: inline-block;
+    line-height: 1.3;
+}
+
+/* Эффект при наведении - СИНИЙ */
+.apple-menu-item a:hover {
+    color: var(--apple-blue) !important;
+    text-decoration: none !important;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .apple-footer-menu {
+        padding: 5px 0;
+    }
+
+    .apple-menu-item a {
+        font-size: 14px;
+        padding: 4px 0;
+        display: block;
+    }
+}
+</style>
+{/literal}
+
+<div class="apple-footer-menu">
+    <ul class="apple-menu-list">
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/apple-idealnoe-bu/">Идеальное БУ</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/iphone/">iPhone</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/apple-watch/">Watch</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/apple-airpods/">AirPods</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/mac/">Mac</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/ipad/">iPad</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/vse-dlya-igr/">Все для игр</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/krasota-i-zdorove-ru/dyson/">Dyson</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/gadzhety/">Гаджеты</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/aksessuary-ru/">Аксессуары</a>
+        </li>
+        <li class="apple-menu-item">
+            <a href="https://maxmobiles.ru/sitemap/">Карта сайта</a>
+        </li>
+    </ul>
+</div>
