@@ -1273,7 +1273,7 @@
   align-self: center;
 }
 .mm-nav-item--cat {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   padding: 10px 0;
   border-bottom: 1px solid #f2f2f7;
@@ -1321,7 +1321,7 @@
 .mm-nav-l3-item {
   display: block;
   padding: 14px 20px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: #1d1d1f !important;
   text-decoration: none !important;
@@ -1340,7 +1340,7 @@
   align-items: center;
   width: 100%;
   padding: 14px 20px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: #1d1d1f;
   background: none;
@@ -1390,7 +1390,7 @@
 .mm-nav-level4 a.mm-nav-l3-item {
   display: block;
   padding: 14px 20px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: #1d1d1f !important;
   text-decoration: none !important;
