@@ -87,7 +87,16 @@
       "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Алекс\\\\Downloads\\\\2iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html'\\).Length\")",
       "Bash(grep -o \".\\\\{0,60\\\\}ut2-menu__2nd-link__name.\\\\{0,200\\\\}\" /tmp/live_standalone.css)",
       "Bash(grep -o \".\\\\{0,60\\\\}ut2-menu__3rd-link__name.\\\\{0,200\\\\}\" /tmp/live_standalone.css)",
-      "Bash(grep -bo \"[^}]\\\\{0,10\\\\}2nd-link__name[^{]*{[^}]*}\" /tmp/live_standalone.css)"
+      "Bash(grep -bo \"[^}]\\\\{0,10\\\\}2nd-link__name[^{]*{[^}]*}\" /tmp/live_standalone.css)",
+      "Bash(grep -i \"\\\\.env$\")",
+      "Bash(grep -iE \"\\\\.env$|credentials|secret\")",
+      "Bash(grep -iE \"\\\\.env|\\\\.db$|\\\\.sqlite|credentials|secret|\\\\.pem$|\\\\.key$|id_rsa\")",
+      "Bash(git show *)",
+      "Bash(rm -f auction_check_tmp.db)",
+      "Bash(xargs grep -ln \"execute\")",
+      "Bash(grep -iE \"\\\\.db$|\\\\.sqlite\")",
+      "Bash(grep -iE \"\\\\.bak$|\\\\.old$|backup\")",
+      "Bash(git rm *)"
     ]
   },
   "hooks": {
