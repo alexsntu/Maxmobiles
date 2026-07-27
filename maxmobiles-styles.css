@@ -1048,6 +1048,13 @@
 /* ================================================================
    Mobile nav menu (menu-mobile-no-comments-no-css.html)
    ================================================================ */
+.mm-nav-content,
+.mm-nav-content *,
+.mm-nav-sub,
+.mm-nav-sub * {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", Arial, sans-serif !important;
+}
 .mm-nav-content *,
 .mm-nav-content *::before,
 .mm-nav-content *::after,
