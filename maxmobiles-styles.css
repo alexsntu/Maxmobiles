@@ -1862,6 +1862,7 @@ a.mm-desktop-mega__heading:hover::before {
 .ut2-menu__3rd-link__name {
   position: relative;
   display: inline-block;
+  padding-bottom: 4px;
 }
 
 .ut2-menu__link__name::after,
@@ -1870,7 +1871,7 @@ a.mm-desktop-mega__heading:hover::before {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -4px;
+  bottom: 0;
   width: 0%;
   height: 2px;
   background: #568DFE;
@@ -1887,4 +1888,13 @@ a.mm-desktop-mega__heading:hover::before {
 .ut2-menu__2nd-link:hover .ut2-menu__2nd-link__name::after,
 .ut2-menu__3rd-link:hover .ut2-menu__3rd-link__name::after {
   width: 100%;
+}
+
+/* Убираем нативное подчёркивание темы (text-decoration:underline,
+   светло-серое) на hover 2/3 уровня — у нас своя полоска через ::after */
+.ut2-menu .ut2-menu__2nd-link:hover .ut2-menu__2nd-link__name,
+.ut2-menu .ut2-menu__2nd-link:hover .ut2-menu__3rd-link__name,
+.ut2-menu .ut2-menu__3rd-link:hover .ut2-menu__2nd-link__name,
+.ut2-menu .ut2-menu__3rd-link:hover .ut2-menu__3rd-link__name {
+  text-decoration: none !important;
 }
