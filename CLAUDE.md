@@ -10,7 +10,7 @@ This repo contains three independent parts:
 2. **`vk_auction_bot/`** — Python VK bot with the same auction logic (vkbottle + SQLite)
 3. **HTML folders** (`SEO-страницы/`, `Акции/`, `Блог/`, `Категории магазина/`, `Категории сервиса/`, `Записаться на ремонт/`, `Новые категории ремонта/`, `Меню/`, `Страницы/`, `Переделать/`) — static HTML pages for a phone repair shop (Service MM / Maxmobiles)
    - `Категории сервиса/` — repair-service hub pages (e.g. `remont-iphone-hub.html`, `remont-macbook-hub.html`)
-   - `Меню/` — desktop/mobile catalog navigation menu HTML+CSS
+   - `Меню/` — desktop/mobile catalog navigation menu HTML+CSS. `Меню/Используемое/menu-desktop.html` (own inline `<style>`, kept as reference/rollback) and `menu-desktop-no-css.html` (identical markup+JS, styles pulled from `maxmobiles-styles.css`) are two parallel copies of the same desktop mega-menu — edit CSS in the shared file, HTML/JS in either (keep both in sync)
    - `Переделать/` — product description pages queued for the "Golden Standard" rewrite (`seo-html-copywriting.mdc`)
    - `SEO-страницы/Быстрые ссылки/` — quick-links blocks, always separate files from the main SEO block (see `quick-links-seo-block.mdc`)
 
@@ -150,6 +150,15 @@ Two-block split is the core SEO architecture:
 All styles scoped to `.mm-block`. Classes are whitelisted in `maxmobiles-styles.css` — use only registered classes. Key namespaces: `mm-block`, `mm-intro`, `mm-trust-strip`, `mm-services-grid`, `mm-service-card`, `mm-advantages-list`, `mm-faq`, `mm-cta`, `mm-collapse-*`.
 
 Allowed text entities in prose (not as icons): `&#8212;` (—), `&#8594;` (→), `&#8243;` (″), `&#183;` (·), `&#8381;` (₽), `&#x7C;` (|).
+
+### Menu hover pattern (blue highlight + slide-in underline)
+
+Standard hover treatment across all catalog menus — color `#568DFE`, a 2px bar sliding in under the text:
+
+- **Custom menu blocks with real `<style>` access** (`Меню/Используемое/menu-desktop*.html`, native CS-Cart catalog dropdown via `maxmobiles-styles.css`): plain CSS — `position:relative` on the text element, `::after` bar `width:0% → 100%` on `:hover`, transition on `width`.
+- **Wysiwyg/Layout blocks where `<style>` is stripped** (`menu--aks-*.html`, `menu-aksessuary.html`, product/accessory tile menus): no `:hover`/`::after` available, so the effect is done with `background-image` (linear-gradient trick, `background-size:0% 2px → 100% 2px`) plus a JS `mouseenter`/`mouseleave` listener on `[data-hover-underline]` — see [[feedback_inline_css_new_components]] pattern, same inline-only constraint applies.
+- **CS-Cart theme gotcha**: native menu wrappers (e.g. `.ut2-menu__3rd-link__text`) often have `overflow: clip`. A bar positioned at `bottom: -4px` (outside the text element's own box) gets clipped invisibly. Fix: add `padding-bottom` to the text element and position the bar at `bottom: 0` (inside its own box) instead of a negative offset.
+- Native CS-Cart menu classes (`.ut2-menu__link`, `.ut2-menu__2nd-link`, `.ut2-menu__3rd-link`, `.ty-dropdown-box__title`) also carry a default gray `text-decoration: underline` on hover from the theme — override with `text-decoration: none !important` alongside the custom bar.
 
 ### File output rule
 
