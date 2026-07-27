@@ -83,7 +83,11 @@
       "Bash(grep -i \"\\\\.css$\")",
       "Bash(awk 'NR==4135{print length\\($0\\)}' '/c/Users/Алекс/Downloads/iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html')",
       "Bash(awk 'NR>=4120 && NR<=4136{print NR\": \"length\\($0\\)\" chars\"}' '/c/Users/Алекс/Downloads/iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html')",
-      "Bash(pkill -f \"http.server 8934\")"
+      "Bash(pkill -f \"http.server 8934\")",
+      "Bash(powershell -c \"\\(Get-Item 'C:\\\\Users\\\\Алекс\\\\Downloads\\\\2iPhone, MacBook, Watch и другую технику Apple купить в Севастополе - Maxmobiles.html'\\).Length\")",
+      "Bash(grep -o \".\\\\{0,60\\\\}ut2-menu__2nd-link__name.\\\\{0,200\\\\}\" /tmp/live_standalone.css)",
+      "Bash(grep -o \".\\\\{0,60\\\\}ut2-menu__3rd-link__name.\\\\{0,200\\\\}\" /tmp/live_standalone.css)",
+      "Bash(grep -bo \"[^}]\\\\{0,10\\\\}2nd-link__name[^{]*{[^}]*}\" /tmp/live_standalone.css)"
     ]
   },
   "hooks": {

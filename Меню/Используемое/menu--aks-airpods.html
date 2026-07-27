@@ -7,7 +7,7 @@
         <span style="display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1/1;background:#F5F5F7;border-radius:20px;overflow:hidden;margin-bottom:12px;">
           <img src="https://maxmobiles.ru/images/companies/1/Menu/Acsesories/999-case-airpods.png" alt="Чехлы для AirPods" style="width:70%;height:70%;object-fit:contain;display:block;" fetchpriority="high">
         </span>
-        <span style="display:block;text-align:center;font-size:18px;color:#1d1d1f;">Чехлы для AirPods</span>
+        <span data-hover-underline style="display:block;text-align:center;font-size:18px;color:#1d1d1f;background-image:linear-gradient(#568DFE,#568DFE);background-position:50% 100%;background-repeat:no-repeat;background-size:0% 2px;transition:background-size 0.25s ease, color 0.2s ease;">Чехлы для AirPods</span>
       </a>
     </article>
     <article role="listitem">
@@ -15,7 +15,7 @@
         <span style="display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1/1;background:#F5F5F7;border-radius:20px;overflow:hidden;margin-bottom:12px;">
           <img src="https://maxmobiles.ru/images/companies/1/Menu/Acsesories/55-wierless.png" alt="Беспроводные зарядные устройства" style="width:70%;height:70%;object-fit:contain;display:block;" loading="lazy">
         </span>
-        <span style="display:block;text-align:center;font-size:18px;color:#1d1d1f;">Беспроводные зарядные устройства</span>
+        <span data-hover-underline style="display:block;text-align:center;font-size:18px;color:#1d1d1f;background-image:linear-gradient(#568DFE,#568DFE);background-position:50% 100%;background-repeat:no-repeat;background-size:0% 2px;transition:background-size 0.25s ease, color 0.2s ease;">Беспроводные зарядные устройства</span>
       </a>
     </article>
     <article role="listitem">
@@ -23,7 +23,7 @@
         <span style="display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1/1;background:#F5F5F7;border-radius:20px;overflow:hidden;margin-bottom:12px;">
           <img src="https://maxmobiles.ru/images/companies/1/Menu/Acsesories/77-kabel.png" alt="Кабели" style="width:70%;height:70%;object-fit:contain;display:block;" loading="lazy">
         </span>
-        <span style="display:block;text-align:center;font-size:18px;color:#1d1d1f;">Кабели</span>
+        <span data-hover-underline style="display:block;text-align:center;font-size:18px;color:#1d1d1f;background-image:linear-gradient(#568DFE,#568DFE);background-position:50% 100%;background-repeat:no-repeat;background-size:0% 2px;transition:background-size 0.25s ease, color 0.2s ease;">Кабели</span>
       </a>
     </article>
   </div>
@@ -59,6 +59,25 @@
       el.addEventListener('mouseenter', function () { el.style.top = '-6px'; });
       el.addEventListener('mouseleave', function () { el.style.top = '0'; });
     })(links[i]);
+  }
+})();
+</script>
+
+<script>
+(function () {
+  var underlineEls = document.querySelectorAll('[data-hover-underline]');
+  for (var i = 0; i < underlineEls.length; i++) {
+    (function (el) {
+      var grow = el.tagName === 'A' ? '100% 2px' : '60% 2px';
+      el.addEventListener('mouseenter', function () {
+        el.style.backgroundSize = grow;
+        el.style.color = '#568DFE';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.style.backgroundSize = '0% 2px';
+        el.style.color = '#1d1d1f';
+      });
+    })(underlineEls[i]);
   }
 })();
 </script>
