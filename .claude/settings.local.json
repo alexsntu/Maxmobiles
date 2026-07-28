@@ -98,7 +98,8 @@
       "Bash(grep -iE \"\\\\.bak$|\\\\.old$|backup\")",
       "Bash(git rm *)",
       "Bash(grep *)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(cd c:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\Используемое *)"
     ]
   },
   "hooks": {
