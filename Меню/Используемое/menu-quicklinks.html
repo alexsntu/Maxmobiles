@@ -1,0 +1,150 @@
+<nav class="mm-quicklinks-nav" aria-label="Быстрые ссылки">
+  <div class="mm-quicklinks-nav__inner">
+    <ul class="mm-quicklinks-nav__list" id="mmQuicklinksNavList">
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/servis-apple/">Сервис</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/blog/">Статьи и блоги</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/promotions/">Акции и скидки</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/o-nas/">О нас</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/kontakty-ru/">Контакты</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/oplata-i-dostavka/">Доставка и оплата</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/kredit/">Кредит</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/apple-trade-in/">Трейд-ин</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/chavo/">ЧаВо</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/otzyvy/">Отзывы</a></li>
+      <li class="mm-quicklinks-nav__item"><a class="mm-quicklinks-nav__link" href="https://maxmobiles.ru/kak-ostavit-otzyv-o-nas-ru/">Как оставить отзыв</a></li>
+    </ul>
+
+    <div class="mm-quicklinks-nav__more" id="mmQuicklinksNavMore">
+      <button type="button" class="mm-quicklinks-nav__more-btn" id="mmQuicklinksNavMoreBtn" aria-haspopup="true" aria-expanded="false" aria-label="Ещё быстрые ссылки">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="4" cy="10" r="1.8" fill="currentColor"/>
+          <circle cx="10" cy="10" r="1.8" fill="currentColor"/>
+          <circle cx="16" cy="10" r="1.8" fill="currentColor"/>
+        </svg>
+      </button>
+      <div class="mm-quicklinks-nav__dropdown" id="mmQuicklinksNavDropdown" role="menu">
+        <ul class="mm-quicklinks-nav__dropdown-list" id="mmQuicklinksNavDropdownList"></ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+(function () {
+  var GAP = 32;
+
+  function recalc() {
+    var list = document.getElementById('mmQuicklinksNavList');
+    var moreItem = document.getElementById('mmQuicklinksNavMore');
+    var moreBtn = document.getElementById('mmQuicklinksNavMoreBtn');
+    var dropdown = document.getElementById('mmQuicklinksNavDropdown');
+    var dropdownList = document.getElementById('mmQuicklinksNavDropdownList');
+    if (!list || !moreItem) return;
+
+    var items = Array.prototype.slice.call(list.children);
+
+    // Сброс перед пересчётом
+    items.forEach(function (el) { el.style.display = ''; });
+    moreItem.style.display = 'none';
+    moreBtn.setAttribute('aria-expanded', 'false');
+    dropdown.classList.remove('mm-quicklinks-nav__dropdown--open');
+    dropdownList.innerHTML = '';
+
+    // Считаем доступное место от реального края окна, а не от
+    // собственной ширины списка: блок сидит в слоте top-links-grid
+    // темы CS-Cart, у которого на ≤1024px display:contents отключается
+    // и сжатие через flex-shrink предков перестаёт быть надёжным —
+    // list.clientWidth в этом случае просто равен ширине контента и
+    // переполнение никогда не обнаруживается.
+    var listRect = list.getBoundingClientRect();
+    var viewportAvailable = window.innerWidth - listRect.left - 16;
+
+    if (list.scrollWidth <= viewportAvailable) {
+      return;
+    }
+
+    moreItem.style.display = 'flex';
+    var moreBtnWidth = moreItem.getBoundingClientRect().width || 40;
+    var innerGap = 16; // gap между .mm-quicklinks-nav__list и .mm-quicklinks-nav__more
+    var available = viewportAvailable - moreBtnWidth - innerGap;
+
+    var used = 0;
+    var visibleCount = 0;
+    for (var i = 0; i < items.length; i++) {
+      var w = items[i].getBoundingClientRect().width;
+      var next = used + (visibleCount > 0 ? GAP : 0) + w;
+      if (next > available) break;
+      used = next;
+      visibleCount++;
+    }
+
+    var fragment = document.createDocumentFragment();
+    for (var j = visibleCount; j < items.length; j++) {
+      items[j].style.display = 'none';
+      var link = items[j].querySelector('a');
+      if (link) {
+        var li = document.createElement('li');
+        var a = link.cloneNode(true);
+        a.className = 'mm-quicklinks-nav__dropdown-link';
+        li.appendChild(a);
+        fragment.appendChild(li);
+      }
+    }
+    dropdownList.appendChild(fragment);
+  }
+
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    var dropdown = document.getElementById('mmQuicklinksNavDropdown');
+    var moreBtn = document.getElementById('mmQuicklinksNavMoreBtn');
+    var isOpen = dropdown.classList.toggle('mm-quicklinks-nav__dropdown--open');
+    moreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
+  function closeDropdown() {
+    var dropdown = document.getElementById('mmQuicklinksNavDropdown');
+    var moreBtn = document.getElementById('mmQuicklinksNavMoreBtn');
+    if (dropdown) dropdown.classList.remove('mm-quicklinks-nav__dropdown--open');
+    if (moreBtn) moreBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function init() {
+    var moreBtn = document.getElementById('mmQuicklinksNavMoreBtn');
+    if (moreBtn) moreBtn.addEventListener('click', toggleDropdown);
+
+    document.addEventListener('click', function (e) {
+      var moreItem = document.getElementById('mmQuicklinksNavMore');
+      if (moreItem && !moreItem.contains(e.target)) closeDropdown();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDropdown();
+    });
+
+    var resizeTimer;
+    var scheduleRecalc = function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(recalc, 120);
+    };
+
+    window.addEventListener('resize', scheduleRecalc);
+
+    if (window.ResizeObserver) {
+      var nav = document.querySelector('.mm-quicklinks-nav');
+      if (nav) new ResizeObserver(scheduleRecalc).observe(nav);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(recalc);
+    }
+
+    recalc();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

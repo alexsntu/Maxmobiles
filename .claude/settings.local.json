@@ -97,7 +97,8 @@
       "Bash(grep -iE \"\\\\.db$|\\\\.sqlite\")",
       "Bash(grep -iE \"\\\\.bak$|\\\\.old$|backup\")",
       "Bash(git rm *)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Bash(git *)"
     ]
   },
   "hooks": {

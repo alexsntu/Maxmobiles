@@ -1493,7 +1493,7 @@
   display: inline-flex;
   align-items: center;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   letter-spacing: -0.12px;
   line-height: 22px;
@@ -1659,7 +1659,7 @@
   padding: 8px 4px;
   border-radius: 10px;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   text-decoration: none;
   transition: color 0.15s ease;
@@ -1718,7 +1718,7 @@
 }
 
 .mm-desktop-mega__heading {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.12px;
   color: #1d1d1f;
@@ -1757,7 +1757,7 @@ a.mm-desktop-mega__heading:hover::before {
    цветная полоска, выезжающая слева направо ── */
 .mm-desktop-mega__link {
   position: relative;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   letter-spacing: -0.08px;
   color: #48484f;
@@ -1789,7 +1789,7 @@ a.mm-desktop-mega__heading:hover::before {
 /* Пункты без подменю (iPhone Air, iPhone 15, iPhone 13) — тот же
    размер и жирность, что у заголовков групп («Объём памяти» и т.п.) */
 .mm-desktop-mega__link--root {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.12px;
   color: #1d1d1f;
@@ -1897,4 +1897,154 @@ a.mm-desktop-mega__heading:hover::before {
 .ut2-menu .ut2-menu__3rd-link:hover .ut2-menu__2nd-link__name,
 .ut2-menu .ut2-menu__3rd-link:hover .ut2-menu__3rd-link__name {
   text-decoration: none !important;
+}
+
+/* ==========================================
+   Меню быстрых ссылок в самом верху хедера
+   (menu-quicklinks.html). Фон наследуется от
+   родителя, поэтому текст светлый (как на тёмной
+   плашке каталог-меню). Тот же приём hover, что
+   и в .mm-desktop-nav__link — синяя полоска
+   0% → 100% под текстом.
+   ========================================== */
+.mm-quicklinks-nav {
+  width: 100%;
+  min-width: 0;
+}
+
+.mm-quicklinks-nav,
+.mm-quicklinks-nav * {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.mm-quicklinks-nav__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.mm-quicklinks-nav__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 32px;
+  list-style: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.mm-quicklinks-nav__item {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.mm-quicklinks-nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.12px;
+  line-height: 22px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mm-quicklinks-nav__link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #568DFE;
+  transition: width 0.25s ease;
+}
+
+.mm-quicklinks-nav__link:hover {
+  color: #568DFE;
+}
+
+.mm-quicklinks-nav__link:hover::before {
+  width: 100%;
+}
+
+/* ── Кнопка "ещё" (три точки) ── */
+.mm-quicklinks-nav__more {
+  position: relative;
+  display: none;
+  flex-shrink: 0;
+}
+
+.mm-quicklinks-nav__more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mm-quicklinks-nav__more-btn:hover,
+.mm-quicklinks-nav__more-btn[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.16);
+  color: #568DFE;
+}
+
+/* ── Дроп-даун с оставшимися пунктами ── */
+.mm-quicklinks-nav__dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 220px;
+  background: #292424;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  padding: 16px 20px;
+  z-index: 50;
+}
+
+.mm-quicklinks-nav__dropdown--open {
+  display: block;
+}
+
+.mm-quicklinks-nav__dropdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mm-quicklinks-nav__dropdown-link {
+  display: block;
+  padding: 8px 4px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.mm-quicklinks-nav__dropdown-link:hover {
+  color: #568DFE;
 }
