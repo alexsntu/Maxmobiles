@@ -4,7 +4,6 @@
       "WebFetch",
       "WebSearch",
       "PowerShell",
-      "Write(SEO-страницы/**)",
       "Edit(SEO-страницы/**)",
       "Bash(curl -s \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\")",
       "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://irepair.ru/catalog/remont-macbook/macbook-12/remont-macbook-12/zamena-akkumulyatora-8309/\" -o /tmp/page.html)",
@@ -99,7 +98,8 @@
       "Bash(git rm *)",
       "Bash(grep *)",
       "Bash(git *)",
-      "Bash(cd c:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\Используемое *)"
+      "Bash(cd c:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\Используемое *)",
+      "Bash(pkill -f \"http.server 8971\")"
     ]
   },
   "hooks": {

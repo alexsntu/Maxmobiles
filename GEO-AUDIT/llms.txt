@@ -1,0 +1,56 @@
+# Maxmobiles
+
+> Магазин техники Apple и авторизованный сервисный центр Apple в Севастополе с 2011 года: iPhone, Mac, iPad, Apple Watch, аксессуары, ремонт и Trade-In.
+
+## Docs
+
+- [Главная страница](https://maxmobiles.ru/): Каталог техники Apple и смежных брендов, сервисный центр, контакты, доставка и условия покупки.
+- [О компании](https://maxmobiles.ru/o-nas/): История компании с 2011 года, статус авторизованного сервисного центра Apple, миссия и принципы работы.
+- [Контакты](https://maxmobiles.ru/kontakty-ru/): Адрес магазина в Севастополе (пр-т Нахимова 19, ТЦ «Детский мир»), телефоны, email, часы работы 10:00-20:00.
+- [Гарантия](https://maxmobiles.ru/garantiya/): Условия гарантийного обслуживания на технику Apple и другие товары, купленные в Maxmobiles.
+- [Оплата и доставка](https://maxmobiles.ru/oplata-i-dostavka/): Способы оплаты, доставка СДЭК по всей России, самовывоз в Севастополе, Симферополе, Ялте и Москве.
+- [Apple Trade-In](https://maxmobiles.ru/apple-trade-in/): Программа обмена старой техники Apple (iPhone, Apple Watch) на новую с доплатой.
+- [Частые вопросы](https://maxmobiles.ru/chavo/): Ответы на вопросы о заказе, оплате, гарантии и обслуживании в Maxmobiles.
+- [Отзывы](https://maxmobiles.ru/otzyvy/): Отзывы покупателей о магазине; рейтинг 5.0 на Яндекс Картах, 1000+ отзывов.
+- [Возврат товара](https://maxmobiles.ru/vozvrat/): Условия и порядок возврата товаров, купленных в Maxmobiles.
+- [Политика конфиденциальности](https://maxmobiles.ru/politika-konfidencialnosti/): Условия обработки персональных данных покупателей.
+
+## Products
+
+- [iPhone](https://maxmobiles.ru/iphone/): Каталог актуальных моделей iPhone, включая iPhone 17, 16, Air и предыдущие поколения.
+- [Mac](https://maxmobiles.ru/mac/): MacBook Air, MacBook Pro, iMac, Mac mini, Mac Studio и аксессуары для них.
+- [iPad](https://maxmobiles.ru/ipad/): iPad, iPad Air, iPad mini, iPad Pro и аксессуары для планшетов Apple.
+- [Apple Watch](https://maxmobiles.ru/apple-watch/): Все серии Apple Watch, включая Ultra, SE и актуальные модели.
+- [AirPods](https://maxmobiles.ru/apple-airpods/): Беспроводные наушники AirPods всех поколений и линеек.
+- [Аксессуары](https://maxmobiles.ru/aksessuary-ru/): Чехлы, защитные стёкла, кабели, зарядные устройства и другие аксессуары для техники Apple.
+- [Гаджеты](https://maxmobiles.ru/gadzhety/): Наушники сторонних брендов, экшн-камеры, роутеры, умные часы и другая техника.
+- [Android-смартфоны](https://maxmobiles.ru/android-smartfony/): Смартфоны Samsung, Google, Honor, Huawei, OnePlus.
+- [Мультимедиа Apple](https://maxmobiles.ru/multimedia-apple/): Apple TV, HomePod, AirTag, Apple Vision Pro.
+- [Красота и здоровье](https://maxmobiles.ru/krasota-i-zdorove-ru/): Техника Dyson, Laifen, Medicube — фены, стайлеры, пылесосы и уход за собой.
+- [Apple Идеальное Б/У](https://maxmobiles.ru/apple-idealnoe-bu/): Проверенная техника Apple с историей (iPhone, Mac, iPad, Apple Watch) с гарантией.
+
+## Services
+
+- [Сервисный центр Apple](https://maxmobiles.ru/servis-apple/): Авторизованный сервисный центр Apple в Севастополе — ремонт iPhone, Mac, iPad, Apple Watch.
+- [Ремонт iPhone](https://maxmobiles.ru/servis-apple/remont-iphone/): Ремонт всех моделей iPhone: замена экрана, аккумулятора, разъёма и других компонентов.
+- [Ремонт MacBook](https://maxmobiles.ru/servis-apple/remont-macbook/): Ремонт MacBook Air и MacBook Pro всех поколений.
+- [Ремонт iPad](https://maxmobiles.ru/servis-apple/remont-ipad/): Ремонт iPad, iPad Air, iPad mini, iPad Pro.
+- [Ремонт Apple Watch](https://maxmobiles.ru/servis-apple/remont-apple-watch/): Ремонт Apple Watch всех серий: замена экрана, батареи, корпуса.
+- [Ремонт iMac](https://maxmobiles.ru/servis-apple/remont-imac/): Ремонт iMac 21.5", 24" и 27".
+
+## Key Facts
+
+- Основана в 2011 году в Севастополе
+- Старейший Apple-эксперт в Крыму, авторизованный сервисный центр Apple
+- Рейтинг 5.0 на Яндекс Картах, 1000+ отзывов (org ID 237809440282)
+- Доставка СДЭК по всей России; самовывоз в Севастополе, Симферополе, Ялте и Москве
+- Ассортимент: iPhone, Mac, iPad, Apple Watch, AirPods, аксессуары, гаджеты сторонних брендов, ремонт и сервис
+
+## Contact
+
+- Website: https://maxmobiles.ru
+- Email: store@maxmobiles.ru
+- Бесплатный телефон: 8 (800) 250-81-58
+- Телефон магазина: +7 (978) 222-01-23
+- Адрес: пр-т Нахимова 19, ТЦ «Детский мир», Севастополь
+- Часы работы: ежедневно 10:00–20:00
