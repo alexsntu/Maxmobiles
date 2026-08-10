@@ -181,6 +181,7 @@ The Cursor IDE uses two extension systems: rules (`.cursor/rules/*.mdc`) and ski
 | `seo-service-page-builder` | HTML block for repair/service pages |
 | `seo-blog-article-builder-maxmobiles` | Transforms raw article HTML into SEO-optimized blog block |
 | `seo-quick-links-builder` | Quick-links tag strip for category pages |
+| `seo-core-expansion` | Expands semantic core for an existing category (not single page): Wordstat LSI/word-forms → relevance filter → regional frequency → cross-check PixelPlus for dupes → checklist file. Does not check for landing-page coverage — that's left to the user |
 | `service-banner-block-builder` | Hero banner for repair category pages |
 | `service-info-block-builder` | Info/specs block for repair pages |
 | `service-price-table-builder` | Price table for repair services |
@@ -228,5 +229,7 @@ Project-level commands live in `.claude/commands/`. Invoke with `/command-name [
 | Command | What it does |
 |---|---|
 | `/meta [category or model]` | Runs `seo-meta-builder-v2`: SERP research → Gap Analysis → H1 + title variants + description with NLQ pattern + full JSON-LD block |
+| `/meta-semantika [category]` | Runs `seo-core-expansion`: Wordstat LSI/word-forms for a whole category → relevance filter → regional frequency → cross-check PixelPlus for dupes. Outputs a checklist file in `Расширение семантики/[slug].md`; does not determine whether a landing page exists for each query (user decides that) |
 
 Example: `/meta iPhone 16 Pro Max`, `/meta AirPods Pro 3`, `/meta Ремонт MacBook Севастополь`
+Example: `/meta-semantika iPhone`
