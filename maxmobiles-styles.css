@@ -1810,11 +1810,37 @@ a.mm-desktop-mega__heading:hover::before {
   gap: 16px;
 }
 
-.mm-desktop-mega__promo img {
-  display: block;
+.mm-promo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 220px;
-  height: auto;
+  height: 156px;
+  padding: 20px;
   border-radius: 16px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.mm-promo-card--warranty {
+  background: #edf4ff;
+}
+
+.mm-promo-card--delivery {
+  background: #fbfbfb;
+}
+
+.mm-promo-card__text {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+  line-height: 1.35;
+  color: #1d1d1f;
+  max-width: 150px;
+}
+
+.mm-promo-card__icon {
+  flex-shrink: 0;
 }
 
 /* ==========================================

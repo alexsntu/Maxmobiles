@@ -99,7 +99,13 @@
       "Bash(grep *)",
       "Bash(git *)",
       "Bash(cd c:\\\\Users\\\\Алекс\\\\Service MM\\\\Меню\\\\Используемое *)",
-      "Bash(pkill -f \"http.server 8971\")"
+      "Bash(pkill -f \"http.server 8971\")",
+      "Skill(geo-crawlers)",
+      "Bash(rm -f \"/c/Users/Алекс/Service MM/.scratch/\"*.png)",
+      "Bash(rmdir \"/c/Users/Алекс/Service MM/.scratch\")",
+      "Bash(pip show *)",
+      "Bash(pkill -f \"http.server 8791\")",
+      "Bash(rm -f \"/c/Users/Алекс/Service MM/.scratch/\"*.html \"/c/Users/Алекс/Service MM/.scratch/\"*.png)"
     ]
   },
   "hooks": {
