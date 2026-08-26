@@ -1,0 +1,68 @@
+<div style="text-align:center;max-width:720px;margin:0 auto clamp(20px,3vw,32px);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Arial,sans-serif;">
+  <h1 style="margin:0 0 10px;font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-0.6px;line-height:1.15;color:#1d1d1f;">А ты готов в GTA&nbsp;6?</h1>
+  <p style="margin:0;font-size:clamp(15px,1.8vw,18px);line-height:1.5;color:#6e6e73;">Познакомься с&nbsp;игрой, чтобы понимать, что тебе понадобится.</p>
+</div>
+
+<div style="position:relative;border-radius:clamp(16px,2vw,24px);overflow:hidden;background:#0b0b10;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Arial,sans-serif;">
+
+  <img src="https://maxmobiles.ru/images/companies/1/GTA6/lp-gta-vi-baner.webp" alt="Grand Theft Auto VI" style="display:block;width:100%;height:auto;">
+
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(9,7,16,0.92) 0%, rgba(9,7,16,0.68) 30%, rgba(9,7,16,0.15) 55%, rgba(9,7,16,0) 68%);"></div>
+
+  <div style="position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,1.4vw,18px);padding:clamp(20px,5vw,64px);max-width:clamp(240px,36vw,480px);box-sizing:border-box;">
+
+    <span style="display:block;font-size:clamp(11px,1.1vw,13px);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#c9c9d1;">Видео</span>
+
+    <h2 style="margin:0;font-size:clamp(24px,3.6vw,42px);line-height:1.08;font-weight:800;letter-spacing:-0.5px;color:#f4ecb8;text-transform:uppercase;">Первый<br>трейлер</h2>
+
+    <p style="margin:0;font-size:clamp(13px,1.4vw,16px);line-height:1.5;color:#e7e7ec;max-width:34ch;">Самая масштабная и&nbsp;захватывающая эволюция серии Grand Theft Auto.</p>
+
+    <button type="button" onclick="gta6OpenTrailer()" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;margin-top:clamp(6px,1vw,10px);padding:clamp(11px,1.2vw,15px) clamp(20px,2.4vw,30px);border:0;border-radius:100px;background:#f3d92e;color:#151505;font-size:clamp(13px,1.3vw,15px);font-weight:700;letter-spacing:0.3px;text-transform:uppercase;cursor:pointer;">
+      <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <path d="M11.3 6.13c.6.36.6 1.24 0 1.6L1.6 13.6C1 14 .2 13.55.2 12.87V1.13C.2.45 1 .01 1.6.37l9.7 5.76z" fill="#151505"/>
+      </svg>
+      Смотреть трейлер
+    </button>
+
+  </div>
+</div>
+
+<div id="gta6TrailerModal" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(6,5,10,0.9);align-items:center;justify-content:center;padding:clamp(16px,4vw,40px);box-sizing:border-box;">
+  <div style="position:relative;width:100%;max-width:960px;">
+    <button type="button" onclick="gta6CloseTrailer()" aria-label="Закрыть" style="position:absolute;right:0;bottom:100%;margin-bottom:12px;width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,0.12);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div style="position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden;">
+      <iframe id="gta6TrailerIframe" title="Grand Theft Auto VI Trailer 1" src="" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('gta6TrailerModal');
+  var iframe = document.getElementById('gta6TrailerIframe');
+
+  window.gta6OpenTrailer = function(){
+    iframe.src = 'https://www.youtube.com/embed/QdBZY2fkU-0?autoplay=1&rel=0';
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.gta6CloseTrailer = function(){
+    modal.style.display = 'none';
+    iframe.src = '';
+    document.body.style.overflow = '';
+  };
+
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) window.gta6CloseTrailer();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.style.display === 'flex') window.gta6CloseTrailer();
+  });
+})();
+</script>
