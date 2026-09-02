@@ -1,0 +1,6 @@
+[mcp_servers.pixelplus-mcp]
+command = "node"
+args = ['C:\Users\Алекс\GOODMi\cscart-mcp-server\src\pixelplus.js']
+
+[mcp_servers.pixelplus-mcp.env]
+PIXELPLUS_API_TOKEN = "5747d00378aa231ad9667bf60a2b4fff"
