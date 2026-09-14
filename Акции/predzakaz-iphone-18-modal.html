@@ -1,0 +1,866 @@
+<!-- ═══════════════════════════════════════════
+     PREORDER MODAL — iPhone 18
+     Триггер: кнопки/баннеры со ссылкой, содержащей
+     "open-preorder-modal" (например href="#open-preorder-modal"),
+     класс open-preorder-modal, атрибут data-preorder-modal,
+     а также текст кнопки "Оформить предзаказ".
+═══════════════════════════════════════════ -->
+
+<div id="pm-overlay" role="dialog" aria-modal="true" aria-labelledby="pm-title" style="display:none;position:fixed;inset:0;z-index:999999;align-items:center;justify-content:center;padding:16px">
+
+  <div id="pm-box">
+
+    <!-- Шапка с градиентом -->
+    <div id="pm-hero">
+      <button id="pm-close" type="button" aria-label="Закрыть">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="pm-title">Предзаказ iPhone&nbsp;18</h2>
+      <p id="pm-sub">Забронируем модель — перезвоним, когда начнётся продажа</p>
+
+      <div id="pm-trust">
+        <div class="pm-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Без предоплаты
+        </div>
+        <div class="pm-trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Apple-эксперт с 2011 года
+        </div>
+      </div>
+    </div>
+
+    <!-- Тело формы -->
+    <div id="pm-body">
+      <div id="pm-form-wrap">
+
+        <form
+          id="pm-form"
+          action="{""|fn_url}"
+          method="post"
+          enctype="multipart/form-data"
+          novalidate
+        >
+          <input type="hidden" name="fake" value="">
+          <input type="hidden" name="page_id" value="1083">
+          <input type="hidden" name="dispatch[pages.send_form]" value="">
+
+          <div class="pm-field">
+            <label>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M11 18h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Выберите модель iPhone
+            </label>
+            <div class="pm-model-tiles" id="pm-model-tiles" role="radiogroup" aria-label="Модель iPhone">
+              <label class="pm-model-tile">
+                <input type="radio" name="form_values[757]" value="iPhone 18 Pro" required>
+                <img src="https://maxmobiles.ru/images/ab__webp/thumbnails/450/450/detailed/157/1_lzcr-51_jpg.webp" alt="iPhone 18 Pro" loading="lazy">
+                <span>iPhone 18 Pro</span>
+              </label>
+              <label class="pm-model-tile">
+                <input type="radio" name="form_values[757]" value="iPhone 18 Pro Max" required>
+                <img src="https://maxmobiles.ru/images/ab__webp/thumbnails/450/450/detailed/157/5_of6o-mh_jpg.webp" alt="iPhone 18 Pro Max" loading="lazy">
+                <span>iPhone 18 Pro Max</span>
+              </label>
+              <label class="pm-model-tile">
+                <input type="radio" name="form_values[757]" value="iPhone Duo" required>
+                <img src="https://maxmobiles.ru/images/ab__webp/thumbnails/450/450/detailed/157/10_dcol-3u_jpg.webp" alt="iPhone Duo" loading="lazy">
+                <span>iPhone Duo</span>
+              </label>
+            </div>
+            <span class="pm-error" id="pm-model-error">Пожалуйста, выберите модель</span>
+          </div>
+
+          <div class="pm-field">
+            <label>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 3a9 9 0 0 1 0 18" stroke="currentColor" stroke-width="1.8"/></svg>
+              Выберите цвет iPhone
+            </label>
+            <div class="pm-color-tiles" id="pm-color-tiles" role="radiogroup" aria-label="Цвет iPhone">
+              <p class="pm-color-placeholder" id="pm-color-placeholder">Сначала выберите модель</p>
+            </div>
+            <span class="pm-error" id="pm-color-error">Пожалуйста, выберите цвет</span>
+          </div>
+
+          <div class="pm-field">
+            <label for="pm-storage">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v18M16 3v18" stroke="currentColor" stroke-width="1.8"/></svg>
+              Выберите объём памяти
+            </label>
+            <select id="pm-storage" name="form_values[760]" required>
+              <option value="" disabled selected>Выберите объём памяти</option>
+              <option value="256 Gb">256 Gb</option>
+              <option value="512 Gb">512 Gb</option>
+              <option value="1 Tb">1 Tb</option>
+              <option value="2 Tb">2 Tb</option>
+            </select>
+            <span class="pm-error">Пожалуйста, выберите объём памяти</span>
+          </div>
+
+          <div class="pm-field">
+            <label for="pm-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+              Ваше имя
+            </label>
+            <input type="text" id="pm-name" name="form_values[765]" placeholder="Как вас зовут?" autocomplete="given-name" required>
+            <span class="pm-error">Пожалуйста, введите имя</span>
+          </div>
+
+          <div class="pm-field">
+            <label for="pm-phone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.47 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Номер телефона
+            </label>
+            <input type="tel" id="pm-phone" name="form_values[766]" placeholder="+7 (978) 000-00-00" autocomplete="tel" required>
+            <span class="pm-error">Пожалуйста, введите номер телефона</span>
+          </div>
+
+          <!-- Капча -->
+          <div class="pm-field" id="pm-captcha-field">
+            <label>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Защита от роботов
+            </label>
+            <div id="pm-captcha-wrap">
+              <p id="pm-captcha-q"></p>
+              <div id="pm-captcha-btns">
+                <button type="button" class="pm-cap-btn" data-idx="0"></button>
+                <button type="button" class="pm-cap-btn" data-idx="1"></button>
+                <button type="button" class="pm-cap-btn" data-idx="2"></button>
+              </div>
+            </div>
+            <span class="pm-error" id="pm-captcha-err">Выберите правильное число</span>
+          </div>
+
+          <!-- Чекбокс согласия -->
+          <div id="pm-agree-wrap">
+            <label id="pm-agree-label" for="pm-agree">
+              <input type="checkbox" id="pm-agree" name="personal_data" value="Y">
+              <span id="pm-agree-box">
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span id="pm-agree-text">Я согласен с <a href="/politika-konfidencialnosti/" target="_blank" rel="noopener" onclick="event.stopPropagation()">политикой конфиденциальности</a> и даю согласие на обработку персональных данных</span>
+            </label>
+            <span class="pm-error" id="pm-agree-err">Необходимо принять условия</span>
+          </div>
+
+          <button type="submit" id="pm-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Оформить предзаказ
+          </button>
+        </form>
+
+      </div>
+
+      <!-- Экран успеха -->
+      <div id="pm-success" style="display:none">
+        <div id="pm-success-anim">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="32" fill="#34C759" fill-opacity="0.1"/>
+            <circle cx="32" cy="32" r="24" fill="#34C759" fill-opacity="0.15"/>
+            <path d="M20 32L28 40L44 24" stroke="#34C759" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Предзаказ принят!</h3>
+        <p>Мы свяжемся с вами, как только <strong>iPhone 18</strong> появится в продаже.</p>
+        <div id="pm-success-contacts">
+          <a href="tel:+78002508158">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.47 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            8 (800) 250-81-58
+          </a>
+          <a href="https://vk.com/maxmobiles" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" stroke-width="1.5"/></svg>
+            Написать во ВКонтакте
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{literal}
+<style>
+/* ─── Overlay ─── */
+#pm-overlay {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Box ─── */
+#pm-box {
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+  animation: pm-pop .3s cubic-bezier(0.34,1.56,0.64,1) both;
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+}
+@keyframes pm-pop {
+  from { opacity:0; transform: scale(0.92) translateY(16px); }
+  to   { opacity:1; transform: scale(1)    translateY(0); }
+}
+
+/* ─── Hero (градиентная шапка) ─── */
+#pm-hero {
+  background: linear-gradient(135deg, #0055b3 0%, #0071e3 50%, #2196f3 100%);
+  padding: 18px 24px 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+#pm-hero::before,
+#pm-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+#pm-hero::before { width: 180px; height: 180px; right: -40px; top: -60px; }
+#pm-hero::after  { width: 120px; height: 120px; right: 60px;  bottom: -40px; }
+
+#pm-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 30px; height: 30px;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s;
+  z-index: 2;
+  flex-shrink: 0;
+}
+#pm-close:hover { background: rgba(255,255,255,0.3); }
+
+#pm-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0 0 5px;
+  position: relative; z-index: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+#pm-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  margin: 0 0 13px;
+  line-height: 1.4;
+  position: relative; z-index: 1;
+}
+
+#pm-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  position: relative; z-index: 1;
+}
+.pm-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 4px 9px;
+}
+
+/* ─── Body (белая часть) ─── */
+#pm-body {
+  background: #ffffff;
+  padding: 20px 24px 18px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ─── Поля ─── */
+.pm-field {
+  margin-bottom: 12px;
+}
+.pm-field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 7px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.pm-field label svg { color: #0071e3; flex-shrink: 0; }
+.pm-field input,
+.pm-field select {
+  display: block;
+  width: 100%;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 13px 15px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1c1c1e;
+  outline: none;
+  background: #f9f9fb;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+.pm-field select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 38px;
+}
+.pm-field select:disabled { opacity: 0.55; cursor: not-allowed; }
+.pm-field input:focus,
+.pm-field select:focus {
+  border-color: #0071e3;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.pm-field input.pm-invalid,
+.pm-field select.pm-invalid {
+  border-color: #ff3b30;
+  background-color: #fff9f9;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+.pm-error {
+  display: none;
+  font-size: 12px;
+  color: #ff3b30;
+  margin-top: 5px;
+  padding-left: 2px;
+}
+.pm-field input.pm-invalid ~ .pm-error,
+.pm-field select.pm-invalid ~ .pm-error { display: block; }
+#pm-model-tiles.pm-invalid ~ #pm-model-error { display: block; }
+
+/* ─── Плитки моделей ─── */
+#pm-model-tiles {
+  display: flex;
+  gap: 8px;
+}
+.pm-model-tile {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 9px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 14px;
+  background: #f9f9fb;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  text-align: center;
+}
+.pm-model-tile input {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.pm-model-tile img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+}
+.pm-model-tile span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #3a3a3c;
+  line-height: 1.25;
+}
+.pm-model-tile:hover { border-color: #0071e3; }
+.pm-model-tile--selected {
+  border-color: #0071e3;
+  background: rgba(0,113,227,0.06);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.pm-model-tile--selected span { color: #0071e3; }
+
+/* ─── Плитки цвета ─── */
+#pm-color-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+#pm-color-tiles.pm-invalid ~ #pm-color-error { display: block; }
+.pm-color-placeholder {
+  margin: 0;
+  font-size: 13px;
+  color: #aeaeb2;
+  padding: 13px 2px;
+}
+.pm-color-tile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 30px;
+  background: #f9f9fb;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+.pm-color-tile input {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.pm-color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+.pm-color-tile span.pm-color-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3a3a3c;
+}
+.pm-color-tile:hover { border-color: #0071e3; }
+.pm-color-tile--selected {
+  border-color: #0071e3;
+  background: rgba(0,113,227,0.06);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.pm-color-tile--selected span.pm-color-name { color: #0071e3; }
+
+/* ─── Кнопка отправки ─── */
+#pm-submit {
+  width: 100%;
+  background: linear-gradient(135deg, #0055b3 0%, #0071e3 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 4px 16px rgba(0,113,227,0.35);
+}
+#pm-submit:hover  { opacity: 0.92; box-shadow: 0 6px 20px rgba(0,113,227,0.45); }
+#pm-submit:active { transform: scale(0.98); }
+#pm-submit:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+
+/* ─── Экран успеха ─── */
+#pm-success {
+  text-align: center;
+  padding: 8px 0 4px;
+}
+#pm-success-anim { margin-bottom: 20px; }
+#pm-success h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1c1c1e;
+  margin: 0 0 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+#pm-success p {
+  font-size: 15px;
+  color: #6e6e73;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+#pm-success p strong { color: #1c1c1e; }
+
+#pm-success-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#pm-success-contacts a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+#pm-success-contacts a:first-child {
+  background: #f2f2f7;
+  color: #1c1c1e;
+}
+#pm-success-contacts a:first-child:hover { background: #e5e5ea; }
+#pm-success-contacts a:last-child {
+  background: #0071e3;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,113,227,0.3);
+}
+#pm-success-contacts a:last-child:hover { background: #0066cc; }
+
+/* ─── Капча ─── */
+#pm-captcha-wrap {
+  background: #f9f9fb;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+#pm-captcha-q {
+  font-size: 13px;
+  color: #3a3a3c;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+#pm-captcha-btns { display: flex; gap: 10px; }
+.pm-cap-btn {
+  flex: 1;
+  padding: 12px 8px;
+  border: 2px solid #e5e5ea;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c1c1e;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.pm-cap-btn:hover { border-color: #0071e3; color: #0071e3; background: rgba(0,113,227,0.04); }
+.pm-cap-btn.pm-cap-selected { border-color: #0071e3; background: rgba(0,113,227,0.08); color: #0071e3; }
+.pm-cap-btn.pm-cap-correct  { border-color: #34c759; background: rgba(52,199,89,0.1);  color: #34c759; }
+.pm-cap-btn.pm-cap-wrong    { border-color: #ff3b30; background: rgba(255,59,48,0.08); color: #ff3b30; animation: pm-shake .3s ease; }
+@keyframes pm-shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-4px); }
+  75%     { transform: translateX(4px); }
+}
+#pm-captcha-field.pm-cap-invalid #pm-captcha-wrap {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+#pm-captcha-field.pm-cap-invalid #pm-captcha-err { display: block; }
+
+/* ─── Чекбокс согласия ─── */
+#pm-agree-wrap { margin-bottom: 16px; }
+#pm-agree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+#pm-agree { display: none; }
+#pm-agree-box {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border: 2px solid #d1d1d6;
+  border-radius: 6px;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  margin-top: 1px;
+}
+#pm-agree-box svg { opacity: 0; transition: opacity 0.15s; }
+#pm-agree:checked + #pm-agree-box {
+  background: #0071e3;
+  border-color: #0071e3;
+}
+#pm-agree:checked + #pm-agree-box svg { opacity: 1; }
+#pm-agree-wrap.pm-agree-invalid #pm-agree-box {
+  border-color: #ff3b30;
+  box-shadow: 0 0 0 3px rgba(255,59,48,0.10);
+}
+#pm-agree-wrap.pm-agree-invalid #pm-agree-err { display: block; }
+#pm-agree-err { display: none; font-size: 12px; color: #ff3b30; margin-top: 5px; padding-left: 30px; }
+#pm-agree-text {
+  font-size: 12.5px;
+  color: #6e6e73;
+  line-height: 1.45;
+}
+#pm-agree-text a { color: #0071e3; text-decoration: none; }
+#pm-agree-text a:hover { text-decoration: underline; }
+
+/* ─── Mobile ─── */
+@media (max-width: 480px) {
+  #pm-hero  { padding: 12px 16px 12px; }
+  #pm-title { font-size: 16px; }
+  #pm-body  { padding: 16px 16px 14px; }
+  #pm-box   { border-radius: 18px; }
+  #pm-hero::before,
+  #pm-hero::after { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var overlay   = document.getElementById('pm-overlay');
+  var btnClose  = document.getElementById('pm-close');
+  var form      = document.getElementById('pm-form');
+  var formWrap  = document.getElementById('pm-form-wrap');
+  var success   = document.getElementById('pm-success');
+  var submitBtn = document.getElementById('pm-submit');
+  var modelTiles = document.getElementById('pm-model-tiles');
+  var colorTiles = document.getElementById('pm-color-tiles');
+
+  function getSelectedModel() {
+    var checked = modelTiles.querySelector('input:checked');
+    return checked ? checked.value : '';
+  }
+  function getSelectedColor() {
+    var checked = colorTiles.querySelector('input:checked');
+    return checked ? checked.value : '';
+  }
+
+  /* ── Цвета зависят от модели ── */
+  var COLORS_BY_MODEL = {
+    'iPhone 18 Pro':     [['Silver', '#d3d3d3'], ['Burgundy', '#4e2e34'], ['Black', '#212123'], ['Glacier', '#bfccdd']],
+    'iPhone 18 Pro Max': [['Silver', '#d3d3d3'], ['Burgundy', '#4e2e34'], ['Black', '#212123'], ['Glacier', '#bfccdd']],
+    'iPhone Duo':        [['White', '#f6f4f5'], ['Night Sky', '#4a4e58']]
+  };
+
+  function updateColors() {
+    var model = getSelectedModel();
+    var colors = COLORS_BY_MODEL[model];
+    colorTiles.innerHTML = '';
+    colorTiles.classList.remove('pm-invalid');
+    if (!colors) {
+      var ph = document.createElement('p');
+      ph.className = 'pm-color-placeholder';
+      ph.textContent = 'Сначала выберите модель';
+      colorTiles.appendChild(ph);
+      return;
+    }
+    colors.forEach(function (item) {
+      var name = item[0], hex = item[1];
+      var label = document.createElement('label');
+      label.className = 'pm-color-tile';
+      label.innerHTML =
+        '<input type="radio" name="form_values[759]" value="' + name + '" required>' +
+        '<span class="pm-color-swatch" style="background:' + hex + '"></span>' +
+        '<span class="pm-color-name">' + name + '</span>';
+      colorTiles.appendChild(label);
+    });
+  }
+
+  modelTiles.addEventListener('change', function (e) {
+    if (e.target.name !== 'form_values[757]') return;
+    modelTiles.classList.remove('pm-invalid');
+    modelTiles.querySelectorAll('.pm-model-tile').forEach(function (tile) {
+      tile.classList.toggle('pm-model-tile--selected', tile.contains(e.target) && e.target.checked);
+    });
+    updateColors();
+  });
+
+  colorTiles.addEventListener('change', function (e) {
+    if (e.target.name !== 'form_values[759]') return;
+    colorTiles.classList.remove('pm-invalid');
+    colorTiles.querySelectorAll('.pm-color-tile').forEach(function (tile) {
+      tile.classList.toggle('pm-color-tile--selected', tile.contains(e.target) && e.target.checked);
+    });
+  });
+
+  /* ── Капча ── */
+  var captchaCorrect = null;
+  var captchaSolved = false;
+
+  function generateCaptcha() {
+    var nums = [];
+    while (nums.length < 3) {
+      var n = Math.floor(Math.random() * 89) + 10;
+      if (nums.indexOf(n) === -1) nums.push(n);
+    }
+    nums.sort(function() { return Math.random() - 0.5; });
+    var correctIdx = Math.floor(Math.random() * 3);
+    captchaCorrect = nums[correctIdx];
+    captchaSolved = false;
+
+    var qEl = document.getElementById('pm-captcha-q');
+    qEl.innerHTML = 'Нажмите на число <strong>' + captchaCorrect + '</strong>:';
+
+    var btns = document.querySelectorAll('.pm-cap-btn');
+    btns.forEach(function(btn, i) {
+      btn.textContent = nums[i];
+      btn.dataset.num = nums[i];
+      btn.className = 'pm-cap-btn';
+    });
+
+    document.getElementById('pm-captcha-field').classList.remove('pm-cap-invalid');
+  }
+
+  document.getElementById('pm-captcha-btns').addEventListener('click', function(e) {
+    var btn = e.target.closest('.pm-cap-btn');
+    if (!btn) return;
+    var val = parseInt(btn.dataset.num, 10);
+
+    document.querySelectorAll('.pm-cap-btn').forEach(function(b) {
+      b.className = 'pm-cap-btn';
+    });
+    document.getElementById('pm-captcha-field').classList.remove('pm-cap-invalid');
+
+    if (val === captchaCorrect) {
+      btn.classList.add('pm-cap-correct');
+      captchaSolved = true;
+    } else {
+      btn.classList.add('pm-cap-wrong');
+      captchaSolved = false;
+      setTimeout(generateCaptcha, 900);
+    }
+  });
+
+  function openModal() {
+    formWrap.style.display = 'block';
+    success.style.display  = 'none';
+    form.reset();
+    modelTiles.classList.remove('pm-invalid');
+    modelTiles.querySelectorAll('.pm-model-tile--selected').forEach(function (tile) {
+      tile.classList.remove('pm-model-tile--selected');
+    });
+    updateColors();
+    submitBtn.disabled = false;
+    document.getElementById('pm-agree-wrap').classList.remove('pm-agree-invalid');
+    generateCaptcha();
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function validateSelect(el) {
+    var empty = !el.value;
+    el.classList.toggle('pm-invalid', empty);
+    return !empty;
+  }
+  function validateField(input) {
+    var empty = !input.value.trim();
+    input.classList.toggle('pm-invalid', empty);
+    return !empty;
+  }
+
+  var TRIGGER_TEXTS = ['оформить предзаказ', 'предзаказ'];
+
+  function isModalTrigger(el) {
+    var link = el.closest('a, button');
+    if (!link || link.id === 'pm-close' || link.id === 'pm-submit') return false;
+    if (link.hasAttribute('data-preorder-modal') || link.classList.contains('open-preorder-modal')) return true;
+    var href = link.getAttribute('href') || '';
+    if (href.indexOf('open-preorder-modal') !== -1) return true;
+    var text = (link.textContent || '').toLowerCase().trim();
+    for (var i = 0; i < TRIGGER_TEXTS.length; i++) {
+      if (text.indexOf(TRIGGER_TEXTS[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  document.addEventListener('click', function (e) {
+    if (isModalTrigger(e.target)) { e.preventDefault(); openModal(); }
+  });
+
+  if (window.location.hash.indexOf('open-preorder-modal') !== -1) {
+    setTimeout(openModal, 300);
+  }
+
+  window.openPreorderModal = openModal;
+
+  btnClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.style.display !== 'none') closeModal();
+  });
+
+  /* ── Маска телефона ── */
+  (function () {
+    var phone = document.getElementById('pm-phone');
+    function applyMask(raw) {
+      var d = raw.replace(/\D/g, '');
+      if (d.length > 0 && (d[0] === '7' || d[0] === '8')) d = d.slice(1);
+      d = d.slice(0, 10);
+      var r = '+7';
+      if (d.length > 0) r += ' (' + d.slice(0, 3);
+      if (d.length >= 3) r += ') ' + d.slice(3, 6);
+      if (d.length >= 6) r += '-' + d.slice(6, 8);
+      if (d.length >= 8) r += '-' + d.slice(8, 10);
+      return r;
+    }
+    phone.addEventListener('focus', function () { if (!phone.value) phone.value = '+7 ('; });
+    phone.addEventListener('input', function () {
+      var pos = phone.selectionStart, before = phone.value.length;
+      phone.value = applyMask(phone.value);
+      var diff = phone.value.length - before;
+      phone.setSelectionRange(Math.max(0, pos + diff), Math.max(0, pos + diff));
+    });
+    phone.addEventListener('blur', function () { if (/^\+7[\s(]*$/.test(phone.value)) phone.value = ''; });
+    phone.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && phone.selectionStart === phone.selectionEnd) {
+        var pos = phone.selectionStart, ch = phone.value[pos - 1];
+        if (ch && !/\d/.test(ch)) {
+          e.preventDefault();
+          phone.value = applyMask(phone.value.slice(0, pos - 1) + phone.value.slice(pos));
+          phone.setSelectionRange(Math.max(0, pos - 1), Math.max(0, pos - 1));
+        }
+      }
+    });
+  })();
+
+  /* ── Отправка ── */
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var modelOk   = !!getSelectedModel();
+    modelTiles.classList.toggle('pm-invalid', !modelOk);
+    var colorOk   = !!getSelectedColor();
+    colorTiles.classList.toggle('pm-invalid', !colorOk);
+    var storageOk = validateSelect(document.getElementById('pm-storage'));
+    var nameOk    = validateField(document.getElementById('pm-name'));
+    var phoneOk   = validateField(document.getElementById('pm-phone'));
+
+    var agreeEl   = document.getElementById('pm-agree');
+    var agreeWrap = document.getElementById('pm-agree-wrap');
+    var agreeOk   = agreeEl.checked;
+    agreeWrap.classList.toggle('pm-agree-invalid', !agreeOk);
+
+    var capField = document.getElementById('pm-captcha-field');
+    var capOk    = captchaSolved;
+    capField.classList.toggle('pm-cap-invalid', !capOk);
+
+    if (!modelOk || !colorOk || !storageOk || !nameOk || !phoneOk || !agreeOk || !capOk) return;
+
+    submitBtn.disabled = true;
+    fetch(form.action, { method: 'POST', body: new FormData(form) }).catch(function () {});
+    formWrap.style.display = 'none';
+    success.style.display  = 'block';
+    setTimeout(closeModal, 6000);
+  });
+
+  ['pm-name', 'pm-phone'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () { el.classList.remove('pm-invalid'); });
+  });
+  document.getElementById('pm-storage').addEventListener('change', function () {
+    this.classList.remove('pm-invalid');
+  });
+
+})();
+</script>
+{/literal}
