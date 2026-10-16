@@ -269,7 +269,12 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
     // конкретная модель («колонка беспроводная harman kardon aura studio 5»), – только прибавкой ×1.3, чтобы точная модель не уступала
     $short = count(array_diff($tokens0 = explode(' ', $norm), ['на', 'для', 'в', 'во', 'с', 'со', 'и', 'к', 'по', 'от', 'из', 'под', 'без'])) <= 3;
     $hb_mul = $short || $hb === '0' ? '' : " * IF($hb, 1.3, 1.0)";
-    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $ab AS ab, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
+    // Названный тип товара всегда первым, даже без наличия (решение пользователя 2026-10-16: «тип товара всегда первым, как с
+    // аксессуарами»): «фен dyson» – фены, а не выпрямитель в наличии. В длинном запросе с моделью тип – только по разделу
+    // Ступень «тип товара»: из раздела запроса ИЛИ слово запроса в начале названия (iPhone 15 б/у – тот же тип, что новый iPhone 15).
+    // Внутри – наличие, затем слово в начале названия. Manticore сортирует не больше чем по 5 признакам
+    $tb = $short ? "IF(($cb) + ($hb) > 0, 1, 0)" : $cb;
+    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $ab AS ab, $tb AS tb, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
     $opts = "OPTION ranker = expr('sum((4*lcs + 3*(min_hit_pos==1) + 2*exact_order)*user_weight)*1000 + bm25'),"
         . " field_weights = (title = 10, brand = 5, model = 4, category = 3, extra = 1), max_matches = 1000";
     // Начало последнего слова («сте» → «стекло»); нечёткий поиск по коротким словам – не больше одной ошибки
@@ -297,7 +302,7 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
         if ($t[1] === '') { continue; }
         // Сначала товары в наличии, потом остальные – везде (решение пользователя 2026-10-16); внутри – товары названного
         // в запросе раздела, затем со словом запроса в начале названия, затем по релевантности
-        $sql = "$select {$t[1]} ORDER BY ab ASC, in_stock DESC, cb DESC, " . ($short ? 'hb DESC, ' : '') . "score DESC LIMIT " . (int) $offset . ', ' . (int) $limit . " {$t[2]}";
+        $sql = "$select {$t[1]} ORDER BY ab ASC, tb DESC, in_stock DESC, " . ($short ? 'hb DESC, ' : '') . "score DESC LIMIT " . (int) $offset . ', ' . (int) $limit . " {$t[2]}";
         $r = $mc->query($sql);
         if (!$r) { continue; }
         $items = [];
@@ -597,7 +602,7 @@ function mm_search($mc, $query, $limit = 20, $offset = 0)
         return $f;
     }
     $rows = [];
-    $r = $mc->query('SELECT id, name, price, in_stock, is_acc, url, img, main_cat, 0 AS w, mods, demand, popularity, 0 AS ab, 0 AS cb, 0 AS hb, 0 AS score FROM mm_products WHERE id IN ('
+    $r = $mc->query('SELECT id, name, price, in_stock, is_acc, url, img, main_cat, 0 AS w, mods, demand, popularity, 0 AS ab, 0 AS tb, 0 AS cb, 0 AS hb, 0 AS score FROM mm_products WHERE id IN ('
         . implode(',', $pins) . ') LIMIT ' . count($pins));
     while ($r && ($x = $r->fetch_assoc())) { $x['pinned'] = 1; $rows[(int) $x['id']] = $x; }
     if (!$rows) {
