@@ -1,0 +1,214 @@
+
+/* ================================================================
+   MM-10. Личный кабинет: левое меню на штатных страницах «Данные профиля», «Подробности заказа», «Избранное», 2026-10-15
+   ================================================================
+   Части MM-6f, 6h, 6k черновика _DEV/mm-cabinet/MM-6-cabinet.css (секции 49, 51, 54 GOODMi). Меню выводит хук
+   addons/my_changes/hooks/wrapper/mainbox_general_title_wrapper.pre.tpl (.gm-lk__side--std), блок «Получение и получатель» –
+   addons/my_changes/views/profiles/components/profiles_info.tpl (.gm-ord-info). Значки пунктов – MM-8, плашка номера – MM-7.
+   ================================================================ */
+/* ----------------------------------------------------------------
+   MM-10 / MM-6f (из секции 49 GOODMi). Личный кабинет: штатные страницы «Данные профиля» и «Подробности заказа»
+   ================================================================
+   Левое меню кабинета на этих страницах выводит хук
+   wrapper/mainbox_general_title_wrapper.pre.tpl (.gm-lk__side--std) первым
+   элементом блока .ty-mainbox-container; блок становится сеткой: меню
+   слева, заголовок и содержимое (белая карточка) справа. Вид меню –
+   из секции 46. Поля и кнопки приведены к виду страниц входа и регистрации.
+   ================================================================ */
+.tygh-content .content-grid:has(.gm-lk__side--std){background:#f4f4f6;padding-bottom:32px}
+.ty-mainbox-container:has(> .gm-lk__side--std){display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:12px;align-items:start;}
+.ty-mainbox-container:has(> .gm-lk__side--std)::before,.ty-mainbox-container:has(> .gm-lk__side--std)::after{display:none}
+.ty-mainbox-container > .gm-lk__side--std{grid-column-start:1;grid-row-start:1;grid-row-end:4;box-sizing:border-box}
+.ty-mainbox-container > .gm-lk__side--std *{box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{grid-column-start:2;margin:8px 0 16px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{grid-column-start:2;min-width:0;padding:20px 24px 24px;border-radius:16px;background:#fff;box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-subheader{margin:18px 0 12px;padding:0;border:0;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .ty-control-group{margin:0 0 14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .ty-control-group__title{display:block;float:none;width:auto;margin:0 0 6px;padding:0;font-size:14px;font-weight:500;color:#1c1c1c;text-align:left}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="tel"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select{width:100%;max-width:520px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background-color:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"]:focus,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"]:focus,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select:focus{border-color:#0071e3;outline:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0;padding:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn{float:none;display:inline-flex;align-items:center;justify-content:center;height:48px;margin:0;padding:0 24px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__secondary{border:1px solid #0071e3;background:#0071e3;color:#fff}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__secondary:hover{border-color:#0883ff;background:#0883ff}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__tertiary{border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+@media (max-width:767px){
+.ty-mainbox-container:has(> .gm-lk__side--std){grid-template-columns:minmax(0,1fr);row-gap:10px}
+.ty-mainbox-container > .gm-lk__side--std{grid-row-end:auto}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title,.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{grid-column-start:1}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{margin:4px 0;font-size:22px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{padding:16px 14px;border-radius:14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select{max-width:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn{flex:1 1 0}
+}
+
+/* Секция 49, дополнение 2026-10-11 (после просмотра страниц под вошедшим покупателем): серый фон и на странице заказа;
+   профиль – форма на всю ширину, справка справа отдельной карточкой; подробности заказа – статус плашкой,
+   действия кнопками, сведения о покупателе плитками, товары и итог без рамок и полос. */
+.tygh-content:has(.gm-lk__side--std){background:#f4f4f6}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std){display:flex;align-items:flex-start;gap:12px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std)::before,.row-fluid:has(> .main-content-grid .gm-lk__side--std)::after{display:none}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .main-content-grid{float:none;flex:1 1 0;width:auto;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid{float:none;flex:0 0 300px;width:300px;margin:58px 0 0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid > div{margin:0;padding:18px 20px;border-radius:16px;background:#fff;font-size:13px;line-height:1.45;color:#6b6b70}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid h4{margin:0 0 8px;padding:0;font-size:16px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid p{margin:0 0 8px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid ul{margin:0;padding:0 0 0 16px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid li{margin:0 0 4px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-date{font-size:15px;font-style:normal;font-weight:400;color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-status{float:none;margin-left:auto;padding:6px 12px;border-radius:10px;background:#fff;font-size:14px;font-style:normal;font-weight:500;line-height:1.3;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn{display:inline-flex;align-items:center;gap:6px;height:40px;margin:0;padding:0 14px;border-radius:10px;background:#f4f4f6;font-size:14px;font-weight:500;color:#1c1c1c;text-decoration:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn:hover{background:#e8f1fd;color:#0071e3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn .ty-icon{margin:0;font-size:18px;line-height:1;color:inherit}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{float:none;display:flex;gap:8px;margin-left:auto}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail > .ty-tabs:has(li:only-child){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__item{float:none;width:auto;margin:0;padding:14px 16px;border-radius:12px;background:#f4f4f6;box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__title{margin:0 0 6px;padding:0;font-size:14px;font-weight:600;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__field{font-size:14px;line-height:1.5;color:#3d3d3d}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table{width:100%;margin:0;border:0;border-collapse:collapse;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table th{padding:8px 0 8px 16px;border:0;border-bottom:1px solid #ececf0;background:none;font-size:13px;font-weight:400;color:#8a8a93}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table td{padding:14px 0 14px 16px;border:0;border-bottom:1px solid #f0f0f3;background:none !important;font-size:15px;vertical-align:top;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table th:first-child,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table td:first-child{padding-left:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr:last-child td{border-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image{width:72px;margin:0 14px 0 0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{display:block;width:72px;height:72px;border-radius:10px;object-fit:contain}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description{margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-title{font-size:15px;line-height:1.35;color:#1c1c1c;text-decoration:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-title:hover{color:#0071e3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-code{margin-top:4px;font-size:13px;color:#8a8a93}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body{margin:0;padding:12px 14px;border:0;border-radius:12px;background:#f4f4f6;box-shadow:none;font-size:14px;line-height:1.45}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__wrapper{margin:0;padding:6px 0;border:0;border-radius:12px;background:#f4f4f6}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table{width:100%;margin:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table td{padding:9px 16px;border:0;background:none;font-size:15px;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__row td:first-child{color:#6b6b70}
+@media (max-width:1100px){
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:767px){
+.row-fluid:has(> .main-content-grid .gm-lk__side--std){flex-direction:column;align-items:stretch}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .main-content-grid{flex:0 0 auto;width:100%}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-status{margin-left:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn{flex:1 1 auto;justify-content:center}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{margin-left:0;flex:1 1 100%}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{grid-template-columns:minmax(0,1fr)}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{width:56px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{height:56px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table td{padding:8px 12px;font-size:14px}
+}
+.tygh-content:has(.gm-lk__side--std) > .container-fluid{background:#f4f4f6;padding-bottom:32px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr{background:none !important}
+
+/* Секция 49, правка 2026-10-11 (по живым страницам): в подробностях заказа «Оформить заказ повторно» стояла поверх «Начать общение»
+   (тема ставит её абсолютно) – обе кнопки в ряд и в одном виде; в справке профиля убран отступ темы у .ty-account-detail */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a{position:static !important;display:inline-flex;align-items:center;gap:6px;height:40px;margin:0;padding:0 14px;border-radius:10px;background:#f4f4f6;font-size:14px;font-weight:500;line-height:1.2;color:#1c1c1c;text-decoration:none;white-space:nowrap}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a:hover{background:#e8f1fd;color:#0071e3}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid .ty-account-detail{margin:0;padding:0}
+
+/* ----------------------------------------------------------------
+   MM-10 / MM-6h (из секции 51 GOODMi). Избранное: левое меню кабинета (только ПК)
+   ================================================================
+   Меню выводит тот же хук, что на профиле и в подробностях заказа, –
+   вошедшему покупателю. Карточки товаров остаются на сером фоне, без
+   общей белой подложки (в отличие от профиля). На телефоне меню в
+   избранном не показывается – так просил пользователь.
+   ================================================================ */
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ut2-wl__grid) > .ty-mainbox-body{padding:0;border-radius:0;background:none}
+@media (max-width:767px){
+.ty-mainbox-container:has(.ut2-wl__grid) > .gm-lk__side--std{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ut2-wl__grid){display:block}
+}
+
+/* Секция 51, правка 2026-10-11: пустое избранное не содержит сетки товаров (.ut2-wl__grid), и меню на телефоне оставалось видимым –
+   теперь оно скрывается по собственному классу .gm-lk__side--wishlist, который ставит хук */
+@media (max-width:767px){
+.ty-mainbox-container > .gm-lk__side--wishlist{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--wishlist){display:block}
+}
+
+/* Секция 46, правка 2026-10-11: на телефоне полоса прокрутки ленты разделов наезжала на пункты – под лентой оставлено место */
+@media (max-width:767px){
+.gm-lk-nav{padding-bottom:12px;scrollbar-width:thin}
+}
+
+/* ----------------------------------------------------------------
+   MM-10 / MM-6k (из секции 54 GOODMi). Подробности заказа: гость, блок «Получение и получатель», телефон
+   ================================================================
+   Гостю (заказ без входа) хук wrapper/mainbox_general_title_wrapper.pre.tpl
+   выводит вместо левого меню карточку .gm-lk__side--guest – с ней страница
+   получает оформление секции 49. Блок сведений о покупателе заменён
+   шаблоном views/profiles/components/profiles_info.tpl (.gm-ord-info):
+   две плитки – как получить заказ и получатель, без адреса плательщика.
+   В заголовок добавлено слово «Заказ» (в языковой переменной темы его нет),
+   единственная вкладка «Общее» скрыта, на телефоне товары – строками
+   «цена × количество … сумма» вместо таблицы с рамкой.
+   ================================================================ */
+.gm-lk__side--guest{padding:20px}
+.gm-lk-guest__title{margin:0 0 8px;font-size:17px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.gm-lk-guest__text{margin:0 0 16px;font-size:14px;line-height:1.45;color:#6b6b70}
+.gm-lk-guest__btn{display:flex;align-items:center;justify-content:center;height:46px;margin:0 0 10px;padding:0 16px;border-radius:12px;background:#0071e3;font-size:15px;font-weight:600;color:#fff;text-decoration:none}
+.gm-lk-guest__btn:hover{background:#0883ff;color:#fff}
+.gm-lk-guest__link{display:block;font-size:14px;font-weight:500;text-align:center;color:#0071e3;text-decoration:none}
+.gm-lk-guest__link:hover{color:#0883ff}
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ty-orders-detail) > .ty-mainbox-title > bdi::before{content:"Заказ\00a0"}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail > .ty-tabs:not(:has(.ty-tabs__item + .ty-tabs__item)){display:none !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info.gm-ord-info{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 6px}
+.gm-ord-info__main{display:block;font-size:15px;font-weight:500;line-height:1.4;color:#1c1c1c}
+.gm-ord-info__note{display:block;margin-top:4px;font-size:13px;line-height:1.4;color:#6b6b70}
+@media (max-width:767px){
+.ty-mainbox-container > .gm-lk__side--guest{grid-row-start:auto;order:3;padding:16px 14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info.gm-ord-info{grid-template-columns:minmax(0,1fr)}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ty-accordion:not(:has(.ui-accordion-header ~ .ui-accordion-header)) > .ui-accordion-header{display:none !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table{display:block;outline:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table thead{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;padding:12px 0;border:0;border-bottom:1px solid #f0f0f3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top:last-child{border-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td{display:block;width:auto;padding:0;border:0;font-size:14px;text-align:left}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td::before{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child{flex:0 0 100%;margin-bottom:8px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table .ty-table__responsive-header{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table .ty-table__responsive-content{display:inline;padding:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(2){color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(2)::after{content:" \00d7";display:inline}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(3){color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(3)::after{content:" шт.";display:inline}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:last-child{margin-left:auto;font-weight:600;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:last-child::after{display:none}
+}
+
+/* Секция 54, правка 2026-10-12 (по снимкам с телефона): кнопки действий – плитками в столбик, «Оформить заказ повторно»
+   не обрезается, печать счёта на телефоне скрыта; товар – фото слева, название справа; убраны пустые поля под товарами и итогом */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ui-accordion-content{margin-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ty-orders-repay:not(:has(*)){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__products{margin-top:8px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary{margin-top:16px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary > .ty-subheader{margin-top:0}
+@media (max-width:767px){
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions > .ty-btn.cm-new-window{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{flex-wrap:wrap;width:100%;min-width:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a{flex:1 1 100%;justify-content:center;min-width:0;background:#f4f4f6 !important;color:#1c1c1c !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix{display:flex;align-items:flex-start;gap:12px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image{float:none;flex:0 0 56px;margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description-wrapper{flex:1 1 0;min-width:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description{margin:0}
+}
+
+/* Секция 54, правка 2026-10-12 (решение владельца): в итоге заказа скрыты штрихкод и строка «Способ доставки» –
+   способ получения показан плиткой вверху страницы */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__right:has(.ty-barcode){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__row:has(> td[data-ct-orders-summary="summary-ship"]){display:none}
+
+
+/* ----------------------------------------------------------------
+   MM-10 / поправка под Maxmobiles: в заголовке подробностей заказа Maxmobiles уже есть слово «Заказ» (текстом перед
+   <bdi>#номер</bdi>), а правило GOODMi дописывало его ещё раз – получалось «Заказ Заказ #…». Второе убрано, номер
+   придвинут к слову (заголовок – flex с зазором 12px).
+   ---------------------------------------------------------------- */
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ty-orders-detail) > .ty-mainbox-title > bdi::before{content:none}
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ty-orders-detail) > .ty-mainbox-title > bdi{margin-left:-6px}

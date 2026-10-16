@@ -1,0 +1,3 @@
+{* Maxmobiles (копия хука GOODMi из addons/gm_delivery_date/hooks): список покупателей в админке – подтверждён ли номер телефона покупателя (fn_my_changes_mm_phone_mark).
+   Только покупатели витрины Maxmobiles. *}
+<td width="8%" class="row-status mm-mark-cell" data-th="Номер">{if $user.company_id == 1 && $user.user_type == "C" && $user.phone}{$mm_mark = $user.phone|fn_my_changes_mm_phone_mark:$user.user_id}{if $mm_mark == "Y"}<span class="label label-success" title="Номер телефона подтверждён">подтверждён</span>{elseif $mm_mark == "N"}<span class="label" title="Номер телефона не подтверждён">не подтв.</span>{/if}{/if}</td>

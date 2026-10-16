@@ -1,0 +1,175 @@
+
+/* ================================================================
+   MM-11. Вход, регистрация, всплывающее окно входа, восстановление пароля по e-mail, 2026-10-15
+   ================================================================
+   Части MM-6d, 6e, 6l черновика _DEV/mm-cabinet/MM-6-cabinet.css (секции 47, 48, 55 GOODMi) в синих цветах Maxmobiles.
+   Правило высоты капчи (.captcha .smart-captcha) уже есть в MM-7.
+   ================================================================ */
+/* ----------------------------------------------------------------
+   MM-11 / MM-6d (из секции 47 GOODMi). Страница входа (auth.login_form, /account/)
+   ================================================================
+   Только стили поверх штатной формы. Серый фон, по центру две белые
+   карточки: форма входа (поля 48px, синяя кнопка на всю ширину,
+   «Запомнить» под ней, вход через Яндекс и ВКонтакте) и приглашение
+   зарегистрироваться. На телефоне карточки идут друг под другом.
+   Действует только на странице входа (есть и форма, и блок
+   .auth-information-grid); всплывающее окно входа не затронуто.
+   ================================================================ */
+.tygh-content .content-grid:has(.auth-information-grid .ty-login-info):has(.ty-login){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login)::before,.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login)::after{display:none}
+.row-fluid:has(> .auth-information-grid .ty-login-info) > .main-content-grid:has(.ty-login){float:none;flex:0 1 460px;width:460px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{float:none;flex:0 1 360px;width:360px;min-width:0;margin:0}
+.main-content-grid:has(.ty-login) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title::after{content:"Чтобы видеть заказы и копить бонусы";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-login{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid .ty-login form{font-size:14px;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-login .ty-control-group{margin:0 0 14px}
+.main-content-grid .ty-login .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid .ty-login .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid .ty-login .ty-login__input:focus{border-color:#0071e3;outline:0}
+.main-content-grid .ty-login .ty-password-forgot__a{font-size:14px;color:#0071e3}
+.main-content-grid .ty-login p.ty-text-center{display:flex;gap:10px;margin:8px 0 18px;text-align:left}
+.main-content-grid .ty-login .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.main-content-grid .ty-login .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.main-content-grid .ty-login .buttons-container{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;border:0;background:none}
+.main-content-grid .ty-login .ty-btn__login{order:1;float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid .ty-login .ty-btn__login:hover{background:#0883ff;color:#fff}
+.main-content-grid .ty-login .ty-login__remember-me{order:2;float:none;margin:0;padding:0}
+.main-content-grid .ty-login .ty-login__remember-me-label{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:#1c1c1c;cursor:pointer}
+.auth-information-grid .ty-login-info{padding:24px 28px 28px;border-radius:20px;background:#fff}
+.auth-information-grid .ty-login-info__txt{margin:0;padding:0}
+.auth-information-grid .ty-login-info h4{margin:0 0 8px;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.auth-information-grid .ty-login-info p{margin:0 0 16px;font-size:14px;line-height:1.45;color:#6b6b70}
+.auth-information-grid .ty-login-info a{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;border:1px solid #d9d9de;border-radius:12px;background:#fff;font-size:15px;font-weight:600;color:#1c1c1c;text-decoration:none}
+.auth-information-grid .ty-login-info a:hover{border-color:#0071e3;color:#0071e3}
+@media (max-width:767px){
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid:has(> .auth-information-grid .ty-login-info) > .main-content-grid:has(.ty-login),.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-login) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title{font-size:22px}
+.auth-information-grid .ty-login-info{padding:18px 16px 20px;border-radius:16px}
+.auth-information-grid .ty-login-info a{width:100%;box-sizing:border-box}
+}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid > div{margin:0;padding:0}
+.auth-information-grid .ty-login-info{margin:0}
+.main-content-grid .ty-login .ty-login__remember-me{text-align:left;align-self:flex-start}
+
+/* ----------------------------------------------------------------
+   MM-11 / MM-6e (из секции 48 GOODMi). Страница регистрации (profiles.add, /registration/)
+   ================================================================
+   Только стили поверх штатной формы, в том же виде, что страница входа
+   (секция 47): серый фон, по центру белая карточка с формой (поля 48px,
+   имя и фамилия в две колонки, синяя кнопка на всю ширину) и карточка
+   с преимуществами регистрации. На телефоне карточки друг под другом.
+   Действует только там, где есть и форма .ty-account, и блок
+   .profile-information-grid с преимуществами.
+   ================================================================ */
+.tygh-content .content-grid:has(.profile-information-grid .ty-account-benefits):has(.main-content-grid .ty-account){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account)::before,.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account)::after{display:none}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits) > .main-content-grid:has(.ty-account){float:none;flex:0 1 520px;width:520px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits){float:none;flex:0 1 360px;width:360px;min-width:0;margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits) > div{margin:0;padding:0}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title::after{content:"Заказы, бонусы и избранное в одном месте";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form{font-size:14px;line-height:1.4;color:#6b6b70}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix{display:flex;flex-wrap:wrap;gap:0 12px}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix::before,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix::after{display:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-control-group{float:none;width:auto;margin:0 0 14px;padding:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-profile-field__item{flex:1 1 100%;min-width:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-first-name,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-last-name{flex:1 1 0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-control-group__title{display:block;float:none;width:auto;margin:0 0 6px;padding:0;font-size:14px;font-weight:500;color:#1c1c1c;text-align:left}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .controls{margin:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="text"],.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="password"],.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="tel"]{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="text"]:focus,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="password"]:focus,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="tel"]:focus{border-color:#0071e3;outline:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account p.ty-text-center{display:flex;gap:10px;margin:8px 0 16px;text-align:left}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > hr{display:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .controls{margin:0 0 14px;padding:12px 14px;border-radius:12px;background:#f4f4f6}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .controls label{display:inline;font-size:14px;line-height:1.4;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-policy-description{display:block;margin-top:6px;font-size:12px;line-height:1.4;color:#8a8a93}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .captcha label{display:block;margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container{margin:6px 0 0;padding:0;border:0;background:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container .ty-btn{float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container .ty-btn:hover{background:#0883ff;color:#fff}
+.profile-information-grid .ty-account-benefits{margin:0;padding:24px 28px;border-radius:20px;background:#fff}
+.profile-information-grid .ty-account-benefits h4{margin:0 0 12px;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.profile-information-grid .ty-account-benefits ul{margin:0;padding:0;list-style:none}
+.profile-information-grid .ty-account-benefits li{position:relative;margin:0;padding:0 0 10px 22px;font-size:14px;line-height:1.4;color:#3d3d3d}
+.profile-information-grid .ty-account-benefits li::before{content:"";position:absolute;left:4px;top:7px;width:7px;height:7px;border-radius:50%;background:#0071e3}
+@media (max-width:767px){
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits) > .main-content-grid:has(.ty-account),.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits){flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title{font-size:22px}
+.profile-information-grid .ty-account-benefits{padding:18px 16px;border-radius:16px}
+}
+
+/* Секция 48, правка 2026-10-11: окно Яндекс-капчи обрезалось снизу – модуль капчи жёстко задаёт высоту 102px, а виджету нужно 119px;
+   в списке преимуществ тема рисовала свои точки рядом с нашими оранжевыми */
+.profile-information-grid .ty-account-benefits ul li{margin-left:0;list-style:none;list-style-type:none}
+
+/* ----------------------------------------------------------------
+   MM-11 / MM-6l (из секции 55 GOODMi). Всплывающее окно входа и страница восстановления пароля
+   ================================================================
+   Только стили поверх штатных форм, в виде страницы входа (секция 47).
+   Окно входа (.ty-login-popup): поля 48px, вход через Яндекс и ВКонтакте,
+   ссылка на регистрацию; внизу закреплённая полоса темы
+   (.buttons-container-picker, её положение и высоту задаёт скрипт диалога –
+   не трогаем): «Запомнить» слева и синяя кнопка «Войти» на остальную ширину.
+   Восстановление пароля (/lost-password/, .ty-recover-password): серый фон,
+   по центру карточка с формой и карточка с пояснением.
+   ================================================================ */
+.ty-login-popup{}
+.ty-login-popup form{display:flex;flex-direction:column;font-size:14px;line-height:1.4;color:#6b6b70}
+.ty-login-popup .ty-control-group{margin:0 0 14px}
+.ty-login-popup .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.ty-login-popup .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.ty-login-popup .ty-login__input:focus{border-color:#0071e3;outline:0}
+.ty-login-popup .ty-password-forgot__a{font-size:14px;color:#0071e3}
+.ty-login-popup .buttons-container{order:3;display:flex;flex-direction:row;align-items:center;gap:16px;border-top:1px solid #ececf0;background:#fff !important;box-shadow:none}
+.ty-login-popup .ty-btn__login{order:2;flex:1 1 auto;float:none;display:flex;align-items:center;justify-content:center;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;line-height:1.2;box-shadow:none}
+.ty-login-popup .ty-btn__login:hover{background:#0883ff;color:#fff}
+.ty-login-popup .ty-login__remember-me{order:1;flex:0 0 auto;float:none;margin:0;padding:0;text-align:left}
+.ty-login-popup .ty-login__remember-me-label{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:#1c1c1c;cursor:pointer}
+.ty-login-popup p.ty-text-center{order:1;display:flex;gap:10px;margin:8px 0 0;text-align:left}
+.ty-login-popup .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.ty-login-popup .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.ty-login-popup .ty-login-reglink{order:2;float:none;margin:18px 0 0;padding:14px 0 0;border-top:1px solid #ececf0;font-size:14px;text-align:center;color:#6b6b70}
+.ty-login-popup .ty-login-reglink::before{content:"Нет аккаунта? "}
+.ty-login-popup .ty-login-reglink__a{font-weight:500;color:#0071e3}
+.ui-dialog:has(.ty-login-popup) .ui-dialog-title{font-size:22px;font-weight:700;color:#1c1c1c}
+.ui-dialog:has(.ty-login-popup) .ui-dialog-titlebar{border-bottom:0}
+
+.tygh-content .content-grid:has(.main-content-grid .ty-recover-password){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .main-content-grid .ty-recover-password){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .main-content-grid .ty-recover-password)::before,.row-fluid:has(> .main-content-grid .ty-recover-password)::after{display:none}
+.row-fluid > .main-content-grid:has(.ty-recover-password){float:none;flex:0 1 460px;width:460px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid{float:none;flex:0 1 360px;width:360px;min-width:0;margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid > div{margin:0;padding:0}
+.main-content-grid:has(.ty-recover-password) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title::after{content:"Пришлём на почту ссылку для смены пароля";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-recover-password{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid .ty-recover-password .ty-control-group{margin:0 0 16px}
+.main-content-grid .ty-recover-password .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid .ty-recover-password .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid .ty-recover-password .ty-login__input:focus{border-color:#0071e3;outline:0}
+.main-content-grid .ty-recover-password .buttons-container{margin:0;padding:0;border:0;background:none}
+.main-content-grid .ty-recover-password .buttons-container .ty-btn{float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid .ty-recover-password .buttons-container .ty-btn:hover{background:#0883ff;color:#fff}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid .ty-login-info__txt{font-size:14px;line-height:1.45;color:#6b6b70}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid .ty-login-info__txt i{font-style:normal;font-weight:500;color:#1c1c1c}
+@media (max-width:767px){
+.row-fluid:has(> .main-content-grid .ty-recover-password){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid > .main-content-grid:has(.ty-recover-password),.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid{flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-recover-password) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title{font-size:22px}
+}
+

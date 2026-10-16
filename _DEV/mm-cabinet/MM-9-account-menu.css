@@ -1,0 +1,162 @@
+
+/* ================================================================
+   MM-9. Меню аккаунта: выпадающее меню в шапке (ПК) и лист «Профиль» в нижнем меню (телефон), 2026-10-15
+   ================================================================
+   Части MM-6b и MM-6i черновика _DEV/mm-cabinet/MM-6-cabinet.css целиком (секции 45 и 52 GOODMi) и правила шапки
+   и нижнего меню из MM-6c, 6g, 6j, 6n (секции 46, 50, 53, 57). Пункты «Мои заказы», «Купленные товары», «Мои бонусы»
+   (.gm-acc-*) выводит хук addons/my_changes/hooks/profiles/my_account_menu.post.tpl, ссылки – на mm_cabinet.
+   ================================================================ */
+/* ----------------------------------------------------------------
+   MM-9 / MM-6b (из секции 45 GOODMi). Выпадающее меню аккаунта в шапке
+   ================================================================
+   Только стили поверх штатного blocks/my_account.tpl. Гость: сверху
+   приглашение войти и кнопки «Войти» и «Регистрация», ниже ссылки со
+   значками. Вошедший: имя с кружком, ссылки со значками в заданном
+   порядке, «Выйти» отдельной строкой внизу. Значки подбираются по
+   адресу ссылки. «Отслеживание заказа» скрыто. Штатный пункт бонусных
+   баллов скрыт: вместо него хук my_account_menu.post.tpl выводит
+   «Мои бонусы» со ссылкой на mm_cabinet.bonuses (.gm-acc-bonus).
+   ================================================================ */
+.ut2-top-my-account .ty-dropdown-box__content{width:320px;padding:8px;border:0;border-radius:16px;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.16);display:flex;flex-direction:column;box-sizing:border-box}
+.ut2-top-my-account .ty-dropdown-box__content.hidden{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ut2-popup-box-title{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__orders{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info{order:2;margin:0;padding:0;border:0;list-style:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item{margin:0;padding:0;border:0}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a{display:flex;align-items:center;min-height:42px !important;padding:0 12px 0 48px !important;border-radius:10px;font-size:15px;line-height:1.3;color:#1c1c1c;text-decoration:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M9 12h6'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;transition:background-color .15s}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5l8-4 8 4v9l-8 4-8-4z'/%3E%3Cpath d='M4 7.5l8 4 8-4'/%3E%3Cpath d='M12 11.5v9'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="profiles.update"],.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="profiles-update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="reward_points"],.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="bonus"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name{display:flex;align-items:center;gap:12px;min-height:56px;margin:0 0 6px;padding:8px 12px 12px;border-bottom:1px solid #ececf0;font-size:16px;font-weight:600;color:#1c1c1c !important}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name::before{content:"";flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#e8f1fd url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='9' r='3.5'/%3E%3Cpath d='M5.5 19.5c.9-3 3.4-4.7 6.500-4.700s5.600 1.700 6.500 4.700'/%3E%3C/svg%3E") no-repeat center;background-size:24px 24px}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{margin:0;padding:0;border:0;background:none;display:flex;gap:8px}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{order:1;flex-wrap:wrap;margin:0 0 6px;padding:12px 12px 14px;border-bottom:1px solid #ececf0}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons::before{content:"Войдите, чтобы видеть заказы и копить бонусы";flex:1 1 100%;margin:0 0 4px;font-size:14px;line-height:1.35;color:#6b6b70}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{flex:1 1 0;display:flex;align-items:center;justify-content:center;height:44px;margin:0;padding:0 12px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none;text-transform:none}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__secondary{order:1;border:1px solid #0071e3;background:#0071e3;color:#fff}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary{order:2;border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary:hover{border-color:#0071e3;color:#0071e3}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{order:3;margin:6px 0 0;padding:6px 0 0 !important;border-top:1px solid #ececf0}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:42px;margin:0;padding:0 12px 0 48px;border:0;border-radius:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b70' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;box-shadow:none;font-size:15px;font-weight:400;color:#6b6b70;text-transform:none;text-align:left}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a .ty-reward-points-count{margin-left:auto;padding:2px 8px;border-radius:8px;background:#e8f1fd;color:#0071e3;font-size:13px;font-weight:600;white-space:nowrap}
+
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info{display:flex;flex-direction:column}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item{order:20}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name{order:0}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="profiles.update"]){order:1}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders"]){order:2}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="wishlist"]){order:4}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="compare"]){order:5}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="vendor_communication"]){order:6}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="reward_points"]){display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="vendor_communication"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{width:100% !important;max-width:none;align-self:stretch;box-sizing:border-box}
+
+/* Секция 44, правка 2026-10-11: скрытый флажок «Показать ещё» в истории бонусов тема показывала как обычный флажок */
+.gm-bp input.gm-bp-toggle{display:none !important}
+
+/* ----------------------------------------------------------------
+   MM-9 / MM-6i (из секции 52 GOODMi). Телефон: пункт «Профиль» в нижнем меню
+   ================================================================
+   Тот же блок аккаунта, что в шапке, но открывается нижним листом из
+   закреплённого меню (.ut2-sticky-panel). Правила повторяют секции 45,
+   46 и 50 с другим началом селектора: приглашение войти и кнопки у
+   гостя, имя с кружком у вошедшего, пункты со значками в том же
+   порядке, «Выйти» отдельной строкой, «Отслеживание заказа» скрыто.
+   Заголовок листа и крестик темы оставлены.
+   ================================================================ */
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content{display:flex;flex-direction:column;padding-left:12px;padding-right:12px;padding-bottom:16px;box-sizing:border-box}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content.hidden{display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content > .ty-dropdown-box__title{order:-1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content > .ut2-btn-close{order:-2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__orders{display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info{order:2;margin:0;padding:0;border:0;list-style:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item{margin:0;padding:0;border:0}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a{display:flex;align-items:center;min-height:42px !important;padding:0 12px 0 48px !important;border-radius:10px;font-size:15px;line-height:1.3;color:#1c1c1c;text-decoration:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M9 12h6'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;transition:background-color .15s}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5l8-4 8 4v9l-8 4-8-4z'/%3E%3Cpath d='M4 7.5l8 4 8-4'/%3E%3Cpath d='M12 11.5v9'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="profiles.update"],.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="profiles-update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="reward_points"],.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="bonus"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name{display:flex;align-items:center;gap:12px;min-height:56px;margin:0 0 6px;padding:8px 12px 12px;border-bottom:1px solid #ececf0;font-size:16px;font-weight:600;color:#1c1c1c !important}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name::before{content:"";flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#e8f1fd url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='9' r='3.5'/%3E%3Cpath d='M5.5 19.5c.9-3 3.4-4.7 6.500-4.700s5.600 1.700 6.500 4.700'/%3E%3C/svg%3E") no-repeat center;background-size:24px 24px}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{margin:0;padding:0;border:0;background:none;display:flex;gap:8px}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{order:1;flex-wrap:wrap;margin:0 0 6px;padding:12px 12px 14px;border-bottom:1px solid #ececf0}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons::before{content:"Войдите, чтобы видеть заказы и копить бонусы";flex:1 1 100%;margin:0 0 4px;font-size:14px;line-height:1.35;color:#6b6b70}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{flex:1 1 0;display:flex;align-items:center;justify-content:center;height:44px;margin:0;padding:0 12px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none;text-transform:none}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__secondary{order:1;border:1px solid #0071e3;background:#0071e3;color:#fff}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary{order:2;border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary:hover{border-color:#0071e3;color:#0071e3}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{order:3;margin:6px 0 0;padding:6px 0 0 !important;border-top:1px solid #ececf0}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:42px;margin:0;padding:0 12px 0 48px;border:0;border-radius:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b70' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;box-shadow:none;font-size:15px;font-weight:400;color:#6b6b70;text-transform:none;text-align:left}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a .ty-reward-points-count{margin-left:auto;padding:2px 8px;border-radius:8px;background:#e8f1fd;color:#0071e3;font-size:13px;font-weight:600;white-space:nowrap}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info{display:flex;flex-direction:column}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item{order:20}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name{order:0}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="profiles.update"]){order:1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders"]){order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="wishlist"]){order:4}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="compare"]){order:5}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="vendor_communication"]){order:6}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="reward_points"]){display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="vendor_communication"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{width:100% !important;max-width:none;align-self:stretch;box-sizing:border-box}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="account-orders"]),body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders.search"]){display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+
+
+/* ----------------------------------------------------------------
+   MM-9 / из MM-6c: правила шапки и нижнего меню
+   ---------------------------------------------------------------- */
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="account-orders"]),
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders.search"]){display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+
+/* ----------------------------------------------------------------
+   MM-9 / из MM-6g: правила шапки и нижнего меню
+   ---------------------------------------------------------------- */
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+
+/* ----------------------------------------------------------------
+   MM-9 / из MM-6j: правила шапки и нижнего меню
+   ---------------------------------------------------------------- */
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-orders > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-bonus > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="my-profile"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="my-profile"]){order:1}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-orders > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-bonus > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="my-profile"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="my-profile"]){order:1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+
+/* ----------------------------------------------------------------
+   MM-9 / из MM-6n: правила шапки и нижнего меню
+   ---------------------------------------------------------------- */
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-purchased > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-purchased{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-purchased > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-purchased{order:2}
+
+/* ----------------------------------------------------------------
+   MM-9 / поправка под Maxmobiles: штатный пункт «Заказы» у Maxmobiles ведёт на /orders/ (у GOODMi – account-orders,
+   orders.search), вместо него – «Мои заказы» кабинета (.gm-acc-orders)
+   ---------------------------------------------------------------- */
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href$="/orders/"]),
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href$="/orders/"]){display:none}

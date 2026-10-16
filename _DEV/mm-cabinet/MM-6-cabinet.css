@@ -1,0 +1,861 @@
+/* ================================================================
+   MM-6a (из секции 44 GOODMi). Личный кабинет: страница «Мои бонусы» (dispatch=mm_cabinet.bonuses)
+   ================================================================
+   Разметку выводит шаблон views/mm_cabinet/bonuses.tpl, данные – контроллер
+   mm_cabinet (API БонусПлюс, заказы сайта и МойСклад). Слева: баланс и
+   уровень (.gm-bp-hero), показатели (.gm-bp-stats), прогресс и карточки
+   уровней с картинками клубных карт (.gm-bp-prog__*, .gm-bp-level), история
+   (.gm-bp-op; строки сверх восьми раскрывает скрытый флажок .gm-bp-toggle).
+   Справа: «Как это работает» и заказы с пометкой источника (.gm-bp-chip).
+   ================================================================ */
+.tygh-content .content-grid:has(.gm-bp){background:#f4f4f6;padding-bottom:32px}
+.main-content-grid:has(.gm-bp) h1.ty-mainbox-title{font-size:26px;line-height:1.2;margin:8px 0 16px}
+.gm-bp{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;align-items:start;color:#1c1c1c}
+.gm-bp *{box-sizing:border-box}
+.gm-bp__col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.gm-bp__card{padding:20px 24px;border-radius:16px;background:#fff}
+.gm-bp__h{margin:0 0 14px;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.gm-bp-hero{display:flex;gap:24px;align-items:stretch;padding:24px;border-radius:16px;background:linear-gradient(135deg,#0071e3 0%,#3d95f0 100%);color:#fff}
+.gm-bp-hero,.gm-bp-hero div,.gm-bp-hero small{color:#fff}
+.gm-bp-hero__main{flex:1 1 auto;min-width:0}
+.gm-bp-hero__label{font-size:14px;opacity:.9}
+.gm-bp-hero__sum{margin:4px 0 2px;font-size:44px;font-weight:700;line-height:1.1}
+.gm-bp-hero__sum small{font-size:18px;font-weight:500;opacity:.9}
+.gm-bp-hero__note{font-size:14px;opacity:.95}
+.gm-bp-hero__side{flex:0 0 220px;display:flex;flex-direction:column;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.16)}
+.gm-bp-hero__status{font-size:13px;opacity:.9}
+.gm-bp-hero__level{font-size:22px;font-weight:700;line-height:1.2}
+.gm-bp-hero__rate{font-size:13px;line-height:1.4;opacity:.95}
+.gm-bp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.gm-bp-stat{padding:12px 14px;border-radius:12px;background:#f4f4f6}
+.gm-bp-stat__v{font-size:18px;font-weight:700;line-height:1.2}
+.gm-bp-stat__l{margin-top:2px;font-size:13px;line-height:1.3;color:#6b6b70}
+.gm-bp-prog__text{font-size:15px;line-height:1.4}
+.gm-bp-prog__text b{font-weight:700;color:#1c1c1c}
+.gm-bp-prog__bar{position:relative;height:10px;margin:14px 0 10px;border-radius:5px;background:#ececf0;overflow:hidden}
+.gm-bp-prog__fill{position:absolute;left:0;top:0;bottom:0;min-width:10px;border-radius:5px;background:#0071e3}
+.gm-bp-levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.gm-bp-level{padding:10px 12px;border:1px solid #ececf0;border-radius:12px}
+.gm-bp-level--on{border-color:#0071e3;background:#f3f8fe}
+.gm-bp-level__n{font-size:14px;font-weight:600}
+.gm-bp-level__p{font-size:13px;color:#6b6b70;line-height:1.3}
+.gm-bp-level--on .gm-bp-level__n::after{content:"ваш уровень";display:inline-block;margin-left:6px;padding:1px 6px;border-radius:6px;background:#0071e3;color:#fff;font-size:11px;font-weight:500;vertical-align:1px}
+.gm-bp-op{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #f0f0f3}
+.gm-bp-op:first-of-type{border-top:0;padding-top:0}
+.gm-bp-op__ic{flex:0 0 36px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;background:#eaf7ee;color:#2e9d48}
+.gm-bp-op--minus .gm-bp-op__ic{background:#f4f4f6;color:#6b6b70}
+.gm-bp-op__t{flex:1 1 auto;min-width:0}
+.gm-bp-op__n{font-size:15px;line-height:1.3}
+.gm-bp-op__d{font-size:13px;color:#8a8a93;line-height:1.3}
+.gm-bp-op__s{flex:0 0 auto;font-size:16px;font-weight:600;color:#2e9d48;white-space:nowrap}
+.gm-bp-op--minus .gm-bp-op__s{color:#1c1c1c}
+.gm-bp-more{display:block;margin-top:12px;padding:11px;border:1px solid #d9d9de;border-radius:12px;text-align:center;font-size:15px;font-weight:500;color:#1c1c1c;text-decoration:none}
+.gm-bp-how{margin:0;padding:0;list-style:none}
+.gm-bp-how li{position:relative;padding:0 0 10px 22px;font-size:14px;line-height:1.4}
+.gm-bp-how li::before{content:"";position:absolute;left:4px;top:7px;width:7px;height:7px;border-radius:50%;background:#0071e3}
+.gm-bp-link{font-size:14px;color:#0071e3;text-decoration:none}
+.gm-bp-ord{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #f0f0f3;font-size:14px;line-height:1.3}
+.gm-bp-ord:first-of-type{border-top:0;padding-top:0}
+.gm-bp-ord__st{color:#6b6b70;font-size:13px}
+.gm-bp-ord__sum{font-weight:600;white-space:nowrap}
+@media (max-width:767px){
+.gm-bp{grid-template-columns:minmax(0,1fr)}
+.gm-bp__card{padding:16px 14px;border-radius:14px}
+.gm-bp-hero{flex-direction:column;gap:14px;padding:18px 16px;border-radius:14px}
+.gm-bp-hero__side{flex:0 0 auto;gap:6px}
+.gm-bp-hero__sum{font-size:38px}
+.gm-bp-stats{grid-template-columns:minmax(0,1fr)}
+.gm-bp-levels{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+.gm-bp-levels{gap:10px}
+.gm-bp-level{padding:0;overflow:hidden;border-width:2px;border-color:#ececf0;background:#fff}
+.gm-bp-level--on{border-color:#0071e3;background:#fff}
+.gm-bp-level__img{display:block;width:100%;height:96px;object-fit:cover;object-position:center top}
+.gm-bp-level__b{padding:10px 12px 12px}
+.gm-bp-level__n{font-size:16px;font-weight:700}
+.gm-bp-level__pct{margin:2px 0 4px;font-size:18px;font-weight:700;line-height:1.2;color:#0071e3}
+.gm-bp-level__pct span{font-size:12px;font-weight:400;color:#6b6b70}
+.gm-bp-level:not(.gm-bp-level--on) .gm-bp-level__img{opacity:.55}
+@media (max-width:767px){
+.gm-bp-level__img{height:84px}
+}
+
+a.gm-bp-level{display:block;text-decoration:none;color:#1c1c1c}
+a.gm-bp-level:hover{border-color:#8cb8f2}
+.gm-bp-level__b,.gm-bp-level__n,.gm-bp-level__pct,.gm-bp-level__p{display:block}
+.gm-bp-level__pct span{display:inline}
+.gm-bp-toggle{display:none}
+.gm-bp-op--extra{display:none}
+.gm-bp-toggle:checked ~ .gm-bp-op--extra{display:flex}
+.gm-bp-toggle:checked ~ .gm-bp-more{display:none}
+label.gm-bp-more{cursor:pointer}
+.gm-bp-more:hover{border-color:#0071e3;color:#0071e3}
+.gm-bp-chip{display:inline-block;margin-right:6px;padding:1px 7px;border-radius:6px;background:#e8f1fd;color:#0071e3;font-size:12px;font-weight:500}
+.gm-bp-chip--store{background:#eef1f6;color:#4a5568}
+.gm-bp-ord__n a{color:#1c1c1c;text-decoration:underline}
+.gm-bp-empty p,.gm-bp-note{margin:0 0 14px;font-size:15px;line-height:1.45;color:#3d3d3d}
+.gm-bp-btn{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:12px;background:#0071e3;color:#fff;font-size:15px;font-weight:600;text-decoration:none}
+.gm-bp-btn:hover{background:#0883ff;color:#fff}
+@media (max-width:767px){
+.main-content-grid:has(.gm-bp) h1.ty-mainbox-title{font-size:22px}
+}
+
+/* Секция 44, правка 2026-10-11: в блоке «Ваш уровень» – картинка клубной карты текущего уровня (просьба пользователя) */
+.gm-bp-hero__side{flex:0 0 250px;justify-content:flex-start;gap:10px;padding:10px}
+.gm-bp-hero__card{display:block;width:100%;height:96px;border-radius:8px;object-fit:cover;object-position:center top}
+.gm-bp-hero__info{padding:0 6px 4px}
+.gm-bp-hero__rate{margin-top:2px}
+@media (max-width:767px){
+.gm-bp-hero__side{flex:0 0 auto;flex-direction:row;align-items:center;gap:12px}
+.gm-bp-hero__card{flex:0 0 132px;width:132px;height:64px}
+.gm-bp-hero__info{padding:0;min-width:0}
+}
+
+/* ================================================================
+   MM-6b (из секции 45 GOODMi). Выпадающее меню аккаунта в шапке
+   ================================================================
+   Только стили поверх штатного blocks/my_account.tpl. Гость: сверху
+   приглашение войти и кнопки «Войти» и «Регистрация», ниже ссылки со
+   значками. Вошедший: имя с кружком, ссылки со значками в заданном
+   порядке, «Выйти» отдельной строкой внизу. Значки подбираются по
+   адресу ссылки. «Отслеживание заказа» скрыто. Штатный пункт бонусных
+   баллов скрыт: вместо него хук my_account_menu.post.tpl выводит
+   «Мои бонусы» со ссылкой на mm_cabinet.bonuses (.gm-acc-bonus).
+   ================================================================ */
+.ut2-top-my-account .ty-dropdown-box__content{width:320px;padding:8px;border:0;border-radius:16px;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.16);display:flex;flex-direction:column;box-sizing:border-box}
+.ut2-top-my-account .ty-dropdown-box__content.hidden{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ut2-popup-box-title{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__orders{display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info{order:2;margin:0;padding:0;border:0;list-style:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item{margin:0;padding:0;border:0}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a{display:flex;align-items:center;min-height:42px !important;padding:0 12px 0 48px !important;border-radius:10px;font-size:15px;line-height:1.3;color:#1c1c1c;text-decoration:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M9 12h6'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;transition:background-color .15s}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5l8-4 8 4v9l-8 4-8-4z'/%3E%3Cpath d='M4 7.5l8 4 8-4'/%3E%3Cpath d='M12 11.5v9'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="profiles.update"],.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="profiles-update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="reward_points"],.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="bonus"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name{display:flex;align-items:center;gap:12px;min-height:56px;margin:0 0 6px;padding:8px 12px 12px;border-bottom:1px solid #ececf0;font-size:16px;font-weight:600;color:#1c1c1c !important}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name::before{content:"";flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#e8f1fd url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='9' r='3.5'/%3E%3Cpath d='M5.5 19.5c.9-3 3.4-4.7 6.500-4.700s5.600 1.700 6.500 4.700'/%3E%3C/svg%3E") no-repeat center;background-size:24px 24px}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{margin:0;padding:0;border:0;background:none;display:flex;gap:8px}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{order:1;flex-wrap:wrap;margin:0 0 6px;padding:12px 12px 14px;border-bottom:1px solid #ececf0}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons::before{content:"Войдите, чтобы видеть заказы и копить бонусы";flex:1 1 100%;margin:0 0 4px;font-size:14px;line-height:1.35;color:#6b6b70}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{flex:1 1 0;display:flex;align-items:center;justify-content:center;height:44px;margin:0;padding:0 12px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none;text-transform:none}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__secondary{order:1;border:1px solid #0071e3;background:#0071e3;color:#fff}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary{order:2;border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+body.user-is-guest .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary:hover{border-color:#0071e3;color:#0071e3}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{order:3;margin:6px 0 0;padding:6px 0 0 !important;border-top:1px solid #ececf0}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:42px;margin:0;padding:0 12px 0 48px;border:0;border-radius:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b70' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;box-shadow:none;font-size:15px;font-weight:400;color:#6b6b70;text-transform:none;text-align:left}
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons .ty-btn:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a .ty-reward-points-count{margin-left:auto;padding:2px 8px;border-radius:8px;background:#e8f1fd;color:#0071e3;font-size:13px;font-weight:600;white-space:nowrap}
+
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info{display:flex;flex-direction:column}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item{order:20}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__name{order:0}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="profiles.update"]){order:1}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders"]){order:2}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="wishlist"]){order:4}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="compare"]){order:5}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="vendor_communication"]){order:6}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="reward_points"]){display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="vendor_communication"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__buttons{width:100% !important;max-width:none;align-self:stretch;box-sizing:border-box}
+
+/* Секция 44, правка 2026-10-11: скрытый флажок «Показать ещё» в истории бонусов тема показывала как обычный флажок */
+.gm-bp input.gm-bp-toggle{display:none !important}
+
+/* ================================================================
+   MM-6c (из секции 46 GOODMi). Личный кабинет: общий каркас и страница «Мои заказы»
+   ================================================================
+   Каркас страниц кабинета (.gm-lk): слева колонка с именем покупателя
+   и разделами (.gm-lk-user, .gm-lk-nav; шаблон components/nav.tpl), справа
+   содержимое. На телефоне разделы – горизонтальная лента.
+   «Мои заказы» (dispatch=mm_cabinet.orders) по образцу списка заказов
+   Ozon: переключатель «Актуальные / Завершённые» (.gm-seg), отборы по
+   источнику и году (.gm-chips), карточка заказа (.gm-ord): слева статус,
+   дата, номер, сумма и кнопки, справа товары картинками с ценой
+   (.gm-ord-item). Заказы сайта и покупки в магазинах идут одним списком.
+   ================================================================ */
+.tygh-content .content-grid:has(.gm-lk){background:#f4f4f6;padding-bottom:32px}
+.main-content-grid:has(.gm-lk) h1.ty-mainbox-title{font-size:26px;line-height:1.2;margin:8px 0 16px}
+.gm-lk{display:grid;grid-template-columns:240px minmax(0,1fr);gap:12px;align-items:start;color:#1c1c1c}
+.gm-lk *{box-sizing:border-box}
+.gm-lk__side{position:sticky;top:96px;padding:20px;border-radius:16px;background:#fff}
+.gm-lk__main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.gm-lk__card{padding:20px 24px;border-radius:16px;background:#fff}
+.gm-lk-user{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:16px;border-bottom:1px solid #ececf0}
+.gm-lk-user__ava{flex:0 0 48px;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:#e8f1fd;color:#0071e3;font-size:20px;font-weight:700}
+.gm-lk-user__info{min-width:0}
+.gm-lk-user__name{font-size:16px;font-weight:600;line-height:1.25;color:#1c1c1c;word-break:break-word}
+.gm-lk-user__edit{font-size:13px;color:#0071e3;text-decoration:none}
+.gm-lk-nav{display:flex;flex-direction:column;gap:2px}
+.gm-lk-nav__a{display:block;padding:10px 12px;border-radius:10px;font-size:15px;line-height:1.3;color:#1c1c1c;text-decoration:none}
+.gm-lk-nav__a:hover{background:#f4f4f6;color:#1c1c1c}
+.gm-lk-nav__a--on,.gm-lk-nav__a--on:hover{background:#e8f1fd;color:#0071e3;font-weight:600}
+.gm-lk-nav__a--out{margin-top:8px;color:#8a8a93}
+.gm-ord-filters{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.gm-seg{display:inline-flex;padding:4px;border-radius:14px;background:#f4f4f6}
+.gm-seg__a{padding:9px 18px;border-radius:11px;font-size:15px;font-weight:600;line-height:1.3;color:#1c1c1c;text-decoration:none;white-space:nowrap}
+.gm-seg__a span{margin-left:2px;font-size:13px;font-weight:400;color:#8a8a93}
+.gm-seg__a--on,.gm-seg__a--on:hover{background:#1c1c1c;color:#fff}
+.gm-seg__a--on span{color:#d0d0d5}
+.gm-chips{display:flex;flex-wrap:wrap;gap:8px}
+.gm-chips__a{padding:7px 14px;border-radius:10px;background:#f4f4f6;font-size:14px;font-weight:500;line-height:1.3;color:#1c1c1c;text-decoration:none;white-space:nowrap}
+.gm-chips__a:hover{color:#0071e3}
+.gm-chips__a--on{background:#e8f1fd;color:#0071e3}
+.gm-ord{display:grid;grid-template-columns:320px minmax(0,1fr);border-radius:16px;background:#fff;overflow:hidden}
+.gm-ord__info{display:flex;flex-direction:column;padding:20px 24px;border-right:1px solid #ececf0}
+.gm-ord__title{font-size:20px;font-weight:700;line-height:1.25;color:#1c1c1c}
+.gm-ord--active .gm-ord__title{color:#0071e3}
+.gm-ord--cancelled .gm-ord__title{color:#8a8a93}
+.gm-ord__sub{margin-top:4px;font-size:14px;line-height:1.35;color:#6b6b70}
+.gm-ord__meta{margin-top:2px;font-size:14px;line-height:1.35;color:#6b6b70}
+.gm-ord__meta a{color:#6b6b70;text-decoration:underline}
+.gm-ord__btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:16px}
+.gm-ord__btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:12px;background:#0071e3;color:#fff;font-size:15px;font-weight:600;text-decoration:none}
+.gm-ord__btn:hover{background:#0883ff;color:#fff}
+.gm-ord__btn--light,.gm-ord__btn--light:hover{background:#e8f1fd;color:#0071e3}
+.gm-ord__items{display:flex;flex-wrap:wrap;align-content:flex-start;gap:12px;padding:16px 20px}
+.gm-ord-item{display:block;width:120px;color:#1c1c1c;text-decoration:none}
+.gm-ord-item__pic{display:flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:12px;background:#f4f4f6;overflow:hidden}
+.gm-ord-item__pic img{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
+.gm-ord-item__price{display:block;margin-top:6px;font-size:15px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.gm-ord-item__price i{font-size:13px;font-style:normal;font-weight:400;color:#8a8a93}
+.gm-ord-item__name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:12px;line-height:1.3;color:#6b6b70}
+a.gm-ord-item:hover .gm-ord-item__name{color:#0071e3}
+.gm-ord__noitems{align-self:center;font-size:14px;color:#8a8a93}
+.gm-pager{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0}
+.gm-pager__a{padding:10px 18px;border:1px solid #d9d9de;border-radius:12px;background:#fff;font-size:15px;font-weight:500;color:#1c1c1c;text-decoration:none}
+.gm-pager__a:hover{border-color:#0071e3;color:#0071e3}
+.gm-pager__now{font-size:14px;color:#6b6b70}
+@media (max-width:1100px){
+.gm-ord{grid-template-columns:260px minmax(0,1fr)}
+}
+@media (max-width:767px){
+.main-content-grid:has(.gm-lk) h1.ty-mainbox-title{font-size:22px}
+.gm-lk{grid-template-columns:minmax(0,1fr);gap:10px}
+.gm-lk__main{gap:10px}
+.gm-lk__side{position:static;padding:12px 14px;border-radius:14px}
+.gm-lk__card{padding:14px;border-radius:14px}
+.gm-lk-user{margin-bottom:10px;padding-bottom:10px}
+.gm-lk-user__ava{flex:0 0 40px;width:40px;height:40px;font-size:17px}
+.gm-lk-nav{flex-direction:row;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.gm-lk-nav__a{flex:0 0 auto;padding:8px 12px;background:#f4f4f6;font-size:14px;white-space:nowrap}
+.gm-lk-nav__a--out{margin-top:0}
+.gm-seg{display:flex;width:100%}
+.gm-seg__a{flex:1 1 0;padding:9px 8px;text-align:center}
+.gm-ord{grid-template-columns:minmax(0,1fr);border-radius:14px}
+.gm-ord__info{padding:14px 14px 12px;border-right:0;border-bottom:1px solid #ececf0}
+.gm-ord__title{font-size:18px}
+.gm-ord__btns{padding-top:12px}
+.gm-ord__btn{flex:1 1 0;height:42px;padding:0 12px}
+.gm-ord__items{flex-wrap:nowrap;gap:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.gm-ord-item{flex:0 0 96px;width:96px}
+.gm-ord-item__pic{width:96px;height:96px}
+}
+
+/* Секция 45, дополнение: вошедшему покупателю «Мои заказы» в меню аккаунта ведут на новую страницу (пункт выводит хук) */
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="account-orders"]),
+body:not(.user-is-guest) .ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders.search"]){display:none}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+
+/* ================================================================
+   MM-6d (из секции 47 GOODMi). Страница входа (auth.login_form, /account/)
+   ================================================================
+   Только стили поверх штатной формы. Серый фон, по центру две белые
+   карточки: форма входа (поля 48px, синяя кнопка на всю ширину,
+   «Запомнить» под ней, вход через Яндекс и ВКонтакте) и приглашение
+   зарегистрироваться. На телефоне карточки идут друг под другом.
+   Действует только на странице входа (есть и форма, и блок
+   .auth-information-grid); всплывающее окно входа не затронуто.
+   ================================================================ */
+.tygh-content .content-grid:has(.auth-information-grid .ty-login-info):has(.ty-login){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login)::before,.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login)::after{display:none}
+.row-fluid:has(> .auth-information-grid .ty-login-info) > .main-content-grid:has(.ty-login){float:none;flex:0 1 460px;width:460px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{float:none;flex:0 1 360px;width:360px;min-width:0;margin:0}
+.main-content-grid:has(.ty-login) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title::after{content:"Чтобы видеть заказы и копить бонусы";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-login{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid .ty-login form{font-size:14px;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-login .ty-control-group{margin:0 0 14px}
+.main-content-grid .ty-login .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid .ty-login .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid .ty-login .ty-login__input:focus{border-color:#0071e3;outline:0}
+.main-content-grid .ty-login .ty-password-forgot__a{font-size:14px;color:#0071e3}
+.main-content-grid .ty-login p.ty-text-center{display:flex;gap:10px;margin:8px 0 18px;text-align:left}
+.main-content-grid .ty-login .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.main-content-grid .ty-login .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.main-content-grid .ty-login .buttons-container{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;border:0;background:none}
+.main-content-grid .ty-login .ty-btn__login{order:1;float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid .ty-login .ty-btn__login:hover{background:#0883ff;color:#fff}
+.main-content-grid .ty-login .ty-login__remember-me{order:2;float:none;margin:0;padding:0}
+.main-content-grid .ty-login .ty-login__remember-me-label{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:#1c1c1c;cursor:pointer}
+.auth-information-grid .ty-login-info{padding:24px 28px 28px;border-radius:20px;background:#fff}
+.auth-information-grid .ty-login-info__txt{margin:0;padding:0}
+.auth-information-grid .ty-login-info h4{margin:0 0 8px;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.auth-information-grid .ty-login-info p{margin:0 0 16px;font-size:14px;line-height:1.45;color:#6b6b70}
+.auth-information-grid .ty-login-info a{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;border:1px solid #d9d9de;border-radius:12px;background:#fff;font-size:15px;font-weight:600;color:#1c1c1c;text-decoration:none}
+.auth-information-grid .ty-login-info a:hover{border-color:#0071e3;color:#0071e3}
+@media (max-width:767px){
+.row-fluid:has(> .auth-information-grid .ty-login-info):has(> .main-content-grid .ty-login){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid:has(> .auth-information-grid .ty-login-info) > .main-content-grid:has(.ty-login),.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-login) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-login) h1.ty-mainbox-title{font-size:22px}
+.auth-information-grid .ty-login-info{padding:18px 16px 20px;border-radius:16px}
+.auth-information-grid .ty-login-info a{width:100%;box-sizing:border-box}
+}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid{margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-login) > .auth-information-grid > div{margin:0;padding:0}
+.auth-information-grid .ty-login-info{margin:0}
+.main-content-grid .ty-login .ty-login__remember-me{text-align:left;align-self:flex-start}
+
+/* ================================================================
+   MM-6e (из секции 48 GOODMi). Страница регистрации (profiles.add, /registration/)
+   ================================================================
+   Только стили поверх штатной формы, в том же виде, что страница входа
+   (секция 47): серый фон, по центру белая карточка с формой (поля 48px,
+   имя и фамилия в две колонки, синяя кнопка на всю ширину) и карточка
+   с преимуществами регистрации. На телефоне карточки друг под другом.
+   Действует только там, где есть и форма .ty-account, и блок
+   .profile-information-grid с преимуществами.
+   ================================================================ */
+.tygh-content .content-grid:has(.profile-information-grid .ty-account-benefits):has(.main-content-grid .ty-account){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account)::before,.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account)::after{display:none}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits) > .main-content-grid:has(.ty-account){float:none;flex:0 1 520px;width:520px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits){float:none;flex:0 1 360px;width:360px;min-width:0;margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits) > div{margin:0;padding:0}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title::after{content:"Заказы, бонусы и избранное в одном месте";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form{font-size:14px;line-height:1.4;color:#6b6b70}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix{display:flex;flex-wrap:wrap;gap:0 12px}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix::before,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .clearfix::after{display:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-control-group{float:none;width:auto;margin:0 0 14px;padding:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-profile-field__item{flex:1 1 100%;min-width:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-first-name,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-last-name{flex:1 1 0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-control-group__title{display:block;float:none;width:auto;margin:0 0 6px;padding:0;font-size:14px;font-weight:500;color:#1c1c1c;text-align:left}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .controls{margin:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="text"],.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="password"],.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="tel"]{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="text"]:focus,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="password"]:focus,.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account input[type="tel"]:focus{border-color:#0071e3;outline:0}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account p.ty-text-center{display:flex;gap:10px;margin:8px 0 16px;text-align:left}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > hr{display:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .controls{margin:0 0 14px;padding:12px 14px;border-radius:12px;background:#f4f4f6}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account form > .controls label{display:inline;font-size:14px;line-height:1.4;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .ty-policy-description{display:block;margin-top:6px;font-size:12px;line-height:1.4;color:#8a8a93}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .captcha label{display:block;margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container{margin:6px 0 0;padding:0;border:0;background:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container .ty-btn{float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid:has(~ .profile-information-grid .ty-account-benefits) .ty-account .buttons-container .ty-btn:hover{background:#0883ff;color:#fff}
+.profile-information-grid .ty-account-benefits{margin:0;padding:24px 28px;border-radius:20px;background:#fff}
+.profile-information-grid .ty-account-benefits h4{margin:0 0 12px;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.profile-information-grid .ty-account-benefits ul{margin:0;padding:0;list-style:none}
+.profile-information-grid .ty-account-benefits li{position:relative;margin:0;padding:0 0 10px 22px;font-size:14px;line-height:1.4;color:#3d3d3d}
+.profile-information-grid .ty-account-benefits li::before{content:"";position:absolute;left:4px;top:7px;width:7px;height:7px;border-radius:50%;background:#0071e3}
+@media (max-width:767px){
+.row-fluid:has(> .profile-information-grid .ty-account-benefits):has(> .main-content-grid .ty-account){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid:has(> .profile-information-grid .ty-account-benefits) > .main-content-grid:has(.ty-account),.row-fluid:has(> .main-content-grid .ty-account) > .profile-information-grid:has(.ty-account-benefits){flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-account):has(~ .profile-information-grid .ty-account-benefits) h1.ty-mainbox-title{font-size:22px}
+.profile-information-grid .ty-account-benefits{padding:18px 16px;border-radius:16px}
+}
+
+/* Секция 48, правка 2026-10-11: окно Яндекс-капчи обрезалось снизу – модуль капчи жёстко задаёт высоту 102px, а виджету нужно 119px;
+   в списке преимуществ тема рисовала свои точки рядом с нашими оранжевыми */
+.captcha .smart-captcha{height:122px !important}
+.profile-information-grid .ty-account-benefits ul li{margin-left:0;list-style:none;list-style-type:none}
+
+/* ================================================================
+   MM-6f (из секции 49 GOODMi). Личный кабинет: штатные страницы «Данные профиля» и «Подробности заказа»
+   ================================================================
+   Левое меню кабинета на этих страницах выводит хук
+   wrapper/mainbox_general_title_wrapper.pre.tpl (.gm-lk__side--std) первым
+   элементом блока .ty-mainbox-container; блок становится сеткой: меню
+   слева, заголовок и содержимое (белая карточка) справа. Вид меню –
+   из секции 46. Поля и кнопки приведены к виду страниц входа и регистрации.
+   ================================================================ */
+.tygh-content .content-grid:has(.gm-lk__side--std){background:#f4f4f6;padding-bottom:32px}
+.ty-mainbox-container:has(> .gm-lk__side--std){display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:12px;align-items:start;}
+.ty-mainbox-container:has(> .gm-lk__side--std)::before,.ty-mainbox-container:has(> .gm-lk__side--std)::after{display:none}
+.ty-mainbox-container > .gm-lk__side--std{grid-column-start:1;grid-row-start:1;grid-row-end:4;box-sizing:border-box}
+.ty-mainbox-container > .gm-lk__side--std *{box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{grid-column-start:2;margin:8px 0 16px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{grid-column-start:2;min-width:0;padding:20px 24px 24px;border-radius:16px;background:#fff;box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-subheader{margin:18px 0 12px;padding:0;border:0;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .ty-control-group{margin:0 0 14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .ty-control-group__title{display:block;float:none;width:auto;margin:0 0 6px;padding:0;font-size:14px;font-weight:500;color:#1c1c1c;text-align:left}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="tel"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select{width:100%;max-width:520px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background-color:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"]:focus,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"]:focus,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select:focus{border-color:#0071e3;outline:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0;padding:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn{float:none;display:inline-flex;align-items:center;justify-content:center;height:48px;margin:0;padding:0 24px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__secondary{border:1px solid #0071e3;background:#0071e3;color:#fff}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__secondary:hover{border-color:#0883ff;background:#0883ff}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn__tertiary{border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+@media (max-width:767px){
+.ty-mainbox-container:has(> .gm-lk__side--std){grid-template-columns:minmax(0,1fr);row-gap:10px}
+.ty-mainbox-container > .gm-lk__side--std{grid-row-end:auto}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title,.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{grid-column-start:1}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{margin:4px 0;font-size:22px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-body{padding:16px 14px;border-radius:14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="text"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account input[type="password"],.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account select{max-width:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-account .buttons-container .ty-btn{flex:1 1 0}
+}
+
+/* Секция 49, дополнение 2026-10-11 (после просмотра страниц под вошедшим покупателем): серый фон и на странице заказа;
+   профиль – форма на всю ширину, справка справа отдельной карточкой; подробности заказа – статус плашкой,
+   действия кнопками, сведения о покупателе плитками, товары и итог без рамок и полос. */
+.tygh-content:has(.gm-lk__side--std){background:#f4f4f6}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std){display:flex;align-items:flex-start;gap:12px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std)::before,.row-fluid:has(> .main-content-grid .gm-lk__side--std)::after{display:none}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .main-content-grid{float:none;flex:1 1 0;width:auto;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid{float:none;flex:0 0 300px;width:300px;margin:58px 0 0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid > div{margin:0;padding:18px 20px;border-radius:16px;background:#fff;font-size:13px;line-height:1.45;color:#6b6b70}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid h4{margin:0 0 8px;padding:0;font-size:16px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid p{margin:0 0 8px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid ul{margin:0;padding:0 0 0 16px}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid li{margin:0 0 4px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-date{font-size:15px;font-style:normal;font-weight:400;color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-status{float:none;margin-left:auto;padding:6px 12px;border-radius:10px;background:#fff;font-size:14px;font-style:normal;font-weight:500;line-height:1.3;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn{display:inline-flex;align-items:center;gap:6px;height:40px;margin:0;padding:0 14px;border-radius:10px;background:#f4f4f6;font-size:14px;font-weight:500;color:#1c1c1c;text-decoration:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn:hover{background:#e8f1fd;color:#0071e3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn .ty-icon{margin:0;font-size:18px;line-height:1;color:inherit}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{float:none;display:flex;gap:8px;margin-left:auto}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail > .ty-tabs:has(li:only-child){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__item{float:none;width:auto;margin:0;padding:14px 16px;border-radius:12px;background:#f4f4f6;box-sizing:border-box}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__title{margin:0 0 6px;padding:0;font-size:14px;font-weight:600;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info__field{font-size:14px;line-height:1.5;color:#3d3d3d}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table{width:100%;margin:0;border:0;border-collapse:collapse;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table th{padding:8px 0 8px 16px;border:0;border-bottom:1px solid #ececf0;background:none;font-size:13px;font-weight:400;color:#8a8a93}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table td{padding:14px 0 14px 16px;border:0;border-bottom:1px solid #f0f0f3;background:none !important;font-size:15px;vertical-align:top;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table th:first-child,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table td:first-child{padding-left:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr:last-child td{border-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image{width:72px;margin:0 14px 0 0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{display:block;width:72px;height:72px;border-radius:10px;object-fit:contain}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description{margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-title{font-size:15px;line-height:1.35;color:#1c1c1c;text-decoration:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-title:hover{color:#0071e3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-code{margin-top:4px;font-size:13px;color:#8a8a93}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body{margin:0;padding:12px 14px;border:0;border-radius:12px;background:#f4f4f6;box-shadow:none;font-size:14px;line-height:1.45}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-notes__body::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__wrapper{margin:0;padding:6px 0;border:0;border-radius:12px;background:#f4f4f6}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table{width:100%;margin:0;border:0;background:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table td{padding:9px 16px;border:0;background:none;font-size:15px;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__row td:first-child{color:#6b6b70}
+@media (max-width:1100px){
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:767px){
+.row-fluid:has(> .main-content-grid .gm-lk__side--std){flex-direction:column;align-items:stretch}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .main-content-grid{flex:0 0 auto;width:100%}
+.ty-mainbox-container:has(> .gm-lk__side--std) > .ty-mainbox-title .ty-status{margin-left:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions .ty-btn{flex:1 1 auto;justify-content:center}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{margin-left:0;flex:1 1 100%}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info{grid-template-columns:minmax(0,1fr)}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{width:56px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image img{height:56px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__table td{padding:8px 12px;font-size:14px}
+}
+.tygh-content:has(.gm-lk__side--std) > .container-fluid{background:#f4f4f6;padding-bottom:32px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr{background:none !important}
+
+/* Секция 49, правка 2026-10-11 (по живым страницам): в подробностях заказа «Оформить заказ повторно» стояла поверх «Начать общение»
+   (тема ставит её абсолютно) – обе кнопки в ряд и в одном виде; в справке профиля убран отступ темы у .ty-account-detail */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a{position:static !important;display:inline-flex;align-items:center;gap:6px;height:40px;margin:0;padding:0 14px;border-radius:10px;background:#f4f4f6;font-size:14px;font-weight:500;line-height:1.2;color:#1c1c1c;text-decoration:none;white-space:nowrap}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a:hover{background:#e8f1fd;color:#0071e3}
+.row-fluid:has(> .main-content-grid .gm-lk__side--std) > .profile-information-grid .ty-account-detail{margin:0;padding:0}
+
+/* ================================================================
+   MM-6g (из секции 50 GOODMi). Личный кабинет: значки в левом меню
+   ================================================================
+   Те же значки, что в выпадающем меню аккаунта, подбираются по адресу
+   ссылки; у открытого раздела значок синий. «Мои заказы» – корзинка
+   (и в левом меню, и в выпадающем: раньше у вошедшего покупателя там
+   стояла звезда, как у бонусов).
+   ================================================================ */
+.gm-lk-nav__a{padding-left:44px;background-repeat:no-repeat;background-position:12px center;background-size:22px 22px}
+.gm-lk-nav__a[href*="mm_cabinet.orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--on[href*="mm_cabinet.orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.gm-lk-nav__a[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--on[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.gm-lk-nav__a[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--on[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.gm-lk-nav__a[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--on[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.gm-lk-nav__a[href*="profiles.update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--on[href*="profiles.update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.gm-lk-nav__a--out{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238a8a93' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+@media (max-width:767px){
+.gm-lk-nav__a{padding-left:36px;background-position:10px center;background-size:18px 18px}
+}
+
+/* Секция 50, правка 2026-10-11: при наведении значок пункта левого меню размножался – правило наведения из секции 46 задаёт фон
+   сокращённой записью и сбрасывало «не повторять», положение и размер значка. Здесь они закреплены и для наведения. */
+.gm-lk-nav .gm-lk-nav__a,.gm-lk-nav .gm-lk-nav__a:hover,.gm-lk-nav .gm-lk-nav__a:focus{background-repeat:no-repeat;background-position:12px center;background-size:22px 22px}
+@media (max-width:767px){
+.gm-lk-nav .gm-lk-nav__a,.gm-lk-nav .gm-lk-nav__a:hover,.gm-lk-nav .gm-lk-nav__a:focus{background-position:10px center;background-size:18px 18px}
+}
+
+/* Секция 50, правка 2026-10-11: у «Выйти» значок пропадал при наведении (правило наведения сбрасывало картинку фона) */
+.gm-lk-nav .gm-lk-nav__a--out,.gm-lk-nav .gm-lk-nav__a--out:hover,.gm-lk-nav .gm-lk-nav__a--out:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238a8a93' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E")}
+
+/* ================================================================
+   MM-6h (из секции 51 GOODMi). Избранное: левое меню кабинета (только ПК)
+   ================================================================
+   Меню выводит тот же хук, что на профиле и в подробностях заказа, –
+   вошедшему покупателю. Карточки товаров остаются на сером фоне, без
+   общей белой подложки (в отличие от профиля). На телефоне меню в
+   избранном не показывается – так просил пользователь.
+   ================================================================ */
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ut2-wl__grid) > .ty-mainbox-body{padding:0;border-radius:0;background:none}
+@media (max-width:767px){
+.ty-mainbox-container:has(.ut2-wl__grid) > .gm-lk__side--std{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ut2-wl__grid){display:block}
+}
+
+/* Секция 51, правка 2026-10-11: пустое избранное не содержит сетки товаров (.ut2-wl__grid), и меню на телефоне оставалось видимым –
+   теперь оно скрывается по собственному классу .gm-lk__side--wishlist, который ставит хук */
+@media (max-width:767px){
+.ty-mainbox-container > .gm-lk__side--wishlist{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--wishlist){display:block}
+}
+
+/* Секция 46, правка 2026-10-11: на телефоне полоса прокрутки ленты разделов наезжала на пункты – под лентой оставлено место */
+@media (max-width:767px){
+.gm-lk-nav{padding-bottom:12px;scrollbar-width:thin}
+}
+
+/* ================================================================
+   MM-6i (из секции 52 GOODMi). Телефон: пункт «Профиль» в нижнем меню
+   ================================================================
+   Тот же блок аккаунта, что в шапке, но открывается нижним листом из
+   закреплённого меню (.ut2-sticky-panel). Правила повторяют секции 45,
+   46 и 50 с другим началом селектора: приглашение войти и кнопки у
+   гостя, имя с кружком у вошедшего, пункты со значками в том же
+   порядке, «Выйти» отдельной строкой, «Отслеживание заказа» скрыто.
+   Заголовок листа и крестик темы оставлены.
+   ================================================================ */
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content{display:flex;flex-direction:column;padding-left:12px;padding-right:12px;padding-bottom:16px;box-sizing:border-box}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content.hidden{display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content > .ty-dropdown-box__title{order:-1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content > .ut2-btn-close{order:-2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__orders{display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info{order:2;margin:0;padding:0;border:0;list-style:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item{margin:0;padding:0;border:0}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a{display:flex;align-items:center;min-height:42px !important;padding:0 12px 0 48px !important;border-radius:10px;font-size:15px;line-height:1.3;color:#1c1c1c;text-decoration:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M9 12h6'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;transition:background-color .15s}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7.5l8-4 8 4v9l-8 4-8-4z'/%3E%3Cpath d='M4 7.5l8 4 8-4'/%3E%3Cpath d='M12 11.5v9'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="compare"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="wishlist"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="profiles.update"],.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="profiles-update"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="reward_points"],.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="bonus"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name{display:flex;align-items:center;gap:12px;min-height:56px;margin:0 0 6px;padding:8px 12px 12px;border-bottom:1px solid #ececf0;font-size:16px;font-weight:600;color:#1c1c1c !important}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name::before{content:"";flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#e8f1fd url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='9' r='3.5'/%3E%3Cpath d='M5.5 19.5c.9-3 3.4-4.7 6.500-4.700s5.600 1.700 6.500 4.700'/%3E%3C/svg%3E") no-repeat center;background-size:24px 24px}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{margin:0;padding:0;border:0;background:none;display:flex;gap:8px}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{order:1;flex-wrap:wrap;margin:0 0 6px;padding:12px 12px 14px;border-bottom:1px solid #ececf0}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons::before{content:"Войдите, чтобы видеть заказы и копить бонусы";flex:1 1 100%;margin:0 0 4px;font-size:14px;line-height:1.35;color:#6b6b70}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{flex:1 1 0;display:flex;align-items:center;justify-content:center;height:44px;margin:0;padding:0 12px;border-radius:12px;font-size:15px;font-weight:600;box-shadow:none;text-transform:none}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__secondary{order:1;border:1px solid #0071e3;background:#0071e3;color:#fff}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary{order:2;border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+body.user-is-guest .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn__primary:hover{border-color:#0071e3;color:#0071e3}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{order:3;margin:6px 0 0;padding:6px 0 0 !important;border-top:1px solid #ececf0}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn{display:flex;align-items:center;justify-content:flex-start;width:100%;min-height:42px;margin:0;padding:0 12px 0 48px;border:0;border-radius:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b70' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4'/%3E%3Cpath d='M10 16l-4-4 4-4'/%3E%3Cpath d='M6 12h9'/%3E%3C/svg%3E") no-repeat 12px center;background-size:24px 24px;box-shadow:none;font-size:15px;font-weight:400;color:#6b6b70;text-transform:none;text-align:left}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons .ty-btn:hover{background-color:#f4f4f6;color:#1c1c1c}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a .ty-reward-points-count{margin-left:auto;padding:2px 8px;border-radius:8px;background:#e8f1fd;color:#0071e3;font-size:13px;font-weight:600;white-space:nowrap}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info{display:flex;flex-direction:column}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item{order:20}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__name{order:0}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="profiles.update"]){order:1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders"]){order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="wishlist"]){order:4}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="compare"]){order:5}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="vendor_communication"]){order:6}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="reward_points"]){display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="vendor_communication"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__buttons{width:100% !important;max-width:none;align-self:stretch;box-sizing:border-box}
+body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="account-orders"]),body:not(.user-is-guest) .ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="orders.search"]){display:none}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="orders"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="mm_cabinet.bonuses"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+
+/* ================================================================
+   MM-6j (из секции 53 GOODMi). Меню кабинета: значки и порядок без привязки к адресам страниц
+   ================================================================
+   Раньше значки и порядок пунктов выбирались по адресу ссылки. После
+   того как страницам кабинета задали красивые адреса (/cabinet/,
+   /my-bonus/, /my-profile/), эти правила перестали срабатывать. Теперь
+   пункты левого меню несут свои классы (.gm-lk-nav__a--orders и т. д.),
+   а в выпадающем меню и нижнем листе пункты хука находятся по классам
+   .gm-acc-orders и .gm-acc-bonus. Штатный пункт профиля класса не имеет –
+   для него оставлен отбор по адресу, прежнему и новому.
+   ================================================================ */
+.gm-lk-nav .gm-lk-nav__a--orders,.gm-lk-nav .gm-lk-nav__a--orders:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--orders,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--orders:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--bonuses,.gm-lk-nav .gm-lk-nav__a--bonuses:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--bonuses,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--bonuses:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--wishlist,.gm-lk-nav .gm-lk-nav__a--wishlist:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--wishlist,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--wishlist:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--compare,.gm-lk-nav .gm-lk-nav__a--compare:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--compare,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--compare:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 20V10'/%3E%3Cpath d='M12 20V4'/%3E%3Cpath d='M18 20v-7'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--profile,.gm-lk-nav .gm-lk-nav__a--profile:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--profile,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--profile:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-orders > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-bonus > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__a[href*="my-profile"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="my-profile"]){order:1}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-orders > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9.5h16l-1.4 9a1.5 1.5 0 0 1-1.5 1.3H6.9a1.5 1.5 0 0 1-1.5-1.3z'/%3E%3Cpath d='M8.5 9.5L12 4l3.5 5.5'/%3E%3Cpath d='M10 13.5v3'/%3E%3Cpath d='M14 13.5v3'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-bonus > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__a[href*="my-profile"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8.5' r='3.5'/%3E%3Cpath d='M5 20c.8-3.5 3.5-5.5 7-5.5s6.2 2 7 5.5'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item:has(> a[href*="my-profile"]){order:1}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-orders{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-bonus{order:3}
+
+/* ================================================================
+   MM-6k (из секции 54 GOODMi). Подробности заказа: гость, блок «Получение и получатель», телефон
+   ================================================================
+   Гостю (заказ без входа) хук wrapper/mainbox_general_title_wrapper.pre.tpl
+   выводит вместо левого меню карточку .gm-lk__side--guest – с ней страница
+   получает оформление секции 49. Блок сведений о покупателе заменён
+   шаблоном views/profiles/components/profiles_info.tpl (.gm-ord-info):
+   две плитки – как получить заказ и получатель, без адреса плательщика.
+   В заголовок добавлено слово «Заказ» (в языковой переменной темы его нет),
+   единственная вкладка «Общее» скрыта, на телефоне товары – строками
+   «цена × количество … сумма» вместо таблицы с рамкой.
+   ================================================================ */
+.gm-lk__side--guest{padding:20px}
+.gm-lk-guest__title{margin:0 0 8px;font-size:17px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.gm-lk-guest__text{margin:0 0 16px;font-size:14px;line-height:1.45;color:#6b6b70}
+.gm-lk-guest__btn{display:flex;align-items:center;justify-content:center;height:46px;margin:0 0 10px;padding:0 16px;border-radius:12px;background:#0071e3;font-size:15px;font-weight:600;color:#fff;text-decoration:none}
+.gm-lk-guest__btn:hover{background:#0883ff;color:#fff}
+.gm-lk-guest__link{display:block;font-size:14px;font-weight:500;text-align:center;color:#0071e3;text-decoration:none}
+.gm-lk-guest__link:hover{color:#0883ff}
+.ty-mainbox-container:has(> .gm-lk__side--std):has(.ty-orders-detail) > .ty-mainbox-title > bdi::before{content:"Заказ\00a0"}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail > .ty-tabs:not(:has(.ty-tabs__item + .ty-tabs__item)){display:none !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info.gm-ord-info{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 6px}
+.gm-ord-info__main{display:block;font-size:15px;font-weight:500;line-height:1.4;color:#1c1c1c}
+.gm-ord-info__note{display:block;margin-top:4px;font-size:13px;line-height:1.4;color:#6b6b70}
+@media (max-width:767px){
+.ty-mainbox-container > .gm-lk__side--guest{grid-row-start:auto;order:3;padding:16px 14px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-profiles-info.gm-ord-info{grid-template-columns:minmax(0,1fr)}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ty-accordion:not(:has(.ui-accordion-header ~ .ui-accordion-header)) > .ui-accordion-header{display:none !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table{display:block;outline:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table thead{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;padding:12px 0;border:0;border-bottom:1px solid #f0f0f3}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top:last-child{border-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td{display:block;width:auto;padding:0;border:0;font-size:14px;text-align:left}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td::before{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child{flex:0 0 100%;margin-bottom:8px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table .ty-table__responsive-header{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table .ty-table__responsive-content{display:inline;padding:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(2){color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(2)::after{content:" \00d7";display:inline}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(3){color:#6b6b70}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:nth-child(3)::after{content:" шт.";display:inline}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:last-child{margin-left:auto;font-weight:600;color:#1c1c1c}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:last-child::after{display:none}
+}
+
+/* Секция 54, правка 2026-10-12 (по снимкам с телефона): кнопки действий – плитками в столбик, «Оформить заказ повторно»
+   не обрезается, печать счёта на телефоне скрыта; товар – фото слева, название справа; убраны пустые поля под товарами и итогом */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ui-accordion-content{margin-bottom:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail .ty-orders-repay:not(:has(*)){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__products{margin-top:8px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary{margin-top:16px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary > .ty-subheader{margin-top:0}
+@media (max-width:767px){
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions > .ty-btn.cm-new-window{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right{flex-wrap:wrap;width:100%;min-width:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders__actions-right > a{flex:1 1 100%;justify-content:center;min-width:0;background:#f4f4f6 !important;color:#1c1c1c !important}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix{display:flex;align-items:flex-start;gap:12px}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix::before,.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table tr.ty-valign-top > td:first-child .clearfix::after{display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-image{float:none;flex:0 0 56px;margin:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description-wrapper{flex:1 1 0;min-width:0}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-detail__table-description{margin:0}
+}
+
+/* Секция 54, правка 2026-10-12 (решение владельца): в итоге заказа скрыты штрихкод и строка «Способ доставки» –
+   способ получения показан плиткой вверху страницы */
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__right:has(.ty-barcode){display:none}
+.ty-mainbox-container:has(> .gm-lk__side--std) .ty-orders-summary__row:has(> td[data-ct-orders-summary="summary-ship"]){display:none}
+
+/* ================================================================
+   MM-6l (из секции 55 GOODMi). Всплывающее окно входа и страница восстановления пароля
+   ================================================================
+   Только стили поверх штатных форм, в виде страницы входа (секция 47).
+   Окно входа (.ty-login-popup): поля 48px, вход через Яндекс и ВКонтакте,
+   ссылка на регистрацию; внизу закреплённая полоса темы
+   (.buttons-container-picker, её положение и высоту задаёт скрипт диалога –
+   не трогаем): «Запомнить» слева и синяя кнопка «Войти» на остальную ширину.
+   Восстановление пароля (/lost-password/, .ty-recover-password): серый фон,
+   по центру карточка с формой и карточка с пояснением.
+   ================================================================ */
+.ty-login-popup{}
+.ty-login-popup form{display:flex;flex-direction:column;font-size:14px;line-height:1.4;color:#6b6b70}
+.ty-login-popup .ty-control-group{margin:0 0 14px}
+.ty-login-popup .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.ty-login-popup .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.ty-login-popup .ty-login__input:focus{border-color:#0071e3;outline:0}
+.ty-login-popup .ty-password-forgot__a{font-size:14px;color:#0071e3}
+.ty-login-popup .buttons-container{order:3;display:flex;flex-direction:row;align-items:center;gap:16px;border-top:1px solid #ececf0;background:#fff !important;box-shadow:none}
+.ty-login-popup .ty-btn__login{order:2;flex:1 1 auto;float:none;display:flex;align-items:center;justify-content:center;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;line-height:1.2;box-shadow:none}
+.ty-login-popup .ty-btn__login:hover{background:#0883ff;color:#fff}
+.ty-login-popup .ty-login__remember-me{order:1;flex:0 0 auto;float:none;margin:0;padding:0;text-align:left}
+.ty-login-popup .ty-login__remember-me-label{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:#1c1c1c;cursor:pointer}
+.ty-login-popup p.ty-text-center{order:1;display:flex;gap:10px;margin:8px 0 0;text-align:left}
+.ty-login-popup .ty-hybrid-auth__icon{display:block;width:48px;height:48px;margin:0;border-radius:12px;overflow:hidden}
+.ty-login-popup .ty-hybrid-auth__icon img{display:block;width:100%;height:100%;object-fit:cover}
+.ty-login-popup .ty-login-reglink{order:2;float:none;margin:18px 0 0;padding:14px 0 0;border-top:1px solid #ececf0;font-size:14px;text-align:center;color:#6b6b70}
+.ty-login-popup .ty-login-reglink::before{content:"Нет аккаунта? "}
+.ty-login-popup .ty-login-reglink__a{font-weight:500;color:#0071e3}
+.ui-dialog:has(.ty-login-popup) .ui-dialog-title{font-size:22px;font-weight:700;color:#1c1c1c}
+.ui-dialog:has(.ty-login-popup) .ui-dialog-titlebar{border-bottom:0}
+
+.tygh-content .content-grid:has(.main-content-grid .ty-recover-password){background:#f4f4f6;padding-bottom:40px}
+.row-fluid:has(> .main-content-grid .ty-recover-password){display:flex;justify-content:center;align-items:flex-start;gap:12px;margin-top:8px}
+.row-fluid:has(> .main-content-grid .ty-recover-password)::before,.row-fluid:has(> .main-content-grid .ty-recover-password)::after{display:none}
+.row-fluid > .main-content-grid:has(.ty-recover-password){float:none;flex:0 1 460px;width:460px;min-width:0;margin:0}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid{float:none;flex:0 1 360px;width:360px;min-width:0;margin:0 !important;padding:0}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid > div{margin:0;padding:0}
+.main-content-grid:has(.ty-recover-password) .ty-mainbox-container{padding:28px 32px 32px;border-radius:20px;background:#fff}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title{margin:0 0 20px;padding:0;border:0;font-size:26px;font-weight:700;line-height:1.2;color:#1c1c1c}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title::after{content:"Пришлём на почту ссылку для смены пароля";display:block;margin-top:6px;font-size:14px;font-weight:400;line-height:1.4;color:#6b6b70}
+.main-content-grid .ty-recover-password{width:auto;max-width:none;margin:0;padding:0}
+.main-content-grid .ty-recover-password .ty-control-group{margin:0 0 16px}
+.main-content-grid .ty-recover-password .ty-login__filed-label{margin:0 0 6px;font-size:14px;font-weight:500;color:#1c1c1c}
+.main-content-grid .ty-recover-password .ty-login__input{width:100%;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.main-content-grid .ty-recover-password .ty-login__input:focus{border-color:#0071e3;outline:0}
+.main-content-grid .ty-recover-password .buttons-container{margin:0;padding:0;border:0;background:none}
+.main-content-grid .ty-recover-password .buttons-container .ty-btn{float:none;display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin:0;padding:0 20px;border:0;border-radius:12px;background:#0071e3;color:#fff;font-size:16px;font-weight:600;box-shadow:none}
+.main-content-grid .ty-recover-password .buttons-container .ty-btn:hover{background:#0883ff;color:#fff}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid .ty-login-info__txt{font-size:14px;line-height:1.45;color:#6b6b70}
+.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid .ty-login-info__txt i{font-style:normal;font-weight:500;color:#1c1c1c}
+@media (max-width:767px){
+.row-fluid:has(> .main-content-grid .ty-recover-password){flex-direction:column;align-items:stretch;gap:10px;margin-top:0}
+.row-fluid > .main-content-grid:has(.ty-recover-password),.row-fluid:has(> .main-content-grid .ty-recover-password) > .auth-information-grid{flex:0 0 auto;width:100%}
+.main-content-grid:has(.ty-recover-password) .ty-mainbox-container{padding:20px 16px 22px;border-radius:16px}
+.main-content-grid:has(.ty-recover-password) h1.ty-mainbox-title{font-size:22px}
+}
+
+/* ================================================================
+   MM-6m (из секции 56 GOODMi). Личный кабинет: блок «Подтвердите номер телефона» (.gm-vf)
+   ================================================================
+   Шаблон views/mm_cabinet/components/verify.tpl – показывается в
+   «Моих заказах» и «Моих бонусах», пока номер из профиля не подтверждён
+   кодом из СМС: текст, кнопка «Получить код» либо поле для 4 цифр
+   и кнопка «Подтвердить», ссылка на повторную отправку.
+   ================================================================ */
+.gm-vf{margin:0 0 12px;border:1px solid #cfe2fa}
+.gm-vf__h{margin:0 0 8px;padding:0;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.gm-vf__t{margin:0 0 14px;font-size:15px;line-height:1.45;color:#3d3d3d}
+.gm-vf__form{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+.gm-vf__code{width:140px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:22px;font-weight:600;letter-spacing:6px;text-align:center;color:#1c1c1c}
+.gm-vf__code:focus{border-color:#0071e3;outline:0}
+.gm-vf__btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border:0;border-radius:12px;background:#0071e3;font-size:15px;font-weight:600;color:#fff;cursor:pointer}
+.gm-vf__btn:hover{background:#0883ff}
+.gm-vf__again{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 10px}
+.gm-vf__link{padding:0;border:0;background:none;font-size:14px;font-weight:500;color:#0071e3;cursor:pointer}
+.gm-vf__hint{margin:0;font-size:13px;line-height:1.4;color:#8a8a93}
+.gm-vf__hint a{color:#0071e3}
+@media (max-width:767px){
+.gm-vf__code{flex:1 1 120px;width:auto}
+.gm-vf__btn{flex:1 1 140px}
+}
+
+/* Секция 56, дополнение 2026-10-12: страница «Номер телефона» (mm_cabinet.phone) и защита подтверждённого номера в профиле –
+   поле телефона погашено, над формой плашка со ссылкой на смену номера (сохранение блокирует profiles.pre.php) */
+.gm-vf--plain{border:0}
+.gm-vf__phone{flex:1 1 200px;max-width:280px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.gm-vf__phone:focus{border-color:#0071e3;outline:0}
+.gm-vf__btn--ghost{border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+.gm-vf__btn--ghost:hover{border-color:#0071e3;background:#fff;color:#0071e3}
+.gm-vf__t a{color:#0071e3}
+.ty-mainbox-container > .gm-phone-lock{grid-column-start:2;margin:0 0 12px;padding:12px 16px;border-radius:12px;background:#e8f1fd;font-size:14px;line-height:1.4;color:#1c1c1c;box-sizing:border-box}
+.ty-mainbox-container > .gm-phone-lock a{font-weight:500;color:#0071e3;white-space:nowrap}
+.ty-mainbox-container:has(> .gm-phone-lock) > .ty-mainbox-title{order:-1}
+.ty-mainbox-container:has(> .gm-phone-lock) input[name="user_data[phone]"]{pointer-events:none;border-color:#ececf0 !important;background-color:#f4f4f6 !important;color:#8a8a93 !important}
+@media (max-width:767px){
+.ty-mainbox-container > .gm-phone-lock{grid-column-start:1}
+.ty-mainbox-container:has(> .gm-phone-lock) > .gm-lk__side--std{order:-2}
+.gm-vf__phone{max-width:none}
+}
+
+/* ================================================================
+   MM-6n (из секции 57 GOODMi). Личный кабинет: «Купленные товары» (.gm-pp) и значок пункта меню
+   ================================================================
+   Шаблон views/mm_cabinet/products.tpl: сетка карточек (фото, название,
+   цена и дата последней покупки, «Купить снова» и «Оценить»).
+   Пункт левого меню .gm-lk-nav__a--purchased – значок коробки
+   (остальные значки – секция 53).
+   ================================================================ */
+.gm-lk-nav .gm-lk-nav__a--purchased,.gm-lk-nav .gm-lk-nav__a--purchased:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--purchased,.gm-lk-nav .gm-lk-nav__a--on.gm-lk-nav__a--purchased:hover{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.gm-pp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 16px}
+.gm-pp-item{display:flex;flex-direction:column;min-width:0}
+.gm-pp-item__pic{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:12px;background:#f4f4f6;overflow:hidden}
+.gm-pp-item__pic img{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
+.gm-pp-item__name{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:8px;font-size:14px;line-height:1.35;color:#1c1c1c;text-decoration:none}
+a.gm-pp-item__name:hover{color:#0071e3}
+.gm-pp-item__meta{margin-top:4px;font-size:12px;line-height:1.4;color:#8a8a93}
+.gm-pp-item__btns{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:auto;padding-top:10px}
+.gm-pp-item__btn{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 12px;border-radius:10px;background:#0071e3;font-size:13px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap}
+.gm-pp-item__btn:hover{background:#0883ff;color:#fff}
+.gm-pp-item__btn--light{background:#e8f1fd;color:#0071e3}
+.gm-pp-item__btn--light:hover{background:#dbe9fc;color:#0883ff}
+.gm-pp-item__off{font-size:12px;color:#8a8a93}
+.gm-pp-note{margin:10px 4px 0;font-size:13px;color:#8a8a93}
+@media (max-width:1100px){
+.gm-pp{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:767px){
+.gm-pp{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}
+.gm-pp-item__name{font-size:13px}
+.gm-pp-item__btn{flex:1 1 auto;padding:0 8px}
+}
+
+/* Секция 57, дополнение 2026-10-12: пункт «Купленные товары» в выпадающем меню шапки и в нижнем листе «Профиль» –
+   значок коробки, место сразу после «Моих заказов» (тот же order, порядок по разметке) */
+.ut2-top-my-account .ty-dropdown-box__content .gm-acc-purchased > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.ut2-top-my-account .ty-dropdown-box__content .ty-account-info__item.gm-acc-purchased{order:2}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .gm-acc-purchased > .ty-account-info__a{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231c1c1c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8l8-4 8 4v8l-8 4-8-4z'/%3E%3Cpath d='M4 8l8 4 8-4M12 12v8'/%3E%3C/svg%3E")}
+.ut2-sticky-panel .ty-dropdown-box:has(.ty-account-info) > .ty-dropdown-box__content .ty-account-info__item.gm-acc-purchased{order:2}
+
+/* ================================================================
+   MM-6o (из секции 64 GOODMi). Личный кабинет: карта лояльности со штрих-кодом (.gm-bp-code)
+   ================================================================
+   Блок на странице «Мои бонусы» (views/mm_cabinet/bonuses.tpl) под
+   балансом: штрих-код номера карты БонусПлюс (Code 128, SVG) и сам
+   номер. Покупатель показывает его на кассе с телефона, поэтому фон
+   под кодом всегда белый, с полями, а код растянут на всю ширину.
+   ================================================================ */
+.gm-bp-code{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px}
+.gm-bp-code__text{flex:1 1 260px;min-width:0}
+.gm-bp-code__text .gm-bp-note{margin:0}
+.gm-bp-code__box{flex:0 1 360px;width:100%;padding:16px 18px 12px;border:1px solid #e4e4e8;border-radius:14px;background:#fff;box-sizing:border-box;text-align:center}
+.gm-bp-code__bars{line-height:0}
+.gm-bp-code__bars svg{display:block;width:100%;height:84px}
+.gm-bp-code__num{margin-top:10px;font-size:20px;font-weight:600;line-height:1.2;letter-spacing:1.5px;color:#1c1c1c;white-space:nowrap}
+@media (max-width:767px){
+.gm-bp-code__box{flex:1 1 100%;padding:14px 12px 10px}
+.gm-bp-code__bars svg{height:96px}
+.gm-bp-code__num{font-size:19px}
+}
+
+

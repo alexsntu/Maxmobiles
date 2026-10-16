@@ -1,0 +1,52 @@
+
+/* ================================================================
+   MM-7. Личный кабинет: восстановление пароля по СМС (mm_cabinet.recover), 2026-10-15
+   ================================================================
+   Шаблон views/mm_cabinet/recover.tpl: белая карточка (.gm-lk__card) с блоком
+   кода (.gm-vf, из секции 56 GOODMi, синий цвет Maxmobiles). Блок .gm-vf
+   и плашка защищённого номера в профиле (.gm-phone-lock) понадобятся и
+   «Моим заказам» / «Моим бонусам» – в MM-6 их повторять не нужно.
+   ================================================================ */
+.gm-lk__card{padding:20px 24px;border-radius:16px;background:#fff}
+@media (max-width:767px){
+.gm-lk__card{padding:14px;border-radius:14px}
+}
+.gm-vf{margin:0 0 12px;border:1px solid #cfe2fa}
+.gm-vf__h{margin:0 0 8px;padding:0;font-size:18px;font-weight:600;line-height:1.3;color:#1c1c1c}
+.gm-vf__t{margin:0 0 14px;font-size:15px;line-height:1.45;color:#3d3d3d}
+.gm-vf__form{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+.gm-vf__code{width:140px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:22px;font-weight:600;letter-spacing:6px;text-align:center;color:#1c1c1c}
+.gm-vf__code:focus{border-color:#0071e3;outline:0}
+.gm-vf__btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border:0;border-radius:12px;background:#0071e3;font-size:15px;font-weight:600;color:#fff;cursor:pointer}
+.gm-vf__btn:hover{background:#0883ff}
+.gm-vf__again{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 10px}
+.gm-vf__link{padding:0;border:0;background:none;font-size:14px;font-weight:500;color:#0071e3;cursor:pointer}
+.gm-vf__hint{margin:0;font-size:13px;line-height:1.4;color:#8a8a93}
+.gm-vf__hint a{color:#0071e3}
+@media (max-width:767px){
+.gm-vf__code{flex:1 1 120px;width:auto}
+.gm-vf__btn{flex:1 1 140px}
+}
+
+/* Секция 56, дополнение 2026-10-12: страница «Номер телефона» (mm_cabinet.phone) и защита подтверждённого номера в профиле –
+   поле телефона погашено, над формой плашка со ссылкой на смену номера (сохранение блокирует profiles.pre.php) */
+.gm-vf--plain{border:0}
+.gm-vf__phone{flex:1 1 200px;max-width:280px;height:48px;padding:0 14px;border:1px solid #d9d9de;border-radius:12px;background:#fff;box-shadow:none;box-sizing:border-box;font-size:16px;color:#1c1c1c}
+.gm-vf__phone:focus{border-color:#0071e3;outline:0}
+.gm-vf__btn--ghost{border:1px solid #d9d9de;background:#fff;color:#1c1c1c}
+.gm-vf__btn--ghost:hover{border-color:#0071e3;background:#fff;color:#0071e3}
+.gm-vf__t a{color:#0071e3}
+.ty-mainbox-container > .gm-phone-lock{grid-column-start:2;margin:0 0 12px;padding:12px 16px;border-radius:12px;background:#e8f1fd;font-size:14px;line-height:1.4;color:#1c1c1c;box-sizing:border-box}
+.ty-mainbox-container > .gm-phone-lock a{font-weight:500;color:#0071e3;white-space:nowrap}
+.ty-mainbox-container:has(> .gm-phone-lock) > .ty-mainbox-title{order:-1}
+.ty-mainbox-container:has(> .gm-phone-lock) input[name="user_data[phone]"]{pointer-events:none;border-color:#ececf0 !important;background-color:#f4f4f6 !important;color:#8a8a93 !important}
+@media (max-width:767px){
+.ty-mainbox-container > .gm-phone-lock{grid-column-start:1}
+.ty-mainbox-container:has(> .gm-phone-lock) > .gm-lk__side--std{order:-2}
+.gm-vf__phone{max-width:none}
+}
+
+
+/* MM-7, правка 2026-10-15 (как секция 48 GOODMi): окно Яндекс-капчи обрезалось снизу – модуль капчи жёстко задаёт высоту
+   102px, а виджету нужно 119px. Действует на все формы Maxmobiles с капчей (восстановление пароля, регистрация). */
+.captcha .smart-captcha{height:122px !important}
