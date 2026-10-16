@@ -50,6 +50,11 @@ function mm_search_synonyms()
         'бозе' => 'bose', 'боус' => 'bose', 'харман' => 'harman', 'кардон' => 'kardon', 'яндекс станция' => 'яндекс станция',
         'алиса' => 'яндекс станция', 'макбук эир' => 'macbook air', 'макбук про' => 'macbook pro', 'айпад про' => 'ipad pro', 'айпад эир' => 'ipad air',
         'пенсил' => 'pencil', 'эпл пенсил' => 'apple pencil', 'магсейф' => 'magsafe', 'эйрпод' => 'airpods',
+        // 2026-10-16 (проверка по каталогу, как на GOODMi): русские написания слов из названий моделей
+        'сериес' => 'series', 'сириес' => 'series', 'серия' => 'series', 'се' => 'se', 'нео' => 'neo', 'смарт' => 'smart', 'дисплей' => 'display',
+        'студио' => 'studio', 'битс' => 'beats', 'нот' => 'note', 'ноут' => 'note', 'ми' => 'mi', 'кью' => 'q', 'актив' => 'active', 'эдж' => 'edge',
+        'лайт' => 'lite', 'вакуум' => 'vacuum', 'бокс' => 'box', 'стик' => 'stick', 'турбо' => 'turbo', 'фолд' => 'fold', 'флип' => 'flip',
+        'плей' => 'play', 'плэй' => 'play', 'свитч' => 'switch', 'дуалсенс' => 'dualsense', 'гармин' => 'garmin', 'гопро' => 'gopro',
     ];
     // Синонимы из админки (mm_search.synonyms → custom.json): добавляются к стартовому списку, при совпадении – главнее
     $custom = mm_search_custom();
@@ -111,8 +116,10 @@ function mm_search_normalize($q)
     $q = str_replace('ё', 'е', $q);
     $q = preg_replace('/[^\p{L}\p{N}\s.+\-]/u', ' ', $q);
     // Модели, набранные русскими буквами-двойниками латиницы: «а16» → «a16», «м4» → «m4» (в каталоге – латиница)
-    $q = preg_replace_callback('/(?<!\p{L})[авекмнорстухi]{1,2}\d+[авекмнорстух]?(?!\p{L})|(?<!\p{L})\d+[авекмнорстух]{1,2}(?!\p{L})/u', function ($m) {
-        return strtr($m[0], ['а' => 'a', 'в' => 'b', 'е' => 'e', 'к' => 'k', 'м' => 'm', 'н' => 'h', 'о' => 'o', 'р' => 'p', 'с' => 'c', 'т' => 't', 'у' => 'y', 'х' => 'x']);
+    // 2026-10-16: и буквами, которые звучат как латинские («ф7» → f7, «л10» → l10, «ж152» → j152) – только вплотную к цифрам
+    $q = preg_replace_callback('/(?<!\p{L})[авекмнорстухiфлгдзпибж]{1,2}\d+[авекмнорстухфлгдзпибж]?(?!\p{L})|(?<!\p{L})\d+[авекмнорстухфлгдзпибж]{1,2}(?!\p{L})/u', function ($m) {
+        return strtr($m[0], ['а' => 'a', 'в' => 'b', 'е' => 'e', 'к' => 'k', 'м' => 'm', 'н' => 'h', 'о' => 'o', 'р' => 'p', 'с' => 'c', 'т' => 't', 'у' => 'y', 'х' => 'x',
+            'ф' => 'f', 'л' => 'l', 'г' => 'g', 'д' => 'd', 'з' => 'z', 'п' => 'p', 'и' => 'i', 'б' => 'b', 'ж' => 'j']);
     }, $q);
     $q = preg_replace(['/(\d)([^\d\s.,])/u', '/([^\d\s.,])(\d)/u'], '$1 $2', $q); // «256гб» → «256 гб», «ps5» → «ps 5»
     return trim(preg_replace('/\s+/u', ' ', $q));
@@ -131,6 +138,7 @@ function mm_search_match_expr($norm, &$words_out = null)
         if ($kept) { $tokens = $kept; }
     }
     $groups = []; $words = [];
+    $amb = ['c' => 's', 'b' => 'v', 'h' => 'n', 'p' => 'r', 'y' => 'u'];
     for ($i = 0; $i < count($tokens); $i++) {
         $hit = null;
         foreach ([3, 2, 1] as $len) { // сначала самые длинные фразы
@@ -143,6 +151,19 @@ function mm_search_match_expr($norm, &$words_out = null)
             $groups[] = '(' . implode(' | ', array_map(function ($a) { return strpos($a, ' ') !== false ? '"' . mm_search_escape($a) . '"' : mm_search_escape($a); }, $alts)) . ')';
             $words = array_merge($words, explode(' ', $hit[1]));
             $i += $hit[2] - 1;
+        } elseif (preg_match('/^[a-z]{1,2}$/', $tokens[$i]) && preg_match('/[cbhpy]/', $tokens[$i])
+            && (isset($tokens[$i + 1]) && preg_match('/^\d+$/', $tokens[$i + 1]) || $i > 0 && preg_match('/^\d+$/', $tokens[$i - 1]))) {
+            // Буквы модели рядом с номером, набранные русскими двойниками: «с» – C или S, «в» – B или V («вр2» – VR2),
+            // «н» – H или N, «р» – P или R, «у» – Y или U
+            $alts = [''];
+            foreach (str_split($tokens[$i]) as $ch) {
+                $opts = isset($amb[$ch]) ? [$ch, $amb[$ch]] : [$ch];
+                $next = [];
+                foreach ($alts as $a) { foreach ($opts as $o) { $next[] = $a . $o; } }
+                $alts = array_slice($next, 0, 4);
+            }
+            $groups[] = '(' . implode(' | ', $alts) . ')';
+            $words[] = $tokens[$i];
         } else {
             $groups[] = mm_search_escape($tokens[$i]);
             $words[] = $tokens[$i];
@@ -175,17 +196,27 @@ function mm_search_intent($mc, array $tokens, array $words)
 {
     static $cats = null;
     $syn = mm_search_synonyms();
-    $head_tok = '';
-    foreach ($tokens as $t) { if (preg_match('/[а-я]/u', $t)) { $head_tok = $t; break; } }
-    if ($head_tok === '') { foreach ($tokens as $t) { if (!preg_match('/^\d+$/', $t)) { $head_tok = $t; break; } } }
-    if ($head_tok === '') { return ['cats' => [], 'head' => []]; }
-    $head = mm_search_lemmas($mc, $head_tok . (isset($syn[$head_tok]) && strpos($syn[$head_tok], ' ') === false ? ' ' . $syn[$head_tok] : ''));
-    $q = array_flip(mm_search_lemmas($mc, implode(' ', array_unique(array_merge($tokens, $words)))));
     if ($cats === null) {
         $cats = [];
         $r = $mc->query('SELECT id, lem, products FROM mm_categories WHERE products >= 2 LIMIT 2000');
         while ($r && ($x = $r->fetch_assoc())) { $cats[(int) $x['id']] = explode(' ', (string) $x['lem']); }
     }
+    // Главное слово: то, с которого начинается название какого-нибудь раздела («юсб кабель» → кабель), иначе первое русское, иначе первое
+    $firsts = [];
+    foreach ($cats as $lem) { $firsts[$lem[0]] = 1; }
+    $head_tok = '';
+    foreach ($tokens as $t) {
+        // только русские слова: в «стекло iphone 18» главное – стекло, а не iphone (раздел «iPhone …» начинается с iphone)
+        if (!preg_match('/[а-я]/u', $t)) { continue; }
+        $tl = mm_search_lemmas($mc, $t);
+        if ($tl && isset($firsts[$tl[0]])) { $head_tok = $t; break; }
+    }
+    if ($head_tok === '') { foreach ($tokens as $t) { if (preg_match('/[а-я]/u', $t)) { $head_tok = $t; break; } } }
+    // «apple» не главное слово (в «типе товара» индекса его нет): «apple pencil» → pencil, «apple watch» → watch
+    if ($head_tok === '') { foreach ($tokens as $t) { if (!preg_match('/^\d+$/', $t) && $t !== 'apple' && $t !== 'эпл') { $head_tok = $t; break; } } }
+    if ($head_tok === '') { return ['cats' => [], 'head' => []]; }
+    $head = mm_search_lemmas($mc, $head_tok . (isset($syn[$head_tok]) && strpos($syn[$head_tok], ' ') === false ? ' ' . $syn[$head_tok] : ''));
+    $q = array_flip(mm_search_lemmas($mc, implode(' ', array_unique(array_merge($tokens, $words)))));
     $generic = ['и', 'для', 'в', 'с', 'на', 'аксессуар', 'принадлежность', 'товар', 'все'];
     $ids = [];
     foreach ($cats as $id => $lem) {
@@ -223,14 +254,22 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
     $penalized = ['acc' => !$wants_acc, 'mods' => $mod_codes, 'bu' => $bu !== '', 'spare' => strpos($spare, 'IN(mods, 9)') !== false, 'service' => strpos($spare, 'IN(mods, 10)') !== false];
     // Раздел запроса и тип товара (mm_search_intent): cb – товар из названного раздела, hb – слово запроса в начале названия
     $intent = mm_search_intent($mc, array_values(array_filter(explode(' ', $norm), function ($t) { return !in_array($t, ['на', 'для', 'в', 'во', 'с', 'со', 'и', 'к', 'по', 'от', 'из', 'под', 'без'], true); })), $words);
-    $cb = $intent['cats'] ? 'IN(main_cat, ' . implode(',', $intent['cats']) . ')' : '0';
+    // Раздел – любой из разделов товара, не только основной
+    $cb = $intent['cats'] ? 'IN(cat_ids, ' . implode(',', $intent['cats']) . ')' : '0';
     $hb = $intent['head'] ? 'IN(head, ' . implode(',', $intent['head']) . ')' : '0';
+    // Аксессуары, о которых в запросе не просили, всегда ниже устройств – даже если устройства нет в наличии, а аксессуар есть
+    // (решение пользователя 2026-10-16: «по наличию аксессуары всегда проигрывали устройствам»)
+    // Услуги ремонта / подарочные сертификаты (mods 10), о которых не просили, – ещё ниже аксессуаров; запчасти (mods 9) – как аксессуары
+    // Аксессуар, названный в запросе по имени (главное слово – в начале его названия: «pencil» → «Стилус Apple Pencil», «хаб» → «USB-хаб»),
+    // и есть искомый товар – его не опускаем
+    $ab_acc = trim(($wants_acc ? '' : "(is_acc = 1 AND $hb = 0)") . (!empty($penalized['spare']) ? ($wants_acc ? '' : ' OR ') . 'IN(mods, 9)' : ''));
+    $ab = 'IF(' . (!empty($penalized['service']) ? 'IN(mods, 10)' : '0') . ', 2, IF(' . ($ab_acc !== '' ? $ab_acc : '0') . ', 1, 0))';
     $penalized['cats'] = $intent['cats'];
     // Короткий запрос (до 3 слов: «нож», «фонарик», «стекло iphone 18») – тип товара ступенью сортировки; длинный, где названа
     // конкретная модель («колонка беспроводная harman kardon aura studio 5»), – только прибавкой ×1.3, чтобы точная модель не уступала
     $short = count(array_diff($tokens0 = explode(' ', $norm), ['на', 'для', 'в', 'во', 'с', 'со', 'и', 'к', 'по', 'от', 'из', 'под', 'без'])) <= 3;
     $hb_mul = $short || $hb === '0' ? '' : " * IF($hb, 1.3, 1.0)";
-    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
+    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $ab AS ab, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
     $opts = "OPTION ranker = expr('sum((4*lcs + 3*(min_hit_pos==1) + 2*exact_order)*user_weight)*1000 + bm25'),"
         . " field_weights = (title = 10, brand = 5, model = 4, category = 3, extra = 1), max_matches = 1000";
     // Начало последнего слова («сте» → «стекло»); нечёткий поиск по коротким словам – не больше одной ошибки
@@ -258,7 +297,7 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
         if ($t[1] === '') { continue; }
         // Сначала товары в наличии, потом остальные – везде (решение пользователя 2026-10-16); внутри – товары названного
         // в запросе раздела, затем со словом запроса в начале названия, затем по релевантности
-        $sql = "$select {$t[1]} ORDER BY in_stock DESC, cb DESC, " . ($short ? 'hb DESC, ' : '') . "score DESC LIMIT " . (int) $offset . ', ' . (int) $limit . " {$t[2]}";
+        $sql = "$select {$t[1]} ORDER BY ab ASC, in_stock DESC, cb DESC, " . ($short ? 'hb DESC, ' : '') . "score DESC LIMIT " . (int) $offset . ', ' . (int) $limit . " {$t[2]}";
         $r = $mc->query($sql);
         if (!$r) { continue; }
         $items = [];
@@ -558,7 +597,7 @@ function mm_search($mc, $query, $limit = 20, $offset = 0)
         return $f;
     }
     $rows = [];
-    $r = $mc->query('SELECT id, name, price, in_stock, is_acc, url, img, main_cat, 0 AS w, mods, demand, popularity, 0 AS cb, 0 AS hb, 0 AS score FROM mm_products WHERE id IN ('
+    $r = $mc->query('SELECT id, name, price, in_stock, is_acc, url, img, main_cat, 0 AS w, mods, demand, popularity, 0 AS ab, 0 AS cb, 0 AS hb, 0 AS score FROM mm_products WHERE id IN ('
         . implode(',', $pins) . ') LIMIT ' . count($pins));
     while ($r && ($x = $r->fetch_assoc())) { $x['pinned'] = 1; $rows[(int) $x['id']] = $x; }
     if (!$rows) {

@@ -73,7 +73,8 @@ $cat_text = function ($cid) use ($cats) {
 };
 
 // Категории аксессуаров: по названию любой из цепочки (чехлы, стекла, кабели, ремешки…)
-$acc_re = '/чехл|чехол|стекл|плёнк|пленк|кабел|ремеш|ремни|адаптер|переходник|держател|подставк|защит|сумк|рюкзак|зарядн|блок питания|кейс/ui';
+// 2026-10-16: и «Аксессуары для iPad / MacBook …» (клавиатуры, стилусы) – как на GOODMi
+$acc_re = '/чехл|чехол|стекл|плёнк|пленк|кабел|ремеш|ремни|адаптер|переходник|держател|подставк|защит|сумк|рюкзак|зарядн|блок питания|кейс|аксессуары для/ui';
 
 $products = rows($db, "SELECT p.product_id, p.product_code, p.amount, p.timestamp, d.product, d.ab__emd_alternative_name alt, d.ab__spt_short_name spt
     FROM {$p}products p JOIN {$p}product_descriptions d ON d.product_id = p.product_id AND d.lang_code = 'ru'
@@ -166,9 +167,16 @@ foreach ($products as $x) {
     $head = [];
     // Слово «Apple» не считаем: у «Apple iPhone Air» тип товара – iphone, air, у «Наушники Apple AirPods Pro 3» – наушник, airpods
     // (иначе по «air» iPhone Air уступал MacBook Air, а по «airpods» AirPods Pro 3 – AirPods 5)
-    foreach (array_slice(lemmas($mc, implode(' ', array_slice(preg_split('/[\s\-]+/u', trim(preg_replace('/(^|\s)apple(?=\s)/iu', ' ', trim($x['product'])))), 0, 2)), 'mm_products_new'), 0, 3) as $lw) { $head[] = crc32($lw); }
+    // До трёх первых слов (без «Apple»), но не дальше предлога: «Чехол для iPhone 17» → чехол; «Игровая консоль Sony PlayStation 5» → игровой, консоль, sony
+    $hw = [];
+    foreach (array_slice(preg_split('/[\s\-]+/u', trim(preg_replace('/(^|\s)apple(?=\s)/iu', ' ', trim($x['product'])))), 0, 3) as $w) {
+        if (in_array(mb_strtolower($w, 'UTF-8'), ['для', 'с', 'со', 'на', 'под', 'в', 'к', 'от', 'из', 'и'], true)) { break; }
+        $hw[] = $w;
+    }
+    foreach (array_slice(lemmas($mc, split_num(implode(' ', $hw)), 'mm_products_new'), 0, 5) as $lw) { $head[] = crc32($lw); }
     $batch[] = sprintf('(%d,%s,%s,%s,%s,%s,%s,%s,%F,%d,%d,%d,%d,(%s),%d,%d,(%s),%d,%s,(%s))', $id,
-        esc($mc, $x['product']), esc($mc, $brand), esc($mc, $model), esc($mc, implode(' ', $cat_names)), esc($mc, $extra),
+        // разделы – и с числами отдельно («iPhone 17e» → … 17 e), как делится запрос
+        esc($mc, $x['product']), esc($mc, $brand), esc($mc, $model), esc($mc, implode(' ', $cat_names) . ' ' . split_num(implode(' ', $cat_names))), esc($mc, $extra),
         esc($mc, $x['product']), esc($mc, $url), isset($prices[$id]) ? $prices[$id] : 0, (int) $x['amount'], (int) $x['amount'] > 0 ? 1 : 0,
         isset($pop[$id]) ? $pop[$id] : 0, $is_acc, implode(',', array_unique($cat_ids)), $main, (int) $x['timestamp'], implode(',', $mods ?: [0]), isset($demand[$id]) ? $demand[$id] : 0, esc($mc, isset($img[$id]) ? $img[$id] : ''), implode(',', array_unique($head) ?: [0]));
     $sugg_items[] = ['title' => $x['product'], 'model' => isset($f['model']) ? $f['model'] : [], 'demand' => isset($demand[$id]) ? $demand[$id] : 0,
@@ -214,7 +222,7 @@ foreach ($cat_count as $cid => $cnt) {
     foreach (explode('/', $cats[$cid]['id_path']) as $pid) { $chain[] = isset($cseo[(int) $pid]) ? $cseo[(int) $pid] : null; }
     $url = !in_array(null, $chain, true) ? 'https://maxmobiles.ru/' . implode('/', $chain) . '/' : 'https://maxmobiles.ru/index.php?dispatch=categories.view&category_id=' . $cid;
     // Начальные формы слов названия раздела («Чехлы для iPhone 17» → чехол для iphone 17) – для правила «раздел запроса первым»
-    $lem = implode(' ', lemmas($mc, end($names), 'mm_products'));
+    $lem = implode(' ', lemmas($mc, split_num(end($names)), 'mm_products'));
     $rows_c[] = sprintf('(%d,%s,%s,%s,%s,%d,%s,%s)', $cid, esc($mc, implode(' ', $names)), esc($mc, end($names)), esc($mc, implode(' › ', $names)), esc($mc, $url), $cnt, esc($mc, isset($cimg[$cid]) ? $cimg[$cid] : ''), esc($mc, $lem));
 }
 if ($rows_c) { mq($mc, 'INSERT INTO mm_categories (id,title,name,path,url,products,img,lem) VALUES ' . implode(',', $rows_c)); }
