@@ -1,11 +1,12 @@
 # Maxmobiles: свой поиск (2026-10-16). Индекс – каждые 2 часа в :15 НЕЧЁТНЫХ часов (остатки пересчитываются в :01 чётных –
 # moysklad.updateost); индекс GOODMi – в :15 чётных, чтобы сборки витрин не совпадали (2026-10-17).
-# Спрос за 90 дней (продажи МойСклад) – раз в сутки в 05:10 после ночной загрузки кабинета (04:20), затем индекс.
+# Спрос за 90 дней (продажи МойСклад) – раз в неделю, в понедельник в 05:10 после ночной загрузки кабинета (04:20), затем индекс
+# (2026-10-17, решение пользователя: чаще не нужно).
 # Защита (2026-10-17, после зависания Manticore на 14 ч): все сборки обеих витрин – под общим замком /run/lock/search-index.lock
 # (не идут одновременно; ждут замок до 10–20 мин, иначе запуск пропускается с записью в журнал) и с пределом времени (timeout),
 # так что зависший запуск снимается сам и не копит очередь; любой сбой – строка «не завершён, код …» в журнале. Копия файла – _DEV/search/cron.d-mm-search в репозиториях.
 # Журнал – /root/mm-search/cron.log (у каждого запуска строка со временем). Откат – /root/gm-backups/2026-10-17-search-hang/mm-search
 SHELL=/bin/sh
 15 1-23/2 * * * root { flock -w 600 /run/lock/search-index.lock sh -c 'echo "== $(date "+\%F \%T") индекс"; timeout 600 /opt/php74/bin/php /root/mm-search/mm-search-index.php' || echo "== $(date "+\%F \%T") не завершён, код $? (1 – замок занят, 124 – снят по времени)"; } 2>&1 | grep -v "PHP Notice" >> /root/mm-search/cron.log
-10 5 * * * root { flock -w 1200 /run/lock/search-index.lock sh -c 'echo "== $(date "+\%F \%T") спрос, индекс"; timeout 1200 /opt/php74/bin/php /root/mm-search/mm-search-demand.php && timeout 600 /opt/php74/bin/php /root/mm-search/mm-search-index.php' || echo "== $(date "+\%F \%T") не завершён, код $? (1 – замок занят, 124 – снят по времени)"; } 2>&1 | grep -v "PHP Notice" >> /root/mm-search/cron.log
+10 5 * * 1 root { flock -w 1200 /run/lock/search-index.lock sh -c 'echo "== $(date "+\%F \%T") спрос, индекс"; timeout 1200 /opt/php74/bin/php /root/mm-search/mm-search-demand.php && timeout 600 /opt/php74/bin/php /root/mm-search/mm-search-index.php' || echo "== $(date "+\%F \%T") не завершён, код $? (1 – замок занят, 124 – снят по времени)"; } 2>&1 | grep -v "PHP Notice" >> /root/mm-search/cron.log
 * * * * * root [ -f /var/www/maxmobiles/data/www/maxmobiles.ru/var/mm_search/rebuild.flag ] && { flock -w 600 /run/lock/search-index.lock sh -c 'if [ -f /var/www/maxmobiles/data/www/maxmobiles.ru/var/mm_search/rebuild.flag ]; then rm -f /var/www/maxmobiles/data/www/maxmobiles.ru/var/mm_search/rebuild.flag; echo "== $(date "+\%F \%T") индекс по кнопке"; timeout 600 /opt/php74/bin/php /root/mm-search/mm-search-index.php; fi' || echo "== $(date "+\%F \%T") не завершён, код $? (1 – замок занят, 124 – снят по времени)"; } 2>&1 | grep -v "PHP Notice" >> /root/mm-search/cron.log
