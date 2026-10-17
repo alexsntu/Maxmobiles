@@ -129,7 +129,12 @@
 Движок – Manticore Search 29.9 на этом же сервере (служба `manticore`, слушает только 127.0.0.1:9306/9308/9312; репозиторий
 `/etc/apt/sources.list.d/manticoresearch.sources`). Индексы: `mm_products` (товары витрины 1), `mm_suggest` (словарь подсказок),
 `mm_categories`, `mm_queries`. Сборка – скрипты `/root/mm-search/` (исходники и сравнение с Diginetica – `_DEV/search/`):
-`mm-search-index.php` (каждые 2 часа, 20 */2), `mm-search-demand.php` (спрос за 90 дней из МойСклад, 05:10) – `/etc/cron.d/mm-search`.
+`mm-search-index.php` (каждые 2 часа, :15 нечётных часов), `mm-search-demand.php` (спрос за 90 дней из МойСклад, 05:10) – `/etc/cron.d/mm-search`
+(копия – `_DEV/search/cron.d-mm-search`). С 2026-10-17 (после зависания Manticore на 14 ч) сборки обеих витрин идут под общим замком
+`/run/lock/search-index.lock` с пределом времени, сборщики ждут ответа Manticore не дольше 2 мин, `mm-search.php` и `products.pre.php` –
+не дольше 1 с на соединение и 3 с на ответ (при сбое – штатная выдача CS-Cart), а хук `get_products` в `func.php` снимает метку модуля
+`ecl_instock_sorting` при сортировке «По релевантности», чтобы он не ставил аксессуары в наличии выше нужных устройств не в наличии.
+Подробно и откат – README репозитория GOODMi, раздел «Защита поиска обеих витрин от зависания Manticore».
 - Файлы сайта: `mm-search.php` (корень: подсказки `?q=`, категории `?cats=1&q=`, включение `?test=on|off`, скрипт и стили на время
   настройки `?asset=js|css`; не maxmobiles.ru → 404), `app/mm_search/lib.php` (поиск, синонимы, подсказки), `app/mm_search/suggest.css`,
   `js/addons/my_changes/mm_search.js` (подсказки, история «Вы искали», плитки «Найдено в категориях»).

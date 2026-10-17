@@ -404,6 +404,11 @@ function fn_my_changes_get_products(&$params, &$fields, &$sortings, &$condition,
     }
     $s = \Tygh\Registry::get('runtime.mm_search');
     $sortings['relevance'] = db_quote('FIELD(products.product_id, ?n)', $s && $s['ids'] ? $s['ids'] : [0]);
+    // «По релевантности» – порядок Manticore уже учитывает наличие (тип товара запроса выше аксессуаров, наличие – внутри),
+    // поэтому модулю ecl_instock_sorting («сначала в наличии») не даём переписать ORDER BY: он срабатывает по этой метке
+    if (empty($params['sort_by']) || $params['sort_by'] === 'relevance') {
+        unset($fields['instock_marker']);
+    }
 }
 
 function fn_my_changes_get_products_post(&$products, &$params, $lang_code)

@@ -18,7 +18,10 @@ $config = []; @include 'config.local.php';
 $db = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_name']);
 $db->set_charset('utf8');
 $p = $config['table_prefix'];
-$mc = new mysqli('127.0.0.1', '', '', '', 9306);
+// Manticore не ответил за 2 мин – ошибка в журнал вместо зависания (2026-10-16 22:20 он завис на CREATE TABLE на 14 ч)
+$mc = mysqli_init();
+$mc->options(MYSQLI_OPT_READ_TIMEOUT, 120);
+$mc->real_connect('127.0.0.1', '', '', '', 9306);
 $mc->set_charset('utf8mb4');
 const COMPANY = 1;
 require '/var/www/maxmobiles/data/www/maxmobiles.ru/app/mm_search/lib.php';

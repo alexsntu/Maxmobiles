@@ -96,7 +96,11 @@ if (mb_strlen($q) > 100) {
     exit;
 }
 require __DIR__ . '/app/mm_search/lib.php';
-$mc = @new mysqli('127.0.0.1', '', '', '', 9306);
+// Индекс не отвечает – не держим обработчик PHP: 1 с на соединение, 3 с на ответ (2026-10-17: Manticore завис на 14 ч)
+$mc = mysqli_init();
+$mc->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
+$mc->options(MYSQLI_OPT_READ_TIMEOUT, 3);
+@$mc->real_connect('127.0.0.1', '', '', '', 9306);
 if ($mc->connect_errno) {
     http_response_code(503);
     echo '{"error":"search unavailable"}';

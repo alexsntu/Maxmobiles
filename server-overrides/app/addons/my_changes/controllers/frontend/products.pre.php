@@ -27,11 +27,19 @@ if ($mode === 'search' && (int) Registry::get('runtime.company_id') === 1
     try {
         if (is_file($mm_lib)) {
             require_once $mm_lib;
-            $mm_mc = @new mysqli('127.0.0.1', '', '', '', 9306);
+            // Индекс не отвечает – не держим обработчик PHP: 1 с на соединение, 3 с на ответ (2026-10-17: Manticore завис на 14 ч)
+            $mm_mc = mysqli_init();
+            $mm_mc->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
+            $mm_mc->options(MYSQLI_OPT_READ_TIMEOUT, 3);
+            @$mm_mc->real_connect('127.0.0.1', '', '', '', 9306);
             if (!$mm_mc->connect_errno) {
                 $mm_mc->set_charset('utf8mb4');
                 $mm_t0 = microtime(true);
                 $mm_found = mm_search($mm_mc, (string) $_REQUEST['q'], 1000);
+                // Ответ не пришёл за 3 с (2006/2013 – соединение потеряно) – штатный поиск, см. catch ниже
+                if (in_array($mm_mc->errno, [2006, 2013], true)) {
+                    throw new \RuntimeException('manticore: ' . $mm_mc->error);
+                }
                 $mm_ms = (int) round((microtime(true) - $mm_t0) * 1000);
                 // Плитка «Найдено в категориях» (mm_cat) – только товары этой категории (по основной категории товара)
                 $mm_cat = isset($_REQUEST['mm_cat']) ? (int) $_REQUEST['mm_cat'] : 0;
