@@ -230,14 +230,32 @@ foreach ($cat_count as $cid => $cnt) {
 }
 if ($rows_c) { mq($mc, 'INSERT INTO mm_categories (id,title,name,path,url,products,img,lem) VALUES ' . implode(',', $rows_c)); }
 
-// «Часто ищут»: до появления своего журнала запросов – частые запросы покупателей из журналов сайта (queries.txt)
+// «Часто ищут» (с 2026-10-18 – по своему журналу): основа – частые запросы до своего поиска (queries.txt от 2026-10-16),
+// к ней свой журнал поиска за 90 дней – по 3 за каждого посетителя (метку браузера), который искал это и что-то нашёл. Поиски без
+// cookie сайта (боты) в журнал не пишутся; запрос только из журнала берём, если его искали хотя бы двое – разовые опечатки не подсказываем
+$queries = [];
+foreach ((array) @file('/root/mm-search/queries.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+    $parts = explode("\t", $line, 2);
+    if (count($parts) === 2 && mb_strlen(trim($parts[1])) >= 2) { $queries[$parts[1]] = (int) $parts[0]; }
+}
+$log_sids = []; $log_spell = [];
+foreach (rows($db, "SELECT qn, q, sid FROM {$p}mm_search_log WHERE ts > " . (time() - 90 * 86400) . " AND total > 0 AND qn <> ''") as $x) {
+    $log_sids[$x['qn']][$x['sid']] = 1;
+    $sp = trim(preg_replace('/\s+/u', ' ', str_replace('ё', 'е', mb_strtolower($x['q'], 'UTF-8'))));
+    $log_spell[$x['qn']][$sp] = (isset($log_spell[$x['qn']][$sp]) ? $log_spell[$x['qn']][$sp] : 0) + 1;
+}
+foreach ($log_sids as $qn => $sids) {
+    arsort($log_spell[$qn]);
+    $sp = (string) key($log_spell[$qn]); // как чаще всего набирали
+    if (mb_strlen($sp) < 2 || mb_strlen($sp) > 60 || !preg_match('/\p{L}/u', $sp) || (!isset($queries[$sp]) && count($sids) < 2)) { continue; }
+    $queries[$sp] = (isset($queries[$sp]) ? $queries[$sp] : 0) + 3 * count($sids);
+}
+arsort($queries);
 mq($mc, 'DROP TABLE IF EXISTS mm_queries');
 mq($mc, "CREATE TABLE mm_queries (q text, query string, freq int) min_prefix_len = '1' dict = 'keywords'");
 $rows_q = []; $qid = 0;
-foreach ((array) @file('/root/mm-search/queries.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-    $parts = explode("\t", $line, 2);
-    if (count($parts) < 2 || mb_strlen(trim($parts[1])) < 2) { continue; }
-    $rows_q[] = sprintf('(%d,%s,%s,%d)', ++$qid, esc($mc, $parts[1]), esc($mc, $parts[1]), (int) $parts[0]);
+foreach ($queries as $q => $freq) {
+    $rows_q[] = sprintf('(%d,%s,%s,%d)', ++$qid, esc($mc, $q), esc($mc, $q), $freq);
 }
 if ($rows_q) { mq($mc, 'INSERT INTO mm_queries (id,q,query,freq) VALUES ' . implode(',', $rows_q)); }
 
@@ -271,11 +289,8 @@ foreach ($sugg_items as $it) {
     foreach ($it['model'] as $m) { if (preg_match('/[a-zа-я]/iu', $m) && mb_strlen($m) <= 40) { $add($m, $w, true); } }
 }
 foreach ($cat_count as $cid => $cnt) { $names = $cat_text($cid); if ($names) { $add(end($names), 2 + log(1 + $cnt), true); } }
-foreach ((array) @file('/root/mm-search/queries.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-    $parts = explode("\t", $line, 2);
-    // Запрос покупателя – лучшая подсказка (так подсказывают Amazon и Ozon): весит заметно больше фраз из названий
-    if (count($parts) === 2) { $add($parts[1], 25 * log(1 + (int) $parts[0]), true); }
-}
+// Запрос покупателя – лучшая подсказка (так подсказывают Amazon и Ozon): весит заметно больше фраз из названий
+foreach ($queries as $q => $freq) { $add($q, 25 * log(1 + $freq), true); }
 mq($mc, 'DROP TABLE IF EXISTS mm_suggest');
 mq($mc, "CREATE TABLE mm_suggest (q text, phrase string, weight float, products int) min_prefix_len = '1' dict = 'keywords'");
 $rows_s = []; $sid = 0;
