@@ -4181,3 +4181,327 @@ body.mm-sg-open > jdiv{display:none !important}
 .mm-refine::-webkit-scrollbar{display:none}
 .mm-refine__chip{flex:0 0 auto}
 }
+
+/* ================================================================
+   MM-14. Карточка товара Maxmobiles – шаблон maxmobiles_card (основа – bigpicture_flat), 2026-10-19
+   Все правила – внутри .mm-card (класс есть только в шаблонах maxmobiles_card.tpl и components/maxmobiles_card_mobile.tpl),
+   на других шаблонах и витринах не действуют. Разметка частей – components/maxmobiles_card_parts.tpl,
+   данные – модуль mm_delivery, скрипт – js/addons/mm_delivery/card.js. Макет – _DEV/product-card/mockup/v2.html.
+   ================================================================ */
+.mm-card{--mm-blue:#0071e3;--mm-blue-h:#0062c4;--mm-ink:#1d1d1f;--mm-ink2:#6e6e73;--mm-line:#e5e5ea;--mm-bg:#f5f5f7;--mm-green:#1a8f3c;--mm-green-bg:#e9f7ee;--mm-amber:#b25e00;--mm-amber-bg:#fff4e5}
+
+/* MM-14a. ПК: три колонки – галерея | название, варианты, характеристики | цена и покупка. Тема делает из обёртки
+   bigpicture_flat сетку «фото+контент | вкладки» – здесь она отключена, вкладки идут ниже на всю ширину.
+   Колонки 2 и 3 – части формы товара (.mm-col-mid, .mm-col-side). До 1200 px: галерея | контент (колонки 2 и 3 друг под другом). */
+.mm-card .ut2-pb__wrapper{display:block !important}
+@media (min-width:768px){
+  .mm-card .ut2-pb__section-combined{display:grid !important;grid-template-columns:minmax(0,.95fr) minmax(0,1.6fr);gap:40px;align-items:start;width:100% !important;max-width:none !important}
+  .mm-card .ut2-pb__section-combined > .ut2-pb__img-wrapper{position:sticky;top:90px;width:auto !important;max-width:none !important;margin:0 !important;float:none !important}
+  .mm-card .ut2-pb__section-combined > .ut2-pb__content-wrapper{width:auto !important;max-width:none !important;margin:0 !important;padding:0 !important;float:none !important}
+}
+@media (min-width:1200px){
+  .mm-card .mm-card__main > form{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px);gap:0 32px;align-items:start}
+  .mm-card .mm-col-side{position:sticky;top:90px}
+}
+.mm-card .ut2-pb__tabs-wrapper{width:100% !important;max-width:none !important;margin-top:48px}
+/* Фото товаров – на белом фоне: блок галереи белый с тонкой обводкой, без заливки */
+.mm-card .ut2-pb__img-wrapper .ut2-pb__img{background:#fff !important;border:1px solid var(--mm-line);border-radius:24px;overflow:hidden;padding:12px}
+
+/* MM-14b. Название, рейтинг магазина, код, заметка («без RuStore») */
+.mm-card .ut2-pb__title h1{font-size:28px;line-height:1.15;letter-spacing:-.02em;font-weight:600;margin:0 0 10px;color:var(--mm-ink)}
+.mm-card .mm-meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px;color:var(--mm-ink2);margin:0 0 14px}
+.mm-card .mm-meta__store{display:inline-flex;gap:6px;align-items:center;color:var(--mm-ink) !important;text-decoration:none !important}
+.mm-card .mm-meta__store b{font-weight:600}
+.mm-card .mm-meta__sku,.mm-card .mm-meta__sku *{font-size:13px !important;color:var(--mm-ink2) !important}
+.mm-card .mm-meta__rating .ty-product-review-reviews-stars{margin:0}
+.mm-card .mm-note{font-size:13px;color:var(--mm-ink2);margin:0 0 14px}
+.mm-card .mm-note .info-badge-rustore{display:inline-flex !important;align-items:center;gap:8px;background:var(--mm-bg) !important;border:0 !important;box-shadow:none !important;border-radius:10px !important;padding:6px 12px 6px 6px !important;margin:0 !important;width:auto !important}
+.mm-card .mm-note .rs-icon-circle{width:20px !important;height:20px !important;min-width:20px !important;min-height:20px !important;max-height:20px;flex:0 0 auto !important;aspect-ratio:1;padding:0 !important;border-radius:50% !important;background:var(--mm-blue) !important;display:flex !important;align-items:center;justify-content:center;margin:0 !important;box-shadow:none !important}
+.mm-card .mm-note .rs-icon-symbol{color:#fff !important;font-size:12px !important;font-weight:700 !important;line-height:1 !important}
+.mm-card .mm-note .rs-text{font-size:13px !important;font-weight:500 !important;color:var(--mm-ink) !important;margin:0 !important;padding:0 !important}
+.mm-card .ut2-pb__main-content-box{border:0 !important;padding:0 !important;box-shadow:none !important;background:none !important}
+
+/* MM-14c. Цена: крупно, старая цена, скидка плашкой */
+.mm-card .mm-price .ty-product-prices{display:block !important;width:auto !important;max-width:none !important;float:none !important}
+.mm-card .mm-price .ty-product-prices > div > span{flex-wrap:nowrap !important}
+.mm-card .mm-price .ty-product-prices > div{display:flex !important;flex-direction:row !important;flex-wrap:nowrap;align-items:baseline;gap:4px 12px}
+.mm-card .mm-price .ty-product-prices > div > span{display:inline-flex !important;align-items:center;gap:8px;margin:0 !important}
+.mm-card .mm-price .ty-price-num{font-size:34px !important;font-weight:700 !important;letter-spacing:-.02em;color:var(--mm-ink) !important;line-height:1.1}
+.mm-card .mm-price .ty-list-price{font-size:17px !important;color:var(--mm-ink2) !important}
+.mm-card .mm-price [id^="old_price_update_"],.mm-card .mm-price .ty-list-price,.mm-card .mm-price .ty-strike{display:inline !important}
+.mm-card .mm-price .ut2-sld-short:not(:has(.ty-save-price)),.mm-card .mm-price .ut2-sld-short:has(.ty-save-price:empty){display:none !important}
+.mm-card .mm-price .ut2-sld-short{display:inline-flex !important;align-items:center;margin:0 !important;background:#ffe8e8;color:#d70015;font-weight:600;font-size:13px;padding:2px 8px;border-radius:8px;border:0}
+.mm-card .mm-price .ut2-sld-short *{color:#d70015 !important;border:0 !important;background:none !important}
+.mm-card .mm-price{margin:4px 0 6px}
+
+/* MM-14d. Бонусы – карта лояльности под ценой; штатная строка «Бонусные баллы» модуля скрыта */
+.mm-card .ty-reward-group{display:none !important}
+.mm-card .mm-bonus{margin:6px 0 20px;border-radius:16px;background:linear-gradient(135deg,#f3f7ff,#f5f5f7);overflow:hidden}
+.mm-card .mm-bonus summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer}
+.mm-card .mm-bonus summary::-webkit-details-marker{display:none}
+.mm-card .mm-bonus summary img{border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.15);flex:none}
+.mm-card .mm-bonus__main{flex:1;font-size:14px;line-height:1.3;color:var(--mm-ink)}
+.mm-card .mm-bonus__main b{color:var(--mm-green)}
+.mm-card .mm-bonus__main small{display:block;font-size:12px;color:var(--mm-ink2)}
+.mm-card .mm-bonus__arr{transition:transform .2s;flex:none}
+.mm-card .mm-bonus[open] .mm-bonus__arr{transform:rotate(180deg)}
+.mm-card .mm-bonus__body{padding:4px 14px 14px;font-size:13px}
+.mm-card .mm-bonus__lv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mm-card .mm-bonus__lv > div{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:8px}
+.mm-card .mm-bonus__lv img{border-radius:5px;flex:none}
+.mm-card .mm-bonus__lv b{display:block}
+.mm-card .mm-bonus__body ul{margin:0 0 10px;padding-left:18px;color:#333;list-style:disc}
+.mm-card .mm-bonus__body li{margin-bottom:3px}
+.mm-card .mm-bonus__body a{font-weight:600;color:var(--mm-blue)}
+
+/* MM-14e. Варианты (модуль product_variations): кнопки с ценой и точкой «есть в магазине», цвета – кругами */
+.mm-card .ut2-pb__options .ty-product-options__item{margin:0 0 16px}
+.mm-card .ut2-pb__options .ty-product-options__item-label{font-size:14px;font-weight:600;color:var(--mm-ink);margin-bottom:8px}
+.mm-card .ut2-pb__options .ty-clear-both{display:flex;flex-wrap:wrap;gap:8px}
+.mm-card .ty-product-options__radio--label{position:relative;display:inline-flex !important;flex-direction:column;align-items:flex-start;justify-content:center;min-width:104px;margin:0 !important;padding:9px 12px !important;border:1px solid var(--mm-line) !important;border-radius:12px !important;background:#fff !important;line-height:1.25;font-size:15px;font-weight:600;color:var(--mm-ink) !important;box-shadow:none !important;transition:border-color .15s}
+.mm-card .ty-product-options__radio--label .ty-product-option-checkbox{display:none !important}
+.mm-card .ty-product-options__radio--label:hover{border-color:#a1a1a6 !important}
+.mm-card .ty-product-options__radio:checked + .ty-product-options__radio--label{border-color:var(--mm-blue) !important;box-shadow:inset 0 0 0 1px var(--mm-blue) !important}
+.mm-card .mm-vprice{display:block;font-size:12px;font-weight:400;color:var(--mm-ink2);margin-top:2px}
+.mm-card .mm-vstock{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--mm-green)}
+.mm-card .ty-product-options__image--wrapper{position:relative;border-radius:14px !important;border:1px solid var(--mm-line) !important;padding:3px !important;margin:0 !important;background:#fff}
+.mm-card .ty-product-options__image--wrapper--active{border-color:var(--mm-blue) !important;box-shadow:inset 0 0 0 1px var(--mm-blue)}
+.mm-card .ty-product-options__image--wrapper .mm-vstock{top:-3px;right:-3px;width:10px;height:10px;border:2px solid #fff}
+
+/* MM-14f. Блок покупки: наличие, кнопки, срок получения */
+.mm-card .mm-buy{border:1px solid var(--mm-line);border-radius:20px;padding:20px;margin:18px 0 16px;background:#fff}
+.mm-card .mm-stock{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:14px}
+.mm-card .mm-stock--in{background:var(--mm-green-bg);color:var(--mm-green)}
+.mm-card .mm-stock--pre{background:var(--mm-amber-bg);color:var(--mm-amber)}
+/* Кнопки как в макете: строка «В корзину | ♡ | сравнить», под ней во всю ширину «Купить в 1 клик» (штатный «Быстрый заказ»).
+   Обёртки CS-Cart (#add_to_cart_update_…, внутренний div) – display:contents: их содержимое встаёт в общую сетку,
+   а перерисовка по id (cm-reload) работает как раньше. */
+.mm-card .mm-buy .ut2-pb__button{display:grid !important;grid-template-columns:minmax(0,1fr) 52px 52px !important;gap:8px;margin:0 !important;padding:0 !important;align-items:stretch}
+.mm-card .mm-buy [id^="add_to_cart_update_"],.mm-card .mm-buy [id^="add_to_cart_update_"] > div{display:contents !important}
+.mm-card .mm-buy .ty-btn__add-to-cart{grid-column:1 / span 1 !important;grid-row:1 !important;width:100%;height:52px;margin:0 !important;border-radius:14px !important;border:0 !important;background:var(--mm-blue) !important;color:#fff !important;font-size:16px !important;font-weight:600 !important;text-transform:none !important;box-shadow:none !important}
+.mm-card .mm-buy .ty-btn__add-to-cart:hover{background:var(--mm-blue-h) !important}
+.mm-card .mm-buy .ty-btn__add-to-cart i,.mm-card .mm-buy .ty-btn__add-to-cart .ty-icon{color:#fff !important}
+.mm-card .mm-buy .ut2-add-to-wish,.mm-card .mm-buy .ut2-add-to-compare{grid-row:1 !important;display:flex !important;align-items:center;justify-content:center;width:52px;height:52px;padding:0 !important;margin:0 !important;border-radius:14px;background:var(--mm-bg);font-size:0 !important;line-height:0;color:var(--mm-ink) !important;text-decoration:none !important;transition:background-color .15s}
+.mm-card .mm-buy .ut2-add-to-wish{grid-column:2 / span 1 !important}
+.mm-card .mm-buy .ut2-add-to-compare{grid-column:3 / span 1 !important}
+.mm-card .mm-buy .ut2-add-to-wish:hover,.mm-card .mm-buy .ut2-add-to-compare:hover{background:#e8e8ed}
+.mm-card .mm-buy .ut2-add-to-wish i,.mm-card .mm-buy .ut2-add-to-compare i{font-size:22px !important;line-height:1;margin:0 !important;color:var(--mm-ink) !important}
+.mm-card .mm-buy .ut2-add-to-wish.active i,.mm-card .mm-buy .ut2-add-to-compare.active i{color:var(--mm-blue) !important}
+.mm-card .mm-buy [id^="opener_buy_now_with_one_click_"],.mm-card .mm-buy .ty-btn__outline{grid-column:1 / span 3 !important;grid-row:2 !important;width:100%;height:46px;margin:0 !important;display:flex !important;align-items:center;justify-content:center;border-radius:14px !important;border:0 !important;box-shadow:none !important;background:var(--mm-bg) !important;color:var(--mm-ink) !important;text-transform:none !important}
+.mm-card .mm-buy [id^="opener_buy_now_with_one_click_"]:hover{background:#e8e8ed !important}
+/* Подпись «Купить в 1 клик» вместо штатной «Быстрый заказ» (окно и форма – прежние) */
+.mm-card .mm-buy [id^="opener_buy_now_with_one_click_"] span{font-size:0 !important}
+.mm-card .mm-buy [id^="opener_buy_now_with_one_click_"] span:after{content:"Купить в 1 клик";font-size:15px;font-weight:600}
+
+.mm-card .mm-dd{margin-top:18px;padding-top:18px;border-top:1px solid var(--mm-line)}
+.mm-card .mm-dd__city{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mm-ink2);margin-bottom:6px}
+.mm-card .mm-dd__citybtn{border:0;background:none;padding:0;color:var(--mm-blue);font-weight:600;font-size:13px;border-bottom:1px dashed currentColor;cursor:pointer}
+.mm-card .mm-dd__head{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.25;color:var(--mm-ink)}
+.mm-card .mm-dd__head em{font-style:normal;color:var(--mm-green)}
+.mm-card .mm-dd__where{font-size:13px;color:var(--mm-ink2);margin-top:3px}
+.mm-card .mm-dd__timer{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;background:var(--mm-bg);border-radius:10px;padding:6px 10px;color:var(--mm-ink)}
+.mm-card .mm-dd__timer b{font-variant-numeric:tabular-nums}
+.mm-card .mm-path{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr}
+.mm-card .mm-path li{position:relative;padding-top:18px;font-size:12px;line-height:1.3;color:var(--mm-ink2);margin:0}
+.mm-card .mm-path li b{display:block;color:var(--mm-ink);font-size:13px;font-weight:600}
+.mm-card .mm-path li:before{content:"";position:absolute;top:4px;left:0;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--mm-blue);z-index:1;box-sizing:border-box}
+.mm-card .mm-path li:after{content:"";position:absolute;top:8px;left:10px;right:0;height:2px;background:var(--mm-line)}
+.mm-card .mm-path li:last-child:after{display:none}
+.mm-card .mm-path li.is-done:before{background:var(--mm-blue)}
+.mm-card .mm-path li.is-done:after{background:var(--mm-blue)}
+
+/* MM-14g. Trade-in (только смартфоны), Гарантия+ (новые устройства Apple), доводы магазина */
+.mm-card .mm-ti{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#f0f6ff,#f5f5f7);margin:0 0 12px;color:var(--mm-ink) !important;text-decoration:none !important}
+.mm-card .mm-ti__ico{flex:none;width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.mm-card .mm-ti__txt{line-height:1.3}
+.mm-card .mm-ti__txt b{display:block;font-size:15px;color:var(--mm-ink)}
+.mm-card .mm-ti__txt span{font-size:13px;color:var(--mm-ink2)}
+.mm-card .mm-ti__go{margin-left:auto;font-weight:600;color:var(--mm-blue);white-space:nowrap;font-size:14px}
+.mm-card .mm-gp{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;margin:0 0 12px;background:linear-gradient(135deg,#1d1d1f 0%,#2c2c2e 60%,#3a3326 100%);color:#fff !important;text-decoration:none !important}
+.mm-card .mm-gp:hover{background:linear-gradient(135deg,#000 0%,#2c2c2e 60%,#4a3f2a 100%)}
+.mm-card .mm-gp__ico{flex:none;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+.mm-card .mm-gp__txt{flex:1;line-height:1.3}
+.mm-card .mm-gp__txt small{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#e3c27a}
+.mm-card .mm-gp__txt b{display:block;font-size:15px;margin:2px 0;color:#fff}
+.mm-card .mm-gp__txt > span{font-size:12px;color:#a1a1a6}
+.mm-card .mm-gp__go{flex:none}
+.mm-card .mm-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px;padding:0;list-style:none}
+.mm-card .mm-trust li{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.3;background:var(--mm-bg);border-radius:14px;padding:12px;margin:0;color:var(--mm-ink2)}
+.mm-card .mm-trust b{display:block;font-size:14px;color:var(--mm-ink)}
+.mm-card .mm-trust svg{flex:none}
+
+/* MM-14h. Краткие характеристики (.ut2-features-list) – списком «название | значение» с линией, без точек-заполнителей темы */
+.mm-card .mm-keys{margin:20px 0 0;border:1px solid var(--mm-line);border-radius:20px;padding:16px 20px 8px}
+.mm-card .mm-keys__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 6px}
+.mm-card .mm-keys__title{font-size:17px;font-weight:700;line-height:1.3;color:var(--mm-ink)}
+.mm-card .mm-keys__link{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:10px;background:var(--mm-bg);font-size:13px;font-weight:600;line-height:1;color:var(--mm-blue) !important;text-decoration:none !important;white-space:nowrap;transition:background-color .15s}
+.mm-card .mm-keys__link:after{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.mm-card .mm-keys__link:hover{background:#e8f1fd}
+.mm-card .mm-keys .ty-control-group:last-child{border-bottom:0}
+/* Полный раздел характеристик: отступ под закреплённую шапку при прокрутке к нему */
+.mm-card #content_features,.mm-card #features{scroll-margin-top:100px}
+.mm-card .mm-keys .ut2-features-list{display:block !important;columns:auto !important}
+.mm-card .mm-keys .ty-control-group{display:grid !important;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;padding:8px 0 !important;margin:0 !important;border-bottom:1px solid var(--mm-line);font-size:14px;line-height:1.35;background:none !important;width:100% !important}
+.mm-card .mm-keys .ty-control-group > span{display:block !important;max-width:none !important;min-width:0 !important;-webkit-hyphens:none !important;hyphens:none !important;word-break:normal !important;background:none !important;padding:0 !important;margin:0 !important;width:auto !important;overflow:visible !important;text-align:left !important}
+.mm-card .mm-keys .ty-control-group *:before,.mm-card .mm-keys .ty-control-group *:after,.mm-card .mm-keys .ty-control-group:before,.mm-card .mm-keys .ty-control-group:after{display:none !important;content:none !important}
+.mm-card .mm-keys .ty-product-feature__label,.mm-card .mm-keys .ty-product-feature__label em{color:var(--mm-ink2) !important}
+.mm-card .mm-keys .ty-control-group *{-webkit-hyphens:none !important;hyphens:none !important;word-break:normal !important;overflow-wrap:normal !important}
+.mm-card .mm-keys em{font-style:normal !important;color:var(--mm-ink);background:none !important;padding:0 !important}
+
+@media (min-width:1200px){
+  .mm-card .mm-col-side .mm-ti__go{display:none}
+  .mm-card .mm-col-side .mm-ti__txt b{font-size:14px}
+}
+
+/* MM-14i. Телефон: одна колонка (панель покупки внизу экрана – штатная панель темы) */
+@media (max-width:767px){
+  .mm-card .ut2-pb__title,.mm-card .ut2-pb__title h1{font-size:23px}
+  .mm-card .mm-price .ty-price-num{font-size:28px !important}
+  .mm-card .mm-buy{padding:16px}
+  .mm-card .mm-ti__go{display:none}
+  .mm-card .ty-product-options__radio--label{min-width:calc(50% - 4px)}
+  .mm-card .mm-keys .ty-features-list,.mm-card .mm-keys > *{grid-template-columns:1fr}
+}
+
+/* ================================================================
+   MM-14j…q. Под первым экраном карточки: вкладки, описание, характеристики, отзывы, комплект, «Хорошо дополняют»,
+   «Похожие товары», баннер Trade-in. Блоки вне шаблона (похожие, баннер) – только на странице с карточкой:
+   body:has(.mm-card). Макет – _DEV/product-card/mockup/v2.html.
+   ================================================================ */
+body:has(.mm-card){--mm-blue:#0071e3;--mm-ink:#1d1d1f;--mm-ink2:#6e6e73;--mm-line:#e5e5ea;--mm-bg:#f5f5f7}
+
+/* MM-14j. Строка разделов (модуль ab__seo_product_tabs): подчёркивание активного, без серой плашки */
+.mm-card .ab-spt-floating-panel{background:rgba(255,255,255,.94) !important;-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--mm-line);box-shadow:none !important;margin:0 0 8px}
+.mm-card .ab-spt-anchors__wrap{display:flex;gap:28px;margin:0;padding:0 4px;background:none !important;overflow-x:auto;scrollbar-width:none}
+.mm-card .ab-spt-anchors__wrap::-webkit-scrollbar{display:none}
+.mm-card .ab-spt-anchors__item{margin:0 !important;padding:0 !important;background:none !important;border:0 !important}
+.mm-card .ab-spt-anchors__item > span{display:block;padding:14px 0 !important;font-size:15px !important;color:var(--mm-ink2) !important;border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;background:none !important}
+.mm-card .ab-spt-anchors__item > span:hover{color:var(--mm-ink) !important}
+.mm-card .ab-spt-anchors__item > span.active,.mm-card .ab-spt-anchors__item.active > span{color:var(--mm-ink) !important;border-bottom-color:var(--mm-ink)}
+
+/* MM-14k. Разделы: крупные заголовки, разделитель, отступ под закреплённую шапку при переходе */
+.mm-card .ut2-pb__tabs .ty-wysiwyg-content{border-top:1px solid var(--mm-line);padding:36px 0 8px !important;margin:0 !important;scroll-margin-top:110px}
+/* Пустые разделы (файлы, вложения, видео, комплект во вкладке) – без заголовка: не показываем, иначе остаются пустые полосы */
+.mm-card .ut2-pb__tabs .ty-wysiwyg-content:not(:has(.tab-list-title)){display:none !important}
+.mm-card .tab-list-title{font-size:26px !important;font-weight:700 !important;letter-spacing:-.02em;color:var(--mm-ink) !important;margin:0 0 20px !important;padding:0 !important;border:0 !important;text-transform:none !important;scroll-margin-top:110px}
+/* Описание: текст – удобной ширины, картинки – скруглённые */
+.mm-card #content_description{font-size:16px;line-height:1.6;color:#333}
+.mm-card #content_description p,.mm-card #content_description li{max-width:820px}
+.mm-card #content_description h3,.mm-card #content_description h4{font-size:22px;letter-spacing:-.01em;color:var(--mm-ink);margin:32px 0 10px;line-height:1.25}
+.mm-card #content_description img{border-radius:24px}
+/* «Показать полностью» (модуль ab__show_more_content) – таблеткой */
+.mm-card .ab-smc-more{text-align:left !important}
+/* Отступ между кнопкой «Показать полностью / Свернуть» и линией следующего раздела (margin – вне ограничения высоты модуля) */
+.mm-card .ut2-pb__tabs .ab-smc-description{margin-bottom:28px !important}
+.mm-card .ab-smc-more .ab-smc{display:inline-flex !important;box-shadow:0 0 0 8px #fff;align-items:center;gap:8px;padding:10px 20px !important;border-radius:20px;background:var(--mm-bg);color:var(--mm-ink) !important;font-size:15px !important;font-weight:600 !important;text-decoration:none !important;border:0 !important;cursor:pointer}
+.mm-card .ab-smc-more .ab-smc:hover{background:#e8e8ed}
+
+/* MM-14l. Полные характеристики: группы с подзаголовками, строки «название | значение» с линией */
+.mm-card #content_features .ty-subheader{font-size:16px !important;font-weight:700 !important;color:var(--mm-ink) !important;margin:24px 0 4px !important;padding:0 !important;border:0 !important;text-transform:none !important;background:none !important}
+.mm-card #content_features .ty-product-feature{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding:10px 0 !important;margin:0 !important;border-bottom:1px solid var(--mm-line);font-size:14px;line-height:1.4;background:none !important}
+.mm-card #content_features .ty-product-feature__label,.mm-card #content_features .ty-product-feature__value{width:auto !important;max-width:none !important;float:none !important;padding:0 !important;margin:0 !important;background:none !important;-webkit-hyphens:none;hyphens:none}
+.mm-card #content_features .ty-product-feature__label{color:var(--mm-ink2) !important}
+.mm-card #content_features .ty-product-feature__label *{color:var(--mm-ink2) !important;background:none !important}
+.mm-card #content_features .ty-product-feature:before,.mm-card #content_features .ty-product-feature:after,.mm-card #content_features .ty-product-feature *:before,.mm-card #content_features .ty-product-feature *:after{display:none !important;content:none !important}
+.mm-card #content_features .ty-product-feature *{border:0 !important;background-image:none !important}
+.mm-card #content_features .ty-product-feature__value{color:var(--mm-ink) !important}
+@media (min-width:768px){.mm-card #content_features .fg-two-col{column-gap:48px}}
+
+/* MM-14m. Отзывы: без большого серого «Отзывы не найдены» – компактная строка и кнопка */
+.mm-card .ty-product-reviews-view__main.no-reviews{display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px;background:var(--mm-bg);border-radius:24px;padding:24px !important;margin:0 !important}
+.mm-card .no-reviews,.mm-card .no-reviews *{min-height:0 !important}
+.mm-card .no-reviews .ty-product-review-reviews-sidebar,.mm-card .no-reviews .ty-product-review-write-product-review{text-align:left !important;height:auto !important}
+.mm-card .no-reviews .ty-product-reviews-view__main-content{flex:0 0 auto;margin:0 !important;padding:0 !important;background:none !important;min-height:0 !important}
+.mm-card .no-reviews .ty-product-reviews-view__main-content-left{display:none}
+.mm-card .no-reviews .ty-no-items{background:none !important;border:0 !important;padding:0 !important;margin:0 !important;font-size:18px !important;font-weight:700;color:var(--mm-ink) !important;text-align:left !important}
+.mm-card .no-reviews .ty-product-review-reviews-sidebar{flex:1 1 320px;margin:0 !important;padding:0 !important;background:none !important;border:0 !important}
+.mm-card .no-reviews .ty-product-review-write-product-review{display:flex !important;flex-direction:row !important;flex-wrap:wrap;align-items:center !important;justify-content:flex-end;gap:8px 16px;height:auto !important;padding:0 !important;margin:0 !important;background:none !important;border:0 !important;box-shadow:none !important}
+.mm-card .no-reviews .ty-product-review-write-product-review__title,.mm-card .no-reviews .ty-product-review-write-product-review:before,.mm-card .no-reviews .ty-product-review-write-product-review:after{display:none !important}
+.mm-card .no-reviews .ty-product-review-write-product-review > *{margin:0 !important}
+.mm-card .no-reviews .ty-product-review-reviews-sidebar{display:block !important;height:auto !important}
+.mm-card .no-reviews .ty-product-review-write-product-review__description{flex:1 1 200px;margin:0 !important;color:var(--mm-ink2);font-size:14px}
+.mm-card .no-reviews .ty-product-review-write-product-review__description p{margin:0}
+.mm-card .ty-product-review-write-product-review-button{height:44px;padding:0 20px !important;border-radius:14px !important;border:0 !important;background:var(--mm-ink) !important;color:#fff !important;font-weight:600 !important;text-transform:none !important;display:inline-flex !important;align-items:center}
+
+/* MM-14n. «Выгодный комплект» (модуль product_bundles): серая подложка, белые карточки, синяя кнопка */
+.mm-card .ty-product-bundles-product-bundles{background:var(--mm-bg);border:0 !important;border-radius:24px;padding:16px !important;margin:0 0 32px !important;box-shadow:none !important}
+.mm-card .ty-product-bundles-product-bundles .ty-subheader,.mm-card .ty-product-bundles-bundle-form__header{font-size:22px !important;font-weight:700 !important;color:var(--mm-ink) !important;border:0 !important;padding:4px 4px 12px !important;margin:0 !important;text-transform:none !important;background:none !important}
+.mm-card .ty-product-bundles-product-item{background:#fff;border:0 !important;border-radius:18px;padding:14px !important;box-shadow:none !important}
+.mm-card .ty-product-bundles-product-item__image img{mix-blend-mode:multiply}
+.mm-card .ty-product-bundles-product-item__name,.mm-card .ty-product-bundles-product-item__name-link{font-size:13px !important;line-height:1.3;color:var(--mm-ink) !important}
+.mm-card .ty-product-bundles-product-item__price .ty-price-num{font-size:16px !important;font-weight:700 !important;color:var(--mm-ink) !important}
+.mm-card .ty-product-bundles-bundle-form__form-inner{background:#fff;border:0 !important;border-radius:18px;padding:16px !important;box-shadow:none !important}
+.mm-card .ty-product-bundles-bundle-form__form .ty-price-num{color:var(--mm-ink) !important}
+.mm-card .ty-product-bundles-bundle-form__form .ty-btn{height:44px;border-radius:14px !important;border:0 !important;background:var(--mm-blue) !important;color:#fff !important;font-weight:600 !important;text-transform:none !important;padding:0 18px !important}
+
+/* MM-14o. «Этот товар хорошо дополняют» (ab__intelligent_accessories) и «Похожие товары»: заголовки, таблетки, плитки */
+.mm-card .ut2-ab__ia_joins-list .ty-subheader,body:has(.mm-card) .ut2-top-bottom > .ty-mainbox-container > .ty-mainbox-title{font-size:26px !important;font-weight:700 !important;letter-spacing:-.02em;color:var(--mm-ink) !important;text-transform:none !important;border:0 !important;padding:0 !important;margin:0 0 16px !important;background:none !important}
+.mm-card .ut2-ab__ia_joins-list{border-top:1px solid var(--mm-line);padding-top:36px !important;margin-top:8px}
+.mm-card .ut2-ab__ia_joins-list .ty-tabs__list{display:flex;gap:8px;border:0 !important;margin:0 0 16px !important;padding:0 !important;background:none !important}
+.mm-card .ut2-ab__ia_joins-list .ty-tabs__item{margin:0 !important;padding:0 !important;border:0 !important;background:none !important}
+.mm-card .ut2-ab__ia_joins-list .ty-tabs__item{height:auto !important}
+.mm-card .ut2-ab__ia_joins-list .ty-tabs__a{display:block;height:auto !important;line-height:20px !important;padding:8px 16px !important;border-radius:20px !important;background:var(--mm-bg) !important;color:var(--mm-ink) !important;font-size:14px !important;border:0 !important;white-space:nowrap;text-decoration:none !important}
+.mm-card .ut2-ab__ia_joins-list .ty-tabs__item.active .ty-tabs__a{background:var(--mm-ink) !important;color:#fff !important}
+.mm-card .ut2-ab__ia_joins-list .ut2-gl__item,body:has(.mm-card) .ut2-top-bottom .ut2-gl__item{border:1px solid var(--mm-line) !important;border-radius:20px !important;background:#fff !important;box-shadow:none !important;overflow:hidden;transition:box-shadow .2s}
+.mm-card .ut2-ab__ia_joins-list .ut2-gl__item:hover,body:has(.mm-card) .ut2-top-bottom .ut2-gl__item:hover{box-shadow:0 8px 28px rgba(0,0,0,.08) !important}
+.mm-card .ut2-ab__ia_joins-list .ut2-gl__body,body:has(.mm-card) .ut2-top-bottom .ut2-gl__body{border:0 !important;box-shadow:none !important;background:none !important}
+.mm-card .ut2-ab__ia_joins-list .ut2-gl__image img,body:has(.mm-card) .ut2-top-bottom .ut2-gl__image img{mix-blend-mode:multiply}
+body:has(.mm-card) .ut2-top-bottom .ut2-gl__name a,.mm-card .ut2-ab__ia_joins-list .ut2-gl__name a{color:var(--mm-ink) !important;font-size:14px !important;line-height:1.3}
+body:has(.mm-card) .ut2-top-bottom .ut2-gl__price .ty-price-num,.mm-card .ut2-ab__ia_joins-list .ut2-gl__price .ty-price-num{color:var(--mm-ink) !important;font-weight:700 !important}
+body:has(.mm-card) .ut2-top-bottom .owl-controls .owl-buttons div{width:36px;height:36px;border-radius:50% !important;background:var(--mm-bg) !important;border:0 !important;box-shadow:none !important}
+
+/* MM-14o-2. «Хорошо дополняют»: карусель модуля (.ty-scroller-list__item) – плитки как у «Похожих товаров» */
+.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__item{border:1px solid var(--mm-line) !important;border-radius:20px !important;background:#fff !important;padding:14px !important;box-shadow:none !important;box-sizing:border-box;height:100%;display:flex !important;flex-direction:column;transition:box-shadow .2s}
+.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__item:hover{box-shadow:0 8px 28px rgba(0,0,0,.08) !important}
+.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__img-block img{mix-blend-mode:multiply}
+.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__description{flex:1;display:flex;flex-direction:column;text-align:left !important;padding:0 !important}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list{width:100% !important;display:flex !important;flex-direction:column;flex:1}
+.mm-card .ty-ab__ia_joins-list-products .product-title,.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__description a:not(.ty-btn){color:var(--mm-ink) !important;font-size:14px !important;line-height:1.3;text-align:left !important}
+.mm-card .ty-ab__ia_joins-list-products .ty-price-num{color:var(--mm-ink) !important;font-weight:700 !important}
+.mm-card .ty-ab__ia_joins-list-products [class*="price"]{text-align:left !important;justify-content:flex-start !important}
+.mm-card .ty-ab__ia_joins-list-products .ty-btn__add-to-cart,.mm-card .ty-ab__ia_joins-list-products .ty-btn__primary{width:100%;height:40px;margin-top:auto !important;border-radius:12px !important;border:0 !important;background:var(--mm-bg) !important;color:var(--mm-blue) !important;font-weight:600 !important;font-size:14px !important;text-transform:none !important;box-shadow:none !important;display:flex !important;align-items:center;justify-content:center}
+.mm-card .ty-ab__ia_joins-list-products .ty-btn__add-to-cart:hover,.mm-card .ty-ab__ia_joins-list-products .ty-btn__primary:hover{background:#e8f1fd !important}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list *{text-align:left !important}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list__wrap,.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list__price,.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list__price > div{justify-content:flex-start !important;align-items:baseline}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list .ty-price-update,.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list .ty-price-update ~ *{justify-content:flex-start !important}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list form,.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list div:has(> .ty-btn),.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list div:has(> div > .ty-btn){width:100% !important;max-width:none !important;margin-left:0 !important;margin-right:0 !important}
+.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list > *:last-child{margin-top:auto}
+.mm-card .ty-ab__ia_joins-list-products .owl-wrapper{display:flex !important}
+.mm-card .ty-ab__ia_joins-list-products .owl-item{display:flex !important;align-items:stretch}
+/* Карточка – на всю ширину своей ячейки карусели (без этого ширина зависела от длины названия) */
+.mm-card .ty-ab__ia_joins-list-products .owl-item > .ty-scroller-list__item{flex:1 1 auto;width:auto !important;max-width:none !important;min-width:0}
+.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__description,.mm-card .ty-ab__ia_joins-list-products .ty-scroller-list__description > *,.mm-card .ty-ab__ia_joins-list-products .ut2-simple-list,.mm-card .ty-ab__ia_joins-list-products form{width:100% !important;max-width:none !important;min-width:0}
+
+/* MM-14p. Баннер Trade-in темы (баннер 40): скругление; только у смартфонов (класс mm-card--smartphone ставит шаблон) */
+body:has(.mm-card) .ut2-banner:has(.ut2-a__bg-banner[data-id="40"]) .ut2-a__bg-banner{border-radius:28px;overflow:hidden}
+body:has(.mm-card:not(.mm-card--smartphone)) .ut2-banner:has(.ut2-a__bg-banner[data-id="40"]){display:none !important}
+
+/* MM-14q. Телефон: заголовки разделов меньше */
+@media (max-width:767px){
+  .mm-card .tab-list-title,.mm-card .ut2-ab__ia_joins-list .ty-subheader,body:has(.mm-card) .ut2-top-bottom > .ty-mainbox-container > .ty-mainbox-title{font-size:22px !important}
+  .mm-card #content_features .ty-product-feature{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .mm-card .ty-product-reviews-view__main.no-reviews{padding:18px !important;border-radius:20px}
+  .mm-card #content_description img{border-radius:16px}
+}
+
+/* MM-14r. Телефон: компактные строка рейтинга магазина, плашка RuStore и пустые отзывы (решение владельца 2026-10-19) */
+@media (max-width:767px){
+  .mm-card .mm-meta{font-size:12px;gap:4px 10px;margin:0 0 10px}
+  .mm-card .mm-meta__store{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .mm-card .mm-note{margin:0 0 10px}
+  .mm-card .mm-note .info-badge-rustore{padding:4px 10px 4px 4px !important;border-radius:8px !important;gap:6px}
+  .mm-card .mm-note .rs-icon-circle{width:16px !important;height:16px !important;min-width:16px !important;min-height:16px !important;max-height:16px}
+  .mm-card .mm-note .rs-icon-symbol{font-size:10px !important}
+  .mm-card .mm-note .rs-text{font-size:12px !important}
+  .mm-card #content_product_reviews{padding-top:24px !important}
+  .mm-card .ty-product-reviews-view__main.no-reviews{flex-direction:row !important;flex-wrap:nowrap !important;justify-content:space-between !important;align-items:center !important;gap:12px;padding:12px 12px 12px 16px !important;border-radius:16px;text-align:left !important}
+  .mm-card .no-reviews .ty-product-reviews-view__main-content-right{text-align:left !important;justify-items:start}
+  .mm-card .no-reviews .ty-product-review-write-product-review{justify-content:flex-end !important}
+  .mm-card .ut2-pb__title,.mm-card .ut2-pb__title h1{margin-bottom:6px !important}
+  .mm-card .mm-note .info-badge-rustore,.mm-card .mm-note .info-badge-rustore *{min-height:0 !important;height:auto !important;line-height:1.2 !important}
+  .mm-card .mm-note .rs-icon-circle{height:16px !important}
+  .mm-card .no-reviews .ty-no-items{font-size:14px !important;font-weight:600}
+  .mm-card .no-reviews .ty-product-review-reviews-sidebar{flex:0 0 auto}
+  .mm-card .no-reviews .ty-product-review-write-product-review__description{display:none}
+  .mm-card .ty-product-review-write-product-review-button{height:36px;padding:0 14px !important;border-radius:10px !important;font-size:13px !important}
+}

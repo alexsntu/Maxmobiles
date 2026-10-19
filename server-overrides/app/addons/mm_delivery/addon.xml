@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<addon scheme="3.0">
+    <id>mm_delivery</id>
+    <version>1.0</version>
+    <priority>4294967000</priority>
+    <position>0</position>
+    <status>active</status>
+    <default_language>ru</default_language>
+    <supplier>Maxmobiles</supplier>
+    <name>Maxmobiles: сроки получения и карточка товара</name>
+    <description>Сроки получения товара (самовывоз в Севастополе, рейсы в Симферополь и Ялту, СДЭК) и данные для шаблона карточки maxmobiles_card. Только витрина Maxmobiles.</description>
+</addon>

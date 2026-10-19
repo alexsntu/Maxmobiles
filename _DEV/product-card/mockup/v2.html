@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточка Maxmobiles v2</title>
+<style>
+:root{
+  --mm-blue:#0071e3; --mm-blue-h:#0062c4; --mm-ink:#1d1d1f; --mm-ink2:#6e6e73; --mm-line:#e5e5ea; --mm-bg:#f5f5f7;
+  --mm-green:#1a8f3c; --mm-green-bg:#e9f7ee; --mm-amber:#b25e00; --mm-amber-bg:#fff4e5; --mm-r:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,Arial,sans-serif;color:var(--mm-ink);background:#fff}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--mm-blue);text-decoration:none}
+
+/* Служебная панель макета – на сайте её нет */
+.demo{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px 16px;background:#111;color:#ddd;font-size:13px}
+.demo b{color:#fff}.demo select,.demo input{font:inherit;padding:3px 6px;border-radius:6px;border:0}
+
+.mm-wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.mm-crumbs{padding:14px 0;font-size:13px;color:var(--mm-ink2)}
+.mm-crumbs a{color:var(--mm-ink2)}.mm-crumbs span{margin:0 6px;color:#c7c7cc}
+
+/* Первый экран: галерея | панель покупки */
+.mm-pd{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(380px,.85fr);gap:48px;align-items:start}
+.mm-gal{position:sticky;top:64px;display:grid;grid-template-columns:72px 1fr;gap:16px}
+.mm-gal__thumbs{display:flex;flex-direction:column;gap:10px}
+.mm-gal__thumbs button{width:72px;height:72px;border:1px solid var(--mm-line);border-radius:12px;background:#fff;padding:6px}
+.mm-gal__thumbs button[aria-current=true]{border-color:var(--mm-ink);box-shadow:inset 0 0 0 1px var(--mm-ink)}
+.mm-gal__thumbs img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.mm-gal__main{position:relative;aspect-ratio:1/1;background:var(--mm-bg);border-radius:24px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mm-gal__main img{width:82%;height:82%;object-fit:contain;mix-blend-mode:multiply}
+.mm-gal__count{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 10px;border-radius:20px;display:none}
+.mm-gal__badge{position:absolute;top:16px;left:16px;background:#e30000;color:#fff;font-weight:600;font-size:13px;padding:4px 10px;border-radius:20px}
+
+.mm-info h1{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin:0 0 10px;font-weight:600}
+.mm-meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px;color:var(--mm-ink2);margin-bottom:18px}
+.mm-meta svg{vertical-align:-2px}
+.mm-store-rating{display:inline-flex;gap:6px;align-items:center;color:var(--mm-ink)}
+.mm-store-rating b{font-weight:600}
+.mm-note{display:inline-flex;gap:6px;align-items:center}
+
+.mm-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:4px 0 6px}
+.mm-price__now{font-size:34px;font-weight:700;letter-spacing:-.02em}
+.mm-price__old{color:var(--mm-ink2);text-decoration:line-through;font-size:17px}
+.mm-price__off{background:#ffe8e8;color:#d70015;font-weight:600;font-size:13px;padding:2px 8px;border-radius:8px}
+.mm-price__sub{font-size:13px;color:var(--mm-ink2);margin-bottom:20px}
+.mm-price__sub b{color:var(--mm-green);font-weight:600}
+
+.mm-opt{margin-bottom:18px}
+.mm-opt__t{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;gap:8px;align-items:baseline}
+.mm-opt__t span{font-weight:400;color:var(--mm-ink2)}
+.mm-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.mm-chip{position:relative;border:1px solid var(--mm-line);background:#fff;border-radius:12px;padding:9px 10px;text-align:left;line-height:1.25;transition:border-color .15s}
+.mm-chip:hover{border-color:#a1a1a6}
+.mm-chip[aria-pressed=true]{border-color:var(--mm-blue);box-shadow:inset 0 0 0 1px var(--mm-blue)}
+.mm-chip b{display:block;font-weight:600;font-size:15px}
+.mm-chip small{font-size:12px;color:var(--mm-ink2)}
+.mm-chip i{position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--mm-green)}
+.mm-chips--sim{grid-template-columns:1fr 1fr}
+.mm-sw{display:flex;gap:14px}
+.mm-sw button{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,0,0,.15);padding:0}
+.mm-sw button[aria-pressed=true]{outline:2px solid var(--mm-blue);outline-offset:3px}
+.mm-sw button i{position:absolute;right:-3px;top:-3px;width:9px;height:9px;border-radius:50%;background:var(--mm-green);border:2px solid #fff}
+.mm-hint{font-size:12px;color:var(--mm-ink2);margin-top:6px;display:flex;gap:6px;align-items:center}
+.mm-hint i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mm-green)}
+
+/* Блок покупки */
+.mm-buy{border:1px solid var(--mm-line);border-radius:20px;padding:20px;margin:22px 0 16px}
+.mm-stock{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:14px}
+.mm-stock--in{background:var(--mm-green-bg);color:var(--mm-green)}
+.mm-stock--pre{background:var(--mm-amber-bg);color:var(--mm-amber)}
+.mm-btns{display:grid;grid-template-columns:1fr auto auto;gap:8px}
+.mm-btn{height:52px;border-radius:14px;border:0;font-weight:600;font-size:16px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.mm-btn--main{background:var(--mm-blue);color:#fff}.mm-btn--main:hover{background:var(--mm-blue-h)}
+.mm-btn--sec{background:var(--mm-bg);color:var(--mm-ink);width:100%;margin-top:8px;height:46px;font-size:15px}
+.mm-btn--ico{width:52px;background:var(--mm-bg)}
+.mm-btn--ico[aria-pressed=true] svg path{fill:#e30000;stroke:#e30000}
+
+/* Получение – свой вид Maxmobiles: главный ответ крупно + путь заказа */
+.mm-dd{margin-top:18px;padding-top:18px;border-top:1px solid var(--mm-line)}
+.mm-dd__city{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mm-ink2);margin-bottom:6px}
+.mm-dd__city button{border:0;background:none;padding:0;color:var(--mm-blue);font-weight:600;border-bottom:1px dashed currentColor}
+.mm-dd__head{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.mm-dd__head em{font-style:normal;color:var(--mm-green)}
+.mm-dd__where{font-size:13px;color:var(--mm-ink2);margin-top:3px}
+.mm-dd__timer{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;background:var(--mm-bg);border-radius:10px;padding:6px 10px}
+.mm-dd__timer b{font-variant-numeric:tabular-nums}
+.mm-path{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0;position:relative}
+.mm-path li{position:relative;padding-top:18px;font-size:12px;line-height:1.3;color:var(--mm-ink2)}
+.mm-path li b{display:block;color:var(--mm-ink);font-size:13px;font-weight:600}
+.mm-path li:before{content:"";position:absolute;top:4px;left:0;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--mm-blue);z-index:1}
+.mm-path li:after{content:"";position:absolute;top:9px;left:10px;right:0;height:2px;background:var(--mm-line)}
+.mm-path li:last-child:after{display:none}
+.mm-path li.is-done:before{background:var(--mm-blue)}
+.mm-path li.is-done:after{background:var(--mm-blue)}
+
+.mm-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 8px;padding:0;list-style:none}
+.mm-trust li{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.3;background:var(--mm-bg);border-radius:14px;padding:12px}
+.mm-trust b{display:block;font-size:14px}
+.mm-trust svg{flex:none}
+
+.mm-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.mm-keys li{border:1px solid var(--mm-line);border-radius:14px;padding:10px;font-size:12px;color:var(--mm-ink2);line-height:1.25}
+.mm-keys b{display:block;color:var(--mm-ink);font-size:15px;margin-bottom:2px}
+
+/* Под первым экраном */
+.mm-tabs{position:sticky;top:36px;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--mm-line);margin-top:56px}
+.mm-tabs nav{display:flex;gap:28px;max-width:1280px;margin:0 auto;padding:0 24px;overflow-x:auto}
+.mm-tabs a{color:var(--mm-ink2);padding:14px 0;white-space:nowrap;border-bottom:2px solid transparent}
+.mm-tabs a.is-on{color:var(--mm-ink);border-color:var(--mm-ink)}
+.mm-sec{padding:40px 0;border-bottom:1px solid var(--mm-line)}
+.mm-sec h2{font-size:26px;letter-spacing:-.02em;margin:0 0 18px}
+.mm-sec p{max-width:760px;color:#333}
+.mm-spec{display:grid;grid-template-columns:1fr 1fr;gap:0 48px;max-width:980px}
+.mm-spec div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--mm-line);font-size:14px}
+.mm-spec span{color:var(--mm-ink2)}
+
+/* Телефон: закреплённая панель покупки над нижним меню сайта */
+.mm-bar{display:none}
+@media (max-width:900px){
+  .mm-wrap{padding:0 16px}
+  .mm-pd{grid-template-columns:1fr;gap:16px}
+  .mm-gal{position:static;grid-template-columns:1fr;margin:0 -16px}
+  .mm-gal__thumbs{display:none}
+  .mm-gal__main{border-radius:0;aspect-ratio:5/4}
+  .mm-gal__main img{width:74%;height:88%}
+  .mm-gal__count{display:block}
+  .mm-info h1{font-size:23px}
+  .mm-price__now{font-size:28px}
+  .mm-keys{grid-template-columns:repeat(2,1fr)}
+  .mm-chips{grid-template-columns:repeat(2,1fr)}
+  .mm-btns .mm-btn--main{display:none}
+  .mm-btns{grid-template-columns:1fr 1fr}
+  .mm-btn--ico{width:auto}
+  .mm-tabs{top:36px;margin-top:24px}
+  .mm-spec{grid-template-columns:1fr}
+  .mm-bar{display:flex;position:fixed;left:0;right:0;bottom:62px;z-index:40;gap:12px;align-items:center;padding:10px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-top:1px solid var(--mm-line)}
+  .mm-bar__p{flex:1;line-height:1.15}
+  .mm-bar__p b{display:block;font-size:19px}
+  .mm-bar__p small{font-size:12px;color:var(--mm-ink2)}
+  .mm-bar .mm-btn{height:46px;padding:0 22px;flex:none}
+  .mm-sitenav{position:fixed;left:0;right:0;bottom:0;height:62px;background:#2b2b2b;color:#fff;display:grid;grid-template-columns:repeat(4,1fr);font-size:11px;text-align:center;align-items:center;z-index:41}
+  body{padding-bottom:140px}
+}
+@media (min-width:901px){.mm-sitenav{display:none}}
+
+/* ===== v2: остальные элементы карточки ===== */
+/* Бонусы: карта лояльности под ценой, раскрывается – уровни Pro / Ultra и условия */
+.mm-bonus{margin:2px 0 20px;border-radius:16px;background:linear-gradient(135deg,#f3f7ff,#f5f5f7);overflow:hidden}
+.mm-bonus summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer}
+.mm-bonus summary::-webkit-details-marker{display:none}
+.mm-bonus summary img{border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.15);flex:none}
+.mm-bonus__main{flex:1;font-size:14px;line-height:1.3}
+.mm-bonus__main b{color:var(--mm-green)}
+.mm-bonus__main small{display:block;font-size:12px;color:var(--mm-ink2)}
+.mm-bonus__arr{transition:transform .2s;flex:none}
+.mm-bonus[open] .mm-bonus__arr{transform:rotate(180deg)}
+.mm-bonus__body{padding:4px 14px 14px;font-size:13px}
+.mm-bonus__lv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mm-bonus__lv div{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:8px}
+.mm-bonus__lv img{border-radius:5px;flex:none}
+.mm-bonus__lv b{display:block}
+.mm-bonus__body ul{margin:0 0 10px;padding-left:18px;color:#333}
+.mm-bonus__body li{margin-bottom:3px}
+.mm-bonus__body a{font-weight:600}
+
+/* Trade-in – строка в колонке покупки (было: отдельный виджет с большой карточкой) */
+.mm-ti{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,#f0f6ff,#f5f5f7);margin:0 0 14px;color:var(--mm-ink)}
+.mm-ti__ico{flex:none;width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.mm-ti b{display:block;font-size:15px;color:var(--mm-ink)}.mm-ti span{font-size:13px;color:var(--mm-ink2)}
+.mm-ti__go{margin-left:auto;font-weight:600;color:var(--mm-blue);white-space:nowrap;font-size:14px}
+
+/* Гарантия+ – премиальная плашка (тёмная, золото) */
+.mm-gp{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;margin:0 0 14px;background:linear-gradient(135deg,#1d1d1f 0%,#2c2c2e 60%,#3a3326 100%);color:#fff}
+.mm-gp__ico{flex:none;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+.mm-gp__txt{flex:1;line-height:1.3}
+.mm-gp__txt small{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#e3c27a}
+.mm-gp__txt b{display:block;font-size:15px;margin:2px 0}
+.mm-gp__txt>span{font-size:12px;color:#a1a1a6}
+.mm-gp__go{flex:none}
+.mm-gp:hover{background:linear-gradient(135deg,#000 0%,#2c2c2e 60%,#4a3f2a 100%)}
+
+/* Общие заголовки разделов */
+.mm-sec__head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:18px}
+.mm-sec__head h2{margin:0}
+.mm-sec__head a{font-size:14px;font-weight:600;white-space:nowrap}
+
+/* Выгодный комплект */
+.mm-bundle{display:grid;grid-template-columns:1fr auto 1fr minmax(240px,.9fr);gap:16px;align-items:stretch;background:var(--mm-bg);border-radius:24px;padding:16px}
+.mm-bundle__item{display:flex;gap:14px;align-items:center;background:#fff;border-radius:18px;padding:14px;position:relative}
+.mm-bundle__item img{width:76px;height:76px;object-fit:contain;mix-blend-mode:multiply;flex:none}
+.mm-bundle__item small{display:block;font-size:13px;color:var(--mm-ink2);line-height:1.3;margin-bottom:4px}
+.mm-bundle__item b{font-size:16px}.mm-bundle__item s{color:var(--mm-ink2);font-size:13px;margin-left:6px}
+.mm-bundle__plus{align-self:center;width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--mm-ink2)}
+.mm-bundle__sum{background:#fff;border-radius:18px;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.mm-bundle__sum small{color:var(--mm-ink2);font-size:13px}
+.mm-bundle__sum strong{font-size:24px;letter-spacing:-.02em}
+.mm-bundle__save{display:inline-block;background:var(--mm-green-bg);color:var(--mm-green);font-weight:600;font-size:13px;padding:2px 8px;border-radius:8px;align-self:flex-start}
+.mm-bundle__sum .mm-btn{height:44px;font-size:15px;margin-top:8px}
+.mm-check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:7px;background:var(--mm-blue);display:flex;align-items:center;justify-content:center}
+
+/* Хорошо дополняют: вкладки-«таблетки» и плитки */
+.mm-pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 16px;padding:0}
+.mm-pills::-webkit-scrollbar{display:none}
+.mm-pills button{flex:none;border:0;background:var(--mm-bg);border-radius:20px;padding:8px 16px;font-size:14px}
+.mm-pills button[aria-pressed=true]{background:var(--mm-ink);color:#fff}
+.mm-row{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px)/5);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.mm-row::-webkit-scrollbar{display:none}
+.mm-tile{scroll-snap-align:start;position:relative;border:1px solid var(--mm-line);border-radius:20px;padding:14px;display:flex;flex-direction:column;color:var(--mm-ink);background:#fff;transition:box-shadow .2s}
+.mm-tile:hover{box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.mm-tile__img{aspect-ratio:1/1;border-radius:14px;background:var(--mm-bg);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.mm-tile__img img{width:80%;height:80%;object-fit:contain;mix-blend-mode:multiply}
+.mm-tile__name{font-size:14px;line-height:1.3;min-height:36px;margin-bottom:8px}
+.mm-tile__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin-top:auto}
+.mm-tile__price b{font-size:17px}.mm-tile__price s{font-size:13px;color:var(--mm-ink2)}
+.mm-tile__off{font-size:12px;font-weight:600;color:#d70015}
+.mm-tile__fav{position:absolute;top:20px;right:20px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center}
+.mm-tile__add{margin-top:10px;height:38px;border-radius:12px;border:0;background:var(--mm-bg);font-weight:600;font-size:14px;color:var(--mm-blue)}
+.mm-tile__stock{font-size:12px;color:var(--mm-green);margin-bottom:6px}
+.mm-tile--more{align-items:center;justify-content:center;text-align:center;background:var(--mm-bg);border:0;color:var(--mm-blue);font-weight:600;gap:10px}
+.mm-tile--more span{width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.mm-arrows{display:flex;gap:8px}
+.mm-arrows button{width:36px;height:36px;border-radius:50%;border:0;background:var(--mm-bg);display:flex;align-items:center;justify-content:center}
+
+/* Описание: картинки по ширине колонки, «Показать полностью» с плавным затуханием */
+.mm-desc{position:relative;max-height:900px;overflow:hidden;transition:max-height .4s ease}
+.mm-desc.is-open{max-height:none}
+.mm-desc:not(.is-open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:160px;background:linear-gradient(rgba(255,255,255,0),#fff)}
+.mm-desc h3{font-size:22px;letter-spacing:-.01em;margin:32px 0 8px;max-width:760px}
+.mm-desc h3:first-child{margin-top:0}
+.mm-desc img{display:block;width:100%;max-width:980px;border-radius:24px;margin:20px 0;background:var(--mm-bg)}
+.mm-more{margin-top:14px;border:0;background:var(--mm-bg);border-radius:20px;padding:10px 20px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+
+/* Характеристики по группам */
+.mm-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 48px;max-width:1100px}
+.mm-specs h3{font-size:16px;margin:0 0 4px}
+.mm-specs dl{margin:0}
+.mm-specs dl div{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--mm-line);font-size:14px}
+.mm-specs dt{color:var(--mm-ink2)}.mm-specs dd{margin:0}
+.mm-specs__hidden{display:none}
+.mm-specs.is-open .mm-specs__hidden{display:block}
+
+/* Отзывы: без пустого серого блока */
+.mm-rev{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+.mm-rev__empty,.mm-rev__store{border-radius:24px;padding:24px}
+.mm-rev__empty{background:var(--mm-bg)}
+.mm-rev__empty b{display:block;font-size:18px;margin-bottom:4px}
+.mm-rev__empty p{margin:0 0 16px;color:var(--mm-ink2);font-size:14px}
+.mm-rev__empty .mm-btn{height:44px;padding:0 20px;font-size:15px;background:var(--mm-ink);color:#fff}
+.mm-rev__store{border:1px solid var(--mm-line);display:flex;gap:18px;align-items:center}
+.mm-rev__score{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.mm-rev__stars{display:flex;gap:2px;margin:6px 0 4px}
+.mm-rev__store small{display:block;color:var(--mm-ink2);font-size:13px}
+
+/* Trade-in баннер */
+.mm-tib{display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:24px;background:#000;color:#fff;border-radius:28px;padding:40px 48px;overflow:hidden;margin:40px 0}
+.mm-tib small{color:#f5a623;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+.mm-tib h2{font-size:34px;letter-spacing:-.02em;margin:8px 0 10px;line-height:1.1}
+.mm-tib p{color:#a1a1a6;margin:0 0 20px}
+.mm-tib .mm-btn{height:46px;padding:0 24px;font-size:15px;background:#fff;color:#000}
+.mm-tib__steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mm-tib__steps li{display:flex;gap:12px;align-items:center;background:#1c1c1e;border-radius:16px;padding:14px 16px;font-size:14px;color:#d1d1d6}
+.mm-tib__steps b{width:28px;height:28px;border-radius:50%;background:#2c2c2e;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+
+/* Преимущества магазина – тонкая строка */
+.mm-adv{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 48px;padding:0;list-style:none}
+.mm-adv li{display:flex;gap:12px;align-items:center;padding:16px;border-radius:18px;border:1px solid var(--mm-line);font-size:13px;color:var(--mm-ink2);line-height:1.3}
+.mm-adv b{display:block;color:var(--mm-ink);font-size:14px}
+
+/* Чат: круглая кнопка вместо вертикальной вкладки */
+.mm-chat{position:fixed;right:20px;bottom:24px;z-index:45;width:56px;height:56px;border-radius:50%;border:0;background:var(--mm-blue);box-shadow:0 8px 24px rgba(0,113,227,.35);display:flex;align-items:center;justify-content:center}
+.mm-chat i{position:absolute;top:4px;right:4px;width:12px;height:12px;border-radius:50%;background:#34c759;border:2px solid #fff}
+
+@media (max-width:900px){
+  .mm-ti__go{display:none}
+  .mm-bundle{grid-template-columns:1fr;padding:12px}
+  .mm-bundle__plus{justify-self:center;margin:-8px 0}
+  .mm-row{grid-auto-columns:46%}
+  .mm-specs{grid-template-columns:1fr}
+  .mm-rev{grid-template-columns:1fr}
+  .mm-tib{grid-template-columns:1fr;padding:28px 22px;border-radius:24px}
+  .mm-tib h2{font-size:26px}
+  .mm-adv{grid-template-columns:1fr 1fr}
+  .mm-chat{bottom:140px;right:14px;width:50px;height:50px}
+  .mm-arrows{display:none}
+  .mm-desc h3{font-size:19px}
+  .mm-desc img{border-radius:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>Макет v2</b>
+  <label>Город <select id="dCity">
+    <option value="sev">Севастополь</option><option value="simf">Симферополь</option><option value="yalta">Ялта</option>
+    <option value="crimea">Евпатория (Крым)</option><option value="ru">Москва (Россия)</option></select></label>
+  <label>Время заказа <input id="dNow" type="datetime-local"></label>
+  <span>Наличие меняется выбором варианта: зелёная точка = есть в магазине</span>
+</div>
+
+<div class="mm-wrap">
+  <div class="mm-crumbs"><a href="#">Главная</a><span>/</span><a href="#">iPhone</a><span>/</span><a href="#">iPhone 17 Pro Max</a></div>
+
+  <div class="mm-pd">
+    <!-- Галерея -->
+    <div class="mm-gal">
+      <div class="mm-gal__thumbs" id="thumbs"></div>
+      <div class="mm-gal__main">
+        <span class="mm-gal__badge" id="offBadge">−28%</span>
+        <img id="mainImg" src="https://maxmobiles.ru/images/detailed/142/9_1hhr-um.jpg" alt="Apple iPhone 17 Pro Max Silver" fetchpriority="high">
+        <span class="mm-gal__count" id="galCount">1 / 5</span>
+      </div>
+    </div>
+
+    <!-- Панель покупки -->
+    <div class="mm-info">
+      <h1 id="title">Apple iPhone 17 Pro Max 256GB Silver</h1>
+      <div class="mm-meta">
+        <span class="mm-store-rating">
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg>
+          <b>5,0</b> магазин на Яндекс Картах · 1000+ отзывов
+        </span>
+        <span class="mm-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#6e6e73" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="#6e6e73" stroke-width="2" stroke-linecap="round"/></svg>
+          без предустановленного RuStore
+        </span>
+        <span>Код: <span id="pCode">279125</span></span>
+      </div>
+
+      <div class="mm-price">
+        <span class="mm-price__now" id="pNow">114 800 ₽</span>
+        <span class="mm-price__old" id="pOld">159 800 ₽</span>
+        <span class="mm-price__off" id="pOff">−45 000 ₽</span>
+      </div>
+      <details class="mm-bonus">
+        <summary>
+          <img src="https://maxmobiles.ru/images/mm_cabinet/card-pro.webp" alt="Бонусная карта Maxmobiles" width="58" height="37">
+          <span class="mm-bonus__main"><b>+<span id="pBonus">1 148</span> бонусов</b> на карту Maxmobiles<small>1 бонус = 1 ₽ · можно оплатить до 40% следующей покупки</small></span>
+          <svg class="mm-bonus__arr" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#6e6e73" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div class="mm-bonus__body">
+          <div class="mm-bonus__lv">
+            <div><img src="https://maxmobiles.ru/images/mm_cabinet/card-pro.webp" alt="" width="64" height="41"><span><b>Pro · 1%</b>+<span id="pBonusPro">1 148</span> бонусов</span></div>
+            <div><img src="https://maxmobiles.ru/images/mm_cabinet/card-ultra.webp" alt="" width="64" height="41"><span><b>Ultra · 1,5%</b>+<span id="pBonusUltra">1 722</span> бонусов</span></div>
+          </div>
+          <ul>
+            <li>До <b>300 бонусов</b> на первую покупку при регистрации</li>
+            <li>Начисляются через 14 дней после покупки</li>
+            <li>Карта всегда в телефоне – Apple Wallet и Google Wallet</li>
+          </ul>
+          <a href="https://maxmobiles.ru/bonusnaya-programma-ru/">Как работает бонусная программа →</a>
+        </div>
+      </details>
+
+      <div class="mm-opt">
+        <div class="mm-opt__t">SIM-карта</div>
+        <div class="mm-chips mm-chips--sim" id="optSim"></div>
+      </div>
+      <div class="mm-opt">
+        <div class="mm-opt__t">Память</div>
+        <div class="mm-chips" id="optMem"></div>
+      </div>
+      <div class="mm-opt">
+        <div class="mm-opt__t">Цвет <span id="colorName">Silver · серебристый</span></div>
+        <div class="mm-sw" id="optColor"></div>
+        <div class="mm-hint"><i></i>есть в магазине в Севастополе, остальное – под заказ за 3–4 дня</div>
+      </div>
+
+      <div class="mm-buy">
+        <div id="stock"></div>
+        <div class="mm-btns">
+          <button class="mm-btn mm-btn--main" type="button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L20 8H6.2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.5" fill="#fff"/><circle cx="17" cy="20" r="1.5" fill="#fff"/></svg>
+            <span class="js-buy-text">В корзину</span>
+          </button>
+          <button class="mm-btn mm-btn--ico" type="button" aria-label="В избранное" aria-pressed="false" onclick="this.setAttribute('aria-pressed',this.getAttribute('aria-pressed')!=='true')">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z" stroke="#1d1d1f" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="mm-btn mm-btn--ico" type="button" aria-label="Сравнить">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 20V10M12 20V4M18 20v-7" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <button class="mm-btn mm-btn--sec" type="button">Купить в 1 клик</button>
+
+        <div class="mm-dd" id="dd"></div>
+      </div>
+
+      <!-- Trade-in: только у смартфонов (разделы 166, 413, 2129) -->
+      <a class="mm-ti js-smartphone-only" href="https://maxmobiles.ru/apple-trade-in/trade-in-iphone/">
+        <span class="mm-ti__ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round"/><path d="M18 3v4h-4M6 21v-4h4" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><b>Trade-in: старый смартфон в зачёт</b><span>Меняйте старый iPhone на новый</span></span>
+        <span class="mm-ti__go">Подробнее →</span>
+      </a>
+      <!-- Гарантия+: только новые устройства Apple – iPhone, Apple Watch, iPad, MacBook, AirPods (не БУ) -->
+      <a class="mm-gp js-new-apple-only" href="https://maxmobiles.ru/rasshirennyy-servis-garantiya-plyus/">
+        <span class="mm-gp__ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" fill="url(#gpg)"/><path d="M12 8.5v7M8.5 12h7" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="gpg" x1="5" y1="3" x2="19" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#f6e1b0"/><stop offset="1" stop-color="#c9a24a"/></linearGradient></defs></svg></span>
+        <span class="mm-gp__txt"><small>Гарантия+ · 12 месяцев</small><b>Сломался – получите новый такой же за 5 рабочих дней</b><span>Без ожидания ремонта · <span id="gpPrice">11 480 ₽</span> (10% от цены) · только вместе с покупкой</span></span>
+        <svg class="mm-gp__go" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#f6e1b0" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </a>
+      <ul class="mm-trust">
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Гарантия</b>оригинальная техника Apple</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12V4h8l10 10-8 8z" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.5" fill="#0071e3"/></svg><span><b>Лучшая цена</b>одна из самых выгодных</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="13" height="10" rx="1.5" stroke="#0071e3" stroke-width="1.8"/><path d="M16 10h3l2 3v4h-5" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="18" r="1.6" fill="#fff" stroke="#0071e3" stroke-width="1.6"/><circle cx="17.5" cy="18" r="1.6" fill="#fff" stroke="#0071e3" stroke-width="1.6"/></svg><span><b>СДЭК по России</b>и свой курьер по Крыму</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z" stroke="#0071e3" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" stroke="#0071e3" stroke-width="1.8"/></svg><span><b>С 2011 года</b>магазин в Севастополе</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="mm-tabs"><nav>
+  <a href="#desc" class="is-on">Описание</a><a href="#spec">Характеристики</a><a href="#set">Комплект и аксессуары</a><a href="#rev">Отзывы</a><a href="#similar">Похожие</a>
+</nav></div>
+
+<div class="mm-wrap">
+  <section class="mm-sec" id="desc">
+    <h2>Описание</h2>
+    <ul class="mm-keys">
+      <li><b>6,9″</b>Super Retina XDR, 120 Гц</li>
+      <li><b>A19 Pro</b>6 ядер, 3 нм</li>
+      <li><b>48 + 48 + 48 Мп</b>зум 8× оптический, LiDAR</li>
+      <li><b>nanoSIM + eSIM</b>два номера</li>
+    </ul>
+    <div class="mm-desc" id="descBody">
+      <h3>Дизайн. Совершенство в каждой детали.</h3>
+      <p>iPhone 17 Pro и iPhone 17 Pro Max — это революционные смартфоны Apple, созданные с нуля для достижения максимальной производительности. Их цельный алюминиевый корпус, изготовленный методом термоковки, не только обеспечивает невероятную прочность и долговечность, но и оптимизирует внутренние компоненты для идеального теплообмена. Это позволило увеличить емкость батареи и общую мощность устройства.</p>
+      <img src="https://maxmobiles.ru/images/companies/1/Product/iPhone/iPhone%2017%20Pro%20Max/WEBPConverter%20-%2050%20%282%29.webp" alt="iPhone 17 Pro Max – дизайн" loading="lazy">
+      <h3>Увеличенный зум. Приближает невероятное.</h3>
+      <p>В новой системе камер внедрены передовые оптические технологии. Теперь смартфон оснащен самым длинным телеобъективом в истории iPhone (эквивалент 200 мм), созданным на базе усовершенствованной тетрапризмовой конструкции и увеличенного сенсора. 16-кратный диапазон оптического увеличения позволяет легко находить идеальные ракурсы.</p>
+      <img src="https://maxmobiles.ru/images/companies/1/Product/iPhone/iPhone%2017%20Pro%20Max/51.webp" alt="iPhone 17 Pro Max – зум" loading="lazy">
+      <h3>Система камер Fusion 48 МП. Профессиональная студия в кармане.</h3>
+      <p>Основной объектив (24/48 мм, f/1.78) выдает безупречно яркие изображения в любых условиях. Ультраширокая камера (13 мм, f/2.2) идеально захватывает панорамы и макро. Телефото-камера (100/200 мм, f/2.8) обеспечивает абсолютно четкий зум до 8x без потери качества.</p>
+      <img src="https://maxmobiles.ru/images/companies/1/Product/iPhone/iPhone%2017%20Pro%20Max/52.webp" alt="iPhone 17 Pro Max – камеры" loading="lazy">
+    </div>
+    <button class="mm-more" type="button" onclick="var d=document.getElementById('descBody');d.classList.toggle('is-open');this.firstChild.textContent=d.classList.contains('is-open')?'Свернуть ':'Показать полностью '">Показать полностью <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </section>
+
+  <section class="mm-sec" id="spec">
+    <h2>Характеристики</h2>
+    <div class="mm-specs" id="specs">
+      <div><h3>Общие</h3><dl>
+        <div><dt>Бренд</dt><dd>Apple</dd></div><div><dt>Модель</dt><dd>iPhone 17 Pro Max</dd></div>
+        <div><dt>Серия</dt><dd>iPhone 17</dd></div><div><dt>Цвет</dt><dd>Silver / серебристый</dd></div>
+        <div><dt>Операционная система</dt><dd>iOS</dd></div></dl></div>
+      <div><h3>Экран</h3><dl>
+        <div><dt>Диагональ</dt><dd>6,9″</dd></div><div><dt>Разрешение</dt><dd>2868 × 1320</dd></div>
+        <div><dt>Технология</dt><dd>OLED, Super Retina XDR</dd></div><div><dt>Частота обновления</dt><dd>120 Гц</dd></div>
+        <div><dt>Яркость</dt><dd>до 3000 кд/м²</dd></div></dl></div>
+      <div><h3>Процессор и память</h3><dl>
+        <div><dt>Процессор</dt><dd>Apple A19 Pro</dd></div><div><dt>Ядер</dt><dd>6</dd></div>
+        <div><dt>Техпроцесс</dt><dd>3 нм</dd></div><div><dt>Встроенная память</dt><dd>256 ГБ</dd></div>
+        <div><dt>Слот для карты памяти</dt><dd>нет</dd></div></dl></div>
+      <div><h3>Основная камера</h3><dl>
+        <div><dt>Камер</dt><dd>3</dd></div><div><dt>Разрешение</dt><dd>48 / 48 / 48 Мп</dd></div>
+        <div><dt>Апертура</dt><dd>f/1.78 · f/2.2 · f/2.8</dd></div><div><dt>Оптический зум</dt><dd>8× на увеличение</dd></div>
+        <div><dt>Оптическая стабилизация</dt><dd>есть</dd></div></dl></div>
+      <div class="mm-specs__hidden"><h3>Фронтальная камера</h3><dl>
+        <div><dt>Разрешение</dt><dd>18 Мп, Center Stage</dd></div><div><dt>Автофокус</dt><dd>есть</dd></div></dl></div>
+      <div class="mm-specs__hidden"><h3>Защита</h3><dl>
+        <div><dt>Покрытие экрана</dt><dd>Ceramic Shield 2</dd></div><div><dt>Сканер LiDAR</dt><dd>есть</dd></div></dl></div>
+    </div>
+    <button class="mm-more" type="button" onclick="var s=document.getElementById('specs');s.classList.toggle('is-open');this.firstChild.textContent=s.classList.contains('is-open')?'Свернуть ':'Все характеристики '">Все характеристики <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </section>
+
+  <section class="mm-sec" id="set">
+    <div class="mm-sec__head"><h2>Выгодный комплект</h2></div>
+    <div class="mm-bundle">
+      <div class="mm-bundle__item"><img src="https://maxmobiles.ru/images/thumbnails/180/180/detailed/142/9_1hhr-um.jpg" alt=""><div><small>Apple iPhone 17 Pro Max 256GB Silver</small><b>114 800 ₽</b></div></div>
+      <div class="mm-bundle__plus">+</div>
+      <div class="mm-bundle__item"><span class="mm-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><img src="https://maxmobiles.ru/images/thumbnails/180/180/detailed/103/20_wz0c-7p_vsse-t9.jpg" alt=""><div><small>Сетевое зарядное устройство Apple USB-C 20W</small><b>2 300 ₽</b><s>2 800 ₽</s></div></div>
+      <div class="mm-bundle__sum"><small>Вместе</small><strong>117 100 ₽</strong><span class="mm-bundle__save">выгода 500 ₽</span><button class="mm-btn mm-btn--main" type="button">Добавить комплект</button></div>
+    </div>
+
+    <div class="mm-sec__head" style="margin-top:40px"><h2>Хорошо дополняют</h2><div class="mm-arrows"><button type="button" aria-label="Назад" onclick="document.getElementById('accRow').scrollBy({left:-400,behavior:'smooth'})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button><button type="button" aria-label="Вперёд" onclick="document.getElementById('accRow').scrollBy({left:400,behavior:'smooth'})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button></div></div>
+    <div class="mm-pills" id="accPills">
+      <button type="button" aria-pressed="true">Чехлы</button><button type="button" aria-pressed="false">Зарядки</button><button type="button" aria-pressed="false">Кабели</button><button type="button" aria-pressed="false">Наушники</button><button type="button" aria-pressed="false">Держатели в авто</button><button type="button" aria-pressed="false">PowerBank</button>
+    </div>
+    <div class="mm-row" id="accRow">
+      <a class="mm-tile" href="#"><div class="mm-tile__img"><img src="https://maxmobiles.ru/images/thumbnails/180/180/detailed/103/20_wz0c-7p_vsse-t9.jpg" alt="" loading="lazy"></div><div class="mm-tile__name">Сетевое зарядное устройство Apple USB-C 20W</div><div class="mm-tile__price"><b>2 300 ₽</b><s>2 800 ₽</s></div><button class="mm-tile__add" type="button">В корзину</button></a>
+      <a class="mm-tile mm-tile--more" href="https://maxmobiles.ru/aksessuary-ru/chekhly-i-kejsy/chehly-i-keysy-dlya-iphone/chehly-dlya-iphone-17-pro-max/"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#0071e3" stroke-width="2.4" stroke-linecap="round"/></svg></span>Все чехлы для iPhone 17 Pro Max</a>
+    </div>
+  </section>
+
+  <section class="mm-sec" id="rev">
+    <h2>Отзывы</h2>
+    <div class="mm-rev">
+      <div class="mm-rev__empty"><b>Отзывов на этот товар пока нет</b><p>Купили у нас? Расскажите, как он вам – это поможет другим покупателям.</p><button class="mm-btn" type="button">Написать отзыв</button></div>
+      <a class="mm-rev__store" href="https://yandex.ru/maps/org/237809440282" target="_blank" rel="noopener">
+        <div class="mm-rev__score">5,0</div>
+        <div><span style="font-weight:600;color:var(--mm-ink)">Магазин Maxmobiles на Яндекс Картах</span>
+          <div class="mm-rev__stars"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z" fill="#ffb800"/></svg></div>
+          <small>1000+ отзывов · читать на Яндексе</small></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="mm-sec" id="similar" style="border-bottom:0">
+    <div class="mm-sec__head"><h2>Похожие товары</h2><div class="mm-arrows"><button type="button" aria-label="Назад" onclick="document.getElementById('simRow').scrollBy({left:-400,behavior:'smooth'})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button><button type="button" aria-label="Вперёд" onclick="document.getElementById('simRow').scrollBy({left:400,behavior:'smooth'})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#1d1d1f" stroke-width="2.2" stroke-linecap="round"/></svg></button></div></div>
+    <div class="mm-row" id="simRow"></div>
+  </section>
+
+  <!-- Trade-in баннер: только у смартфонов (разделы iPhone 166, iPhone БУ 413, Android-смартфоны 2129) -->
+  <div class="mm-tib js-smartphone-only">
+    <div><small>Trade-in</small><h2>Обменяйте старый iPhone на новый</h2><p>Обновите свой iPhone выгодно – это так просто с Maxmobiles.</p>
+      <a class="mm-btn" href="https://maxmobiles.ru/apple-trade-in/trade-in-iphone/">Подробнее о Trade-in</a></div>
+  </div>
+
+  <ul class="mm-adv">
+    <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="13" height="10" rx="1.5" stroke="#0071e3" stroke-width="1.8"/><path d="M16 10h3l2 3v4h-5" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/></svg><span><b>Доставка</b>быстрая по Крыму и России</span></li>
+    <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12l8-8 8 8-8 8z" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v8M9 12h6" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round"/></svg><span><b>Лучшая цена</b>одна из самых выгодных</span></li>
+    <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" stroke="#0071e3" stroke-width="1.8" stroke-linejoin="round"/></svg><span><b>Гарантия</b>официальная гарантия и сервис</span></li>
+    <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#0071e3" stroke-width="1.8"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6" stroke="#0071e3" stroke-width="1.8" stroke-linecap="round"/></svg><span><b>Персонал</b>мы заботимся обо всём остальном</span></li>
+  </ul>
+</div>
+
+<button class="mm-chat" type="button" aria-label="Чат с магазином – мы онлайн"><i></i><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H9l-5 4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></button>
+
+<div class="mm-bar">
+  <div class="mm-bar__p"><b id="barPrice">114 800 ₽</b><small id="barDd">под заказ</small></div>
+  <button class="mm-btn mm-btn--main" type="button"><span class="js-buy-text">В корзину</span></button>
+</div>
+<div class="mm-sitenav"><span>Меню</span><span>Корзина</span><span>Избранное</span><span>Аккаунт</span></div>
+
+<script>
+/* ---------- Данные с сайта (2026-10-19): цены и остатки вариантов ---------- */
+var V = {
+ 'nano|256|silver':[114800,159800,0,279125],'nano|256|orange':[114800,159800,0,279123],'nano|256|blue':[114800,159800,2,279118],
+ 'nano|512|silver':[144800,179800,0,279124],'nano|512|orange':[139800,179800,1,279122],'nano|512|blue':[139800,179800,0,279097],
+ 'nano|1|silver':[174800,209800,0,279127],'nano|1|orange':[174800,209800,0,279121],'nano|1|blue':[174800,209800,0,279099],
+ 'nano|2|silver':[199800,249800,0,279126],'nano|2|orange':[199800,249800,0,279120],'nano|2|blue':[199800,249800,0,279119],
+ 'esim|256|silver':[111800,129800,0,279702],'esim|256|orange':[111800,129800,0,279700],'esim|256|blue':[111800,129800,0,279701],
+ 'esim|512|silver':[129800,149800,0,279710],'esim|512|orange':[129800,149800,0,279708],'esim|512|blue':[129800,149800,0,279709],
+ 'esim|1|silver':[144800,199800,0,279698],'esim|1|orange':[144800,199800,0,279696],'esim|1|blue':[144800,199800,0,279697],
+ 'esim|2|silver':[169800,209800,0,279706],'esim|2|orange':[169800,209800,0,279703],'esim|2|blue':[169800,209800,0,279704]
+};
+var SIM = [['nano','nanoSIM + eSIM'],['esim','только eSIM']];
+var MEM = [['256','256 ГБ'],['512','512 ГБ'],['1','1 ТБ'],['2','2 ТБ']];
+var COL = [['silver','Silver · серебристый','#e3e4e6'],['orange','Cosmic Orange · оранжевый','#f2793a'],['blue','Deep Blue · тёмно-синий','#2f3b56']];
+var IMGS = ['9_1hhr-um','10_kuy6-b4','11_cmln-tw','12_icx6-pr','13_ys4l-ps'].map(function(n){return 'https://maxmobiles.ru/images/detailed/142/'+n+'.jpg'});
+var S = {sim:'nano', mem:'256', col:'silver'};
+
+function rub(n){return n.toLocaleString('ru-RU').replace(/,/g,' ')+' ₽'}
+function key(o){return [o.sim,o.mem,o.col].join('|')}
+function v(o){return V[key(o)]}
+
+/* ---------- Сроки: JS-копия _DEV/mm_delivery/engine.php ---------- */
+var CFG = {cut:'19:00',open:'10:00',close:'20:00',runDays:[2,5],dep:'11:00',arr:'18:00',pre:[3,4],cdek:{crimea:[3,5],ru:[5,8]}};
+function d0(d){var x=new Date(d);x.setHours(0,0,0,0);return x}
+function add(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function at(d,hm){var p=hm.split(':'),x=new Date(d);x.setHours(+p[0],+p[1],0,0);return x}
+function wd(d){return d.getDay()||7}
+function runFrom(d){d=d0(d);while(CFG.runDays.indexOf(wd(d))<0)d=add(d,1);return d}
+function est(now,inStock,zone){
+  var t=d0(now),r={zone:zone,inStock:inStock};
+  if(zone==='crimea'||zone==='ru'){var a=CFG.cdek[zone][0],b=CFG.cdek[zone][1];if(!inStock){a+=CFG.pre[0];b+=CFG.pre[1]}
+    r.kind='cdek';r.days=[a,b];r.from=add(t,a);r.to=add(t,b);return r}
+  if(zone==='sev'){r.kind='pickup';
+    if(inStock){r.from=r.to=now<at(t,CFG.cut)?t:add(t,1);r.today=+r.from===+t;r.deadline=r.today?at(t,CFG.cut):null;return r}
+    r.from=add(t,CFG.pre[0]);r.to=add(t,CFG.pre[1]);return r}
+  r.kind='run';
+  if(inStock){var run=runFrom(t);if(+run===+t&&now>=at(t,CFG.dep))run=runFrom(add(t,1));r.from=r.to=run;r.deadline=at(run,CFG.dep)}
+  else{r.from=runFrom(add(t,CFG.pre[0]+1));r.to=runFrom(add(t,CFG.pre[1]+1))}
+  return r}
+var MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+var WD=['','пн','вт','ср','чт','пт','сб','вс'];
+function one(now,d){var diff=Math.round((d0(d)-d0(now))/864e5);if(diff===0)return 'сегодня';if(diff===1)return 'завтра';return WD[wd(d)]+', '+d.getDate()+' '+MON[d.getMonth()]}
+function lab(now,a,b){if(+a===+b)return one(now,a);if(a.getMonth()===b.getMonth())return a.getDate()+'–'+b.getDate()+' '+MON[b.getMonth()];return a.getDate()+' '+MON[a.getMonth()]+' – '+b.getDate()+' '+MON[b.getMonth()]}
+function short(d){return d.getDate()+' '+MON[d.getMonth()].slice(0,3)}
+
+var CITY={sev:'Севастополе',simf:'Симферополе',yalta:'Ялте',crimea:'Евпатории',ru:'Москве'};
+var WHERE={sev:'Магазин Maxmobiles · пр-т Нахимова 19, ТЦ «Детский мир» · ежедневно 10:00–20:00',
+  simf:'Пункт выдачи · ТЦ «Меганом» · привезёт наш курьер',yalta:'Пункт выдачи · «Дом Торговли» · привезёт наш курьер',
+  crimea:'СДЭК · пункт выдачи или курьер',ru:'СДЭК · пункт выдачи или курьер'};
+
+function left(ms){var m=Math.max(0,Math.floor(ms/6e4)),h=Math.floor(m/60);m%=60;return (h?h+' ч ':'')+m+' мин'}
+
+function renderDD(){
+  var now=getNow(),zone=document.getElementById('dCity').value,inStock=v(S)[2]>0,e=est(now,inStock,zone),h='',path='',bar='';
+  var when=lab(now,e.from,e.to);
+  if(e.kind==='pickup'){
+    h=inStock?(e.today?'Заберите <em>сегодня</em> до 20:00':'Заберите <em>'+when+'</em> с 10:00'):'Заберите '+when+' в магазине';
+    bar=inStock?(e.today?'заберите сегодня':'заберите '+when):'в магазине '+when;
+  } else if(e.kind==='run'){
+    h='Привезём <em>'+when+'</em>, после 18:00';bar='в '+(zone==='simf'?'Симферополе ':'Ялте ')+when;
+  } else {
+    h='Доставка СДЭК <em>'+when+'</em>';bar='СДЭК '+when;
+  }
+  if(!inStock){
+    var w=[short(add(d0(now),CFG.pre[0])),short(add(d0(now),CFG.pre[1]))];
+    path=e.kind==='pickup'?'<li class="is-done"><b>Заказ</b>сегодня</li><li><b>Приедет в магазин</b>'+w[0]+' – '+w[1]+'</li><li><b>Забираете</b>с 10:00 до 20:00</li>':'<li class="is-done"><b>Заказ</b>сегодня</li><li><b>На складе</b>'+w[0]+' – '+w[1]+'</li>'+
+      (e.kind==='run'?'<li><b>Рейс 11:00</b>вт или пт</li>':'')+(e.kind==='cdek'?'<li><b>СДЭК</b>'+CFG.cdek[zone].join('–')+' дн.</li>':'')+
+      '<li><b>У вас</b>'+(+e.from===+e.to?short(e.from):short(e.from)+' – '+short(e.to))+'</li>';
+    if(e.kind==='pickup')path=path.split('<li><b>У вас')[0];
+  } else if(e.kind==='run'){
+    path='<li class="is-done"><b>Заказ</b>до '+one(now,e.deadline)+' 11:00</li><li><b>Рейс</b>'+one(now,e.from)+', 11:00</li><li><b>В пункте</b>после 18:00</li>';
+  } else if(e.kind==='cdek'){
+    path='<li class="is-done"><b>Заказ</b>сегодня</li><li><b>Отправка</b>из Севастополя</li><li><b>У вас</b>'+short(e.from)+' – '+short(e.to)+'</li>';
+  }
+  var timer='';
+  if(e.deadline&&e.deadline-now<864e5){
+    timer='<div class="mm-dd__timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="13" r="8" stroke="#1d1d1f" stroke-width="2"/><path d="M12 9v4l2.5 2M9 2h6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round"/></svg>'+
+      'Оформите в течение <b>'+left(e.deadline-now)+'</b></div>';
+  }
+  document.getElementById('dd').innerHTML=
+    '<div class="mm-dd__city"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z" stroke="#6e6e73" stroke-width="2"/></svg>'+
+    'Получение в <button type="button" onclick="document.getElementById(\'dCity\').focus()">'+CITY[zone]+'</button></div>'+
+    '<div class="mm-dd__head">'+h+'</div><div class="mm-dd__where">'+WHERE[zone]+'</div>'+timer+
+    (path?'<ol class="mm-path">'+path+'</ol>':'');
+  document.getElementById('stock').innerHTML=inStock
+    ?'<span class="mm-stock mm-stock--in"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>В наличии в магазине</span>'
+    :'<span class="mm-stock mm-stock--pre"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Под заказ · на складе через 3–4 дня</span>';
+  document.querySelectorAll('.js-buy-text').forEach(function(x){x.textContent=inStock?'В корзину':'Оформить предзаказ'});
+  document.getElementById('barDd').textContent=bar;
+}
+
+/* ---------- Варианты ---------- */
+function chip(group,val,label,price,stock,on){
+  return '<button type="button" class="mm-chip" aria-pressed="'+on+'" data-g="'+group+'" data-v="'+val+'">'+(stock?'<i title="есть в магазине"></i>':'')+
+    '<b>'+label+'</b><small>'+rub(price)+'</small></button>'}
+function render(){
+  var x=v(S);
+  document.getElementById('optSim').innerHTML=SIM.map(function(s){var o=Object.assign({},S,{sim:s[0]});return chip('sim',s[0],s[1],v(o)[0],v(o)[2]>0,S.sim===s[0])}).join('');
+  document.getElementById('optMem').innerHTML=MEM.map(function(m){var o=Object.assign({},S,{mem:m[0]});return chip('mem',m[0],m[1],v(o)[0],v(o)[2]>0,S.mem===m[0])}).join('');
+  document.getElementById('optColor').innerHTML=COL.map(function(c){var o=Object.assign({},S,{col:c[0]});
+    return '<button type="button" aria-label="'+c[1]+'" aria-pressed="'+(S.col===c[0])+'" data-g="col" data-v="'+c[0]+'" style="background:'+c[2]+'">'+(v(o)[2]>0?'<i></i>':'')+'</button>'}).join('');
+  var cn=COL.filter(function(c){return c[0]===S.col})[0];
+  document.getElementById('colorName').textContent=cn[1];
+  var ci={silver:'9_1hhr-um',orange:'5_s6in-cn',blue:'1_7tkw-7r'}[S.col];if(gi===0||!IMGS[gi])document.getElementById('mainImg').src='https://maxmobiles.ru/images/detailed/142/'+ci+'.jpg';
+  var mem=MEM.filter(function(m){return m[0]===S.mem})[0][1].replace(' ГБ','GB').replace(' ТБ','TB');
+  document.getElementById('title').textContent='Apple iPhone 17 Pro Max '+mem+' '+cn[1].split(' · ')[0]+(S.sim==='esim'?' (eSIM)':'');
+  document.getElementById('pNow').textContent=rub(x[0]);document.getElementById('pCode').textContent=x[3];document.getElementById('barPrice').textContent=rub(x[0]);
+  document.getElementById('pOld').textContent=rub(x[1]);
+  document.getElementById('pOff').textContent='−'+rub(x[1]-x[0]);
+  document.getElementById('offBadge').textContent='−'+Math.round((1-x[0]/x[1])*100)+'%';
+  document.getElementById('pBonus').textContent=document.getElementById('pBonusPro').textContent=Math.floor(x[0]/100).toLocaleString('ru-RU');document.getElementById('gpPrice').textContent=rub(Math.round(x[0]*0.1));document.getElementById('pBonusUltra').textContent=Math.floor(x[0]*0.015).toLocaleString('ru-RU');
+  renderDD();
+}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-g]');if(!b)return;S[b.dataset.g]=b.dataset.v;render()});
+
+/* ---------- Галерея ---------- */
+var gi=0;
+document.getElementById('thumbs').innerHTML=IMGS.map(function(src,i){return '<button type="button" aria-current="'+(i===0)+'" data-i="'+i+'"><img src="'+src+'" alt="" loading="lazy"></button>'}).join('');
+document.getElementById('thumbs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)showImg(+b.dataset.i)});
+function showImg(i){gi=(i+IMGS.length)%IMGS.length;document.getElementById('mainImg').src=IMGS[gi];document.getElementById('galCount').textContent=(gi+1)+' / '+IMGS.length;
+  document.querySelectorAll('#thumbs button').forEach(function(b,j){b.setAttribute('aria-current',j===gi)})}
+var tx=0,main=document.querySelector('.mm-gal__main');
+main.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+main.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)showImg(gi+(d<0?1:-1))});
+
+/* ---------- Служебная панель ---------- */
+function pad(n){return (n<10?'0':'')+n}
+var nowInput=document.getElementById('dNow'),n0=new Date();
+nowInput.value=n0.getFullYear()+'-'+pad(n0.getMonth()+1)+'-'+pad(n0.getDate())+'T'+pad(n0.getHours())+':'+pad(n0.getMinutes());
+function getNow(){return nowInput.value?new Date(nowInput.value):new Date()}
+nowInput.addEventListener('input',renderDD);document.getElementById('dCity').addEventListener('change',renderDD);
+var q=new URLSearchParams(location.search);
+if(q.get('city'))document.getElementById('dCity').value=q.get('city');
+if(q.get('now'))nowInput.value=q.get('now');
+if(q.get('v')){var p=q.get('v').split('|');S={sim:p[0],mem:p[1],col:p[2]}}
+render();
+
+
+var SIM_ITEMS=[
+ ['Apple iPhone 17 Pro Max 256GB Deep Blue',114800,159800,'detailed/142/1_7tkw-7r.jpg',2],
+ ['Apple iPhone 17 Pro Max 512GB Cosmic Orange',139800,179800,'detailed/142/5_vx9y-mk.jpg',1],
+ ['Apple iPhone 17 Pro Max 512GB Silver',144800,179800,'detailed/142/9_zscx-pw.jpg',0],
+ ['Apple iPhone 17 Pro Max 256GB Cosmic Orange',114800,159800,'detailed/142/5_s6in-cn.jpg',0],
+ ['Apple iPhone 17 Pro Max 512GB Deep Blue',139800,179800,'detailed/142/1_2rh0-y9.jpg',0],
+ ['Apple iPhone 17 Pro Max 256GB Silver (eSIM)',111800,129800,'detailed/142/9_1zia-ix.jpg',0]];
+var heart='<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z" stroke="#1d1d1f" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+document.getElementById('simRow').innerHTML=SIM_ITEMS.map(function(x){return '<a class="mm-tile" href="#"><button class="mm-tile__fav" type="button" aria-label="В избранное">'+heart+'</button><div class="mm-tile__img"><img src="https://maxmobiles.ru/images/thumbnails/180/180/'+x[3]+'" alt="" loading="lazy"></div>'+
+ (x[4]>0?'<div class="mm-tile__stock">● в наличии</div>':'<div class="mm-tile__stock" style="color:var(--mm-amber)">под заказ</div>')+
+ '<div class="mm-tile__name">'+x[0]+'</div><div class="mm-tile__price"><b>'+rub(x[1])+'</b><s>'+rub(x[2])+'</s><span class="mm-tile__off">−'+Math.round((1-x[1]/x[2])*100)+'%</span></div></a>'}).join('');
+document.getElementById('accPills').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)})});
+/* Вкладки: подсветка раздела при прокрутке */
+var links=[].slice.call(document.querySelectorAll('.mm-tabs a'));
+addEventListener('scroll',function(){var cur=links[0];links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s.getBoundingClientRect().top<140)cur=a});
+  links.forEach(function(a){a.classList.toggle('is-on',a===cur)})},{passive:true});
+</script>
+</body>
+</html>

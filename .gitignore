@@ -40,3 +40,7 @@ backups/
 scratch_payment_rows.json
 Сверка-*.txt
 Сверка*.xlsx
+
+# Карточка товара: рабочие снимки страниц и скриншоты проверок (одноразовые, тяжёлые)
+_DEV/product-card/live/
+_DEV/product-card/mockup/*.png

@@ -154,3 +154,22 @@
 - Из журнала удалены 7 строк наших проверок 17.10. Копии – `/root/gm-backups/2026-10-18-search-stats/`.
 - NGENIX (набор правил общий с GOODMi): правило № 2322118 – Referer ровно `https://www.google.com/` на поиск, «в сравнение», избранное,
   сравнение → 403.
+
+### Карточка товара Maxmobiles `maxmobiles_card` + модуль сроков `mm_delivery` (2026-10-19)
+
+Свой шаблон страницы товара (выбирается в админке как «Maxmobiles_card» – у товара, категории или витрины) и модуль
+«Maxmobiles: сроки получения и карточка товара». Исходники, макет, правила и порядок выкладки – `_DEV/product-card/README.md`
+и `_DEV/mm_delivery/RULES.md`.
+- Шаблоны: `blocks/product_templates/maxmobiles_card.tpl` (ПК, три колонки: галерея | название, варианты, характеристики |
+  цена, бонусы, покупка, сроки, Trade-in, Гарантия+; основа – `abt__ut2_bigpicture_flat_template.tpl`),
+  `components/maxmobiles_card_mobile.tpl` (телефон, основа – `abt__ut2_mobile_template.tpl`), `components/maxmobiles_card_parts.tpl`.
+  После обновления UniTheme2 сверить с исходными шаблонами темы (копии – `_DEV/product-card/server-orig/`).
+- Модуль `app/addons/mm_delivery/`: сроки получения (`lib/engine.php`, проверки – `_DEV/mm_delivery/tests.php`), наличие по складу 27,
+  цены вариантов для кнопок, бонусы Pro/Ultra, разделы для Trade-in (смартфоны) и Гарантии+ (новые iPhone, Watch, iPad, MacBook,
+  AirPods); запрос `mm_delivery.card` – пересчёт блока после смены города. Скрипт `js/addons/mm_delivery/card.js` (хук
+  `addons/mm_delivery/hooks/index/scripts.post.tpl`): отсчёт, цены на кнопках вариантов, смена города, «Все характеристики»,
+  обход ошибки «Свернуть» модуля ab__hide_product_description.
+- Стили – секция MM-14 «Своего CSS» (исходник – `_DEV/product-card/MM-14-card.css`).
+- Выкладка – `_DEV/product-card/deploy.sh` (бэкап → проверка CSS/PHP → выкладка → очистка кэша и шаблонов
+  `/var/www/maxmobiles/data/mm_cc.php` от пользователя maxmobiles). Бэкапы и откат – `/root/gm-backups/2026-10-19-mm-card/`
+  (`ROLLBACK.txt`).
