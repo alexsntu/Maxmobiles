@@ -1,0 +1,12 @@
+/* ВАРИАНТ: модели – «таблетки» с маленькой картинкой, все видны сразу, перенос строк, без карусели */
+.cat-content-grid .ab-fn-parent .owl-wrapper-outer{overflow:visible !important;height:auto !important}
+.cat-content-grid .ab-fn-parent .owl-wrapper{display:flex !important;flex-wrap:wrap;gap:8px;width:auto !important;transform:none !important;left:0 !important;position:static !important}
+.cat-content-grid .ab-fn-parent .owl-item{width:auto !important;float:none !important;height:auto !important}
+.cat-content-grid .ab-fn-parent .owl-controls,.cat-content-grid .ab-fn-parent .owl-prev,.cat-content-grid .ab-fn-parent .owl-next,.cat-content-grid .ab-fn-parent .owl-buttons{display:none !important}
+.cat-content-grid .ab-fn-first-level-item{padding:0 !important;width:auto !important}
+.cat-content-grid .ab-fn-first-level-item .ab-fn-fl-content{flex-direction:row !important;align-items:center !important;gap:8px !important;width:auto !important;height:44px !important;padding:0 14px 0 6px !important;border-radius:12px !important}
+.cat-content-grid .ab-fn-first-level-item .ab-fn-image-wrap{width:32px !important;height:32px !important}
+.cat-content-grid .ab-fn-first-level-item .ab-fn-image-wrap img{max-width:32px !important;max-height:32px !important}
+.cat-content-grid .ab-fn-first-level-item .ab-fn-item-header{display:block !important;-webkit-line-clamp:unset;min-height:0 !important;white-space:nowrap;font-size:14px !important;line-height:1.2 !important;text-align:left}
+.cat-content-grid .ab-fn-parent{padding:4px 0 12px !important}
+.cat-content-grid .ab-fn-parent .owl-item,.cat-content-grid .ab-fn-parent .ab-fn-first-level-item{display:block !important;height:auto !important;min-height:0 !important}
