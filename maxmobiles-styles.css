@@ -4720,3 +4720,19 @@ body:has(.mm-card:not(.mm-card--smartphone)) .ut2-banner:has(.ut2-a__bg-banner[d
 .cat-content-grid .ab-fn-parent .owl-prev,.cat-content-grid .ab-fn-parent .owl-next{width:36px !important;height:36px !important;border-radius:50% !important;background:#fff !important;border:0 !important;box-shadow:0 2px 10px rgba(0,0,0,.15) !important;display:flex !important;align-items:center;justify-content:center;opacity:1 !important}
 .cat-content-grid .ab-fn-parent .owl-prev i,.cat-content-grid .ab-fn-parent .owl-next i{font-size:16px !important;color:var(--mm-ink) !important}
 .cat-content-grid .ab-fn-parent .ab-fn-first-level{border-bottom:0 !important;padding-bottom:0 !important}
+
+/* MM-15j. Блок 2689 «Меню категорий» (модели/подкатегории; меню «Подкатегории …» из Дизайн → Меню, своё на категорию,
+   snapping 10234 – включается исключениями по категориям). «Таблетки»: ПК – в ряд с переносом, телефон – одна строка с прокруткой */
+.cat-content-grid #snapping_id_10234{margin:0 0 18px !important}
+.cat-content-grid #sw_text_links_10234{display:none !important}
+.cat-content-grid #text_links_10234{display:flex !important;flex-wrap:wrap;gap:8px;margin:0 !important;padding:0 !important;position:static !important;box-shadow:none !important;border:0 !important;background:none !important}
+.cat-content-grid #text_links_10234 > li{margin:0 !important;padding:0 !important;display:block !important;list-style:none;flex:none}
+.cat-content-grid #text_links_10234 > li:before,.cat-content-grid #text_links_10234 > li:after{display:none !important}
+.cat-content-grid #text_links_10234 a{display:inline-flex !important;align-items:center;height:40px;padding:0 13px !important;margin:0 !important;border:1px solid var(--mm-line);border-radius:12px;background:#fff !important;color:var(--mm-ink) !important;font-size:14px !important;font-weight:400 !important;line-height:1;text-decoration:none !important;white-space:nowrap;transition:border-color .15s,color .15s,background .15s}
+.cat-content-grid #text_links_10234 a:hover{border-color:var(--mm-blue);color:var(--mm-blue) !important}
+@media (max-width:767px){
+  .cat-content-grid #snapping_id_10234{margin:0 -16px 12px !important}
+  .cat-content-grid #text_links_10234{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 16px !important;gap:6px}
+  .cat-content-grid #text_links_10234::-webkit-scrollbar{display:none}
+  .cat-content-grid #text_links_10234 a{height:38px;padding:0 14px !important;font-size:14px !important}
+}
