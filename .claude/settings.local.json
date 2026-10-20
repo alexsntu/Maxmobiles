@@ -123,7 +123,18 @@
       "Bash(/Users/a0000/Документы/Cursor/Maxmobiles/_DEV/product-card/deploy.sh)",
       "Bash(sed -i '' 's|^rm -rf \\\\$N$|cd / \\\\&\\\\& rm -rf $N|' deploy.sh)",
       "Bash(./deploy.sh)",
-      "Bash(awk '{print $5, $9}')"
+      "Bash(awk '{print $5, $9}')",
+      "Bash(npm ls *)",
+      "Bash(dig +short code.jivo.ru)",
+      "Bash(sed -n '/by function/,$p' prof-iphone-new-m4g.txt)",
+      "Bash(sed -n '/by function/,$p' prof-iphone-old-m4g.txt)",
+      "Bash(bash /private/tmp/claude-501/-Users-a0000-----------Cursor-Maxmobiles/f19b9b7a-1ab8-4567-96cc-412e9cd0ef66/scratchpad/fonts/deploy.sh)",
+      "Bash(sips -g pixelHeight -g pixelWidth iphone-pc-full.png iphone-m-full.png)",
+      "Bash(scp -q /private/tmp/claude-501/-Users-a0000-----------Cursor-Maxmobiles/f19b9b7a-1ab8-4567-96cc-412e9cd0ef66/scratchpad/m/filters.php goodmi:/tmp/mm-filters.php)",
+      "Bash(scp -q /private/tmp/claude-501/-Users-a0000-----------Cursor-Maxmobiles/f19b9b7a-1ab8-4567-96cc-412e9cd0ef66/scratchpad/m/fix2099.php goodmi:/tmp/fix2099.php)",
+      "Bash(scp *)",
+      "Bash(chmod +x _DEV/category/deploy.sh)",
+      "Bash(./_DEV/category/deploy.sh)"
     ]
   },
   "hooks": {
