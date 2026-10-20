@@ -199,21 +199,6 @@
   .cat-content-grid #text_links_8323 a{height:32px;padding:0 10px !important;font-size:13px !important}
 }
 
-/* MM-15i. Блок моделей / подкатегорий 1682 (ab__fast_navigation, карусель с картинками; только ПК). Карточки – как плитки
-   товаров: белые, тонкая рамка, тень при наведении; картинка 72 px, название мелко под ней */
-.cat-content-grid .ab-fn-parent{padding:2px 0 6px !important;margin:0 !important}
-.cat-content-grid .ab-fn-first-level-item{padding:4px 5px !important;height:auto !important;width:100% !important;box-sizing:border-box}
-.cat-content-grid .ab-fn-parent .owl-item,.cat-content-grid .ab-fn-parent .owl-wrapper-outer{height:auto !important}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-fl-content{display:flex !important;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;width:100% !important;max-width:none !important;height:auto !important;min-height:0 !important;box-sizing:border-box;padding:12px 8px 10px !important;border:1px solid var(--mm-line);border-radius:16px;background:#fff;text-decoration:none !important;transition:box-shadow .2s,border-color .2s}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-fl-content:hover{border-color:transparent;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-image-wrap{width:72px !important;height:72px !important;min-height:0 !important;margin:0 !important;display:flex;align-items:center;justify-content:center}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-image-wrap img{max-width:72px !important;max-height:72px !important;width:auto !important;height:auto !important}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-item-header{display:-webkit-box !important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:auto !important;height:auto !important;min-height:2.5em !important;margin:0 !important;font-size:13px !important;line-height:1.25 !important;font-weight:400 !important;color:var(--mm-ink) !important;text-align:center}
-.cat-content-grid .ab-fn-first-level-item .ab-fn-fl-content:hover .ab-fn-item-header{color:var(--mm-blue) !important}
-.cat-content-grid .ab-fn-parent .owl-prev,.cat-content-grid .ab-fn-parent .owl-next{width:36px !important;height:36px !important;border-radius:50% !important;background:#fff !important;border:0 !important;box-shadow:0 2px 10px rgba(0,0,0,.15) !important;display:flex !important;align-items:center;justify-content:center;opacity:1 !important}
-.cat-content-grid .ab-fn-parent .owl-prev i,.cat-content-grid .ab-fn-parent .owl-next i{font-size:16px !important;color:var(--mm-ink) !important}
-.cat-content-grid .ab-fn-parent .ab-fn-first-level{border-bottom:0 !important;padding-bottom:0 !important}
-
 /* MM-15j. Блок 2689 «Меню категорий» (модели/подкатегории; меню «Подкатегории …» из Дизайн → Меню, своё на категорию,
    snapping 10234 – включается исключениями по категориям). «Таблетки»: ПК – в ряд с переносом, телефон – одна строка с прокруткой */
 .cat-content-grid #snapping_id_10234{margin:0 0 18px !important}
