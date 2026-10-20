@@ -1,0 +1,182 @@
+
+/* ================================================================
+   MM-15. Страница категории Maxmobiles – плитки, сортировка, фильтры, «Категории» 2026-10-20
+   Все правила – внутри .cat-content-grid (сетка страницы категории в макете темы); окно фильтров на телефоне тема выносит
+   в .ut2-dropdown-outside-position.ut2-filters – правила MM-15c заданы и для него. Исходник – _DEV/category/MM-15-category.css. Стиль – как у карточки MM-14:
+   синий #0071e3, фон #f5f5f7, скругления 12–20 px. transform при наведении не использовать (ошибка Chrome с overflow).
+   ================================================================ */
+.cat-content-grid,.ut2-dropdown-outside-position.ut2-filters{--mm-blue:#0071e3;--mm-blue-h:#0062c4;--mm-ink:#1d1d1f;--mm-ink2:#6e6e73;--mm-line:#e5e5ea;--mm-bg:#f5f5f7;--mm-red:#d70015;--mm-red-bg:#ffe8e8}
+
+/* MM-15a. Плитка товара */
+.cat-content-grid .grid-list .ut2-gl__item{border:1px solid var(--mm-line) !important;border-radius:20px !important;background:#fff !important;box-shadow:none !important;overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.cat-content-grid .grid-list .ut2-gl__item:hover{border-color:transparent !important;box-shadow:0 10px 30px rgba(0,0,0,.08) !important}
+.cat-content-grid .grid-list .ut2-gl__item:hover .ut2-gl__body{box-shadow:none !important}
+/* тема при наведении «раздувает» плитку (тело – position:absolute, отрицательные отступы, название до 5 строк) – отключено:
+   при наведении меняется только тень */
+.cat-content-grid .grid-list [class*="column"] > .ut2-gl__item:hover .ut2-gl__body{position:relative !important;inset:auto !important;width:auto !important;margin:0 !important;padding:16px 16px 18px !important;min-height:100% !important;height:100% !important;background:#fff !important}
+.cat-content-grid .ut2-gl__item:hover .ut2-gl__name .product-title{-webkit-line-clamp:3 !important;color:var(--mm-ink) !important}
+.cat-content-grid .ut2-gl__body{padding:16px 16px 18px !important;display:flex;flex-direction:column;height:100%}
+.cat-content-grid .ut2-gl__image{margin:0 0 14px !important;border-radius:14px;background:#fff}
+.cat-content-grid .ut2-w-c-q__buttons{top:10px !important;right:10px !important;gap:6px;display:flex;flex-direction:column}
+.cat-content-grid .ut2-w-c-q__buttons a{width:32px !important;height:32px !important;border-radius:50% !important;background:rgba(245,245,247,.92) !important;display:flex !important;align-items:center;justify-content:center;color:var(--mm-ink2) !important;opacity:1 !important}
+.cat-content-grid .ut2-w-c-q__buttons a i{font-size:18px !important}
+.cat-content-grid .ut2-w-c-q__buttons a.active,.cat-content-grid .ut2-w-c-q__buttons a:hover{color:var(--mm-blue) !important}
+.cat-content-grid .ut2-gl__content{display:flex;flex-direction:column;flex:1;padding:0 !important}
+.cat-content-grid .ut2-gl__name{min-height:0 !important;height:auto !important;margin:0 0 8px !important}
+.cat-content-grid .ut2-gl__name a.product-title{font-size:15px !important;line-height:1.35 !important;font-weight:400 !important;color:var(--mm-ink) !important;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.35em * 3)}
+.cat-content-grid .ut2-gl__name a.product-title:hover{color:var(--mm-blue) !important}
+/* звёзды в плитке – только у старых моделей, делают плитки разной высоты */
+.cat-content-grid .ut2-gl__rating,.cat-content-grid .ut2-gl__item .ty-product-review-reviews-stars,.cat-content-grid .ut2-gl__item .ab-sr__pp{display:none !important}
+.cat-content-grid .ut2-gl__amount,.cat-content-grid .ut2-gl__bottom{min-height:0 !important}
+.cat-content-grid .ut2-gl__amount:not(:has(.ty-qty-in-stock,.ty-qty-out-of-stock,.ty-control-group)),.cat-content-grid .ut2-gl__bottom:empty{display:none !important}
+.cat-content-grid .ut2-gl__price-wrap{display:flex !important;flex-direction:column !important;align-items:stretch !important;gap:12px;margin-top:auto !important;padding:0 !important;min-height:0 !important;height:auto !important}
+/* цена – в строку (как в настройке темы): цена, старая цена, скидка */
+.cat-content-grid .ut2-gl__price{min-height:0 !important;margin:0 !important;padding:0 !important;text-align:left !important}
+.cat-content-grid .ut2-gl__price > div{display:flex !important;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+.cat-content-grid .ut2-gl__price > div > span:not(.ty-price-update){display:inline-flex !important;align-items:center;gap:6px}
+.cat-content-grid .ut2-gl__price .ty-price-num{font-size:20px !important;font-weight:500 !important;letter-spacing:-.02em;color:var(--mm-ink) !important;white-space:nowrap}
+.cat-content-grid .ut2-gl__price .ty-list-price,.cat-content-grid .ut2-gl__price .ty-strike,.cat-content-grid .ut2-gl__price .ty-strike *{font-size:13px !important;color:var(--mm-ink2) !important;font-weight:400 !important}
+.cat-content-grid .ut2-gl__price .ut2-sld-short:not(:has(.ty-save-price)){display:none !important}
+.cat-content-grid .ut2-gl__price .ut2-sld-short:has(.ty-save-price){background:var(--mm-red-bg) !important;border:0 !important;border-radius:8px !important;padding:1px 7px !important;margin:0 !important}
+.cat-content-grid .ut2-gl__price .ut2-sld-short *{color:var(--mm-red) !important;font-size:12px !important;font-weight:500 !important;border:0 !important;background:none !important}
+/* кнопки: «В корзину» + «Быстрый заказ» (штатное окно call_requests, хук my_changes) */
+.cat-content-grid .ut2-gl__control{display:flex !important;align-items:center;gap:6px;flex-wrap:nowrap;width:100% !important;margin:0 !important;padding:0 !important}
+.cat-content-grid .ut2-gl__control > div{width:auto !important;flex:none;order:1}
+.cat-content-grid .ut2-gl__control{height:auto !important;min-height:0 !important;max-height:none !important;position:relative !important;inset:auto !important}
+.cat-content-grid .ut2-gl__control .ty-btn__add-to-cart{width:auto !important;min-width:0 !important;height:40px !important;padding:0 16px !important;border-radius:12px !important;background:var(--mm-blue) !important;border:0 !important;font-size:14px !important;font-weight:500 !important;letter-spacing:0;text-transform:none !important;box-shadow:none !important;white-space:nowrap}
+.cat-content-grid .ut2-gl__control .ty-btn__add-to-cart:hover{background:var(--mm-blue-h) !important}
+.cat-content-grid .ut2-gl__control .mm-gl-quick{order:2;display:inline-flex !important;align-items:center;justify-content:center;height:40px;padding:0 10px !important;margin:0 !important;border:0 !important;border-radius:12px !important;background:none !important;box-shadow:none !important;color:var(--mm-ink) !important;font-size:14px !important;font-weight:400 !important;text-transform:none !important;white-space:nowrap;text-decoration:none !important}
+.cat-content-grid .ut2-gl__control .mm-gl-quick:hover{background:var(--mm-bg) !important;color:var(--mm-blue) !important}
+/* «Свяжитесь с нами насчёт цены» (товар без цены) – спокойной строкой */
+.cat-content-grid .ut2-gl__price .ty-no-price,.cat-content-grid .ut2-gl__item .ty-qty-out-of-stock{font-size:13px !important;color:var(--mm-ink2) !important;font-weight:500}
+/* сетка – чуть больше воздуха */
+.cat-content-grid .grid-list{gap:0}
+.cat-content-grid .grid-list > div[class*="ty-column"]{padding:8px !important}
+
+/* MM-15b. Строка сортировки и вида */
+.cat-content-grid .ty-sort-container{display:flex !important;align-items:center;gap:12px;flex-wrap:wrap;margin:0 8px 8px !important;padding:0 !important;border:0 !important;background:none !important}
+.cat-content-grid .ut2-sort-label{color:var(--mm-ink2) !important;font-size:14px !important}
+.cat-content-grid .ty-sort-dropdown__wrapper{display:inline-flex !important;align-items:center;gap:4px;height:36px;padding:0 12px !important;border-radius:10px;background:var(--mm-bg) !important;color:var(--mm-ink) !important;font-size:14px !important;font-weight:400 !important;text-decoration:none !important}
+.cat-content-grid .ty-sort-dropdown__wrapper:hover{background:#ececf0 !important}
+
+/* MM-15c. Панель фильтров (ПК – колонка слева, телефон – окно) */
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-sidebox-important,:is(.cat-content-grid,.ut2-dropdown-outside-position) .side-grid .ty-sidebox-important{border:1px solid var(--mm-line) !important;border-radius:20px !important;background:#fff !important;box-shadow:none !important;padding:18px 18px 8px !important;margin-bottom:16px !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-sidebox-important__title,:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-sidebox-important__title{padding:0 0 8px !important;margin:0 !important;border:0 !important;background:none !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-sidebox-important__title-wrapper,:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-sidebox-important__title-wrapper{font-size:18px !important;font-weight:600 !important;letter-spacing:-.01em;color:var(--mm-ink) !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-sidebox-important__body,:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-sidebox-important__body{padding:0 !important;border:0 !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__block{border:0 !important;border-top:1px solid var(--mm-line) !important;margin:0 !important;padding:0 !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__switch{padding:14px 0 !important;display:flex !important;align-items:center;justify-content:space-between;background:none !important;cursor:pointer}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__switch .ty-icon{display:none !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__switch:after{content:"";flex:none;width:7px;height:7px;margin:0 4px 3px 12px;border-right:2px solid #8e8e93;border-bottom:2px solid #8e8e93;transform:rotate(45deg);transition:transform .2s,margin .2s}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__switch.open:after{transform:rotate(-135deg);margin-bottom:-3px}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__title{font-size:15px !important;font-weight:500 !important;color:var(--mm-ink) !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__switch:hover .ty-product-filters__title{color:var(--mm-blue) !important}
+/* варианты – «чипсы» */
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__variants{display:flex !important;flex-wrap:wrap;gap:8px;padding:0 0 14px !important;margin:0 !important;max-height:none !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) ul.ty-product-filters{margin:0 !important;padding:0 !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) ul.ty-product-filters > li{margin:0 !important;padding:0 !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant{margin:0 !important;padding:0 !important;width:auto !important;float:none !important;list-style:none}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant input{position:absolute;opacity:0;pointer-events:none}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant label{display:inline-flex !important;align-items:center;min-height:34px;padding:6px 12px !important;margin:0 !important;border:1px solid var(--mm-line);border-radius:10px;background:#fff;font-size:14px !important;color:var(--mm-ink) !important;cursor:pointer;line-height:1.2}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant label:before,:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant label:after{display:none !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant label:hover{border-color:#c7c7cc}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant input:checked + label{border-color:var(--mm-blue);background:#eef5ff;color:var(--mm-blue) !important;font-weight:400}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant.disabled label,:is(.cat-content-grid,.ut2-dropdown-outside-position) .ut2-product-filters__variant input:disabled + label{opacity:.4;cursor:default}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__search{display:none !important}
+/* цена */
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-price-slider{padding:0 2px 16px !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-price-slider__inputs{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-price-slider__bidi-container{flex:1;display:flex;align-items:center;height:38px;padding:0 10px;border:1px solid var(--mm-line);border-radius:10px;background:#fff}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-price-slider__input-text{border:0 !important;box-shadow:none !important;padding:0 !important;width:100% !important;font-size:14px !important;background:none !important;height:auto !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-range-slider{height:4px !important;border-radius:2px;background:var(--mm-line) !important;border:0 !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-range-slider .ui-slider-range{background:var(--mm-blue) !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-range-slider .ui-slider-handle{width:20px !important;height:20px !important;top:-8px !important;border-radius:50% !important;background:#fff !important;border:0 !important;box-shadow:0 1px 4px rgba(0,0,0,.25) !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-range-slider__num{display:none !important}
+:is(.cat-content-grid,.ut2-dropdown-outside-position) .ty-product-filters__tools .ty-btn{border-radius:10px !important;background:var(--mm-bg) !important;color:var(--mm-ink) !important;border:0 !important}
+
+.ut2-dropdown-outside-position.ut2-filters .cm-product-filters{padding:0 16px 16px !important}
+
+/* MM-15d. «Категории» (подкатегории слева) */
+.cat-content-grid .ut2-subcategories .ut2-item > a,.cat-content-grid .ut2-subcategories .ut2-item > span{display:flex !important;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px !important;margin:0 -10px !important;border-radius:10px;font-size:15px !important;color:var(--mm-ink) !important;text-decoration:none !important}
+.cat-content-grid .ut2-subcategories .ut2-item > a:hover{background:var(--mm-bg) !important;color:var(--mm-blue) !important}
+.cat-content-grid .ut2-subcategories .ut2-item.current > span{font-weight:500 !important;border:0 !important;background:none !important}
+.cat-content-grid .ut2-subcategories .ut2-item.current > span:before{display:none !important}
+.cat-content-grid .ut2-subcategories .level-2{margin:2px 0 0 !important;padding:0 !important;border:0 !important}
+.cat-content-grid .ut2-subcategories em{font-style:normal !important;font-size:12px !important;color:var(--mm-ink2) !important;background:var(--mm-bg) !important;border-radius:8px;padding:1px 7px !important;min-width:0 !important}
+.cat-content-grid .ut2-subcategories .ut2-item.current > span em{background:#eef5ff !important;color:var(--mm-blue) !important}
+.cat-content-grid .ut2-subcategories .ut2-more a,.cat-content-grid .ut2-subcategories [class*=more]{color:var(--mm-blue) !important;font-size:14px !important}
+
+/* MM-15e. Телефон: плитки 2 в ряд – компактнее */
+@media (max-width:767px){
+  .cat-content-grid .grid-list > div[class*="ty-column"]{padding:5px !important}
+  .cat-content-grid .grid-list .ut2-gl__item{border-radius:16px !important}
+  .cat-content-grid .ut2-gl__body{padding:10px 10px 12px !important}
+  .cat-content-grid .grid-list [class*="column"] > .ut2-gl__item:hover .ut2-gl__body{padding:10px 10px 12px !important}
+  .cat-content-grid .ut2-gl__image{margin-bottom:10px !important}
+  .cat-content-grid .ut2-gl__name a.product-title{font-size:14px !important;-webkit-line-clamp:3}
+  .cat-content-grid .ut2-gl__price .ty-price-num{font-size:17px !important}
+  .cat-content-grid .ut2-gl__price .ty-list-price,.cat-content-grid .ut2-gl__price .ty-strike,.cat-content-grid .ut2-gl__price .ty-strike *{font-size:12px !important}
+  .cat-content-grid .ut2-gl__price .ut2-sld-short *{font-size:11px !important}
+  .cat-content-grid .ut2-gl__price-wrap{gap:10px}
+  .cat-content-grid .ut2-gl__control{flex-direction:column;align-items:stretch;gap:4px}
+  .cat-content-grid .ut2-gl__control > div{width:100% !important}
+  .cat-content-grid .ut2-gl__control .ty-btn__add-to-cart{width:100% !important;height:38px !important;padding:0 8px !important;border-radius:10px !important;font-size:14px !important}
+  .cat-content-grid .ut2-gl__control .mm-gl-quick{width:100%;height:34px;font-size:13px !important}
+  .cat-content-grid .ut2-w-c-q__buttons a{width:30px !important;height:30px !important}
+}
+
+/* MM-15f. Окно «Быстрый заказ» (call_requests: из плитки каталога и из карточки). Окно – в <body>, вне .cat-content-grid.
+   Форма – addons/call_requests/views/call_requests/components/call_requests_content.tpl темы (у Maxmobiles без e-mail). */
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"]{--mm-blue:#0071e3;--mm-blue-h:#0062c4;--mm-ink:#1d1d1f;--mm-ink2:#6e6e73;--mm-line:#d2d2d7;--mm-bg:#f5f5f7;border:0 !important;border-radius:20px !important;box-shadow:0 24px 64px rgba(0,0,0,.22) !important;overflow:hidden;max-width:calc(100vw - 24px) !important;background:#fff !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-titlebar{background:#fff !important;border:0 !important;padding:22px 24px 6px !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-title{font-size:20px !important;font-weight:600 !important;letter-spacing:-.01em;color:var(--mm-ink) !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-titlebar-close{width:32px !important;height:32px !important;border-radius:50% !important;background:var(--mm-bg) !important;border:0 !important;top:18px !important;right:18px !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-content{padding:0 24px !important;background:#fff !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-container{display:flex !important;align-items:center;gap:16px;margin:10px 0 18px !important;padding:12px !important;border-radius:16px;background:var(--mm-bg)}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-image{flex:none;width:64px !important;height:64px;margin:0 !important;padding:6px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-image img{width:auto !important;height:auto !important;max-width:52px !important;max-height:52px !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-header{margin:0 !important;padding:0 !important;float:none !important;width:auto !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-header .ty-product-block-title{font-size:15px !important;line-height:1.35;font-weight:500 !important;color:var(--mm-ink) !important;margin:0 !important;text-transform:none !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-control-group{margin:0 0 14px !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-control-group__title{display:block;font-size:13px !important;font-weight:400 !important;color:var(--mm-ink2) !important;margin:0 0 6px !important;padding:0 !important;text-transform:none !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] input.ty-input-text-full,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] input.ty-input-phone{width:100% !important;height:46px !important;padding:0 14px !important;border:1px solid var(--mm-line) !important;border-radius:12px !important;background:#fff !important;box-shadow:none !important;font-size:16px !important;color:var(--mm-ink) !important;transition:border-color .15s,box-shadow .15s}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] input.ty-input-text-full:focus,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] input.ty-input-phone:focus{border-color:var(--mm-blue) !important;box-shadow:0 0 0 3px rgba(0,113,227,.15) !important;outline:0 !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .cm-subscribe-policy{margin:4px 0 0 !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-lable-subscribe-policy,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-lable-subscribe-policy *{font-size:12px !important;line-height:1.45 !important;color:var(--mm-ink2) !important;font-weight:400 !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-lable-subscribe-policy a{color:var(--mm-blue) !important;text-decoration:none !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .buttons-container{background:#fff !important;border:0 !important;padding:14px 24px 24px !important;margin:0 !important;left:0;right:0;box-shadow:none !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .buttons-container .ty-btn__primary{width:100% !important;height:48px !important;margin:0 !important;border:0 !important;border-radius:12px !important;background:var(--mm-blue) !important;font-size:16px !important;font-weight:500 !important;text-transform:none !important;letter-spacing:0 !important;box-shadow:none !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .buttons-container .ty-btn__primary:hover{background:var(--mm-blue-h) !important}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-cr-product-info-container,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .cm-subscribe-policy,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ty-lable-subscribe-policy__wrapper{width:auto !important;max-width:none !important;box-sizing:border-box}
+/* телефон: окно – «шторка» снизу на всю ширину */
+@media (max-width:767px){
+  .ui-dialog[aria-describedby^="content_buy_now_with_one_click_"]{position:fixed !important;left:0 !important;right:0 !important;top:auto !important;bottom:0 !important;width:auto !important;max-width:none !important;height:auto !important;min-height:0 !important;max-height:92vh;overflow-y:auto !important;border-radius:20px 20px 0 0 !important}
+  .ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-titlebar{padding:18px 20px 4px !important}
+  .ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .ui-dialog-content{padding:0 20px !important;height:auto !important;max-height:none !important}
+  .ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .object-container{height:auto !important;padding-top:4px !important;padding-bottom:0 !important}
+  .ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .buttons-container{position:static !important;padding:12px 0 calc(20px + env(safe-area-inset-bottom)) !important}
+}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .mm-cr-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin-top:4px}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .mm-cr-price__now,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .mm-cr-price__now *{font-size:17px !important;font-weight:500 !important;color:var(--mm-ink) !important;white-space:nowrap}
+.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .mm-cr-price__old,.ui-dialog[aria-describedby^="content_buy_now_with_one_click_"] .mm-cr-price__old *{font-size:13px !important;font-weight:400 !important;color:var(--mm-ink2) !important;text-decoration:line-through;white-space:nowrap}
+
+/* MM-15g. Шапка категории: хлебные крошки – над названием; строка отзывов категории (ab__seo_reviews) – сразу справа от
+   названия на ПК, под ним на телефоне; отзывы – светлая «таблетка» */
+.cat-content-grid .ut2-extra-block-title{display:flex !important;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-bottom:20px !important}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pt:empty{display:none !important}
+.cat-content-grid .ut2-extra-block-title > [id^="breadcrumbs_"]{order:-1;flex:0 0 100%;margin:0 !important;padding:0 !important}
+.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs{margin:0 !important;padding:0 !important;border:0 !important;font-size:13px !important;line-height:1.4}
+.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__a,.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__a bdi{color:var(--mm-ink2) !important;text-decoration:none !important;font-size:13px !important}
+.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__a:hover,.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__a:hover bdi{color:var(--mm-blue) !important}
+.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__slash{color:#c7c7cc !important;padding:0 6px !important;font-size:13px !important}
+.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__current,.cat-content-grid .ut2-extra-block-title .ty-breadcrumbs__current bdi{color:var(--mm-ink) !important;font-size:13px !important}
+.cat-content-grid .ut2-extra-block-title > h1.ty-mainbox-title{order:0;flex:0 1 auto;width:auto !important;max-width:100%;float:none !important;margin:0 !important;padding:0 !important;font-size:30px !important;line-height:1.15 !important;font-weight:600 !important;letter-spacing:-.02em;color:var(--mm-ink) !important}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp{order:1;display:inline-flex !important;align-items:center;gap:8px;margin:0 !important;padding:6px 12px !important;border-radius:999px;background:var(--mm-bg);line-height:1;white-space:nowrap}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp .ty-product-review-reviews-stars{margin:0 !important;font-size:13px !important;line-height:1}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp .ab-sr__link{display:inline-flex;align-items:center;gap:5px;font-size:13px !important;font-weight:400 !important;color:var(--mm-ink) !important;text-decoration:none !important}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp .ab-sr__link i{font-size:15px !important;color:var(--mm-ink2) !important}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp:hover{background:#eef5ff}
+.cat-content-grid .ut2-extra-block-title > .ab-sr__pp:hover .ab-sr__link,.cat-content-grid .ut2-extra-block-title > .ab-sr__pp:hover .ab-sr__link i{color:var(--mm-blue) !important}
+@media (max-width:767px){
+  .cat-content-grid .ut2-extra-block-title > h1.ty-mainbox-title{flex:0 0 100%;font-size:24px !important}
+}

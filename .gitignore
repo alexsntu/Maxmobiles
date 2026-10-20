@@ -43,4 +43,6 @@ scratch_payment_rows.json
 
 # Карточка товара: рабочие снимки страниц и скриншоты проверок (одноразовые, тяжёлые)
 _DEV/product-card/live/
+_DEV/category/live/
+_DEV/category/mockup/*.png
 _DEV/product-card/mockup/*.png

@@ -8,8 +8,10 @@ cd $ROOT
 python3 -I - maxmobiles-styles.css _DEV/product-card/MM-14-card.css <<'PY'
 import sys
 p,c=sys.argv[1:3]; s=open(p,encoding='utf-8').read(); css=open(c,encoding='utf-8').read()
-i=s.index('\n/* ================================================================\n   MM-14. Карточка товара')
-open(p,'w',encoding='utf-8').write(s[:i]+css)
+H='\n/* ================================================================\n   MM-'
+i=s.index(H+'14. Карточка товара'); j=s.find(H,i+1)
+# только своя секция MM-14: следующая секция (MM-15 и дальше) остаётся
+open(p,'w',encoding='utf-8').write(s[:i]+css.rstrip('\n')+'\n'+(s[j:] if j>=0 else ''))
 PY
 cp -R _DEV/mm_delivery/addon/. server-overrides/ && cp -R _DEV/product-card/new/. server-overrides/
 STAGE=$(mktemp -d)
