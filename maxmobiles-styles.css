@@ -4717,7 +4717,7 @@ body:has(.mm-card:not(.mm-card--smartphone)) .ut2-banner:has(.ut2-a__bg-banner[d
 .cat-content-grid #text_links_10234 a:hover{border-color:var(--mm-blue);color:var(--mm-blue) !important}
 @media (max-width:767px){
   .cat-content-grid #snapping_id_10234{margin:0 -16px 12px !important}
-  .cat-content-grid #text_links_10234{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 16px !important;gap:6px}
+  .cat-content-grid #text_links_10234{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 16px 10px !important;gap:6px}
   .cat-content-grid #text_links_10234::-webkit-scrollbar{display:none}
   .cat-content-grid #text_links_10234 a{height:38px;padding:0 14px !important;font-size:14px !important}
 }
