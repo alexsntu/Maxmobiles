@@ -106,7 +106,24 @@
       "Bash(pip show *)",
       "Bash(pkill -f \"http.server 8791\")",
       "Bash(rm -f \"/c/Users/Алекс/Service MM/.scratch/\"*.html \"/c/Users/Алекс/Service MM/.scratch/\"*.png)",
-      "Bash(gh search *)"
+      "Bash(gh search *)",
+      "Bash(ssh *)",
+      "Bash(tar xzf *)",
+      "Bash(pkill -f \"scratchpad/shot/shot.mjs\")",
+      "Bash(pkill -f \"Google Chrome 2.app.*--headless\")",
+      "Bash(php -v)",
+      "Bash(cd *)",
+      "Bash(open -a \"Google Chrome 2\" \"/Users/a0000/Документы/Cursor/Maxmobiles/_DEV/product-card/mockup/v1.html\")",
+      "Bash(open -a \"Google Chrome 2\" \"/Users/a0000/Документы/Cursor/Maxmobiles/_DEV/product-card/mockup/v2.html\")",
+      "Bash(tar czf *)",
+      "Bash(cp -R _DEV/mm_delivery/addon/. server-overrides/)",
+      "Bash(cp -R _DEV/product-card/new/. server-overrides/)",
+      "Bash(cat)",
+      "Bash(chmod +x /Users/a0000/Документы/Cursor/Maxmobiles/_DEV/product-card/deploy.sh)",
+      "Bash(/Users/a0000/Документы/Cursor/Maxmobiles/_DEV/product-card/deploy.sh)",
+      "Bash(sed -i '' 's|^rm -rf \\\\$N$|cd / \\\\&\\\\& rm -rf $N|' deploy.sh)",
+      "Bash(./deploy.sh)",
+      "Bash(awk '{print $5, $9}')"
     ]
   },
   "hooks": {
