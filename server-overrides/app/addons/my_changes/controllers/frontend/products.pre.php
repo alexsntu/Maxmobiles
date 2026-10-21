@@ -81,6 +81,11 @@ if ($mode === 'search' && (int) Registry::get('runtime.company_id') === 1
                     'cat' => $mm_cat,
                     'log_id' => 0,
                 ]);
+                // Ничего не нашлось – данные для своей страницы «ничего не нашлось» (шаблон-подмена хука
+                // products:search_results_no_matching_found, 2026-10-21; стили – раздел MM-16 «Своего CSS»)
+                if (!$mm_items && !$mm_cat) {
+                    Tygh::$app['view']->assign('mm_empty', mm_search_empty($mm_mc, (string) $_REQUEST['q']));
+                }
                 // Статистика (cscart_mm_search_log): что искали, как нашли; какие товары показаны – допишет хук get_products_post.
                 // Сбой записи не мешает поиску
                 try {

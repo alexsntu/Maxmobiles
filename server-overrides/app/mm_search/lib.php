@@ -735,6 +735,72 @@ function mm_search_popular($mc, $limit = 8)
 }
 
 /**
+ * Страница «ничего не нашлось» вместо стандартной заглушки (2026-10-21, пользователь: «давай сделаем страницу поиска с пустыми
+ * результатами вместо стандартной заглушки»). Данные для шаблона-подмены хука products:search_results_no_matching_found:
+ *   alts     – «Возможно, вы искали»: подсказки к запросу, запрос без одного слова (из 3–5 слов: «детские смарт часы gps» →
+ *              «смарт часы gps»), отдельные слова – те, по которым товары находятся по всем словам (с числом товаров), до $max_alt;
+ *   queries  – «Часто ищут» (самые частые запросы покупателей);
+ *   cats     – «Популярные разделы»: разделы с наибольшей выручкой за 90 дней (спрос × цена, в наличии), без цифр в названии –
+ *              типы товаров, а не отдельные модели;
+ *   products – «Популярные товары»: наибольшая выручка за 90 дней, по одной модели (без вариантов цвета и памяти).
+ */
+function mm_search_empty($mc, $q, $max_alt = 6)
+{
+    $norm = mm_search_normalize($q);
+    $cand = [];
+    foreach (mm_search_suggest_queries($mc, $q, 6) as $s) { $cand[] = $s['text']; }
+    $stop = ['на', 'для', 'в', 'во', 'с', 'со', 'и', 'к', 'по', 'от', 'из', 'под', 'без'];
+    $words = array_values(array_unique(array_filter(explode(' ', $norm), function ($w) use ($stop) {
+        return mb_strlen($w) >= 3 && !preg_match('/^\d+$/', $w) && !in_array($w, $stop, true);
+    })));
+    if (count($words) >= 3 && count($words) <= 5) {
+        for ($i = 0; $i < count($words); $i++) { $w2 = $words; array_splice($w2, $i, 1); $cand[] = implode(' ', $w2); }
+    }
+    if (count($words) > 1) { $cand = array_merge($cand, $words); }
+    $alts = []; $seen = [$norm => 1];
+    foreach ($cand as $a) {
+        $an = mm_search_normalize($a);
+        if ($an === '' || isset($seen[$an])) { continue; }
+        $seen[$an] = 1;
+        $f = mm_search_raw($mc, $a, 1);
+        if ((int) $f['total'] > 0 && in_array($f['mode'], ['all', 'prefix'], true)) { $alts[] = ['text' => $a, 'count' => (int) $f['total']]; }
+        if (count($alts) >= $max_alt) { break; }
+    }
+    $pop = mm_search_popular($mc, 10);
+    $cats = [];
+    $r = $mc->query('SELECT main_cat, SUM(demand * price) AS rev FROM mm_products WHERE in_stock = 1 AND ALL(mods) != 10 GROUP BY main_cat ORDER BY rev DESC LIMIT 40');
+    $ids = [];
+    while ($r && ($x = $r->fetch_row())) { if ((float) $x[1] > 0) { $ids[] = (int) $x[0]; } }
+    if ($ids) {
+        $info = [];
+        $r = $mc->query('SELECT id, name, url, img FROM mm_categories WHERE id IN (' . implode(',', $ids) . ') LIMIT 100');
+        while ($r && ($x = $r->fetch_assoc())) { $info[(int) $x['id']] = $x; }
+        $names = [];
+        foreach ($ids as $id) {
+            if (!isset($info[$id]) || preg_match('/\d/u', $info[$id]['name']) || isset($names[mb_strtolower($info[$id]['name'])])) { continue; }
+            $names[mb_strtolower($info[$id]['name'])] = 1;
+            $cats[] = ['name' => $info[$id]['name'], 'url' => $info[$id]['url'], 'img' => $info[$id]['img']];
+            if (count($cats) >= 8) { break; }
+        }
+    }
+
+    // Популярные товары – по одной модели: «Смартфон Xiaomi 17T Pro 12/512Gb Black» и «… 12/256Gb Blue» – одна модель
+    $products = []; $models = [];
+    $r = $mc->query('SELECT id, name, url, img, price, demand * price AS rev FROM mm_products WHERE in_stock = 1 AND ALL(mods) != 10 AND demand > 0 ORDER BY rev DESC LIMIT 40');
+    while ($r && ($it = $r->fetch_assoc())) {
+        $model = mb_strtolower(trim(preg_replace('/\s+(\d+\s*\/\s*\d+|\d+\s*(gb|tb|гб|тб)\b).*$/iu', '', $it['name'])));
+        if (isset($models[$model])) { continue; }
+        $models[$model] = 1;
+        $products[] = ['id' => (int) $it['id'], 'name' => $it['name'], 'url' => $it['url'], 'img' => $it['img'],
+            'price' => (float) $it['price'] > 0 ? number_format((float) $it['price'], 0, '', "\u{00A0}") . "\u{00A0}₽" : ''];
+        if (count($products) >= 6) { break; }
+    }
+
+    return ['q' => trim((string) $q), 'alts' => $alts, 'queries' => array_values(array_filter(array_column($pop['queries'], 'text'), function ($x) use ($norm) { return $x !== $norm && preg_match('/\p{L}{2,}/u', $x); })), // без запросов из одних цифр («18»)
+        'cats' => $cats, 'products' => $products];
+}
+
+/**
  * Плашки-уточнения: следующее слово к запросу (как у Diginetica) – из словаря подсказок, по весу фраз, которые продолжают
  * запрос: «iphone» → 17, 16, pro…; «iphone 17» → pro, 256gb, esim… До $limit штук, без повторов слов запроса.
  */

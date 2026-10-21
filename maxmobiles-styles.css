@@ -4721,3 +4721,55 @@ body:has(.mm-card:not(.mm-card--smartphone)) .ut2-banner:has(.ut2-a__bg-banner[d
   .cat-content-grid #text_links_10234::-webkit-scrollbar{display:none}
   .cat-content-grid #text_links_10234 a{height:38px;padding:0 14px !important;font-size:14px !important}
 }
+
+/* ================================================================
+   MM-16. Поиск: страница «ничего не нашлось» вместо стандартной заглушки (2026-10-21, как раздел 77 GOODMi, цвета Maxmobiles)
+   Шаблон-подмена хука products:search_results_no_matching_found модуля my_changes (данные – mm_search_empty в
+   app/mm_search/lib.php): заголовок с запросом и советом, «Возможно, вы искали» (с числом товаров), «Часто ищут»,
+   «Популярные разделы» плитками, «Популярные товары» (6) компактными карточками – фото в индексе 100px, блок помощи с телефоном и чатом. Без calc() (LESS).
+================================================================ */
+.mm-ns{margin:0 0 24px}
+.mm-ns__head{display:flex;align-items:flex-start;gap:16px;padding:20px 22px;border-radius:16px;background:#f5f5f7}
+.mm-ns__ico{flex:none;color:#0071e3}
+.mm-ns__title{font-size:20px;font-weight:500;line-height:1.3;color:#1d1d1f;overflow-wrap:anywhere}
+.mm-ns__tips{margin-top:6px;font-size:14px;line-height:1.45;color:#6e6e73}
+.mm-ns__block{margin-top:24px}
+.mm-ns__h{margin:0 0 12px;font-size:17px;font-weight:500;color:#1d1d1f}
+.mm-ns__chips{display:flex;flex-wrap:wrap;gap:8px}
+.mm-ns__chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:18px;background:#f5f5f7;color:#1d1d1f;font-size:14px;text-decoration:none;white-space:nowrap;transition:background-color .15s,color .15s}
+.mm-ns__chip:hover{background:#eef5ff;color:#0071e3;text-decoration:none}
+.mm-ns__chip span{font-size:12px;color:#86868b}
+.mm-ns__chip--alt{background:#eef5ff}
+.mm-ns__cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.mm-ns__cat{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;border:1px solid #e5e5ea;border-radius:14px;background:#fff;color:#1d1d1f;font-size:14px;line-height:1.3;text-align:center;text-decoration:none;transition:border-color .15s,color .15s}
+.mm-ns__cat:hover{border-color:#0071e3;color:#0071e3;text-decoration:none}
+.mm-ns__cat img{width:72px;height:72px;object-fit:contain}
+.mm-ns__noimg{width:72px;height:72px;border-radius:12px;background:#f5f5f7}
+.mm-ns__prods{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.mm-ns__prod{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid #e5e5ea;border-radius:14px;background:#fff;color:#1d1d1f;text-decoration:none;transition:border-color .15s}
+.mm-ns__prod:hover{border-color:#0071e3;color:#1d1d1f;text-decoration:none}
+.mm-ns__pimg{display:flex;align-items:center;justify-content:center;height:120px;overflow:hidden;border-radius:10px;background:#fff}
+.mm-ns__pimg img{width:auto;height:auto;max-width:110px;max-height:110px;object-fit:contain}
+.mm-ns__pname{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px;font-size:14px;line-height:1.35}
+.mm-ns__price{font-size:16px;font-weight:500}
+.mm-ns__help{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin-top:28px;padding:18px 22px;border-radius:16px;background:#eef5ff;font-size:15px;line-height:1.45;color:#1d1d1f}
+.mm-ns__help-btns{display:flex;flex-wrap:wrap;gap:8px}
+.mm-ns__btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 18px;border:1px solid #cfe2fb;border-radius:12px;background:#fff;color:#1d1d1f;font-size:15px;font-weight:500;text-decoration:none;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s}
+.mm-ns__btn:hover{border-color:#0071e3;color:#0071e3;text-decoration:none}
+.mm-ns__btn--main{border-color:#0071e3;background:#0071e3;color:#fff}
+.mm-ns__btn--main:hover{background:#0062c4;border-color:#0062c4;color:#fff}
+@media (max-width:767px){
+.mm-ns__head{gap:12px;padding:16px}
+.mm-ns__ico{width:32px;height:32px}
+.mm-ns__title{font-size:17px}
+.mm-ns__block{margin-top:20px}
+.mm-ns__h{font-size:16px}
+.mm-ns__cats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mm-ns__prods{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mm-ns__prod{padding:10px}
+.mm-ns__help{padding:16px}
+.mm-ns__help-btns{width:100%}
+.mm-ns__btn{flex:1 1 auto}
+/* на телефоне короче: 6 разделов и 4 товара */
+.mm-ns__cat:nth-child(n+7),.mm-ns__prod:nth-child(n+5){display:none}
+}
