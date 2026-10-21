@@ -27,6 +27,20 @@ if ($mode === 'search' && (int) Registry::get('runtime.company_id') === 1
     try {
         if (is_file($mm_lib)) {
             require_once $mm_lib;
+            // Запрос о магазине («рассрочка», «доставка», «адрес», название ТЦ…) – сразу на страницу магазина (2026-10-21);
+            // в статистику – режимом redirect (адрес страницы – в поле shown)
+            $mm_info = mm_search_info_page((string) $_REQUEST['q']);
+            if ($mm_info) {
+                try {
+                    if (preg_grep('/^sid_customer_/', array_keys($_COOKIE)) && mm_search_sid() !== '') {
+                        db_query('INSERT INTO ?:mm_search_log ?e', ['ts' => TIME, 'sid' => mm_search_sid(), 'source' => 'page',
+                            'q' => mb_substr(trim((string) $_REQUEST['q']), 0, 120), 'qn' => mb_substr(mm_search_normalize((string) $_REQUEST['q']), 0, 120),
+                            'mode' => 'redirect', 'total' => 1, 'cat' => 0, 'page' => 1, 'sort' => '', 'device' => mm_search_device(), 'ms' => 0, 'shown' => $mm_info['url']]);
+                    }
+                } catch (\Throwable $e) {
+                }
+                return [CONTROLLER_STATUS_REDIRECT, Registry::get('config.current_location') . $mm_info['url']];
+            }
             // Индекс не отвечает – не держим обработчик PHP: 1 с на соединение, 3 с на ответ (2026-10-17: Manticore завис на 14 ч)
             $mm_mc = mysqli_init();
             $mm_mc->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);

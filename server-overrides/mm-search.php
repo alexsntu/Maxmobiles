@@ -44,7 +44,7 @@ if (isset($_GET['ev']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Cache-Control: no-store');
     $sid = isset($_COOKIE['mm_sid']) && preg_match('/^[a-f0-9]{16}$/', (string) $_COOKIE['mm_sid']) ? (string) $_COOKIE['mm_sid'] : '';
     $e = json_decode((string) file_get_contents('php://input', false, null, 0, 4096), true);
-    $sources = ['results', 'sg_query', 'sg_history', 'sg_scope', 'sg_product', 'sg_all', 'sg_chip', 'tile', 'chip', 'sg_exit', 'sg_none'];
+    $sources = ['results', 'sg_query', 'sg_history', 'sg_scope', 'sg_info', 'sg_product', 'sg_all', 'sg_chip', 'tile', 'chip', 'sg_exit', 'sg_none'];
     if ($sid === '' || !is_array($e) || !isset($e['source']) || !in_array($e['source'], $sources, true)) { http_response_code(204); exit; }
     define('BOOTSTRAP', 1);
     define('DIR_ROOT', __DIR__);
