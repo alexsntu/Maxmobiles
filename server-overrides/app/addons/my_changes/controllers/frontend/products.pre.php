@@ -48,6 +48,22 @@ if ($mode === 'search' && (int) Registry::get('runtime.company_id') === 1
             @$mm_mc->real_connect('127.0.0.1', '', '', '', 9306);
             if (!$mm_mc->connect_errno) {
                 $mm_mc->set_charset('utf8mb4');
+                // Запрос = название раздела («ноутбуки», «iphone 17 pro max», «smeg») – сразу в раздел с фильтрами (2026-10-21);
+                // не при уточнении по плитке раздела (mm_cat) и не при листании; в статистику – режимом category (адрес – в поле shown)
+                if (empty($_REQUEST['mm_cat']) && empty($_REQUEST['page'])) {
+                    $mm_cat_url = mm_search_category_page($mm_mc, (string) $_REQUEST['q']);
+                    if ($mm_cat_url) {
+                        try {
+                            if (preg_grep('/^sid_customer_/', array_keys($_COOKIE)) && mm_search_sid() !== '') {
+                                db_query('INSERT INTO ?:mm_search_log ?e', ['ts' => TIME, 'sid' => mm_search_sid(), 'source' => 'page',
+                                    'q' => mb_substr(trim((string) $_REQUEST['q']), 0, 120), 'qn' => mb_substr(mm_search_normalize((string) $_REQUEST['q']), 0, 120),
+                                    'mode' => 'category', 'total' => 1, 'cat' => 0, 'page' => 1, 'sort' => '', 'device' => mm_search_device(), 'ms' => 0, 'shown' => $mm_cat_url]);
+                            }
+                        } catch (\Throwable $e) {
+                        }
+                        return [CONTROLLER_STATUS_REDIRECT, $mm_cat_url];
+                    }
+                }
                 $mm_t0 = microtime(true);
                 $mm_found = mm_search($mm_mc, (string) $_REQUEST['q'], 1000);
                 // Ответ не пришёл за 3 с (2006/2013 – соединение потеряно) – штатный поиск, см. catch ниже

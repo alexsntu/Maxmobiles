@@ -99,6 +99,64 @@ function mm_search_info_page($q, $partial = false)
     return null;
 }
 
+/**
+ * Запрос = название раздела каталога (2026-10-21, пользователь: «давай делай пункт 4»): «ноутбуки», «iphone 17 pro max», «smeg»,
+ * «ремонт iphone 15» – по Enter сразу в раздел с фильтрами, а не в результаты поиска. Совпадение – по начальным формам слов
+ * (тем же лемматизатором, что индекс), с синонимами («айфон» → iphone) и без «apple/xiaomi» перед моделью; общие слова названия
+ * («и», «для»…) не учитываются. Перехода нет, если подходит несколько разных разделов, если на запрос в админке закреплены
+ * товары, или раздел называется так же, как его родитель («iPad › iPad» – только базовые модели): тогда – в родителя, если
+ * его адрес виден из адреса раздела (Maxmobiles), иначе обычный поиск. Раздел без подразделов – только от 3 товаров
+ * («iPhone 16 Pro» с одним новым телефоном – нет: в поиске по запросу видны ещё и б/у). Возвращает адрес раздела или null.
+ */
+function mm_search_category_page($mc, $q)
+{
+    static $cats = null;
+    $norm = mm_search_normalize($q);
+    if ($norm === '' || mb_strlen($norm) > 60) { return null; }
+    $custom = mm_search_custom();
+    if (!empty($custom['pins'][$norm])) { return null; }
+    if ($cats === null) {
+        $cats = [];
+        $r = $mc->query('SELECT name, path, url, lem, products FROM mm_categories LIMIT 2000 OPTION max_matches = 2000');
+        while ($r && ($x = $r->fetch_assoc())) { $cats[] = $x; }
+        // Есть ли у раздела подразделы (по пути): у родителя товаров «своих» мало, но на его странице – товары подразделов
+        $paths = array_column($cats, 'path');
+        foreach ($cats as &$c) {
+            $c['parent'] = false;
+            foreach ($paths as $pp) { if (strpos($pp, $c['path'] . ' ›') === 0) { $c['parent'] = true; break; } }
+        }
+        unset($c);
+    }
+    $generic = ['и', 'для', 'в', 'с', 'на', 'по'];
+    $syn = mm_search_synonyms();
+    $tokens = [];
+    foreach (explode(' ', mm_search_drop_parent($norm)) as $tk) {
+        if (in_array($tk, $generic, true)) { continue; }
+        $tokens[] = isset($syn[$tk]) && $syn[$tk] !== '' ? $syn[$tk] : $tk;
+    }
+    $ql = array_values(array_diff(mm_search_lemmas($mc, implode(' ', $tokens)), $generic));
+    if (!$ql) { return null; }
+    sort($ql);
+    $urls = [];
+    foreach ($cats as $c) {
+        $cl = array_values(array_diff(explode(' ', (string) $c['lem']), $generic, ['']));
+        sort($cl);
+        if ($cl !== $ql || !$c['parent'] && (int) $c['products'] < 3) { continue; }
+        $url = (string) $c['url'];
+        $segs = array_map('trim', explode('›', (string) $c['path']));
+        $n = count($segs);
+        if ($n >= 2 && mb_strtolower($segs[$n - 1]) === mb_strtolower($segs[$n - 2])) {
+            $parts = parse_url($url);
+            $path = trim(isset($parts['path']) ? $parts['path'] : '', '/');
+            if (substr_count($path, '/') < 1) { continue; }
+            $url = $parts['scheme'] . '://' . $parts['host'] . '/' . substr($path, 0, strrpos($path, '/')) . '/';
+        }
+        $urls[$url] = 1;
+    }
+
+    return count($urls) === 1 ? (string) array_keys($urls)[0] : null;
+}
+
 /** Синонимы: что пишут покупатели → как это называется в каталоге. Ключи – в нижнем регистре, «ё» → «е». */
 function mm_search_synonyms()
 {
