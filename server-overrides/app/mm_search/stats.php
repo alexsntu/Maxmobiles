@@ -300,3 +300,73 @@ function mm_stats_pin_move($id, $dir)
         mm_stats_export_custom();
     }
 }
+
+/**
+ * Кандидаты в синонимы из переформулировок (2026-10-21, пользователь: «давай делай пункт 2»). Пара «A → B»: посетитель искал A
+ * и ничего не открыл (или в подсказках по A не было ничего), а в течение 3 минут искал B и кликнул по товару. Отсеиваются
+ * уточнения (одно содержит другое: «iphone 17» → «iphone 17 pro»), смена модели (отличаются только цифры: «iphone 16» →
+ * «iphone 17»), уже известные синонимы и скрытые пары (таблица mm_search_dismissed). B должен находиться нормально (по всем
+ * словам или началу слова – не по части слов и не с опечатками: иначе предлагалась опечатка вместо опечатки); если A нашёлся
+ * нормально и товаров было больше трёх, это не синоним, а переход к другому товару («iphone 16» → «samsung galaxy s25»). Предлагаемый синоним – только
+ * отличающиеся слова («чехол для гэймпада» → «чехол для геймпада»: «гэймпада» → «геймпада»), иначе запрос целиком.
+ * Сначала – где A нашёлся плохо (ничего, часть слов, опечатки), затем по числу разных посетителей.
+ */
+function mm_stats_candidates($from, $limit = 100)
+{
+    $rows = db_get_array("SELECT a.qn AS a, a.mode AS amode, a.total AS atotal, b.qn AS b, b.mode AS bmode, a.sid FROM ?:mm_search_log a
+        JOIN ?:mm_search_log b ON b.sid = a.sid AND b.ts > a.ts AND b.ts - a.ts <= 180 AND b.qn <> a.qn AND b.source = 'page'
+        WHERE a.ts >= ?i AND a.sid <> '' AND a.source = 'page' AND a.mode NOT IN ('redirect', 'category')
+          AND NOT EXISTS (SELECT 1 FROM ?:mm_search_clicks c WHERE c.search_id = a.id)
+          AND EXISTS (SELECT 1 FROM ?:mm_search_clicks c WHERE c.search_id = b.id)", $from);
+    // Ввод в подсказках, по которому не показали ничего (sg_none), и затем поиск с кликом
+    $rows = array_merge($rows, db_get_array("SELECT c.typed AS a, 'sg_none' AS amode, 0 AS atotal, b.qn AS b, b.mode AS bmode, c.sid FROM ?:mm_search_clicks c
+        JOIN ?:mm_search_log b ON b.sid = c.sid AND b.ts > c.ts AND b.ts - c.ts <= 180 AND b.source = 'page'
+        WHERE c.source = 'sg_none' AND c.ts >= ?i AND c.sid <> '' AND c.typed <> ''
+          AND EXISTS (SELECT 1 FROM ?:mm_search_clicks k WHERE k.search_id = b.id)", $from));
+    $known = mm_search_synonyms();
+    $dismissed = [];
+    foreach (db_get_array('SELECT a, b FROM ?:mm_search_dismissed') as $d) { $dismissed[$d['a'] . "\t" . $d['b']] = 1; }
+    $bad = ['none' => 0, 'sg_none' => 0, 'quorum' => 1, 'fuzzy' => 1, 'translit' => 1, 'layout' => 1, 'prefix' => 2, 'all' => 3, 'pinned' => 3];
+    $out = [];
+    foreach ($rows as $r) {
+        $a = mm_search_normalize($r['a']); $b = mm_search_normalize($r['b']);
+        if ($a === '' || $b === '' || $a === $b || isset($dismissed[$a . "\t" . $b])) { continue; }
+        if (!in_array($r['bmode'], ['all', 'prefix', 'pinned'], true) || $r['amode'] === 'all' && (int) $r['atotal'] > 3) { continue; }
+        $ta = explode(' ', $a); $tb = explode(' ', $b);
+        // Уточнение или обобщение (все слова одного – в другом) и смена модели (отличаются только цифры) – не синонимы
+        if (!array_diff($ta, $tb) || !array_diff($tb, $ta)) { continue; }
+        $strip = function ($s) { return trim(preg_replace('/\s+/u', ' ', preg_replace('/\d+/u', ' ', $s))); };
+        if ($strip($a) === $strip($b)) { continue; }
+        $da = array_values(array_diff($ta, $tb)); $db = array_values(array_diff($tb, $ta));
+        // Только отличающиеся слова – если запросы одной длины и отличаются ровно на своих местах (замена слов:
+        // «чехол для гэймпада» → «чехол для геймпада»); иначе («f 7 ultra» → «poco f 7») – запрос целиком
+        $same_places = count($ta) === count($tb) && count(array_filter(array_keys($ta), function ($i) use ($ta, $tb) { return $ta[$i] !== $tb[$i]; })) === count($da);
+        $part = $same_places && count($da) >= 1 && count($da) <= 3 && count($db) >= 1 && count($db) <= 3;
+        $src = $part ? implode(' ', $da) : $a; $dst = $part ? implode(' ', $db) : $b;
+        if (preg_match('/^[\d\s]+$/u', $src) || preg_match('/^[\d\s]+$/u', $dst) || mb_strlen($src) < 2 || isset($known[$src]) || isset($known[$a])) { continue; }
+        $k = $a . "\t" . $b;
+        if (!isset($out[$k])) {
+            $out[$k] = ['a' => $a, 'b' => $b, 'src' => $src, 'dst' => $dst, 'mode' => $r['amode'], 'sids' => []];
+        }
+        if ((isset($bad[$r['amode']]) ? $bad[$r['amode']] : 3) < (isset($bad[$out[$k]['mode']]) ? $bad[$out[$k]['mode']] : 3)) { $out[$k]['mode'] = $r['amode']; }
+        $out[$k]['sids'][$r['sid']] = 1;
+    }
+    $texts = ['none' => 'ничего не нашлось', 'sg_none' => 'в подсказках пусто', 'quorum' => 'по части слов', 'fuzzy' => 'с опечатками',
+        'translit' => 'через транслит', 'layout' => 'другая раскладка', 'prefix' => 'по началу слова', 'all' => 'нашлось, но не открыли', 'pinned' => 'закреплённые'];
+    foreach ($out as &$o) {
+        $o['visitors'] = count($o['sids']); unset($o['sids']);
+        $o['rank'] = isset($bad[$o['mode']]) ? $bad[$o['mode']] : 3;
+        $o['mode_text'] = isset($texts[$o['mode']]) ? $texts[$o['mode']] : $o['mode'];
+    }
+    unset($o);
+    usort($out, function ($x, $y) { return [$x['rank'], -$x['visitors'], $x['a']] <=> [$y['rank'], -$y['visitors'], $y['a']]; });
+
+    return array_slice($out, 0, $limit);
+}
+
+/** Скрыть пару из кандидатов в синонимы (не синоним) – больше не показывается. */
+function mm_stats_candidate_dismiss($a, $b)
+{
+    $a = mb_substr(mm_search_normalize($a), 0, 120); $b = mb_substr(mm_search_normalize($b), 0, 120);
+    if ($a !== '' && $b !== '') { db_query('INSERT IGNORE INTO ?:mm_search_dismissed ?e', ['a' => $a, 'b' => $b, 'created' => TIME]); }
+}
