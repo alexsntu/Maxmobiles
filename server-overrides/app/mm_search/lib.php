@@ -25,6 +25,22 @@ function mm_search_custom()
     return $c;
 }
 
+/**
+ * Обучение на действиях покупателей (2026-10-21): app/mm_search/learned.json – {"q": {запрос: {товар: множитель}}}, его каждую
+ * ночь пересчитывает /root/mm-search/mm-search-learn.php по кликам, корзинам и заказам из поиска за 90 дней. Нет файла – без обучения.
+ */
+function mm_search_learned()
+{
+    static $l = null;
+    if ($l === null) {
+        $f = __DIR__ . '/learned.json';
+        $d = is_file($f) ? json_decode((string) file_get_contents($f), true) : null;
+        $l = is_array($d) && isset($d['q']) && is_array($d['q']) ? $d['q'] : [];
+    }
+
+    return $l;
+}
+
 /** Синонимы: что пишут покупатели → как это называется в каталоге. Ключи – в нижнем регистре, «ё» → «е». */
 function mm_search_synonyms()
 {
@@ -275,6 +291,14 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
 {
     $norm = mm_search_normalize($query);
     if ($norm === '') { return ['mode' => 'empty', 'total' => 0, 'items' => []]; }
+    // Обучение: товары, которые по этому запросу выбирали покупатели, – выше (множитель оценки, внутри тех же ступеней порядка)
+    $learned = mm_search_learned();
+    $learn = isset($learned[$norm]) && is_array($learned[$norm]) ? $learned[$norm] : [];
+    $learn_mul = '';
+    foreach (array_reverse($learn, true) as $lid => $lm) {
+        $learn_mul = 'IF(id = ' . (int) $lid . ', ' . sprintf('%.2F', min(2.0, max(1.0, (float) $lm))) . ', ' . ($learn_mul === '' ? '1.0' : $learn_mul) . ')';
+    }
+    $learn_mul = $learn_mul !== '' ? ' * ' . $learn_mul : '';
     $norm = mm_search_drop_parent($norm);
     $words = [];
     $expr = mm_search_match_expr($norm, $words);
@@ -333,6 +357,7 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
     $ab_acc = trim(($wants_acc ? '' : "(is_acc = 1 AND $hb = 0)") . (!empty($penalized['spare']) ? ($wants_acc ? '' : ' OR ') . 'IN(mods, 9)' : ''));
     $ab = 'IF(' . (!empty($penalized['service']) ? 'IN(mods, 10)' : '0') . ', 2, IF(' . ($ab_acc !== '' ? $ab_acc : '0') . ', 1, 0))';
     $penalized['cats'] = $intent['cats'];
+    $penalized['learned'] = $learn;
     // Короткий запрос (до 3 слов: «нож», «фонарик», «стекло iphone 18») – тип товара ступенью сортировки; длинный, где названа
     // конкретная модель («колонка беспроводная harman kardon aura studio 5»), – только прибавкой ×1.3, чтобы точная модель не уступала
     $short = count(array_diff($tokens0 = explode(' ', $norm), ['на', 'для', 'в', 'во', 'с', 'со', 'и', 'к', 'по', 'от', 'из', 'под', 'без'])) <= 3;
@@ -342,7 +367,7 @@ function mm_search_raw($mc, $query, $limit = 20, $offset = 0)
     // Ступень «тип товара»: из раздела запроса ИЛИ слово запроса в начале названия (iPhone 15 б/у – тот же тип, что новый iPhone 15).
     // Внутри – наличие, затем слово в начале названия. Manticore сортирует не больше чем по 5 признакам
     $tb = $short ? "IF(($cb) + ($hb) > 0, 1, 0)" : $cb;
-    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $ab AS ab, $tb AS tb, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
+    $select = "SELECT id, name, price, in_stock, is_acc, url, img, main_cat, WEIGHT() AS w, mods, demand, popularity, $ab AS ab, $tb AS tb, $cb AS cb, $hb AS hb, WEIGHT() * IF(in_stock = 1, 1.0, 0.4) * IF(is_acc = 1, $acc_mul, 1.0)$mods$bu$spare$hb_mul$learn_mul * (1 + LN(demand + 1) / 4) * (1 + LN(popularity + 1) / 40) AS score FROM mm_products";
     $opts = "OPTION ranker = expr('sum((4*lcs + 3*(min_hit_pos==1) + 2*exact_order)*user_weight)*1000 + bm25'),"
         . " field_weights = (title = 10, brand = 5, model = 4, category = 3, extra = 1), max_matches = 1000";
     // Начало последнего слова («сте» → «стекло»); нечёткий поиск по коротким словам – не больше одной ошибки
@@ -699,6 +724,7 @@ function mm_search_explain($mc, $q, $limit = 30)
         if (!empty($pen['bu']) && in_array(8, $mods, true)) { $m['б/у'] = 0.8; }
         if (!empty($pen['spare']) && in_array(9, $mods, true)) { $m['запчасть'] = 0.12; }
         if (!empty($pen['service']) && in_array(10, $mods, true)) { $m['услуга'] = 0.15; }
+        if (!empty($pen['learned'][(int) $it['id']])) { $m['обучение (выбор покупателей)'] = (float) $pen['learned'][(int) $it['id']]; }
         $m['спрос 90 дн.'] = (float) number_format(1 + log(1 + (int) $it['demand']) / 4, 2, '.', '');
         $m['популярность'] = (float) number_format(1 + log(1 + (int) $it['popularity']) / 40, 2, '.', '');
         // Правила порядка (mm_search_intent) – не множители, а ступени сортировки после наличия: показываем словами
